@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
     <link rel="stylesheet" href="css/main.css" type="text/css">
     <link rel="stylesheet" href="css/animations.css" type="text/css">
-        <link rel="stylesheet" href="build/assets/app.69b53f57.css" type="text/css">
-    <link rel="stylesheet" href="build/assets/app.732190a2.js" type="text/css">
+        <link rel="stylesheet" href="{{ asset('build/assets/app.69b53f57.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ asset('build/assets/app.732190a2.js') }}" type="text/css">
 	
 </head>
 
