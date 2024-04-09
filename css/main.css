@@ -316,7 +316,8 @@ button.mfp-arrow:focus {
   position: absolute;
   top: 0;
   bottom: 0;
-  left: calc(383px + 10%);
+  /*left: calc(383px + 10%);*/
+  left: calc(554px + 10%);
   right: 0;
   background: linear-gradient(#e8f1f6, #e2f1f8);
   opacity: 0.7;

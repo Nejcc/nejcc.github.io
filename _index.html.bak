@@ -1,0 +1,1564 @@
+
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nejc Cotič - Resume / CV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="description" content="Nejc Cotic - Resume / CV"/>
+    <meta name="keywords" content="Nejc,Cotic,Resume,CV"/>
+    <meta name="author" content="lmpixels"/>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="jORurJjlE7gxtoNjzUTw3NWt0supmYRCDos5exPK">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/reset.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap-grid.min.css" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.css" type="text/css">
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
+    <link rel="stylesheet" href="css/main.css" type="text/css">
+    <link rel="stylesheet" href="css/animations.css" type="text/css">
+        <link rel="stylesheet" href="build/assets/app.69b53f57.css" type="text/css">
+    <link rel="stylesheet" href="build/assets/app.732190a2.js" type="text/css">
+	
+</head>
+
+<body>
+<!-- Animated Background -->
+<div class="lm-animated-bg" style="background-image: url(img/main_bg_1.jpg);"></div>
+<!-- /Animated Background -->
+
+<!-- Loading animation -->
+<div class="preloader">
+    <div class="preloader-animation">
+        <div class="dot dot-1"></div>
+        <div class="dot dot-2"></div>
+        <div class="dot dot-3"></div>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"/>
+                <feColorMatrix in="blur" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"/>
+            </filter>
+        </defs>
+    </svg>
+</div>
+<!-- /Loading animation -->
+
+<div class="half-bg"></div>
+
+<div class="page">
+    <div class="page-content">
+
+        <header id="site_header" class="header mobile-menu-hide">
+
+
+
+
+
+
+
+
+
+
+            <div class="header-content">
+                <div class="header-photo">
+                    <img src="img/main_photo.jpg" alt="Nejc Avatar">
+                </div>
+                <div class="header-titles">
+                    <h2>Nejc Cotič</h2>
+                    <h2>(Lex)</h2>
+                    <h4>Software Architect</h4>
+                    <h4>Full-stack developer</h4>
+                    <h4>Code Guru</h4>
+                </div>
+            </div>
+
+            <ul class="main-menu">
+                <li>
+                    <a href="#about-me" class="nav-anim">
+                        <span class="menu-icon lnr lnr-user"></span>
+                        <span class="link-text">About Me</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#resume" class="nav-anim">
+                        <span class="menu-icon lnr lnr-graduation-hat"></span>
+                        <span class="link-text">Resume / CV</span>
+                    </a>
+                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <li>
+                    <a href="#work" class="nav-anim">
+                        <span class="menu-icon lnr lnr-mustache"></span>
+                        <span class="link-text">Work & Repos</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#mygear" class="nav-anim">
+                        <span class="menu-icon lnr lnr-camera"></span>
+                        <span class="link-text">My Equipment</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#boardgames" class="nav-anim">
+                        <span class="menu-icon lnr lnr-dice"></span>
+                        <span class="link-text">My Boardgames</span>
+                    </a>
+                </li>
+
+
+
+
+
+
+            </ul>
+
+            <div class="social-links">
+                <ul>
+                    <li><a href="https://twitter.com/therocketguru1" target="_blank"><i class="fab fa-twitter"></i></a>
+                    </li>
+                    <!--                <li><a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>-->
+                    <li><a href="https://www.facebook.com/lexneic/" target="_blank"><i
+                        class="fab fa-facebook-f"></i></a></li>
+                    <li><a href="https://discord.gg/PQdkBTyrVN" target="_blank"><i class="fab fa-discord"></i></a></li>
+                    <li><a href="https://github.com/Nejcc" target="_blank"><i class="fab fa-github"></i></a></li>
+                    <li><a href="https://www.twitch.tv/kingsiller" target="_blank"><i class="fab fa-twitch"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="info-list">
+                <ul>
+
+
+
+
+                    <li>
+                        <span class="value">neiclex@gmail.com</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="header-buttons">
+                <a href="#" target="_blank" class="btn btn-primary">Download CV</a>
+            </div>
+
+            <div class="copyrights">© 2022 All rights reserved.</div>
+        </header>
+
+        <!-- Mobile Navigation -->
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <!-- End Mobile Navigation -->
+
+        <!-- Arrows Nav -->
+        <div class="lmpixels-arrows-nav">
+            <div class="lmpixels-arrow-right"><i class="lnr lnr-chevron-right"></i></div>
+            <div class="lmpixels-arrow-left"><i class="lnr lnr-chevron-left"></i></div>
+        </div>
+        <!-- End Arrows Nav -->
+
+        <div class="content-area">
+            <div class="animated-sections">
+                <section data-id="about-me" class="animated-section">
+                    <div class="section-content">
+                        <div class="row flex-v-align">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+
+                                <div class="home-text hp-left">
+
+                                    <div class="owl-carousel text-rotation">
+                                        <div class="item">
+                                            <h4>Software Architect</h4>
+                                        </div>
+                                        <div class="item">
+                                            <h4>Full-stack developer</h4>
+                                        </div>
+                                        <div class="item">
+                                            <h4>Professional Photographer</h4>
+                                        </div>
+                                        <div class="item">
+                                            <h4>Audio Engineer (FOH)</h4>
+                                        </div>
+                                        <div class="item">
+                                            <h4>Code Reviewer (CR | UAT | UX )</h4>
+                                        </div>
+                                        <div class="item">
+                                            <h4>Lord of Kilnaish (Scotland)</h4>
+                                        </div>
+                                    </div>
+
+                                    <h1>Nejc Cotič - Lex</h1>
+                                    <h2 class="no-mobile">Lord of Kilnaish (Scotland)</h2>
+                                    <br>
+                                    <p>I am ambitious and motivated Software Architect / Programmer with a desire to
+                                        create exciting and inspiring solutions. I am full-stack web developer (more
+                                        time I dedicate to back-end part ). </p>
+                                    <p class="mb-3">I am looking to solve problems through
+                                        design and provide useful, enjoyable and awesome UX experiences for the web and
+                                        beyond. I am open to contribute and learn more alongside best professionals.</p>
+                                    <blockquote class="no-mobile my-3">Every section of our life is part of code that we store in our memory,
+                                        our
+                                        sensors are like events and listneners in our work. We feel, we touch, we smell,
+                                        we bread; Chunk by chunk we store our shortcuts into our caches, to not overload
+                                        our brain and slowdown our systems. We use structure, we use classes, we use request
+                                        and response to manipulate and execute our operations.
+                                        <br> <br>
+                                        Our Body is like framework that put together our work, our time and represent who we
+                                        are.
+                                        <br><br> <b>Take time life is a skill of many ups and downs!</b>
+                                    </blockquote>
+
+                                    <div class="home-buttons">
+                                        <a href="#"
+                                           target="_blank" class="btn btn-primary">Download CV</a>
+                                        <a href="#" target="_self"
+                                           class="btn btn-secondary">Contact</a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="home-photo">
+                                    <div class="hp-inner" style="background-image: url(img/tree6.png);"></div>
+                                </div>
+                                <img src="img/lord.png" class="no-mobile lord-cerfiticate"  alt="">
+                            </div>
+                        </div>
+                        <div class="white-space-70"></div>
+
+                        <div class="white-space-70"></div>
+                        <div>
+                            <!-- Services -->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="block-title">
+                                        <h3>What I Do</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="col-inner">
+                                        <div class="info-list-w-icon">
+                                            <div class="info-block-w-icon">
+
+
+
+                                                <div class="ci-text">
+                                                    <h4>Build Core Architecture / Frameworks</h4>
+                                                    <p>Creation of dynamic MVC modules and structures for efficient, secure, fast core
+                                                        system</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="info-block-w-icon">
+
+
+
+                                                <div class="ci-text">
+                                                    <h4>GIT specialist</h4>
+                                                    <p>Helping find proper and better way of your git workflow and work experiences. </p>
+                                                </div>
+                                            </div>
+
+                                            <br>
+
+                                            <div class="info-block-w-icon">
+                                                <div class="ci-icon">
+                                                    <i class="lnr lnr-store"></i>
+                                                </div>
+                                                <div class="ci-text">
+                                                    <h4>PIM / Ecommerce / CRM / CMS</h4>
+                                                    <p>Product information management (PIM) is the process of managing all the information
+                                                        required to market and sell products through distribution channels.</p>
+                                                </div>
+                                            </div>
+                                            <div class="info-block-w-icon">
+                                                <div class="ci-icon">
+                                                    <i class="lnr lnr-laptop-phone"></i>
+                                                </div>
+                                                <div class="ci-text">
+                                                    <h4>UX and code review</h4>
+                                                    <p>User experiences and Code reviews are key to identify bugs, increase code quality, and
+                                                        help developers learn the source code.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <div class="col-inner">
+                                        <div class="info-list-w-icon">
+                                            <div class="info-block-w-icon">
+                                                <!--                                            <div class="ci-icon">-->
+                                                <!--                                                <i class="lnr lnr-store"></i>-->
+                                                <!--                                            </div>-->
+                                                <div class="ci-text">
+                                                    <h4>Open source project</h4>
+                                                    <p>I contribute to many Open source work, such as Laravel, Custom CSS frameworks,
+                                                        packages...</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="info-block-w-icon">
+                                                <!--                                            <div class="ci-icon">-->
+                                                <!--                                                <i class="lnr lnr-store"></i>-->
+                                                <!--                                            </div>-->
+                                                <div class="ci-text">
+                                                    <h4>Team reviews & lecture</h4>
+                                                    <p>Assistance to teams in the creation and migration of scripts, innovations on the market, security measures, better programming, refactoring</p>
+                                                </div>
+                                            </div>
+
+
+                                            <br>
+                                            <div class="info-block-w-icon">
+                                                <div class="ci-icon">
+                                                    <i class="lnr lnr-pencil"></i>
+                                                </div>
+                                                <div class="ci-text">
+                                                    <h4>Programming and programing traning</h4>
+                                                    <p>Explore a career as a computer programmer. Take a beginner course in computer science or
+                                                        any number of programming languages. Provide Laravel and php fullfeature learning
+                                                        experiences including Review on demond.</p>
+                                                </div>
+                                            </div>
+                                            <div class="info-block-w-icon">
+                                                <div class="ci-icon">
+                                                    <i class="lnr lnr-flag"></i>
+                                                </div>
+                                                <div class="ci-text">
+                                                    <h4>Management | CTO</h4>
+                                                    <p>As my main job i do Software Architect work - design database structure, make inital
+                                                        project prepared structure to fast forward new project. Task managment, Code Review,
+                                                        Pull-reguests,...</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- End of Services -->
+                            <div class="white-space-50"></div>
+                        </div>
+                        <div>
+                            <!-- Testimonials -->
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="block-title">
+                                        <h3>Testimonials</h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+                                    <div class="testimonials owl-carousel">
+                                        <div class="testimonial">
+                                            <div class="img">
+                                                <img src="img/testimonials/mitja_m.jpg" alt="Mitja Miklav">
+                                            </div>
+                                            <div class="text">
+                                                <p>Without doubt, one of the most talented programmers out there. Understanding complex
+                                                    situations in programming, great at debugging and explaining things logically. Always
+                                                    takes account of customers&#039; wishes. Smart, reliable and professional. You won&#039;t be
+                                                    disappointed.</p>
+                                            </div>
+
+                                            <div class="author-info">
+                                                <h4 class="author">Mitja Miklav</h4>
+                                                <h5 class="company">developer</h5>
+                                                <div class="icon">
+                                                    <i class="fas fa-quote-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="testimonial">
+                                            <div class="img">
+                                                <img src="img/testimonials/ziga_n.png" alt="Žiga Nikolić">
+                                            </div>
+                                            <div class="text">
+                                                <p>I am very grateful to have had the opportunity to meet and learn from Nejc
+                                                    Cotič. He teach me all about proper way of web development with Laravel
+                                                    framework. The wisdom, knowledge, and encouragement I gleaned from him was
+                                                    invaluable to transition into the workforce, it also helped me develop
+                                                    relationships with other business professionals and expand my network.</p>
+                                            </div>
+
+                                            <div class="author-info">
+                                                <h4 class="author">Žiga Nikolić</h4>
+                                                <h5 class="company">developer</h5>
+                                                <div class="icon">
+                                                    <i class="fas fa-quote-right"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Testimonials -->
+
+                            <div class="white-space-70"></div>
+
+                        </div>
+
+
+                    </div>
+                </section>
+                <section data-id="resume" class="animated-section">
+                    <div class="section-content">
+                        <div class="page-title">
+                            <h2>Resume</h2>
+                            <h4>23 Years of Experience</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-7">
+                                <div>
+                                    <div class="block-title">
+                                        <h3>Timeline</h3>
+                                    </div>
+
+                                    <div class="timeline timeline-second-style clearfix">
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2013 and now</h5>
+                                                <span class="item-company">Framework</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Laravel Framework</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2016</h5>
+                                                <span class="item-company">framework</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">SilverEngine framework</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2014</h5>
+                                                <span class="item-company">MVC system</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">PHP MVCNeo</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2012-2013</h5>
+                                                <span class="item-company">MVC dive</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Kohana, Zend, Symphony</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2002-2008</h5>
+                                                <span class="item-company">Junior years</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Databases and architecture</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2001-ish</h5>
+                                                <span class="item-company">OOP</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Object Oriented Programming </h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2001-ish</h5>
+                                                <span class="item-company">Chosen one</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Java, PHP, C#, C, </h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2001-ish</h5>
+                                                <span class="item-company">DB year</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Databases and architecture</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2001</h5>
+                                                <span class="item-company">Fear for computer crash year</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">PHP 3-ish?</h4>
+                                                <p>First time get hands into backend. My first php code was &quot;To sem Jaz&quot;, first mini routering via switch method with static pages.</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company">First programming experience</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">HTML 4 / Css</h4>
+                                                <p>In my early childhood I encountered the programming language html and css, then we wrote in a notepad in the program by the name: NVU.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="white-space-50"></div>
+                                </div>
+                            </div>
+                            <!-- Skills & Certificates -->
+                            <div class="col-xs-12 col-sm-5">
+                                <div>
+                                    <div class="block-title">
+                                        <h3>Education</h3>
+                                    </div>
+
+                                    <div class="timeline timeline-second-style clearfix">
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2007 - 2010</h5>
+                                                <span class="item-company">online</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Advanced architecture parrern</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2007 - 2010</h5>
+                                                <span class="item-company">online</span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Advanced Photography analog and digital courses</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2007 - 2010</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Computer Science</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1998 - 2006</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Elementary School</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="white-space-50"></div>
+                                </div>
+                                <div>
+                                    <div class="block-title">
+                                        <h3>Experience</h3>
+                                    </div>
+
+                                    <div class="timeline timeline-second-style clearfix">
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2019 - present</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Software Architect</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2020 - present</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">CTO</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">2019 - 2020</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Senior developer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Senior Ux Designer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Junior Ui/Ux Designer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Mid PHP API developer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Mid PHP developer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">User Acceptance Testing (UAT)</h4>
+                                                <p><ul>
+                                                <li>Analysis of Business Requirements</li>
+                                                <li>Creation of UAT test plan</li>
+                                                <li>Identify Test Scenarios</li>
+                                                <li>Create UAT Test Cases</li>
+                                                <li>Preparation of Test Data(Production like Data)</li>
+                                                <li>Run the Test cases</li>
+                                                <li>Record the Results</li>
+                                                <li>Confirm business objectives</li>
+                                            </ul></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Junior Front-end developer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item clearfix">
+                                            <div class="left-part">
+                                                <h5 class="item-period">1999 - 2000</h5>
+                                                <span class="item-company"></span>
+                                            </div>
+                                            <div class="divider"></div>
+                                            <div class="right-part">
+                                                <h4 class="item-title">Junior Back-end developer</h4>
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Skills & Certificates -->
+                        </div>
+
+
+
+
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-8">
+                                <div>
+                                    <!-- Knowledges -->
+                                    <div class="block-title">
+                                        <h3>Knowledges</h3>
+                                    </div>
+
+                                    <ul class="knowledges">
+                                        <li>PHP</li>
+                                        <li>Laravel</li>
+                                        <li>Kohana</li>
+                                        <li>MongoDB</li>
+                                        <li>MySql</li>
+                                        <li>Plesk</li>
+                                        <li>Linux</li>
+                                        <li>Python</li>
+                                        <li>SCSS</li>
+                                        <li>webpack</li>
+                                        <li>vite</li>
+                                        <li>Bootstrap 4</li>
+                                        <li>Bootstrap 5</li>
+                                        <li>bash</li>
+                                        <li>Json</li>
+                                        <li>xml</li>
+                                        <li>Marketing</li>
+                                        <li>Photography</li>
+                                        <li>Programming</li>
+                                        <li>Digital Design</li>
+                                        <li>Social Media</li>
+                                        <li>Time Management</li>
+                                        <li>PIM</li>
+                                        <li>Custom scripting</li>
+                                        <li>Communication</li>
+                                        <li>Problem-Solving</li>
+                                        <li>CRM</li>
+                                        <li>Social Networking</li>
+                                        <li>Flexibility</li>
+                                        <li>CMS</li>
+
+                                    </ul>
+                                    <!-- End of Knowledges -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="white-space-50"></div>
+
+                        <div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- Blog Subpage -->
+                <section data-id="work" class="animated-section">
+                    <div class="section-content">
+                        <div class="page-title">
+                            <h2>My Work</h2>
+                            <h4>My Diary</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12">
+                                <div>
+                                    <ul class="grid-filters blog-filters">
+                                        <li class="active">
+                                            <a class="filter btn btn-sm btn-link" data-filter=".category_all">All</a>
+                                        </li>
+                                        <li>
+                                            <a class="filter btn btn-sm btn-link" data-filter=".category_ui">UI</a>
+                                        </li>
+                                        <li>
+                                            <a class="filter btn btn-sm btn-link" data-filter=".category_design">Design</a>
+                                        </li>
+                                        <li>
+                                            <a class="filter btn btn-sm btn-link" data-filter=".category_ecommerce">E-Commerce</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="blog-masonry two-columns clearfix">
+
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="PIM - SPay system gateway">Business - Private</a>
+                                                    </div>
+
+                                                    <img src="img/blog/blog_post_4.jpg"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="PIM - SPay system gateway" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">PIM - SPay system gateway</h4>
+                                                    <p>Secure Pay gateway system</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="BeeApp - Beehive management software">Own project</a>
+                                                    </div>
+
+                                                    <img src="img/work/beeapp.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="BeeApp - Beehive management software" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">BeeApp - Beehive management software</h4>
+                                                    <p>Best beehive management system for your business and hobby enthusiasts.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="SilverEngine Framework">Own project</a>
+                                                    </div>
+
+                                                    <img src="img/work/fm.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="SilverEngine Framework" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">SilverEngine Framework</h4>
+                                                    <p>SilverEngine is a powerful PHP Dynamical MVC framework with self-updating features, built for developers who need a simple and elegant toolkit to create powerfull full-featured web applications.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Ghost template Engine">Own project</a>
+                                                    </div>
+
+                                                    <img src="img/work/ghost.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Ghost template Engine" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">Ghost template Engine</h4>
+                                                    <p>PHP template engine for elegant clean and powerful workflow. Easy to use in any php projects.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="ReflectORM">Own project</a>
+                                                    </div>
+
+                                                    <img src="img/work/reflectOrm.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="ReflectORM" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">ReflectORM</h4>
+                                                    <p>ReflectORM is Database ORM for silverengine. This package you can apply in any project.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="OpenPentest">Collaboration</a>
+                                                    </div>
+
+                                                    <img src="img/work/pentest.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="OpenPentest" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">OpenPentest</h4>
+                                                    <p>Support your security testing with tools and features. Then work how you work best—we will follow your lead.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="SaleryTracker"></a>
+                                                    </div>
+
+                                                    <img src="img/work/payrate.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="SaleryTracker" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">SaleryTracker</h4>
+                                                    <p>Easy way of tracking your sallery on daily bases . The application allow you to have multiple jobs on same day / time . </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Jibble">Help / Support</a>
+                                                    </div>
+
+                                                    <img src="img/work/jibble.png"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Jibble" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">Jibble</h4>
+                                                    <p>Help them improove their app</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="ClickUp">Help / Support</a>
+                                                    </div>
+
+                                                    <img src="img/work/clickup.png"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="ClickUp" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">ClickUp</h4>
+                                                    <p>Help them improove their app</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Custom CMS">Business - Private</a>
+                                                    </div>
+
+                                                    <img src="img/blog/blog_post_4.jpg"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Custom CMS" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">Custom CMS</h4>
+                                                    <p>Custom CMS system for clients</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Contestdream">Business</a>
+                                                    </div>
+
+                                                    <img src="img/work/cd_01.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Contestdream" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">Contestdream</h4>
+                                                    <p>An online platform for creating and managing your promotions and contests.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Loyalty Venue">Business</a>
+                                                    </div>
+
+                                                    <img src="img/work/ly_01.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Loyalty Venue" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">Loyalty Venue</h4>
+                                                    <p>Web based systems for loyalty programs, gift cards programs, and incentives for your employees loyalty programs is what we offer. Our mission is to help you maximize customer retention and increase customer spending.</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="McAudience">Business</a>
+                                                    </div>
+
+                                                    <img src="img/work/mc_01.PNG"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="McAudience" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">McAudience</h4>
+                                                    <p>We create and manage your influencer marketing campaign from A to Z. In order to do an effective Marketing Activity with Influencers you need to partner up with a company that understands your needs. With McAudience we tailor your Influencer Marketing campaigns based on your vision and your goals..</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+                                        <!-- Blog Post 1 -->
+                                        <div class="item post-work-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="ThrustyShip GAME">Game</a>
+                                                    </div>
+
+                                                    <img src="img/work/thrustyship.jpg"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="ThrustyShip GAME" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+                                                    <div class="post-date">05 Mar 2022</div>
+
+                                                    <h4 class="blog-item-title">ThrustyShip GAME</h4>
+                                                    <p>Pilot your Thrusty Ship in space. Fight gravity, collect Cores and smash a bunch of space junk, but watch your fuel! In Thrusty Ship, the only enemy is yourself...</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End of Blog Post 1 -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </section>
+                <!-- End of Blog Subpage -->
+                <!-- Blog Subpage -->
+                <section data-id="mygear" class="animated-section">
+                    <div class="section-content">
+                        <div class="page-title">
+                            <h2>My Gear</h2>
+                            <div>
+                                <br>
+                                <div class="row mb-3">
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/16-04-09_Nikon_F5_RalfR_WAT_6948.jpg/600px-16-04-09_Nikon_F5_RalfR_WAT_6948.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon Analog - F5" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon Analog - F5</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Nikon_F75_01.jpg/800px-Nikon_F75_01.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon Analog - F75" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon Analog - F75</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://www.trustedreviews.com/wp-content/uploads/sites/54/2008/11/9436-nikond90strap-1.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon - D90" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon - D90</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Nikon_D2x.jpg/1920px-Nikon_D2x.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon - D2x" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon - D2x</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Nikon_D3_img_1246.jpg/1280px-Nikon_D3_img_1246.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon - D3" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon - D3</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Camera">Camera</a>
+                                                </div>
+
+                                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/20170530_Nikon_D5_stacked.jpg/1280px-20170530_Nikon_D5_stacked.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikon - D5" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikon - D5</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Lens">Lens</a>
+                                                </div>
+
+                                                <img src="https://frederikboving.com/wp-content/uploads/2021/10/NIK2832-scaled.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikkor - 70-20mm vrII 2.8G" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikkor - 70-20mm vrII 2.8G</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Lens">Lens</a>
+                                                </div>
+
+                                                <img src="https://photographylife.com/wp-content/uploads/2015/08/Nikon-24-70mm-f2.8E-ED-VR-650x461.jpg"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikkor - 24-70mm vr 2.8G" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikkor - 24-70mm vr 2.8G</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="blog-card">
+                                            <div class="media-block">
+                                                <div class="category">
+                                                    <a href="#" title="Lens">Lens</a>
+                                                </div>
+
+                                                <img src="https://cdn-4.nikon-cdn.com/e/Q5NM96RZZo-fTYlSZPBjlMhlFa1VHARsAMnUXbUq75WmoVL56UDRlLhf2Ri4HgpKJefk81wOcKSSbPTp68M8BQ==/Views/2182_AF-S-NIKKOR-16-35mmf4G_ED_VR.png"
+
+                                                     width="100%"
+                                                     class="size-blog-masonry-image-two-c"
+                                                     alt="Nikkor - 35mm vr 4G" title=""/>
+
+
+                                            </div>
+                                            <div class="post-info">
+
+
+                                                <h4 class="blog-item-title">Nikkor - 35mm vr 4G</h4>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End of Blog Subpage -->
+                <!-- Blog Subpage -->
+                <section data-id="boardgames" class="animated-section">
+                    <div class="section-content">
+                        <div class="page-title">
+                            <h2>My Boardgames</h2>
+                            <br>
+                            <a href="https://boardgamegeek.com/collection/user/Nejcc?own=1&subtype=boardgame&ff=1" target="_blank">My
+                                BGG account</a>
+                        </div>
+
+                        <div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    <div class="blog-masonry two-columns clearfix">
+
+                                        <div class="item post-0 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="War game simulator">War game simulator</a>
+                                                    </div>
+
+                                                    <img src="https://cf.geekdo-images.com/o_lkTAmTFS1zXtHpuGI0Hg__imagepage/img/w0k9Wqx2W4sUpDPSche4WlFvlrk=/fit-in/900x600/filters:no_upscale():strip_icc()/pic922076.jpg"
+                                                         height="340"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Axis and allias - Global edition" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+
+
+                                                    <h4 class="blog-item-title">Axis and allias - Global edition</h4>
+                                                    <p>WWII conflict in European Theater with plastic troops, tanks, planes, and ships</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item post-1 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="War game simulator">War game simulator</a>
+                                                    </div>
+
+                                                    <img src="https://www.wargamer.com/wp-content/sites/wargamer/2020/12/Silent-Victory-Review-main-image-550x309.jpg"
+                                                         height="340"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Silent victory" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+
+
+                                                    <h4 class="blog-item-title">Silent victory</h4>
+                                                    <p>This narrative-driven, single-player tabletop game has you commanding US submarines in the Pacific theatre of WW2</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item post-2 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Simulation">Simulation</a>
+                                                    </div>
+
+                                                    <img src="https://cf.geekdo-images.com/kyAcx8SH9oaBNA4EKnon6g__imagepage/img/UkHsfNqoqtoUFyoODMwXz-rHp2k=/fit-in/900x600/filters:no_upscale():strip_icc()/pic3697467.png"
+                                                         height="340"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Civilization" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+
+
+                                                    <h4 class="blog-item-title">Civilization</h4>
+                                                    <p>Sid Meier&#039;s Civilization: A new Dawn is a strategy board game in which two to four players act as the rulers of history&#039;s most memorable empires. Over the course of the game, players will expand their domains, gain new technologies, and build many of humanity&#039;s greatest wonders . In the end, one nation will rise above all others to leave its indelible mark upon history . </p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item post-3 category_all category_design">
+                                            <div class="blog-card">
+                                                <div class="media-block">
+                                                    <div class="category">
+                                                        <a href="#" title="Detective">Detective</a>
+                                                    </div>
+
+                                                    <img src="https://cf.geekdo-images.com/uNRcfgLXeOlT5_pYwcXuXw__imagepage/img/dakWm4P2PqvEzOplwWLzmETfRow=/fit-in/900x600/filters:no_upscale():strip_icc()/pic4357346.png"
+                                                         height="340"
+                                                         class="size-blog-masonry-image-two-c"
+                                                         alt="Chronicles of Crime" title=""/>
+                                                    <div class="mask"></div>
+
+                                                </div>
+                                                <div class="post-info">
+
+
+                                                    <h4 class="blog-item-title">Chronicles of Crime</h4>
+                                                    <p>This narrative-driven, single-player tabletop game has you commanding US submarines in the Pacific theatre of WW2</p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- End of Blog Subpage -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/modernizr.custom.js"></script>
+<script src="js/animating.js"></script>
+
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
+<script src='js/isotope.pkgd.min.js'></script>
+<script src='js/owl.carousel.min.js'></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+
+<script src="js/validator.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
