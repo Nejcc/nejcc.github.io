@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tournament App</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn {
+            transition: background-color 0.2s ease-in-out;
+        }
+        .btn:hover {
+            background-color: #6366f1; /* Change hover color for better visibility */
+        }
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100">
+    <div id="app" class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
+        <h1 class="text-4xl font-bold mb-10 text-center text-indigo-400">Math Tournament</h1>
+
+        <!-- Player Section -->
+        <div v-if="!currentPlayer" class="mb-10 flex justify-center">
+            <div class="bg-gray-800 p-6 rounded-lg shadow-md w-full sm:w-2/3 lg:w-1/2">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-100">Enter Player Name</h2>
+                <input type="text" v-model="playerName" class="border border-gray-700 bg-gray-700 p-3 rounded-lg w-full mb-4 text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Player Name">
+                <button @click="addPlayer" class="btn bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg w-full">Add Player</button>
+            </div>
+        </div>
+
+        <!-- Welcome and Logout Section -->
+        <div v-if="currentPlayer && !examResults" class="mb-10 flex justify-between items-center">
+            <h2 class="text-xl">Welcome, {{ currentPlayer.name }}!</h2>
+            <button @click="logout" class="btn bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg">Logout</button>
+        </div>
+
+        <!-- Leaderboard Section -->
+        <div v-if="!examResults" class="mb-10">
+            <h2 class="text-3xl font-semibold mb-5 text-center text-green-400">Leaderboard</h2>
+            <ul class="bg-gray-800 shadow-md rounded-lg p-5 divide-y divide-gray-700">
+                <li v-for="(player, index) in sortedPlayers" :key="player.id" class="flex justify-between items-center py-4">
+                    <span>#{{ index + 1 }} {{ player.name }} - Score: {{ player.score }} - Level: {{ player.level }}</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Players List Section -->
+        <div v-if="!examResults" class="mb-10">
+            <h2 class="text-3xl font-semibold mb-5 text-center text-green-400">Players</h2>
+            <ul class="bg-gray-800 shadow-md rounded-lg p-5 divide-y divide-gray-700">
+                <li v-for="player in players" :key="player.id" class="flex justify-between items-center py-4">
+                    <span>{{ player.name }} - Score: {{ player.score }}</span>
+                    <button @click="selectExampleType(player)" class="btn bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg">Start Exam</button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Select Example Type Section -->
+        <div v-if="currentPlayer && !currentExam && !examResults" class="mb-10">
+            <h2 class="text-3xl font-semibold mb-5 text-center text-purple-400">Select Example Type for {{ currentPlayer.name }}</h2>
+            <div class="flex flex-wrap justify-around">
+                <button @click="startExam('addition')" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-lg m-2 card">Addition</button>
+                <button @click="startExam('subtraction')" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-lg m-2 card">Subtraction</button>
+                <button @click="startExam('multiplication')" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-lg m-2 card">Multiplication</button>
+                <button @click="startExam('division')" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-4 px-8 rounded-lg m-2 card">Division</button>
+            </div>
+        </div>
+
+        <!-- Exam Section -->
+        <div v-if="currentExam" class="bg-gray-800 shadow-md rounded-lg p-5 mb-10">
+            <h2 class="text-3xl font-semibold mb-5 text-center text-red-400">Current Exam for {{ currentPlayer.name }}</h2>
+            <div class="progress-bar bg-yellow-500 h-2 mb-4 rounded-full" :style="{ width: timerWidth }"></div>
+            <div class="text-center text-yellow-400 mb-4">{{ currentQuestionIndex + 1 }}/{{ currentExam.questions.length }}</div>
+            <transition name="fade" mode="out-in">
+                <div key="currentQuestion.text" class="exam">
+                    <p class="mb-4 text-xl text-center">{{ currentQuestion.text }}</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <button v-for="option in currentQuestion.options" @click="selectAnswer(option)" :class="{'bg-indigo-500': currentQuestion.answer !== option, 'bg-green-500': currentQuestion.answer === option, 'hover:bg-indigo-700': currentQuestion.answer !== option, 'hover:bg-green-700': currentQuestion.answer === option}" class="btn text-white font-bold py-2 px-4 rounded-lg w-full card">
+                            {{ option }}
+                        </button>
+                    </div>
+                </div>
+            </transition>
+        </div>
+
+        <!-- Exam Results Section -->
+        <div v-if="examResults" class="bg-gray-800 shadow-md rounded-lg p-5">
+            <h2 class="text-3xl font-semibold mb-5 text-center text-yellow-400">Exam Results for {{ currentPlayer.name }}</h2>
+            <div class="exam">
+                <div v-for="(question, index) in examResults.questions" :key="index" class="mb-4">
+                    <p class="mb-2" :class="{'text-red-500': !question.isCorrect, 'text-green-500': question.isCorrect}">
+                        {{ question.text }} = {{ question.answer }} ({{ question.isCorrect ? 'correct!' : 'incorrect!' }}) Correct answer is {{ question.correctAnswer }}
+                    </p>
+                </div>
+                <p class="text-xl font-semibold mt-5">Current Exam Score: {{ examResults.score }}</p>
+                <p class="text-xl font-semibold">Total Score: {{ currentPlayer.score }}</p>
+                <button v-if="players.length > 1" @click="nextPlayer" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg mt-3 w-full">Next Player</button>
+                <button v-else @click="newExample" class="btn bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg mt-3 w-full">New Example</button>
+            </div>
+        </div>
+
+        <!-- Sound Effects -->
+        <audio id="correct-sound" src="https://freesound.org/data/previews/518/518767_4405158-lq.mp3"></audio>
+        <audio id="incorrect-sound" src="https://freesound.org/data/previews/348/348659_3248244-lq.mp3"></audio>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
