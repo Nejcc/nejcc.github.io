@@ -1,0 +1,15 @@
+        fetch('conf/cpu.json')
+            .then(response => response.json())
+            .then(data => {
+                this.cpus = data;
+            });
+        fetch('conf/ram.json')
+            .then(response => response.json())
+            .then(data => {
+                this.rams = data;
+            });
+        fetch('conf/rom.json')
+            .then(response => response.json())
+            .then(data => {
+                this.roms = data;
+            });

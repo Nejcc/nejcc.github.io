@@ -1,0 +1,10 @@
+[
+  {
+    "file": "rom_01.json",
+    "model_name": "Apollo ROM Model 1"
+  },
+  {
+    "file": "rom_02.json",
+    "model_name": "Generic ROM Model 2"
+  }
+]

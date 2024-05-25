@@ -1,0 +1,10 @@
+[
+  {
+    "file": "ram_01.json",
+    "model_name": "Apollo RAM Model 1"
+  },
+  {
+    "file": "ram_02.json",
+    "model_name": "Generic RAM Model 2"
+  }
+]

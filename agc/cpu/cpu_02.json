@@ -1,0 +1,48 @@
+{
+  "name": "AGC CPU Model 02",
+  "registers": {
+    "A": "0000",
+    "B": "0000",
+    "L": "0000",
+    "Q": "0000",
+    "Z": "0000",
+    "PC": "0000",
+    "BB": "0000",
+    "EB": "0000",
+    "FB": "0000",
+    "G": "0000",
+    "S": "0000",
+    "T": "0000",
+    "X": "0000"
+  },
+  "instructions": {
+    "CA": "Load into accumulator",
+    "CS": "Subtract from accumulator",
+    "AD": "Add to accumulator",
+    "TS": "Store accumulator",
+    "TC": "Transfer control",
+    "EXTEND": "Extend instruction",
+    "SETLOC": "Set memory location",
+    "BANK": "Select bank",
+    "HANG": "Hang (infinite loop)",
+    "INCR": "Increment accumulator",
+    "DECR": "Decrement accumulator"
+  },
+  "clocks": [
+    {
+      "name": "Clock1",
+      "initialValue": "0000",
+      "increment": "0001"
+    },
+    {
+      "name": "Clock2",
+      "initialValue": "0000",
+      "increment": "0002"
+    },
+    {
+      "name": "Clock2",
+      "initialValue": "0000",
+      "increment": "0002"
+    }
+  ]
+}

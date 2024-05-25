@@ -1,0 +1,22 @@
+{
+  "model_name": "Apollo Guidance Computer",
+  "registers": {
+    "A": "0000",
+    "L": "0000",
+    "Q": "0000",
+    "Z": "0000",
+    "B": "0000",
+    "BB": "0000",
+    "EB": "0000",
+    "FB": "0000",
+    "G": "0000",
+    "S": "0000",
+    "T": "0000",
+    "X": "0000",
+    "PC": "0000"
+  },
+  "clocks": [
+    { "name": "Clock1", "initialValue": "0000", "increment": "0001" },
+    { "name": "Clock2", "initialValue": "0000", "increment": "0002" }
+  ]
+}

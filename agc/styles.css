@@ -1,0 +1,21 @@
+body {
+    background-color: #f8f9fa;
+}
+
+h1 {
+    color: #343a40;
+}
+
+.list-group-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+.bg-light {
+    background-color: #e9ecef !important;
+}

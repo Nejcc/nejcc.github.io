@@ -1,0 +1,10 @@
+[
+  {
+    "file": "cpu_01.json",
+    "model_name": "Apollo Guidance Computer"
+  },
+  {
+    "file": "cpu_02.json",
+    "model_name": "Generic CPU Model 2"
+  }
+]
