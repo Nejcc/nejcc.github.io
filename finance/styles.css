@@ -1,0 +1,71 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #343a40;
+    color: #ffffff;
+}
+
+.table-dark {
+    background-color: #6c757d;
+    color: #ffffff;
+}
+
+.text-warning {
+    color: #ffc107 !important;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+}
+
+.text-success {
+    color: #28a745 !important;
+}
+
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.card-header.text-center {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+}
+
+.card-body ul {
+    padding-left: 20px;
+    list-style-type: disc;
+}
+
+.form-control.text-center {
+    text-align: center;
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
