@@ -107,19 +107,18 @@ createApp({
             this.flicker = true;
             setTimeout(() => {
                 this.flicker = false;
+                const selectedOption = document.querySelectorAll('.option-button')[this.selectedAnswerIndex];
+                const correctOption = document.querySelectorAll('.option-button')[correctIndex];
                 if (this.selectedAnswerIndex === correctIndex) {
                     this.correctAnswer = true;
                     this.answerFeedback = `<span class="text-green-500 font-bold">Correct!</span> ${this.currentQuestion.explanation}`;
-                    this.$nextTick(() => {
-                        document.querySelectorAll('.option-button')[this.selectedAnswerIndex].classList.add('correct');
-                    });
+                    selectedOption.classList.add('correct');
                     this.correctAnswers++;
                 } else {
                     this.correctAnswer = false;
                     this.answerFeedback = `<span class="text-red-500 font-bold">Incorrect.</span> ${this.currentQuestion.explanation}`;
-                    this.$nextTick(() => {
-                        document.querySelectorAll('.option-button')[this.selectedAnswerIndex].classList.add('incorrect');
-                    });
+                    selectedOption.classList.add('incorrect');
+                    correctOption.classList.add('correct');
                     setTimeout(() => {
                         this.endGame();
                     }, 3000); // Delay to show incorrect answer before ending game

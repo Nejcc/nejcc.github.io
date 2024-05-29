@@ -1,12 +1,62 @@
 [
     {
         "text": "What is the capital of France?",
-        "options": ["Berlin", "Madrid", "Paris", "Rome"],
-        "correctIndex": 2
+        "options": ["Berlin", "Madrid", "Paris", "Lisbon"],
+        "correctIndex": 2,
+        "explanation": "Paris is the capital and most populous city of France."
     },
     {
-        "text": "What is 2 + 2?",
-        "options": ["3", "4", "5", "6"],
-        "correctIndex": 1
+        "text": "Which planet is known as the Red Planet?",
+        "options": ["Earth", "Mars", "Jupiter", "Venus"],
+        "correctIndex": 1,
+        "explanation": "Mars is known as the Red Planet because of its reddish appearance, which is due to iron oxide on its surface."
+    },
+    {
+        "text": "Who wrote 'Hamlet'?",
+        "options": ["Charles Dickens", "Leo Tolstoy", "Mark Twain", "William Shakespeare"],
+        "correctIndex": 3,
+        "explanation": "'Hamlet' is a tragedy written by William Shakespeare sometime between 1599 and 1601."
+    },
+    {
+        "text": "What is the smallest prime number?",
+        "options": ["1", "2", "3", "5"],
+        "correctIndex": 1,
+        "explanation": "2 is the smallest prime number and the only even prime number."
+    },
+    {
+        "text": "Which element has the chemical symbol O?",
+        "options": ["Gold", "Oxygen", "Osmium", "Oganesson"],
+        "correctIndex": 1,
+        "explanation": "O is the chemical symbol for Oxygen, a crucial element for life on Earth."
+    },
+    {
+        "text": "Who was the first President of the United States?",
+        "options": ["Thomas Jefferson", "John Adams", "George Washington", "Abraham Lincoln"],
+        "correctIndex": 2,
+        "explanation": "George Washington was the first President of the United States, serving from 1789 to 1797."
+    },
+    {
+        "text": "What is the hardest natural substance on Earth?",
+        "options": ["Gold", "Iron", "Diamond", "Platinum"],
+        "correctIndex": 2,
+        "explanation": "Diamond is the hardest natural substance on Earth, formed under high temperature and pressure conditions."
+    },
+    {
+        "text": "What is the main ingredient in guacamole?",
+        "options": ["Tomato", "Avocado", "Onion", "Lime"],
+        "correctIndex": 1,
+        "explanation": "Avocado is the main ingredient in guacamole, giving it its creamy texture."
+    },
+    {
+        "text": "In which year did the Titanic sink?",
+        "options": ["1905", "1912", "1918", "1923"],
+        "correctIndex": 1,
+        "explanation": "The Titanic sank on April 15, 1912, after hitting an iceberg during its maiden voyage."
+    },
+    {
+        "text": "What is the largest mammal in the world?",
+        "options": ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
+        "correctIndex": 1,
+        "explanation": "The Blue Whale is the largest mammal in the world, reaching lengths of up to 100 feet and weights of up to 200 tons."
     }
 ]

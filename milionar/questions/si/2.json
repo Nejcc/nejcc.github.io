@@ -1,52 +1,62 @@
 [
     {
-        "text": "Katera reka teče skozi Maribor?",
-        "options": ["Drava", "Sava", "Mura", "Soča"],
-        "correctIndex": 0
+        "text": "Kateri je največji planet v našem osončju?",
+        "options": ["Zemlja", "Mars", "Jupiter", "Saturn"],
+        "correctIndex": 2,
+        "explanation": "Jupiter je največji planet v našem osončju, znan po svoji Veliki rdeči pegi."
     },
     {
-        "text": "Kdo je napisal roman Cankarjeva matere?",
-        "options": ["France Prešeren", "Oton Župančič", "Srečko Kosovel", "Ivan Cankar"],
-        "correctIndex": 3
+        "text": "Kdo je razvil teorijo relativnosti?",
+        "options": ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
+        "correctIndex": 1,
+        "explanation": "Albert Einstein je razvil teorijo relativnosti, ki je revolucionirala naše razumevanje prostora in časa."
     },
     {
-        "text": "Kdo je napisal roman Visoška kronika?",
-        "options": ["Ivan Tavčar", "France Prešeren", "Srečko Kosovel", "Oton Župančič"],
-        "correctIndex": 0
+        "text": "Kakšna je vrelišče vode na morski gladini?",
+        "options": ["90°C", "100°C", "110°C", "120°C"],
+        "correctIndex": 1,
+        "explanation": "Vrelišče vode na morski gladini je 100°C ali 212°F."
     },
     {
-        "text": "Kateri praznik praznujemo 25. junija?",
-        "options": ["Dan državnosti", "Dan samostojnosti", "Prešernov dan", "Dan upora proti okupatorju"],
-        "correctIndex": 0
+        "text": "Na katerem kontinentu se nahaja puščava Sahara?",
+        "options": ["Azija", "Južna Amerika", "Afrika", "Avstralija"],
+        "correctIndex": 2,
+        "explanation": "Puščava Sahara se nahaja na afriškem kontinentu in je največja vroča puščava na svetu."
     },
     {
-        "text": "Kateri je slovenski nacionalni šport?",
-        "options": ["Nogomet", "Košarka", "Smučanje", "Kolesarstvo"],
-        "correctIndex": 2
+        "text": "Kakšna je kemijska oznaka za zlato?",
+        "options": ["Ag", "Au", "Pb", "Fe"],
+        "correctIndex": 1,
+        "explanation": "Kemijska oznaka za zlato je Au, kar izhaja iz njegovega latinskega imena 'Aurum'."
     },
     {
-        "text": "Koliko članov ima slovenski parlament?",
-        "options": ["90", "100", "120", "80"],
-        "correctIndex": 0
+        "text": "Kdo je znan kot oče računalništva?",
+        "options": ["Alan Turing", "Charles Babbage", "John von Neumann", "Blaise Pascal"],
+        "correctIndex": 1,
+        "explanation": "Charles Babbage je znan kot oče računalništva zaradi njegovega načrta za Analitični stroj."
     },
     {
-        "text": "Katera planinska postaja je najvišja v Sloveniji?",
-        "options": ["Triglavski dom na Kredarici", "Dom na Komni", "Koča na Doliču", "Zasavska koča na Prehodavcih"],
-        "correctIndex": 0
+        "text": "Katera država je največja po površini?",
+        "options": ["Kanada", "Kitajska", "Združene države Amerike", "Rusija"],
+        "correctIndex": 3,
+        "explanation": "Rusija je največja država po površini, saj pokriva več kot 17 milijonov kvadratnih kilometrov."
     },
     {
-        "text": "Katera slovenska sladica je znana po svoji večplastnosti?",
-        "options": ["Prekmurska gibanica", "Potica", "Štruklji", "Kremna rezina"],
-        "correctIndex": 0
+        "text": "Katero je glavno mesto Japonske?",
+        "options": ["Seul", "Peking", "Tokio", "Bangkok"],
+        "correctIndex": 2,
+        "explanation": "Tokio je glavno mesto Japonske in eno najbolj poseljenih mest na svetu."
     },
     {
-        "text": "Katera slovenska avtohtona sorta vina je najbolj znana?",
-        "options": ["Teran", "Rebula", "Cviček", "Malvazija"],
-        "correctIndex": 2
+        "text": "Kateri organ v človeškem telesu je predvsem odgovoren za razstrupljanje?",
+        "options": ["Srce", "Ledvica", "Jetra", "Pljuča"],
+        "correctIndex": 2,
+        "explanation": "Jetra so predvsem odgovorna za razstrupljanje kemikalij in presnovo zdravil v človeškem telesu."
     },
     {
-        "text": "Kdo je bil prvi predsednik samostojne Slovenije?",
-        "options": ["Milan Kučan", "Janez Drnovšek", "Borut Pahor", "Danilo Türk"],
-        "correctIndex": 0
+        "text": "Kdo je naslikal Mona Liso?",
+        "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+        "correctIndex": 2,
+        "explanation": "Mona Liso je naslikal Leonardo da Vinci, italijanski renesančni umetnik."
     }
 ]

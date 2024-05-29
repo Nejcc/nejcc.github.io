@@ -70,7 +70,7 @@
                     <button @click="confirmAnswer(false)" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">No</button>
                 </div>
             </div>
-            <div v-if="answerFeedback" class="mt-4 p-4 bg-gray-800 rounded-lg text-left">
+            <div v-if="answerFeedback" class="mt-4 p-4 rounded-lg text-left" :class="[correctAnswer ? 'bg-green-500' : 'bg-red-500']">
                 <p class="text-lg" v-html="answerFeedback"></p>
                 <button v-if="correctAnswer" @click="nextQuestion" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Back to Prizes</button>
             </div>

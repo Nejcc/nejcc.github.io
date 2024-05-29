@@ -1,52 +1,62 @@
 [
     {
-        "text": "Kdo je napisal knjigo Deseti brat?",
-        "options": ["Josip Jurčič", "Ivan Cankar", "France Prešeren", "Simon Gregorčič"],
-        "correctIndex": 0
+        "text": "Kateri element se pogosto uporablja v baterijah?",
+        "options": ["Litij", "Ogljik", "Helij", "Cink"],
+        "correctIndex": 0,
+        "explanation": "Litij se pogosto uporablja v polnilnih baterijah zaradi svoje visoke elektrokemične potenciale."
     },
     {
-        "text": "Katera reka teče skozi Novo mesto?",
-        "options": ["Krka", "Sava", "Drava", "Soča"],
-        "correctIndex": 0
+        "text": "Kakšna je hitrost svetlobe?",
+        "options": ["300.000 km/s", "150.000 km/s", "500.000 km/s", "100.000 km/s"],
+        "correctIndex": 0,
+        "explanation": "Hitrost svetlobe je približno 300.000 kilometrov na sekundo."
     },
     {
-        "text": "Kateri slovenski športnik je osvojil zlato medaljo na Olimpijskih igrah v Pekingu leta 2008?",
-        "options": ["Primož Kozmus", "Tina Maze", "Peter Prevc", "Rajmond Debevec"],
-        "correctIndex": 0
+        "text": "Kdo je bila prva ženska, ki je prejela Nobelovo nagrado?",
+        "options": ["Marie Curie", "Rosalind Franklin", "Ada Lovelace", "Dorothy Hodgkin"],
+        "correctIndex": 0,
+        "explanation": "Marie Curie je bila prva ženska, ki je prejela Nobelovo nagrado, in sicer za fiziko leta 1903."
     },
     {
-        "text": "Katera slovenska znamenitost je znana po svojih podzemnih jamah?",
-        "options": ["Postojnska jama", "Škocjanske jame", "Kostanjevica na Krki", "Snežna jama"],
-        "correctIndex": 0
+        "text": "Katera je največja kost v človeškem telesu?",
+        "options": ["Stegnenica", "Nadlahtnica", "Golenica", "Mečnica"],
+        "correctIndex": 0,
+        "explanation": "Stegnenica ali femur je največja in najmočnejša kost v človeškem telesu."
     },
     {
-        "text": "Kateri slovenski praznik praznujemo 1. novembra?",
-        "options": ["Dan mrtvih", "Dan reformacije", "Dan državnosti", "Dan samostojnosti in enotnosti"],
-        "correctIndex": 0
+        "text": "Katera država je gostila poletne olimpijske igre leta 2016?",
+        "options": ["Kitajska", "Brazilija", "Združeno kraljestvo", "Rusija"],
+        "correctIndex": 1,
+        "explanation": "Poletne olimpijske igre 2016 so bile v Braziliji, v Rio de Janeiru."
     },
     {
-        "text": "Katera je najvišja cerkev v Sloveniji?",
-        "options": ["Stolnica v Mariboru", "Stolnica sv. Nikolaja v Ljubljani", "Cerkev sv. Trojice v Hrastovljah", "Bazilika Lurške Matere Božje v Brezju"],
-        "correctIndex": 1
+        "text": "Katero je glavno mesto Kanade?",
+        "options": ["Toronto", "Vancouver", "Montreal", "Ottawa"],
+        "correctIndex": 3,
+        "explanation": "Ottawa je glavno mesto Kanade."
     },
     {
-        "text": "Kateri slovenski šport je najbolj priljubljen?",
-        "options": ["Nogomet", "Košarka", "Smučanje", "Kolesarstvo"],
-        "correctIndex": 0
+        "text": "Kateri plin je najbolj prisoten v Zemljini atmosferi?",
+        "options": ["Kisik", "Vodik", "Dušik", "Ogljikov dioksid"],
+        "correctIndex": 2,
+        "explanation": "Dušik je najbolj prisoten plin v Zemljini atmosferi in predstavlja približno 78%."
     },
     {
-        "text": "Katera je največja slovenska regija po površini?",
-        "options": ["Notranjska", "Štajerska", "Primorska", "Gorenjska"],
-        "correctIndex": 1
+        "text": "Kdo je napisal 'Ubiti ptico oponašalko'?",
+        "options": ["Harper Lee", "Mark Twain", "F. Scott Fitzgerald", "Ernest Hemingway"],
+        "correctIndex": 0,
+        "explanation": "'Ubiti ptico oponašalko' je roman Harper Lee, ki je bil objavljen leta 1960."
     },
     {
-        "text": "Kateri slovenski muzej je znan po svojih razstavah o fosilih?",
-        "options": ["Prirodoslovni muzej Slovenije", "Tehniški muzej Slovenije", "Narodna galerija", "Muzej novejše zgodovine Slovenije"],
-        "correctIndex": 0
+        "text": "Kateri organ črpa kri po telesu?",
+        "options": ["Jetra", "Možgani", "Srce", "Pljuča"],
+        "correctIndex": 2,
+        "explanation": "Srce črpa kri po telesu, oskrbuje tkiva s kisikom in hranilnimi snovmi."
     },
     {
-        "text": "Kateri slovenski praznik praznujemo 8. februarja?",
-        "options": ["Prešernov dan", "Dan državnosti", "Dan upora proti okupatorju", "Dan reformacije"],
-        "correctIndex": 0
+        "text": "Kateri planet je najbližji Soncu?",
+        "options": ["Zemlja", "Mars", "Venera", "Merkur"],
+        "correctIndex": 3,
+        "explanation": "Merkur je planet, ki je najbližji Soncu."
     }
 ]

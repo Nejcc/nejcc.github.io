@@ -1,62 +1,62 @@
 [
     {
         "text": "Katero je glavno mesto Slovenije?",
-        "options": ["Ljubljana", "Maribor", "Celje", "Koper"],
-        "correctIndex": 0,
-        "explanation": "Ljubljana je glavno in največje mesto Slovenije. Ima pomembno kulturno, znanstveno, ekonomsko in politično vlogo. V Ljubljani se nahajajo številne pomembne institucije, kot so Univerza v Ljubljani, Akademija za gledališče, radio, film in televizijo ter sedež slovenske vlade."
-    },
-    {
-        "text": "Kateri slovenski pesnik je napisal Zdravljico?",
-        "options": ["France Prešeren", "Oton Župančič", "Srečko Kosovel", "Ivan Cankar"],
-        "correctIndex": 0,
-        "explanation": "France Prešeren je napisal Zdravljico, ki je tudi slovenska himna. Zdravljica je pesem, ki izraža željo po svobodi in bratstvu med narodi. France Prešeren je eden najpomembnejših slovenskih pesnikov in je avtor številnih drugih znanih del, kot so Sonetni venec in Povodni mož."
-    },
-    {
-        "text": "Koliko je 2 + 2?",
-        "options": ["3", "4", "5", "6"],
-        "correctIndex": 1,
-        "explanation": "2 + 2 je 4. To je osnovni matematični račun, ki se ga učimo že v osnovni šoli. Matematične operacije, kot so seštevanje, odštevanje, množenje in deljenje, so temelj za razumevanje bolj zapletenih matematičnih konceptov."
+        "options": ["Maribor", "Koper", "Ljubljana", "Celje"],
+        "correctIndex": 2,
+        "explanation": "Ljubljana je glavno in največje mesto Slovenije."
     },
     {
         "text": "Katera reka teče skozi Ljubljano?",
         "options": ["Sava", "Drava", "Soča", "Ljubljanica"],
         "correctIndex": 3,
-        "explanation": "Ljubljanica je reka, ki teče skozi Ljubljano. Reka je pomembna za mesto, saj je ob njenem bregu nastalo staro mestno jedro. Ljubljanica je znana tudi po številnih mostovih, med katerimi so najbolj znani Zmajski most, Tromostovje in Mesarski most."
+        "explanation": "Reka Ljubljanica teče skozi glavno mesto Slovenije, Ljubljano."
     },
     {
-        "text": "Kateri je največji slovenski otok?",
-        "options": ["Cres", "Krk", "Bled", "Bohinj"],
-        "correctIndex": 0,
-        "explanation": "Cres je največji otok v Jadranskem morju in je del Slovenije. Otok Cres je znan po svoji raznolikosti flore in favne ter po edinstvenem sladkovodnem Vranskem jezeru. Na otoku živijo tudi beloglavi jastrebi, ki so ogrožena vrsta."
+        "text": "Kdo je napisal 'Zdravljico'?",
+        "options": ["Ivan Cankar", "Oton Župančič", "France Prešeren", "Srečko Kosovel"],
+        "correctIndex": 2,
+        "explanation": "'Zdravljica' je pesem, ki jo je napisal slovenski pesnik France Prešeren."
     },
     {
-        "text": "Kateri jezik se govori v Sloveniji?",
-        "options": ["Slovenski", "Hrvaški", "Italijanski", "Nemški"],
-        "correctIndex": 0,
-        "explanation": "Uradni jezik v Sloveniji je slovenski. Slovenščina je zahodnoslovanski jezik in eden od uradnih jezikov Evropske unije. Ima bogato zgodovino in književnost ter številne narečne različice, ki se razlikujejo po regijah."
-    },
-    {
-        "text": "Kdaj je Slovenija postala neodvisna?",
-        "options": ["1991", "1989", "1995", "2000"],
-        "correctIndex": 0,
-        "explanation": "Slovenija je postala neodvisna leta 1991. Natančneje, 25. junija 1991 je Slovenija razglasila svojo neodvisnost od Jugoslavije. To je bil pomemben trenutek v zgodovini Slovenije, ki je privedel do osamosvojitvene vojne in kasnejšega mednarodnega priznanja."
-    },
-    {
-        "text": "Katera je najvišja gora v Sloveniji?",
-        "options": ["Triglav", "Škrlatica", "Mangart", "Grintovec"],
-        "correctIndex": 0,
-        "explanation": "Triglav je najvišja gora v Sloveniji, visoka 2864 metrov. Nahaja se v Julijskih Alpah in je simbol slovenske narodne identitete. Triglav je upodobljen tudi v slovenskem grbu. Plezanje na Triglav je priljubljena dejavnost med planinci, a zahteva dobro fizično pripravljenost in opremo."
-    },
-    {
-        "text": "Katero je največje slovensko jezero?",
-        "options": ["Bohinjsko jezero", "Blejsko jezero", "Cerkniško jezero", "Ptujsko jezero"],
-        "correctIndex": 0,
-        "explanation": "Bohinjsko jezero je največje stalno jezero v Sloveniji. Nahaja se v Triglavskem narodnem parku in je priljubljena turistična destinacija zaradi svoje naravne lepote in možnosti za različne športne aktivnosti, kot so plavanje, veslanje in pohodništvo."
-    },
-    {
-        "text": "Kateri slovenski znanstvenik je znan po teoriji relativnosti?",
-        "options": ["Albert Einstein", "Jožef Stefan", "Nikola Tesla", "Hermann Minkowski"],
+        "text": "Koliko je 2 + 2?",
+        "options": ["3", "4", "5", "6"],
         "correctIndex": 1,
-        "explanation": "Jožef Stefan je znan slovenski fizik, po katerem je poimenovan Stefan-Boltzmannov zakon o sevanju. Čeprav ni avtor teorije relativnosti, je pomemben znanstvenik, ki je prispeval k razumevanju fizikalnih zakonitosti. Teorijo relativnosti je sicer razvil Albert Einstein."
+        "explanation": "2 + 2 je enako 4."
+    },
+    {
+        "text": "Kateri element ima kemijski simbol O?",
+        "options": ["Zlato", "Kisik", "Osmij", "Oganeson"],
+        "correctIndex": 1,
+        "explanation": "O je kemijski simbol za kisik, ki je ključni element za življenje na Zemlji."
+    },
+    {
+        "text": "Kdo je bil prvi predsednik Združenih držav Amerike?",
+        "options": ["Thomas Jefferson", "John Adams", "George Washington", "Abraham Lincoln"],
+        "correctIndex": 2,
+        "explanation": "George Washington je bil prvi predsednik Združenih držav Amerike, služil je od leta 1789 do 1797."
+    },
+    {
+        "text": "Kaj je najtrša naravna snov na Zemlji?",
+        "options": ["Zlato", "Železo", "Diamant", "Platina"],
+        "correctIndex": 2,
+        "explanation": "Diamant je najtrša naravna snov na Zemlji, nastala pod visokimi temperaturami in pritiski."
+    },
+    {
+        "text": "Katera sestavina je glavna v guacamoleju?",
+        "options": ["Paradižnik", "Avokado", "Čebula", "Limeta"],
+        "correctIndex": 1,
+        "explanation": "Avokado je glavna sestavina guacamoleja, ki mu daje kremasto teksturo."
+    },
+    {
+        "text": "V katerem letu je potonil Titanic?",
+        "options": ["1905", "1912", "1918", "1923"],
+        "correctIndex": 1,
+        "explanation": "Titanic je potonil 15. aprila 1912, potem ko je trčil v ledeno goro med svojo prvo plovbo."
+    },
+    {
+        "text": "Katera je največja žival na svetu?",
+        "options": ["Slon", "Modri kit", "Žirafa", "Povodni konj"],
+        "correctIndex": 1,
+        "explanation": "Modri kit je največja žival na svetu, ki doseže dolžino do 30 metrov in težo do 200 ton."
     }
 ]
