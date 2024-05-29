@@ -1,0 +1,17 @@
+[
+    {
+        "text": "What is the capital of France?",
+        "options": ["Berlin", "Madrid", "Paris", "Rome"],
+        "correctIndex": 2
+    },
+    {
+        "text": "Who wrote 'Hamlet'?",
+        "options": ["Charles Dickens", "J.K. Rowling", "William Shakespeare", "Mark Twain"],
+        "correctIndex": 2
+    },
+    {
+        "text": "What is the largest planet in our Solar System?",
+        "options": ["Earth", "Jupiter", "Mars", "Saturn"],
+        "correctIndex": 1
+    }
+]

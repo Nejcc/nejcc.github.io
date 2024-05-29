@@ -1,0 +1,17 @@
+[
+    {
+        "name": "John Doe",
+        "correctAnswers": 15,
+        "time": "00:12:34"
+    },
+    {
+        "name": "Jane Smith",
+        "correctAnswers": 14,
+        "time": "00:11:45"
+    },
+    {
+        "name": "Alice Johnson",
+        "correctAnswers": 13,
+        "time": "00:10:50"
+    }
+]
