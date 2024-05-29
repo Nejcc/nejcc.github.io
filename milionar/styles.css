@@ -1,83 +1,60 @@
-body {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #282c34;
-    color: white;
-}
-
-#app {
+.question-box {
+    background: linear-gradient(to right, #0d0d0d, #1a1a1a);
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
     text-align: center;
-    background-color: #333;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    max-width: 500px;
-    width: 100%;
 }
-
-h1, h2 {
-    margin: 0 0 20px;
-}
-
-select {
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    background-color: #555;
-    color: white;
-}
-
-button {
-    margin: 10px 0;
-    padding: 15px 30px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: none;
+.option-button {
+    background: linear-gradient(to right, #0d0d0d, #1a1a1a);
+    border: 2px solid #444;
+    padding: 1rem;
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-size: 1.25rem;
     cursor: pointer;
-    background-color: #4CAF50;
+    margin: 0.5rem 0;
     color: white;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
 }
-
-button:hover {
-    background-color: #45a049;
+.option-button.correct {
+    background: green;
 }
-
-button:disabled {
-    background-color: #777;
-    cursor: not-allowed;
+.option-button.incorrect {
+    background: red;
 }
-
-#app > div {
-    margin-bottom: 20px;
+.option-letter {
+    background: yellow;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    font-weight: bold;
+    color: black;
 }
-
-p {
-    margin: 10px 0;
-    font-size: 18px;
-}
-
-.options button {
-    display: block;
-    width: 100%;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-    background-color: #555;
+.prize-level {
+    font-size: 1rem;
+    margin: 0.25rem 0;
+    padding: 0.5rem;
     color: white;
-    border: none;
-    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
-
-.options button:hover {
-    background-color: #666;
+.prize-level.active {
+    background: orange;
+    font-weight: bold;
+}
+@keyframes blink {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: yellow; }
+}
+.blink {
+    animation: blink 0.5s 3;
 }

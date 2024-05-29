@@ -12,6 +12,13 @@ createApp({
             interval: null,
             selectedLanguage: 'en',
             playerName: '',
+            selectedAnswerIndex: null,
+            confirmingAnswer: false,
+            confirmationMessage: '',
+            answerFeedback: '',
+            questionVisible: false,
+            correctAnswer: false,
+            flicker: false,
             prizeLevels: [
                 '£1,000,000', '£500,000', '£250,000', '£125,000', '£64,000',
                 '£32,000', '£16,000', '£8,000', '£4,000', '£2,000',
@@ -30,6 +37,13 @@ createApp({
             const minutes = String(Math.floor((this.timer % 3600) / 60)).padStart(2, '0');
             const seconds = String(this.timer % 60).padStart(2, '0');
             return `${hours}:${minutes}:${seconds}`;
+        },
+        confirmationMessageText() {
+            const messages = {
+                en: "Are you sure this is your final answer?",
+                si: "Ali ste prepričani, da je to vaš končni odgovor?"
+            };
+            return messages[this.selectedLanguage];
         }
     },
     methods: {
@@ -41,6 +55,10 @@ createApp({
                 this.timer = 0;
                 this.gameStarted = true;
                 this.gameOver = false;
+                this.questionVisible = false;
+                this.answerFeedback = '';
+                this.selectedAnswerIndex = null;
+                this.correctAnswer = false;
                 this.interval = setInterval(() => {
                     this.timer++;
                 }, 1000);
@@ -65,15 +83,58 @@ createApp({
             }
             return questions;
         },
-        answerQuestion(index) {
-            if (index === this.currentQuestion.correctIndex) {
-                this.correctAnswers++;
-                this.currentQuestionIndex++;
-                if (this.currentQuestionIndex >= this.questions.length) {
-                    this.endGame();
-                }
+        selectPrize(index) {
+            if (this.currentQuestionIndex === 19 - index) {
+                this.questionVisible = true;
+            }
+        },
+        selectAnswer(index) {
+            this.selectedAnswerIndex = index;
+            this.confirmationMessage = this.confirmationMessageText;
+            this.confirmingAnswer = true;
+        },
+        confirmAnswer(isConfirmed) {
+            if (isConfirmed) {
+                this.evaluateAnswer();
+                this.confirmingAnswer = false;
             } else {
+                this.confirmingAnswer = false;
+                this.selectedAnswerIndex = null;
+            }
+        },
+        evaluateAnswer() {
+            const correctIndex = this.currentQuestion.correctIndex;
+            this.flicker = true;
+            setTimeout(() => {
+                this.flicker = false;
+                if (this.selectedAnswerIndex === correctIndex) {
+                    this.correctAnswer = true;
+                    this.answerFeedback = `<span class="text-green-500 font-bold">Correct!</span> ${this.currentQuestion.explanation}`;
+                    this.$nextTick(() => {
+                        document.querySelectorAll('.option-button')[this.selectedAnswerIndex].classList.add('correct');
+                    });
+                    this.correctAnswers++;
+                } else {
+                    this.correctAnswer = false;
+                    this.answerFeedback = `<span class="text-red-500 font-bold">Incorrect.</span> ${this.currentQuestion.explanation}`;
+                    this.$nextTick(() => {
+                        document.querySelectorAll('.option-button')[this.selectedAnswerIndex].classList.add('incorrect');
+                    });
+                    setTimeout(() => {
+                        this.endGame();
+                    }, 3000); // Delay to show incorrect answer before ending game
+                }
+            }, 1500); // Delay to show flicker effect
+        },
+        nextQuestion() {
+            this.currentQuestionIndex++;
+            if (this.currentQuestionIndex >= this.questions.length) {
                 this.endGame();
+            } else {
+                this.questionVisible = false;
+                this.answerFeedback = '';
+                this.correctAnswer = false;
+                this.selectedAnswerIndex = null;
             }
         },
         restartGame() {
@@ -87,61 +148,36 @@ createApp({
         getOptionLetter(index) {
             return String.fromCharCode(65 + index);
         },
-        async endGame() {
+        endGame() {
             clearInterval(this.interval);
             this.gameOver = true;
-            await this.savePlayerStats();
+            this.savePlayerStats();
         },
-        async savePlayerStats() {
+        savePlayerStats() {
             const playerStats = {
                 name: this.playerName,
                 correctAnswers: this.correctAnswers,
                 time: this.formattedTime
             };
-            try {
-                let leaderboard = [];
-                const response = await fetch('playerStats.json');
-                if (response.ok) {
-                    leaderboard = await response.json();
+            let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+            leaderboard.push(playerStats);
+            leaderboard.sort((a, b) => {
+                if (a.correctAnswers === b.correctAnswers) {
+                    return a.time.localeCompare(b.time);
                 }
-                leaderboard.push(playerStats);
-                leaderboard.sort((a, b) => {
-                    if (a.correctAnswers === b.correctAnswers) {
-                        return a.time.localeCompare(b.time);
-                    }
-                    return b.correctAnswers - a.correctAnswers;
-                });
-                const saveResponse = await fetch('playerStats.json', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(leaderboard)
-                });
-                if (!saveResponse.ok) {
-                    throw new Error('Failed to save player stats');
-                }
-                this.leaderboard = leaderboard;
-            } catch (error) {
-                console.error('Error saving player stats:', error);
-            }
+                return b.correctAnswers - a.correctAnswers;
+            });
+            localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
+            this.leaderboard = leaderboard;
         },
-        async loadLeaderboard() {
-            try {
-                const response = await fetch('playerStats.json');
-                if (!response.ok) {
-                    throw new Error('Failed to load leaderboard');
+        loadLeaderboard() {
+            const leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
+            this.leaderboard = leaderboard.sort((a, b) => {
+                if (a.correctAnswers === b.correctAnswers) {
+                    return a.time.localeCompare(b.time);
                 }
-                const leaderboard = await response.json();
-                this.leaderboard = leaderboard.sort((a, b) => {
-                    if (a.correctAnswers === b.correctAnswers) {
-                        return a.time.localeCompare(b.time);
-                    }
-                    return b.correctAnswers - a.correctAnswers;
-                });
-            } catch (error) {
-                console.error('Error loading leaderboard:', error);
-            }
+                return b.correctAnswers - a.correctAnswers;
+            });
         }
     },
     mounted() {

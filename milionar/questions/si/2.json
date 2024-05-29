@@ -1,0 +1,52 @@
+[
+    {
+        "text": "Katera reka teče skozi Maribor?",
+        "options": ["Drava", "Sava", "Mura", "Soča"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kdo je napisal roman Cankarjeva matere?",
+        "options": ["France Prešeren", "Oton Župančič", "Srečko Kosovel", "Ivan Cankar"],
+        "correctIndex": 3
+    },
+    {
+        "text": "Kdo je napisal roman Visoška kronika?",
+        "options": ["Ivan Tavčar", "France Prešeren", "Srečko Kosovel", "Oton Župančič"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri praznik praznujemo 25. junija?",
+        "options": ["Dan državnosti", "Dan samostojnosti", "Prešernov dan", "Dan upora proti okupatorju"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri je slovenski nacionalni šport?",
+        "options": ["Nogomet", "Košarka", "Smučanje", "Kolesarstvo"],
+        "correctIndex": 2
+    },
+    {
+        "text": "Koliko članov ima slovenski parlament?",
+        "options": ["90", "100", "120", "80"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera planinska postaja je najvišja v Sloveniji?",
+        "options": ["Triglavski dom na Kredarici", "Dom na Komni", "Koča na Doliču", "Zasavska koča na Prehodavcih"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera slovenska sladica je znana po svoji večplastnosti?",
+        "options": ["Prekmurska gibanica", "Potica", "Štruklji", "Kremna rezina"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera slovenska avtohtona sorta vina je najbolj znana?",
+        "options": ["Teran", "Rebula", "Cviček", "Malvazija"],
+        "correctIndex": 2
+    },
+    {
+        "text": "Kdo je bil prvi predsednik samostojne Slovenije?",
+        "options": ["Milan Kučan", "Janez Drnovšek", "Borut Pahor", "Danilo Türk"],
+        "correctIndex": 0
+    }
+]

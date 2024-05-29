@@ -1,0 +1,52 @@
+[
+    {
+        "text": "Kdo je napisal knjigo Deseti brat?",
+        "options": ["Josip Jurčič", "Ivan Cankar", "France Prešeren", "Simon Gregorčič"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera reka teče skozi Novo mesto?",
+        "options": ["Krka", "Sava", "Drava", "Soča"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri slovenski športnik je osvojil zlato medaljo na Olimpijskih igrah v Pekingu leta 2008?",
+        "options": ["Primož Kozmus", "Tina Maze", "Peter Prevc", "Rajmond Debevec"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera slovenska znamenitost je znana po svojih podzemnih jamah?",
+        "options": ["Postojnska jama", "Škocjanske jame", "Kostanjevica na Krki", "Snežna jama"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri slovenski praznik praznujemo 1. novembra?",
+        "options": ["Dan mrtvih", "Dan reformacije", "Dan državnosti", "Dan samostojnosti in enotnosti"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera je najvišja cerkev v Sloveniji?",
+        "options": ["Stolnica v Mariboru", "Stolnica sv. Nikolaja v Ljubljani", "Cerkev sv. Trojice v Hrastovljah", "Bazilika Lurške Matere Božje v Brezju"],
+        "correctIndex": 1
+    },
+    {
+        "text": "Kateri slovenski šport je najbolj priljubljen?",
+        "options": ["Nogomet", "Košarka", "Smučanje", "Kolesarstvo"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera je največja slovenska regija po površini?",
+        "options": ["Notranjska", "Štajerska", "Primorska", "Gorenjska"],
+        "correctIndex": 1
+    },
+    {
+        "text": "Kateri slovenski muzej je znan po svojih razstavah o fosilih?",
+        "options": ["Prirodoslovni muzej Slovenije", "Tehniški muzej Slovenije", "Narodna galerija", "Muzej novejše zgodovine Slovenije"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri slovenski praznik praznujemo 8. februarja?",
+        "options": ["Prešernov dan", "Dan državnosti", "Dan upora proti okupatorju", "Dan reformacije"],
+        "correctIndex": 0
+    }
+]

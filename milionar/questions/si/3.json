@@ -1,0 +1,52 @@
+[
+    {
+        "text": "Kdo je avtor slovenske himne?",
+        "options": ["France Prešeren", "Janez Menart", "Simon Gregorčič", "Josip Murn"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera gora ni del slovenskih Alp?",
+        "options": ["Triglav", "Peca", "Krn", "Šmarna gora"],
+        "correctIndex": 3
+    },
+    {
+        "text": "Kateri slovenski pesnik je bil znan po svoji angažirani poeziji?",
+        "options": ["Tone Pavček", "Kajetan Kovič", "Srečko Kosovel", "Ciril Zlobec"],
+        "correctIndex": 2
+    },
+    {
+        "text": "Kdaj praznujemo Prešernov dan?",
+        "options": ["8. februarja", "1. januarja", "25. junija", "15. avgusta"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri slovenski praznik praznujemo 27. aprila?",
+        "options": ["Dan upora proti okupatorju", "Dan državnosti", "Dan reformacije", "Dan samostojnosti in enotnosti"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera je najdaljša slovenska reka?",
+        "options": ["Sava", "Drava", "Mura", "Soča"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri je največji slovenski otok na reki?",
+        "options": ["Ptuj", "Kostanjevica na Krki", "Bled", "Otočec"],
+        "correctIndex": 1
+    },
+    {
+        "text": "Koliko je visok Triglav?",
+        "options": ["2864 metrov", "2743 metrov", "2333 metrov", "2100 metrov"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Katera slovenska jed je narejena iz ajdove moke in kislega zelja?",
+        "options": ["Ajdovi žganci", "Matevž", "Prekmurska gibanica", "Štruklji"],
+        "correctIndex": 0
+    },
+    {
+        "text": "Kateri je najstarejši slovenski grad?",
+        "options": ["Bled", "Ljubljanski grad", "Predjamski grad", "Celjski grad"],
+        "correctIndex": 2
+    }
+]
