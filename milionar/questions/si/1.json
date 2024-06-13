@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Katero je glavno mesto Slovenije?",
+        "options": ["Maribor", "Koper", "Ljubljana", "Celje"],
+        "correctIndex": 2,
+        "explanation": "Ljubljana je glavno in največje mesto Slovenije."
+    },
+    {
+        "text": "Katera reka teče skozi Ljubljano?",
+        "options": ["Sava", "Drava", "Soča", "Ljubljanica"],
+        "correctIndex": 3,
+        "explanation": "Reka Ljubljanica teče skozi glavno mesto Slovenije, Ljubljano."
+    },
+    {
+        "text": "Kdo je napisal 'Zdravljico'?",
+        "options": ["Ivan Cankar", "Oton Župančič", "France Prešeren", "Srečko Kosovel"],
+        "correctIndex": 2,
+        "explanation": "'Zdravljica' je pesem, ki jo je napisal slovenski pesnik France Prešeren."
+    },
+    {
+        "text": "Koliko je 2 + 2?",
+        "options": ["3", "4", "5", "6"],
+        "correctIndex": 1,
+        "explanation": "2 + 2 je enako 4."
+    },
+    {
+        "text": "Kateri element ima kemijski simbol O?",
+        "options": ["Zlato", "Kisik", "Osmij", "Oganeson"],
+        "correctIndex": 1,
+        "explanation": "O je kemijski simbol za kisik, ki je ključni element za življenje na Zemlji."
+    },
+    {
+        "text": "Kdo je bil prvi predsednik Združenih držav Amerike?",
+        "options": ["Thomas Jefferson", "John Adams", "George Washington", "Abraham Lincoln"],
+        "correctIndex": 2,
+        "explanation": "George Washington je bil prvi predsednik Združenih držav Amerike, služil je od leta 1789 do 1797."
+    },
+    {
+        "text": "Kaj je najtrša naravna snov na Zemlji?",
+        "options": ["Zlato", "Železo", "Diamant", "Platina"],
+        "correctIndex": 2,
+        "explanation": "Diamant je najtrša naravna snov na Zemlji, nastala pod visokimi temperaturami in pritiski."
+    },
+    {
+        "text": "Katera sestavina je glavna v guacamoleju?",
+        "options": ["Paradižnik", "Avokado", "Čebula", "Limeta"],
+        "correctIndex": 1,
+        "explanation": "Avokado je glavna sestavina guacamoleja, ki mu daje kremasto teksturo."
+    },
+    {
+        "text": "V katerem letu je potonil Titanic?",
+        "options": ["1905", "1912", "1918", "1923"],
+        "correctIndex": 1,
+        "explanation": "Titanic je potonil 15. aprila 1912, potem ko je trčil v ledeno goro med svojo prvo plovbo."
+    },
+    {
+        "text": "Katera je največja žival na svetu?",
+        "options": ["Slon", "Modri kit", "Žirafa", "Povodni konj"],
+        "correctIndex": 1,
+        "explanation": "Modri kit je največja žival na svetu, ki doseže dolžino do 30 metrov in težo do 200 ton."
+    }
+]

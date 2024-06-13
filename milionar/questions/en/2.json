@@ -1,0 +1,62 @@
+[
+    {
+        "text": "What is the largest planet in our solar system?",
+        "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+        "correctIndex": 2,
+        "explanation": "Jupiter is the largest planet in our solar system, known for its Great Red Spot."
+    },
+    {
+        "text": "Who developed the theory of relativity?",
+        "options": ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
+        "correctIndex": 1,
+        "explanation": "Albert Einstein developed the theory of relativity, which revolutionized our understanding of space and time."
+    },
+    {
+        "text": "What is the boiling point of water at sea level?",
+        "options": ["90°C", "100°C", "110°C", "120°C"],
+        "correctIndex": 1,
+        "explanation": "The boiling point of water at sea level is 100°C or 212°F."
+    },
+    {
+        "text": "Which continent is the Sahara Desert located on?",
+        "options": ["Asia", "South America", "Africa", "Australia"],
+        "correctIndex": 2,
+        "explanation": "The Sahara Desert is located on the African continent and is the largest hot desert in the world."
+    },
+    {
+        "text": "What is the chemical symbol for gold?",
+        "options": ["Ag", "Au", "Pb", "Fe"],
+        "correctIndex": 1,
+        "explanation": "The chemical symbol for gold is Au, derived from its Latin name 'Aurum'."
+    },
+    {
+        "text": "Who is known as the Father of Computers?",
+        "options": ["Alan Turing", "Charles Babbage", "John von Neumann", "Blaise Pascal"],
+        "correctIndex": 1,
+        "explanation": "Charles Babbage is known as the Father of Computers for his design of the Analytical Engine."
+    },
+    {
+        "text": "Which country is the largest by land area?",
+        "options": ["Canada", "China", "United States", "Russia"],
+        "correctIndex": 3,
+        "explanation": "Russia is the largest country by land area, covering more than 17 million square kilometers."
+    },
+    {
+        "text": "What is the capital of Japan?",
+        "options": ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+        "correctIndex": 2,
+        "explanation": "Tokyo is the capital city of Japan and one of the most populous cities in the world."
+    },
+    {
+        "text": "Which organ in the human body is primarily responsible for detoxification?",
+        "options": ["Heart", "Kidney", "Liver", "Lung"],
+        "correctIndex": 2,
+        "explanation": "The liver is primarily responsible for detoxifying chemicals and metabolizing drugs in the human body."
+    },
+    {
+        "text": "Who painted the Mona Lisa?",
+        "options": ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+        "correctIndex": 2,
+        "explanation": "The Mona Lisa was painted by Leonardo da Vinci, an Italian Renaissance artist."
+    }
+]

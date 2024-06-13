@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Which element is commonly used in batteries?",
+        "options": ["Lithium", "Carbon", "Helium", "Zinc"],
+        "correctIndex": 0,
+        "explanation": "Lithium is commonly used in rechargeable batteries due to its high electrochemical potential."
+    },
+    {
+        "text": "What is the speed of light?",
+        "options": ["300,000 km/s", "150,000 km/s", "500,000 km/s", "100,000 km/s"],
+        "correctIndex": 0,
+        "explanation": "The speed of light is approximately 300,000 kilometers per second."
+    },
+    {
+        "text": "Who was the first woman to win a Nobel Prize?",
+        "options": ["Marie Curie", "Rosalind Franklin", "Ada Lovelace", "Dorothy Hodgkin"],
+        "correctIndex": 0,
+        "explanation": "Marie Curie was the first woman to win a Nobel Prize, receiving the Physics Prize in 1903."
+    },
+    {
+        "text": "What is the largest bone in the human body?",
+        "options": ["Femur", "Humerus", "Tibia", "Fibula"],
+        "correctIndex": 0,
+        "explanation": "The femur, or thigh bone, is the largest and strongest bone in the human body."
+    },
+    {
+        "text": "Which country hosted the 2016 Summer Olympics?",
+        "options": ["China", "Brazil", "United Kingdom", "Russia"],
+        "correctIndex": 1,
+        "explanation": "The 2016 Summer Olympics were hosted by Brazil, held in Rio de Janeiro."
+    },
+    {
+        "text": "What is the capital of Canada?",
+        "options": ["Toronto", "Vancouver", "Montreal", "Ottawa"],
+        "correctIndex": 3,
+        "explanation": "Ottawa is the capital city of Canada."
+    },
+    {
+        "text": "What is the most abundant gas in Earth's atmosphere?",
+        "options": ["Oxygen", "Hydrogen", "Nitrogen", "Carbon Dioxide"],
+        "correctIndex": 2,
+        "explanation": "Nitrogen is the most abundant gas in Earth's atmosphere, making up about 78%."
+    },
+    {
+        "text": "Who wrote 'To Kill a Mockingbird'?",
+        "options": ["Harper Lee", "Mark Twain", "F. Scott Fitzgerald", "Ernest Hemingway"],
+        "correctIndex": 0,
+        "explanation": "'To Kill a Mockingbird' is a novel by Harper Lee published in 1960."
+    },
+    {
+        "text": "Which organ pumps blood through the body?",
+        "options": ["Liver", "Brain", "Heart", "Lung"],
+        "correctIndex": 2,
+        "explanation": "The heart pumps blood through the body, supplying oxygen and nutrients to tissues."
+    },
+    {
+        "text": "Which planet is closest to the sun?",
+        "options": ["Earth", "Mars", "Venus", "Mercury"],
+        "correctIndex": 3,
+        "explanation": "Mercury is the closest planet to the sun."
+    }
+]

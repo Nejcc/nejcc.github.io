@@ -1,0 +1,32 @@
+{
+  "navbar": {
+    "home": "Domov",
+    "services": "Storitve",
+    "about": "O nas",
+    "contact": "Kontakt"
+  },
+  "welcome": {
+    "title": "Dobrodošli na After.si",
+    "description": "Vaš zaupanja vreden partner za poslovne rešitve, finančno svetovanje, pomoč pri iskanju zaposlitve, spletni razvoj in razvoj aplikacij po meri.",
+    "more_info": "Izvedite več"
+  },
+  "services": {
+    "title": "Naše storitve",
+    "business_solutions": "Poslovne rešitve",
+    "financial_advising": "Finančno svetovanje",
+    "job_seeking_help": "Pomoč pri iskanju zaposlitve",
+    "web_development": "Spletni razvoj",
+    "custom_app_dev": "Razvoj aplikacij po meri"
+  },
+  "about": {
+    "title": "O nas",
+    "description": "Na After.si smo zavezani zagotavljanju vrhunskih poslovnih rešitev in storitev, prilagojenih vašim potrebam. Naša ekipa strokovnjakov se specializira za finančno svetovanje, pomoč pri iskanju zaposlitve, spletni razvoj in razvoj aplikacij po meri. Naš cilj je, da svojim strankam omogočimo dosego ciljev s pomočjo inovativnih in učinkovitih rešitev."
+  },
+  "contact": {
+    "title": "Kontaktirajte nas",
+    "name": "Ime",
+    "email": "E-pošta",
+    "message": "Sporočilo",
+    "submit": "Pošlji"
+  }
+}

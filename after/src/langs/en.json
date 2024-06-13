@@ -1,0 +1,32 @@
+{
+  "navbar": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "welcome": {
+    "title": "Welcome to After.si",
+    "description": "Your trusted partner for business solutions, financial advising, job seeking assistance, web development, and custom application development.",
+    "more_info": "Learn More"
+  },
+  "services": {
+    "title": "Our Services",
+    "business_solutions": "Business Solutions",
+    "financial_advising": "Financial Advising",
+    "job_seeking_help": "Job Seeking Help",
+    "web_development": "Web Development",
+    "custom_app_dev": "Custom Application Development"
+  },
+  "about": {
+    "title": "About Us",
+    "description": "At After.si, we are committed to providing top-notch business solutions and services tailored to meet your needs. Our team of experts specializes in financial advising, job seeking assistance, web development, and custom application development. We aim to empower our clients to achieve their goals through innovative and effective solutions."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "submit": "Submit"
+  }
+}

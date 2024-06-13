@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Katera je najmanjša celina po površini?",
+        "options": ["Evropa", "Avstralija", "Antarktika", "Južna Amerika"],
+        "correctIndex": 1,
+        "explanation": "Avstralija je najmanjša celina po površini."
+    },
+    {
+        "text": "Kaj je glavna sestavina tradicionalne japonske miso juhe?",
+        "options": ["Tofu", "Morske alge", "Miso pasta", "Sojina omaka"],
+        "correctIndex": 2,
+        "explanation": "Miso pasta, narejena iz fermentiranih sojinih zrn, je glavna sestavina tradicionalne japonske miso juhe."
+    },
+    {
+        "text": "Kdo je znan kot 'Oče geometrije'?",
+        "options": ["Pitagora", "Evklid", "Arhimed", "Platon"],
+        "correctIndex": 1,
+        "explanation": "Evklid je znan kot 'Oče geometrije' zaradi svojega dela na tem področju, zlasti njegove knjige 'Elementi'."
+    },
+    {
+        "text": "Kateri človeški organ lahko regenerira svoje tkivo?",
+        "options": ["Srce", "Jetra", "Ledvica", "Pljuča"],
+        "correctIndex": 1,
+        "explanation": "Jetra so edini človeški organ, ki lahko regenerira svoje tkivo."
+    },
+    {
+        "text": "Katera je najdaljša reka na svetu?",
+        "options": ["Reka Amazonka", "Reka Nil", "Reka Jangce", "Reka Misisipi"],
+        "correctIndex": 1,
+        "explanation": "Reka Nil je tradicionalno veljala za najdaljšo reko na svetu, čeprav nekatere študije kažejo, da je Amazonka lahko daljša."
+    },
+    {
+        "text": "Kdo je naslikal strop Sikstinske kapele?",
+        "options": ["Leonardo da Vinci", "Michelangelo", "Rafael", "Donatello"],
+        "correctIndex": 1,
+        "explanation": "Michelangelo je naslikal strop Sikstinske kapele v Vatikanu."
+    },
+    {
+        "text": "Katera je najtrša naravna snov na Zemlji?",
+        "options": ["Diamant", "Kremen", "Topaz", "Korund"],
+        "correctIndex": 0,
+        "explanation": "Diamant je najtrša naravna snov na Zemlji."
+    },
+    {
+        "text": "Kateri planet ima največ lun?",
+        "options": ["Zemlja", "Mars", "Jupiter", "Saturn"],
+        "correctIndex": 2,
+        "explanation": "Jupiter ima največ lun od vseh planetov v našem osončju, s 79 potrjenimi lunami."
+    },
+    {
+        "text": "Kdo je napisal '1984'?",
+        "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Kurt Vonnegut"],
+        "correctIndex": 0,
+        "explanation": "'1984' je distopični roman, ki ga je napisal George Orwell in je bil objavljen leta 1949."
+    },
+    {
+        "text": "Kakšna je kemijska oznaka za natrij?",
+        "options": ["Na", "S", "K", "N"],
+        "correctIndex": 0,
+        "explanation": "Kemijska oznaka za natrij je Na, izhaja iz latinskega 'Natrium'."
+    }
+]

@@ -1,0 +1,62 @@
+[
+    {
+        "text": "Kakšna je kemijska formula za vodo?",
+        "options": ["H2O", "CO2", "O2", "H2"],
+        "correctIndex": 0,
+        "explanation": "Kemijska formula za vodo je H2O, sestavljena iz dveh atomov vodika in enega atoma kisika."
+    },
+    {
+        "text": "Kdo je bil prvi človek, ki je stopil na Luno?",
+        "options": ["Buzz Aldrin", "Jurij Gagarin", "Neil Armstrong", "Alan Shepard"],
+        "correctIndex": 2,
+        "explanation": "Neil Armstrong je bil prvi človek, ki je stopil na Luno 20. julija 1969 med misijo Apollo 11."
+    },
+    {
+        "text": "Kateri plin absorbirajo rastline iz ozračja?",
+        "options": ["Kisik", "Dušik", "Ogljikov dioksid", "Helij"],
+        "correctIndex": 2,
+        "explanation": "Rastline absorbirajo ogljikov dioksid (CO2) iz ozračja za fotosintezo."
+    },
+    {
+        "text": "Kolikšna je kvadratni koren iz 64?",
+        "options": ["6", "7", "8", "9"],
+        "correctIndex": 2,
+        "explanation": "Kvadratni koren iz 64 je 8."
+    },
+    {
+        "text": "Kateri planet je znan po svojih obročih?",
+        "options": ["Mars", "Venera", "Saturn", "Jupiter"],
+        "correctIndex": 2,
+        "explanation": "Saturn je znan po svojem izrazitem sistemu obročev, ki so sestavljeni iz ledu in delcev kamnin."
+    },
+    {
+        "text": "Kdo je napisal 'Prevzetnost in pristranost'?",
+        "options": ["Jane Austen", "Charles Dickens", "Emily Bronte", "Mark Twain"],
+        "correctIndex": 0,
+        "explanation": "'Prevzetnost in pristranost' je roman, ki ga je napisala Jane Austen, prvič objavljen leta 1813."
+    },
+    {
+        "text": "Kateri je najtrši znan mineral?",
+        "options": ["Kremen", "Topaz", "Diamant", "Korund"],
+        "correctIndex": 2,
+        "explanation": "Diamant je najtrši znan mineral, z oceno 10 na Mohsovi lestvici trdote mineralov."
+    },
+    {
+        "text": "Kateri plin je glavni v zraku, ki ga dihamo?",
+        "options": ["Kisik", "Ogljikov dioksid", "Vodik", "Dušik"],
+        "correctIndex": 3,
+        "explanation": "Dušik predstavlja približno 78% Zemljine atmosfere."
+    },
+    {
+        "text": "Kateri je največji organ v človeškem telesu?",
+        "options": ["Srce", "Jetra", "Koža", "Pljuča"],
+        "correctIndex": 2,
+        "explanation": "Koža je največji organ v človeškem telesu, ki pokriva površino približno 2 kvadratnih metrov."
+    },
+    {
+        "text": "Kdo je izumil telefon?",
+        "options": ["Alexander Graham Bell", "Thomas Edison", "Nikola Tesla", "Guglielmo Marconi"],
+        "correctIndex": 0,
+        "explanation": "Alexander Graham Bell je zaslužen za izum telefona leta 1876."
+    }
+]

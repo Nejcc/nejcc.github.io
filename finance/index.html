@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conscious Spending Plan</title>
+    <link href="styles.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" class="container mt-5">
+    <h1 class="mb-4">Conscious Spending Plan</h1>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th></th>
+            <th class="text-center">Person 1</th>
+            <th class="text-center">Person 2</th>
+            <th class="text-center">Together</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td colspan="4" class="table-dark">NET WORTH</td>
+        </tr>
+        <tr>
+            <td>Assets (current value of car, home, property, business)</td>
+            <td><input type="number" v-model.number="person1.Assets" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Assets" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Assets }}</td>
+        </tr>
+        <tr>
+            <td>Investments (include 401K, non retirement — all investments)</td>
+            <td><input type="number" v-model.number="person1.Investments" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Investments" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Investments }}</td>
+        </tr>
+        <tr>
+            <td>Savings</td>
+            <td><input type="number" v-model.number="person1.Savings" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Savings" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Savings }}</td>
+        </tr>
+        <tr>
+            <td>Debt (students loans, credit card debt, mortgage)</td>
+            <td><input type="number" v-model.number="person1.Debt" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Debt" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Debt }}</td>
+        </tr>
+        <tr>
+            <td>TOTAL NET WORTH</td>
+            <td class="text-center">{{ netWorthPerson1 }}</td>
+            <td class="text-center">{{ netWorthPerson2 }}</td>
+            <td class="text-center">{{ netWorthTogether }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="table-dark">INCOME</td>
+        </tr>
+        <tr>
+            <td>Gross monthly income (all income before taxes added up)</td>
+            <td><input type="number" v-model.number="person1.GrossMonthlyIncome" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.GrossMonthlyIncome" class="form-control text-center"></td>
+            <td class="text-center">{{ together.GrossMonthlyIncome }}</td>
+        </tr>
+        <tr>
+            <td>Net monthly income (how much you take home after taxes)</td>
+            <td><input type="number" v-model.number="person1.NetMonthlyIncome" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.NetMonthlyIncome" class="form-control text-center"></td>
+            <td class="text-center">{{ together.NetMonthlyIncome }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="table-dark">FIXED COSTS (50-60% of take home)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td :class="fixedCostClassPerson1" class="text-center">{{ fixedCostPercentagePerson1 }}</td>
+            <td :class="fixedCostClassPerson2" class="text-center">{{ fixedCostPercentagePerson2 }}</td>
+            <td class="text-center">{{ fixedCostPercentageTogether }}</td>
+        </tr>
+        <tr>
+            <td>Rent / Mortgage</td>
+            <td><input type="number" v-model.number="person1.RentMortgage" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.RentMortgage" class="form-control text-center"></td>
+            <td class="text-center">{{ together.RentMortgage }}</td>
+        </tr>
+        <tr>
+            <td>Utilities (gas, water, electric, internet, cable, etc.)</td>
+            <td><input type="number" v-model.number="person1.Utilities" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Utilities" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Utilities }}</td>
+        </tr>
+        <tr>
+            <td>Insurance (medical, auto, home / renters, etc.)</td>
+            <td><input type="number" v-model.number="person1.Insurance" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Insurance" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Insurance }}</td>
+        </tr>
+        <tr>
+            <td>Car Payment / Transportation</td>
+            <td><input type="number" v-model.number="person1.CarPayment" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.CarPayment" class="form-control text-center"></td>
+            <td class="text-center">{{ together.CarPayment }}</td>
+        </tr>
+        <tr>
+            <td>Debt Payments</td>
+            <td><input type="number" v-model.number="person1.DebtPayments" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.DebtPayments" class="form-control text-center"></td>
+            <td class="text-center">{{ together.DebtPayments }}</td>
+        </tr>
+        <tr>
+            <td>Groceries</td>
+            <td><input type="number" v-model.number="person1.Groceries" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Groceries" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Groceries }}</td>
+        </tr>
+        <tr>
+            <td>Clothes</td>
+            <td><input type="number" v-model.number="person1.Clothes" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Clothes" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Clothes }}</td>
+        </tr>
+        <tr>
+            <td>Phone</td>
+            <td><input type="number" v-model.number="person1.Phone" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Phone" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Phone }}</td>
+        </tr>
+        <tr>
+            <td>Subscriptions <br>(Netflix, gym membership, meal services, Amazon, etc.)</td>
+            <td><input type="number" v-model.number="person1.Subscriptions" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Subscriptions" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Subscriptions }}</td>
+        </tr>
+        <tr>
+            <td>Miscellaneous <br>(automatically adds 15% for things you forgot)</td>
+            <td><input type="number" v-model.number="person1.Miscellaneous" class="form-control text-center" disabled></td>
+            <td><input type="number" v-model.number="person2.Miscellaneous" class="form-control text-center" disabled></td>
+            <td class="text-center">{{ together.Miscellaneous }}</td>
+        </tr>
+        <tr>
+            <td>FIXED COSTS TOTAL</td>
+            <td :class="fixedCostClassPerson1" class="text-center">{{ fixedCostsPerson1 }}</td>
+            <td :class="fixedCostClassPerson2" class="text-center">{{ fixedCostsPerson2 }}</td>
+            <td class="text-center">{{ fixedCostsTogether }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="table-dark">INVESTMENTS (10% of take home)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td :class="investmentClassPerson1" class="text-center">{{ investmentPercentagePerson1 }}</td>
+            <td :class="investmentClassPerson2" class="text-center">{{ investmentPercentagePerson2 }}</td>
+            <td class="text-center">{{ investmentPercentageTogether }}</td>
+        </tr>
+        <tr>
+            <td>Post-Tax Retirement Savings</td>
+            <td><input type="number" v-model.number="person1.PostTaxRetirementSavings" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.PostTaxRetirementSavings" class="form-control text-center"></td>
+            <td class="text-center">{{ together.PostTaxRetirementSavings }}</td>
+        </tr>
+        <tr>
+            <td>Stocks</td>
+            <td><input type="number" v-model.number="person1.Stocks" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Stocks" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Stocks }}</td>
+        </tr>
+        <tr>
+            <td>INVESTMENTS TOTAL</td>
+            <td :class="investmentClassPerson1" class="text-center">{{ investmentsTotalPerson1 }}</td>
+            <td :class="investmentClassPerson2" class="text-center">{{ investmentsTotalPerson2 }}</td>
+            <td class="text-center">{{ investmentsTotalTogether }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="table-dark">SAVINGS GOALS (5-10% of take home)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td :class="savingsGoalClassPerson1" class="text-center">{{ savingsGoalPercentagePerson1 }}</td>
+            <td :class="savingsGoalClassPerson2" class="text-center">{{ savingsGoalPercentagePerson2 }}</td>
+            <td class="text-center">{{ savingsGoalPercentageTogether }}</td>
+        </tr>
+        <tr>
+            <td>Vacations</td>
+            <td><input type="number" v-model.number="person1.Vacations" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Vacations" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Vacations }}</td>
+        </tr>
+        <tr>
+            <td>Gifts</td>
+            <td><input type="number" v-model.number="person1.Gifts" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.Gifts" class="form-control text-center"></td>
+            <td class="text-center">{{ together.Gifts }}</td>
+        </tr>
+        <tr>
+            <td>Long Term Emergency Fund</td>
+            <td><input type="number" v-model.number="person1.LongTermEmergencyFund" class="form-control text-center"></td>
+            <td><input type="number" v-model.number="person2.LongTermEmergencyFund" class="form-control text-center"></td>
+            <td class="text-center">{{ together.LongTermEmergencyFund }}</td>
+        </tr>
+        <tr>
+            <td>SAVINGS TOTAL</td>
+            <td :class="savingsGoalClassPerson1" class="text-center">{{ savingsTotalPerson1 }}</td>
+            <td :class="savingsGoalClassPerson2" class="text-center">{{ savingsTotalPerson2 }}</td>
+            <td class="text-center">{{ savingsTotalTogether }}</td>
+        </tr>
+        <tr>
+            <td colspan="4" class="table-dark">GUILT-FREE SPENDING (20-35% of take home)</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td :class="guiltFreeSpendingClassPerson1" class="text-center">{{ guiltFreeSpendingPercentagePerson1 }}</td>
+            <td :class="guiltFreeSpendingClassPerson2" class="text-center">{{ guiltFreeSpendingPercentagePerson2 }}</td>
+            <td class="text-center">{{ guiltFreeSpendingPercentageTogether }}</td>
+        </tr>
+        <tr>
+            <td>GUILT-FREE SPENDING TOTAL <br>(Dining out, movies, anything you want!)</td>
+            <td class="text-center">{{ person1.GuiltFreeSpending }}</td>
+            <td class="text-center">{{ person2.GuiltFreeSpending }}</td>
+            <td class="text-center">{{ together.GuiltFreeSpending }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button @click="showSummary = !showSummary" class="btn btn-primary mb-5">Calculate Summary</button>
+
+    <div class="row mt-5" v-if="showSummary">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Person 1 Summary</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li v-for="suggestion in overviewSuggestionsPerson1" :key="suggestion">{{ suggestion }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Person 2 Summary</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li v-for="suggestion in overviewSuggestionsPerson2" :key="suggestion">{{ suggestion }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Combined Summary</h2>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li v-for="suggestion in overviewSuggestionsTogether" :key="suggestion">{{ suggestion }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

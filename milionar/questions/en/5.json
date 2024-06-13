@@ -1,0 +1,62 @@
+[
+    {
+        "text": "What is the smallest continent by land area?",
+        "options": ["Europe", "Australia", "Antarctica", "South America"],
+        "correctIndex": 1,
+        "explanation": "Australia is the smallest continent by land area."
+    },
+    {
+        "text": "What is the main ingredient in traditional Japanese miso soup?",
+        "options": ["Tofu", "Seaweed", "Miso paste", "Soy sauce"],
+        "correctIndex": 2,
+        "explanation": "Miso paste, made from fermented soybeans, is the main ingredient in traditional Japanese miso soup."
+    },
+    {
+        "text": "Who is known as the 'Father of Geometry'?",
+        "options": ["Pythagoras", "Euclid", "Archimedes", "Plato"],
+        "correctIndex": 1,
+        "explanation": "Euclid is known as the 'Father of Geometry' for his work in the field, particularly his book 'Elements'."
+    },
+    {
+        "text": "Which human organ can regenerate its own tissue?",
+        "options": ["Heart", "Liver", "Kidney", "Lung"],
+        "correctIndex": 1,
+        "explanation": "The liver is the only human organ that can regenerate its own tissue."
+    },
+    {
+        "text": "What is the longest river in the world?",
+        "options": ["Amazon River", "Nile River", "Yangtze River", "Mississippi River"],
+        "correctIndex": 1,
+        "explanation": "The Nile River is traditionally considered the longest river in the world, though some studies suggest the Amazon might be longer."
+    },
+    {
+        "text": "Who painted the ceiling of the Sistine Chapel?",
+        "options": ["Leonardo da Vinci", "Michelangelo", "Raphael", "Donatello"],
+        "correctIndex": 1,
+        "explanation": "Michelangelo painted the ceiling of the Sistine Chapel in Vatican City."
+    },
+    {
+        "text": "What is the hardest natural substance on Earth?",
+        "options": ["Diamond", "Quartz", "Topaz", "Corundum"],
+        "correctIndex": 0,
+        "explanation": "Diamond is the hardest natural substance on Earth."
+    },
+    {
+        "text": "Which planet has the most moons?",
+        "options": ["Earth", "Mars", "Jupiter", "Saturn"],
+        "correctIndex": 2,
+        "explanation": "Jupiter has the most moons of any planet in our solar system, with 79 confirmed moons."
+    },
+    {
+        "text": "Who wrote '1984'?",
+        "options": ["George Orwell", "Aldous Huxley", "Ray Bradbury", "Kurt Vonnegut"],
+        "correctIndex": 0,
+        "explanation": "'1984' is a dystopian novel written by George Orwell, published in 1949."
+    },
+    {
+        "text": "What is the chemical symbol for sodium?",
+        "options": ["Na", "S", "K", "N"],
+        "correctIndex": 0,
+        "explanation": "The chemical symbol for sodium is Na, from the Latin 'Natrium'."
+    }
+]
