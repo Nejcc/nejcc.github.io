@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Terminal</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js" defer></script>
+
+</head>
+<body>
+<div id="app">
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="buttons">
+                <span class="close"></span>
+                <span class="minimize"></span>
+                <span class="maximize"></span>
+            </div>
+            <div class="title">Terminal</div>
+        </div>
+        <div class="terminal-body">
+            <div class="terminal-line" v-for="line in lines">
+                <span v-if="line.type === 'command'" class="command">{{ line.text }}</span>
+                <span v-else-if="line.type === 'info'" class="info">{{ line.text }}</span>
+                <span v-else-if="line.type === 'error'" class="error">{{ line.text }}</span>
+                <span v-else-if="line.type === 'ascii'" class="ascii">{{ line.text }}</span>
+                <span v-else class="default">{{ line.text }}</span>
+            </div>
+            <div class="terminal-input">
+                <span class="prompt">$</span>
+                <div class="input-container">
+                    <input v-model="currentCommand" @keydown.tab.prevent="insertPrediction" @keydown.up.prevent="navigateHistory('up')" @keydown.down.prevent="navigateHistory('down')" @keydown.enter.prevent="executeCommand" type="text">
+                    <span class="ghost-text">{{ ghostText }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="module" src="js/packages.js"></script>
+<script type="module" src="js/filesystem.js"></script>
+<script type="module" src="js/auth.js"></script>
+<script type="module" src="js/setup.js"></script>
+<script type="module" src="js/utils.js"></script>
+<script type="module" src="js/commands.js"></script>
+<script type="module" src="js/app.js" defer></script>
+</body>
+</html>

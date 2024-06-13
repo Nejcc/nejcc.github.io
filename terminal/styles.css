@@ -1,0 +1,175 @@
+body {
+    background-color: #2e2c29;
+    color: #fff;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden; /* Prevents scrolling */
+    position: relative; /* Add relative positioning for the wave background */
+}
+
+/* Animated wave background */
+@keyframes wave {
+    0% {
+        transform: translateX(0) translateY(0);
+    }
+    50% {
+        transform: translateX(-50px) translateY(20px);
+    }
+    100% {
+        transform: translateX(0) translateY(0);
+    }
+}
+
+.wave {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a, #1a1a1a);
+    opacity: 0.3;
+    animation: wave 8s infinite ease-in-out;
+    z-index: -1; /* Ensure wave is behind terminal */
+}
+
+.wave:nth-child(2) {
+    animation-duration: 10s;
+    opacity: 0.4;
+}
+
+.wave:nth-child(3) {
+    animation-duration: 12s;
+    opacity: 0.5;
+}
+
+.terminal {
+    width: 90%; /* Change to 90% for responsiveness */
+    max-width: 1200px; /* Increase max width */
+    min-width: 1200px; /* Set minimum width */
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative; /* Ensure it's positioned properly within the body */
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #333;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.buttons span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.buttons .close {
+    background-color: #ff5f56;
+}
+
+.buttons .minimize {
+    background-color: #ffbd2e;
+}
+
+.buttons .maximize {
+    background-color: #28c940;
+}
+
+.title {
+    color: #fff;
+    font-weight: bold;
+}
+
+.terminal-body {
+    padding: 20px;
+    overflow-y: auto;
+    max-height: 450px; /* Set max height for the terminal body */
+    min-height: 450px; /* Set minimum height */
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 12px;
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background-color: #444;
+    border-radius: 6px;
+}
+
+.terminal-line {
+    margin-bottom: 5px;
+}
+
+.terminal-input {
+    display: flex;
+    align-items: center;
+}
+
+.prompt {
+    margin-right: 10px;
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+.terminal-input input {
+    background: none;
+    border: none;
+    color: #fff;
+    outline: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.terminal-input input[type="password"] {
+    font-size: 1rem;
+    letter-spacing: 0.125rem;
+}
+
+.ghost-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    user-select: none;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    white-space: pre;
+}
+
+/* Color coding for different message types */
+.command {
+    color: #00ff00;
+}
+
+.error {
+    color: #ff0000;
+}
+
+.info {
+    color: #00aaff;
+}
+
+.default {
+    color: #ffffff;
+}
