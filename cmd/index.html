@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminal Interface</title>
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <div class="terminal">
+        <div class="terminal-header">
+            <button class="close"></button>
+            <button class="minimize"></button>
+            <button class="maximize"></button>
+        </div>
+        <div class="terminal-content">
+            <div v-for="(item, index) in output" :key="index" :class="item.type">
+                <span v-if="item.type === 'command'">{{ item.prompt }} {{ item.text }}</span>
+                <span v-else>{{ item.text }}</span>
+            </div>
+            <div v-if="showHistory">
+                <ul class="history-list">
+                    <li v-for="(command, index) in history" :key="index" :class="{ 'history-item': true, 'selected': index === selectedHistoryIndex }">
+                        {{ index + 1 }} {{ command }}
+                    </li>
+                </ul>
+            </div>
+            <div class="terminal-input-container" :class="{ hidden: showHistory }">
+                <span class="prompt">{{ prompt }}</span>
+                <div class="input-wrapper">
+                    <input
+                            class="terminal-input"
+                            v-model="input"
+                            @keydown="handleInput"
+                            :class="{ 'valid-command': isCommandValid(input), 'invalid-command': !isCommandValid(input) }"
+                    />
+                    <span class="ghost-text">{{ input }}<span class="ghost">{{ bestMatch.slice(input.length) }}</span></span>
+                </div>
+            </div>
+        </div>
+        <div class="editor-content" v-if="currentScene === 'scene-editor'">
+            <textarea class="editor" v-model="editorContent" @keydown="handleEditorInput"></textarea>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="script.js"></script>
+</body>
+</html>

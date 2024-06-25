@@ -1,0 +1,157 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.terminal {
+    width: 100%;
+    min-width: 1000px;
+    max-width: 1000px;
+    height: 100%;
+    min-height: 600px;
+    max-height: 600px;
+    background-color: #2e2e2e;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #333333;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.terminal-header button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.terminal-header .close {
+    background-color: #ff5f56;
+}
+
+.terminal-header .minimize {
+    background-color: #ffbd2e;
+}
+
+.terminal-header .maximize {
+    background-color: #27c93f;
+}
+
+.terminal-content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;  /* Firefox */
+    scrollbar-color: #888 #2e2e2e;  /* Firefox */
+}
+
+.terminal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+    background: #2e2e2e;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 2px solid #2e2e2e;
+}
+
+.terminal-input-container {
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+.terminal-input {
+    width: 100%;
+    border: none;
+    background: none;
+    color: #ffffff;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+    outline: none;
+    position: relative;
+    z-index: 1;
+}
+
+.ghost-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: transparent;
+    pointer-events: none;
+    white-space: pre;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px;
+}
+
+.ghost {
+    color: #555;
+}
+
+.prompt {
+    color: #0f0;
+}
+
+.history-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.history-item {
+    padding: 2px;
+}
+
+.history-item.selected {
+    background-color: #444;
+    color: #fff;
+}
+
+.info {
+    color: #0f0;
+}
+
+.error {
+    color: #f00;
+}
+
+.valid-command {
+    color: #0f0;
+}
+
+.invalid-command {
+    color: #f00;
+}
+
+.hidden {
+    display: none;
+}

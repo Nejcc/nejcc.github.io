@@ -1,0 +1,10 @@
+
+¢javascript:S3776"TRefactor this function to reduce its Cognitive Complexity from 67 to the 15 allowed.(ÛÀ¬·øÿÿÿÿ8áü¨€…2J$6fbbe935-ec00-4b30-a45b-f9982778a1c7
+€javascript:S1481"7Remove the declaration of the unused 'output' variable.(†¨˜8áü¨€…2J$756e35bb-ee2e-4ce2-aea3-c1692c1f4ed2
+}javascript:S1854"4Remove this useless assignment to variable "output".(†¨˜8âü¨€…2J$2d7e4815-b01a-41a7-8243-cfba539e5298
+€javascript:S1481"7Remove the declaration of the unused 'prompt' variable.(†¨˜8âü¨€…2J$b02249ad-0a7c-4e9d-99d6-8aa74d29b541
+}javascript:S1854"4Remove this useless assignment to variable "prompt".(†¨˜8âü¨€…2J$6e149afd-5592-42e7-a515-2e179ccdd559
+‚javascript:S1481"9Remove the declaration of the unused 'hostname' variable.(†¨˜8âü¨€…2J$495f8e6e-1d60-4849-9304-ec9f1f26a637
+javascript:S1854"6Remove this useless assignment to variable "hostname".(†¨˜8âü¨€…2J$250a5b30-43d2-4bf2-9577-6d32e338e986
+‚javascript:S1481"9Remove the declaration of the unused 'username' variable.(†¨˜8âü¨€…2J$ef29317d-6b46-435b-a595-968dcfc752a6
+javascript:S1854"6Remove this useless assignment to variable "username".(†¨˜8âü¨€…2J$0133a4d9-8343-4501-a26a-7d2e2da94bc2
