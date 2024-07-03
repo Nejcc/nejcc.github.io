@@ -1,0 +1,129 @@
+@keyframes press-effect {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #2c2c2c;
+    margin: 0;
+    color: #ffffff;
+}
+
+.start-screen, .game-screen {
+    text-align: center;
+}
+
+.start-screen h1, .start-screen h2 {
+    margin-bottom: 20px;
+}
+
+.start-screen input, .start-screen select {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.start-screen button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 600px;
+}
+
+table, th, td {
+    border: 1px solid #ffffff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #1c1c1c;
+    border-radius: 10px;
+}
+
+.keyboard-row {
+    display: flex;
+    gap: 5px;
+}
+
+.key {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #242424;
+    border: 1px solid #1b1b1b;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    line-height: 60px;
+    color: #fff;
+    font-weight: bold;
+}
+
+.key.locked {
+    cursor: not-allowed;
+}
+
+.illuminated {
+    background-color: yellow !important;
+    color: #000;
+}
+
+.correct {
+    background-color: lightgreen !important;
+    color: #000;
+}
+
+.wrong {
+    background-color: red !important;
+    color: #000;
+}
+
+.final-correct {
+    background-color: lightgreen !important;
+    color: #000;
+}
+
+.final-wrong {
+    background-color: red !important;
+    color: #000;
+}
+
+.key:active, .key.pressed {
+    animation: press-effect 0.2s;
+}
+
+.status {
+    text-align: center;
+    color: #ffffff;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

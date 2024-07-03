@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Illuminated Keyboard Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <div v-if="!gameStarted" class="start-screen">
+            <h1>Welcome to the Keyboard Game</h1>
+            <label for="playerName">Enter your name:</label>
+            <input type="text" id="playerName" v-model="playerName">
+            <br>
+            <label for="fontInput">Select Key Font:</label>
+            <select id="fontInput" v-model="selectedFont">
+                <option value="Arial">Arial</option>
+                <option value="Verdana">Verdana</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier New">Courier New</option>
+                <option value="Georgia">Georgia</option>
+            </select>
+            <br>
+            <label for="colorInput">Select Key Color:</label>
+            <input type="color" id="colorInput" v-model="selectedColor">
+            <br>
+            <button @click="startGame">Start Game</button>
+            <h2>Scoreboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(score, index) in scoreboard" :key="index">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ score.name }}</td>
+                        <td>{{ score.score }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div v-else class="game-screen">
+            <div class="keyboard">
+                <div v-for="row in displayedKeys" :key="row" class="keyboard-row">
+                    <div v-for="key in row" :key="key.char" 
+                         :class="['key', 
+                                  { 'illuminated': key.char === currentKey && !wrongKey,
+                                    'wrong': key.char === wrongKey,
+                                    'correct': key.char === currentKey && wrongKey,
+                                    'locked': key.locked,
+                                    'final-correct': isGameOver && correctKeys.includes(key.char),
+                                    'final-wrong': isGameOver && wrongKeys.includes(key.char)
+                                  }]"
+                         :style="getKeyStyle(key)"
+                         @click="processKeyPress(key.char)">
+                        {{ key.display }}
+                    </div>
+                </div>
+            </div>
+            <div class="status">
+                <p v-if="timeLeft > 0">Time Left: {{ timeLeft }}s</p>
+                <p v-else>Game Over</p>
+                <p>Correct: {{ correctCount }}</p>
+                <p>Wrong: {{ wrongCount }}</p>
+                <label for="colorInput">Change Key Color:</label>
+                <input type="color" id="colorInput" v-model="selectedColor">
+                <br>
+                <label for="fontInput">Change Key Font:</label>
+                <select id="fontInput" v-model="selectedFont">
+                    <option value="Arial">Arial</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                </select>
+                <br>
+                <button @click="restartGame">Restart</button>
+                <button v-if="correctPercentage >= 80" @click="nextLevel">Next Level {{ currentLevel + 1 }}</button>
+                <p v-if="correctPercentage >= 80">Congratulations! You advanced to the next level.</p>
+                <p v-else>Try again to improve your score.</p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
