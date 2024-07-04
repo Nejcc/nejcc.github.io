@@ -47,7 +47,7 @@
         { "char": "Enter", "width": 100, "display": "Enter", "locked": false }
     ],
     [
-        { "char": "Shift", "width": 80, "display": "Shift", "locked": false },
+        { "char": "Shift", "width": 80, "display": "Shift", "locked": true },
         { "char": "Z", "display": "Z", "locked": false },
         { "char": "X", "display": "X", "locked": false },
         { "char": "C", "display": "C", "locked": false },

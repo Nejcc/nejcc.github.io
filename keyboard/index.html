@@ -4,48 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Illuminated Keyboard Game</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
     <div id="app">
+        <div class="row">
+            <div class="col-12 text-center mb-3">
+                <h1>Welcome to the Keyboard Game</h1>
+            </div>
+        </div>
         <div v-if="!gameStarted" class="start-screen">
-            <h1>Welcome to the Keyboard Game</h1>
-            <label for="playerName">Enter your name:</label>
-            <input type="text" id="playerName" v-model="playerName">
-            <br>
-            <label for="fontInput">Select Key Font:</label>
-            <select id="fontInput" v-model="selectedFont">
-                <option value="Arial">Arial</option>
-                <option value="Verdana">Verdana</option>
-                <option value="Times New Roman">Times New Roman</option>
-                <option value="Courier New">Courier New</option>
-                <option value="Georgia">Georgia</option>
-            </select>
-            <br>
-            <label for="colorInput">Select Key Color:</label>
-            <input type="color" id="colorInput" v-model="selectedColor">
-            <br>
-            <button @click="startGame">Start Game</button>
-            <h2>Scoreboard</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(score, index) in scoreboard" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ score.name }}</td>
-                        <td>{{ score.score }}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="container">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label for="playerName" class="form-label">Enter your name:</label>
+                            <input type="text" required class="form-control" id="playerName" placeholder="Enter your name"
+                                   v-model="playerName">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h2>Scoreboard</h2>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(score, index) in scoreboard" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ score.name }}</td>
+                                <td>{{ score.score }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-secondary" @click="startGame">Start Game</button>
+                </div>
+            </div>
         </div>
         <div v-else class="game-screen">
-            <div class="keyboard">
+<!--            <div class="row">-->
+<!--                <div class="col-6">-->
+<!--                    <label for="colorInput">Change Key Color:</label>-->
+<!--                    <input type="color" class="" id="colorInput" v-model="selectedColor">-->
+<!--                </div>-->
+<!--                <div class="col-6 text-end">-->
+<!--                    <label for="fontInput">Change Key Font:</label>-->
+<!--                    <select id="fontInput" class="form-select" v-model="selectedFont">-->
+<!--                        <option value="Arial">Arial</option>-->
+<!--                        <option value="Verdana">Verdana</option>-->
+<!--                        <option value="Times New Roman">Times New Roman</option>-->
+<!--                        <option value="Courier New">Courier New</option>-->
+<!--                        <option value="Georgia">Georgia</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="keyboard" v-if="timeLeft > 0">
                 <div v-for="row in displayedKeys" :key="row" class="keyboard-row">
                     <div v-for="key in row" :key="key.char" 
                          :class="['key', 
@@ -64,25 +86,16 @@
             </div>
             <div class="status">
                 <p v-if="timeLeft > 0">Time Left: {{ timeLeft }}s</p>
-                <p v-else>Game Over</p>
-                <p>Correct: {{ correctCount }}</p>
-                <p>Wrong: {{ wrongCount }}</p>
-                <label for="colorInput">Change Key Color:</label>
-                <input type="color" id="colorInput" v-model="selectedColor">
-                <br>
-                <label for="fontInput">Change Key Font:</label>
-                <select id="fontInput" v-model="selectedFont">
-                    <option value="Arial">Arial</option>
-                    <option value="Verdana">Verdana</option>
-                    <option value="Times New Roman">Times New Roman</option>
-                    <option value="Courier New">Courier New</option>
-                    <option value="Georgia">Georgia</option>
-                </select>
-                <br>
-                <button @click="restartGame">Restart</button>
-                <button v-if="correctPercentage >= 80" @click="nextLevel">Next Level {{ currentLevel + 1 }}</button>
-                <p v-if="correctPercentage >= 80">Congratulations! You advanced to the next level.</p>
-                <p v-else>Try again to improve your score.</p>
+                <div v-if="timeLeft <= 0">
+                    <h2 v-else>Game Over</h2>
+                    <p>Correct: {{ correctCount }}</p>
+                    <p>Wrong: {{ wrongCount }}</p>
+
+                    <button @click="restartGame">Restart</button>
+                    <button v-if="correctPercentage >= 80" @click="nextLevel">Next Level {{ currentLevel + 1 }}</button>
+                    <p v-if="correctPercentage >= 80">Congratulations! You advanced to the next level.</p>
+                    <p v-else>Try again to improve your score.</p>
+                </div>
             </div>
         </div>
     </div>

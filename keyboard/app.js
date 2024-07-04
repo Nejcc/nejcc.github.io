@@ -110,7 +110,7 @@ createApp({
         },
         processKeyPress(pressedKey) {
             if (pressedKey === this.currentKey) {
-                this.correctCount += 2;
+                this.correctCount++;
                 this.correctKeys.push(pressedKey);
                 this.nextKey();
             } else {

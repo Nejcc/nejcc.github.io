@@ -16,42 +16,42 @@ body {
     color: #ffffff;
 }
 
-.start-screen, .game-screen {
-    text-align: center;
-}
+/*.start-screen, .game-screen {*/
+/*    text-align: center;*/
+/*}*/
 
-.start-screen h1, .start-screen h2 {
-    margin-bottom: 20px;
-}
+/*.start-screen h1, .start-screen h2 {*/
+/*    margin-bottom: 20px;*/
+/*}*/
 
-.start-screen input, .start-screen select {
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 16px;
-}
+/*.start-screen input, .start-screen select {*/
+/*    margin: 10px 0;*/
+/*    padding: 10px;*/
+/*    font-size: 16px;*/
+/*}*/
 
-.start-screen button {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 10px;
-}
+/*.start-screen button {*/
+/*    padding: 10px 20px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    margin-top: 10px;*/
+/*}*/
 
-table {
-    margin: 20px auto;
-    border-collapse: collapse;
-    width: 80%;
-    max-width: 600px;
-}
+/*table {*/
+/*    margin: 20px auto;*/
+/*    border-collapse: collapse;*/
+/*    width: 80%;*/
+/*    max-width: 600px;*/
+/*}*/
 
-table, th, td {
-    border: 1px solid #ffffff;
-}
+/*table, th, td {*/
+/*    border: 1px solid #ffffff;*/
+/*}*/
 
-th, td {
-    padding: 10px;
-    text-align: center;
-}
+/*th, td {*/
+/*    padding: 10px;*/
+/*    text-align: center;*/
+/*}*/
 
 .keyboard {
     display: flex;
