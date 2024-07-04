@@ -25,7 +25,7 @@ createApp({
             pointsPerCorrect: 10, // Points awarded per correct key press
             log: [], // Log of key presses
             layoutVerified: false, // Track if the keyboard layout is verified
-            layoutCheckKeys: ['y', 'z', '+', '-'], // Keys to check for layout verification
+            layoutCheckKeys: ['z', 'y', ';', ':', '+', "'"], // Keys to check for layout verification
             pressedLayoutKeys: [], // Keys pressed for layout verification
         };
     },
@@ -50,8 +50,8 @@ createApp({
         }
     },
     methods: {
-        async loadKeys() {
-            const response = await fetch('keys.json');
+        async loadKeys(layout) {
+            const response = await fetch(`${layout}.json`);
             this.keys = await response.json();
         },
         startGame() {
@@ -191,12 +191,17 @@ createApp({
             const logModal = new bootstrap.Modal(document.getElementById('logModal'));
             logModal.show();
         },
-        checkLayout(key) {
+        async checkLayout(key) {
             if (this.layoutCheckKeys.includes(key) && !this.pressedLayoutKeys.includes(key)) {
                 this.pressedLayoutKeys.push(key);
             }
             if (this.allKeysPressed) {
                 this.layoutVerified = true;
+                let layout = 'english';
+                if (this.pressedLayoutKeys.includes('z') && this.pressedLayoutKeys.includes('y') && this.pressedLayoutKeys.includes('+')) {
+                    layout = 'slovenian';
+                }
+                await this.loadKeys(layout);
             }
         },
         checkKeyPressed(key) {
@@ -204,7 +209,6 @@ createApp({
         }
     },
     async mounted() {
-        await this.loadKeys();
         this.loadScoreboard();
         window.addEventListener('keydown', this.handleKeyPress);
         window.addEventListener('keyup', (event) => {

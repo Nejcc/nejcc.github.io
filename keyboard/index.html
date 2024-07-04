@@ -17,10 +17,12 @@
     <div v-if="!layoutVerified" class="verify-layout container text-center">
         <h3>Press the following keys:</h3>
         <div class="verify-keys">
-            <span :class="{ 'pressed': checkKeyPressed('y') }">[y]</span>
             <span :class="{ 'pressed': checkKeyPressed('z') }">[z]</span>
+            <span :class="{ 'pressed': checkKeyPressed('y') }">[y]</span>
+            <span :class="{ 'pressed': checkKeyPressed(';') }">[;]</span>
+            <span :class="{ 'pressed': checkKeyPressed(':') }">[:]</span>
             <span :class="{ 'pressed': checkKeyPressed('+') }">[+]</span>
-            <span :class="{ 'pressed': checkKeyPressed('-') }">[-]</span>
+            <span :class="{ 'pressed': checkKeyPressed('\'') }">[']</span>
         </div>
         <p v-if="allKeysPressed">We are set!</p>
     </div>
@@ -79,7 +81,7 @@
         <div class="status">
             <p v-if="timeLeft > 0">Time Left: {{ timeLeft }}s</p>
             <div v-if="timeLeft <= 0">
-                <h2 v-else>Game Over</h2>
+                <h2>Game Over</h2>
                 <p>Correct: {{ correctCount }}</p>
                 <p>Wrong: {{ wrongCount }}</p>
 
