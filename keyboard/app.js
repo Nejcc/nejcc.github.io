@@ -22,12 +22,17 @@ createApp({
             selectedColor: '#ffff00',
             selectedFont: 'Arial',
             keysToPress: 10,
+            pointsPerCorrect: 10, // Points awarded per correct key press
+            log: [], // Log of key presses
+            layoutVerified: false, // Track if the keyboard layout is verified
+            layoutCheckKeys: ['y', 'z', '+', '-'], // Keys to check for layout verification
+            pressedLayoutKeys: [], // Keys pressed for layout verification
         };
     },
     computed: {
         displayedKeys() {
             if (this.isShiftPressed) {
-                return this.keys.map(row => 
+                return this.keys.map(row =>
                     row.map(key => ({
                         ...key,
                         display: this.getShiftedKey(key.char)
@@ -39,6 +44,9 @@ createApp({
         },
         correctPercentage() {
             return (this.correctCount / (this.correctCount + this.wrongCount)) * 100;
+        },
+        allKeysPressed() {
+            return this.layoutCheckKeys.every(key => this.pressedLayoutKeys.includes(key));
         }
     },
     methods: {
@@ -47,6 +55,9 @@ createApp({
             this.keys = await response.json();
         },
         startGame() {
+            if (!this.layoutVerified) {
+                return;
+            }
             if (this.playerName.trim() === '') {
                 alert('Please enter your name');
                 return;
@@ -65,6 +76,7 @@ createApp({
             this.wrongKeys = [];
             this.wrongKey = '';
             this.isGameOver = false;
+            this.log = [];
             clearInterval(this.gameInterval);
         },
         restartGame() {
@@ -87,8 +99,12 @@ createApp({
             this.wrongKey = '';
         },
         handleKeyPress(event) {
+            if (!this.layoutVerified) {
+                this.checkLayout(event.key.toLowerCase());
+                return;
+            }
             if (this.timeLeft > 0) {
-                const pressedKey = event.key;
+                const pressedKey = event.key.toLowerCase();
 
                 if (event.key === 'Shift') {
                     this.isShiftPressed = true;
@@ -109,14 +125,17 @@ createApp({
             return shiftKeys[key] || key.toUpperCase();
         },
         processKeyPress(pressedKey) {
-            if (pressedKey === this.currentKey) {
+            if (pressedKey === this.currentKey.toLowerCase()) {
                 this.correctCount++;
                 this.correctKeys.push(pressedKey);
+                this.log.push({ requested: this.currentKey, clicked: pressedKey, result: 'Correct' });
                 this.nextKey();
+                this.addPoints();
             } else {
                 this.wrongCount++;
                 this.wrongKeys.push(pressedKey);
                 this.wrongKey = pressedKey;
+                this.log.push({ requested: this.currentKey, clicked: pressedKey, result: 'Wrong' });
                 setTimeout(() => {
                     this.wrongKey = '';
                     this.nextKey();
@@ -129,13 +148,14 @@ createApp({
             } else {
                 clearInterval(this.gameInterval);
                 this.isGameOver = true;
+                this.showLogModal();
             }
         },
         toggleLock(key) {
             key.locked = !key.locked;
         },
         saveScore() {
-            const newScore = { name: this.playerName, score: this.correctCount };
+            const newScore = { name: this.playerName, score: this.correctCount * this.pointsPerCorrect };
             this.scoreboard.push(newScore);
             this.scoreboard.sort((a, b) => b.score - a.score);
             if (this.scoreboard.length > 20) {
@@ -162,6 +182,25 @@ createApp({
                 backgroundColor: key.char === this.currentKey ? this.selectedColor : '',
                 fontFamily: this.selectedFont
             };
+        },
+        addPoints() {
+            const points = this.correctCount * this.pointsPerCorrect;
+            this.$set(this.scoreboard, this.scoreboard.length - 1, { name: this.playerName, score: points });
+        },
+        showLogModal() {
+            const logModal = new bootstrap.Modal(document.getElementById('logModal'));
+            logModal.show();
+        },
+        checkLayout(key) {
+            if (this.layoutCheckKeys.includes(key) && !this.pressedLayoutKeys.includes(key)) {
+                this.pressedLayoutKeys.push(key);
+            }
+            if (this.allKeysPressed) {
+                this.layoutVerified = true;
+            }
+        },
+        checkKeyPressed(key) {
+            return this.pressedLayoutKeys.includes(key);
         }
     },
     async mounted() {

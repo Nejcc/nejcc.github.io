@@ -16,42 +16,64 @@ body {
     color: #ffffff;
 }
 
-/*.start-screen, .game-screen {*/
-/*    text-align: center;*/
-/*}*/
+.verify-layout .verify-keys {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
 
-/*.start-screen h1, .start-screen h2 {*/
-/*    margin-bottom: 20px;*/
-/*}*/
+.verify-layout .verify-keys span {
+    padding: 10px 20px;
+    background-color: #444;
+    border-radius: 5px;
+    font-size: 20px;
+    color: #fff;
+}
 
-/*.start-screen input, .start-screen select {*/
-/*    margin: 10px 0;*/
-/*    padding: 10px;*/
-/*    font-size: 16px;*/
-/*}*/
+.verify-layout .verify-keys span.pressed {
+    background-color: yellow;
+    color: #000;
+}
 
-/*.start-screen button {*/
-/*    padding: 10px 20px;*/
-/*    font-size: 16px;*/
-/*    cursor: pointer;*/
-/*    margin-top: 10px;*/
-/*}*/
+.start-screen, .game-screen {
+    text-align: center;
+}
 
-/*table {*/
-/*    margin: 20px auto;*/
-/*    border-collapse: collapse;*/
-/*    width: 80%;*/
-/*    max-width: 600px;*/
-/*}*/
+.start-screen .card {
+    background-color: #3a3a3a;
+    border: none;
+    color: #ffffff;
+}
 
-/*table, th, td {*/
-/*    border: 1px solid #ffffff;*/
-/*}*/
+.start-screen input {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+}
 
-/*th, td {*/
-/*    padding: 10px;*/
-/*    text-align: center;*/
-/*}*/
+.start-screen button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 80%;
+    max-width: 600px;
+}
+
+table, th, td {
+    border: 1px solid #ffffff;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
 
 .keyboard {
     display: flex;
