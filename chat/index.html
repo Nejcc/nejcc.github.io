@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat-Driven UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/vue@3.2.31/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="window">
+            <div class="titlebar">
+                <div class="buttons">
+                    <div class="close"></div>
+                    <div class="minimize"></div>
+                    <div class="zoom"></div>
+                </div>
+                <div class="title">Chat-Driven UI</div>
+            </div>
+            <div class="content">
+                <div class="chat-container" ref="chatContainer">
+                    <div v-for="(message, index) in chatMessages" :key="index" :class="['message', message.type + '-message']">
+                        <div v-if="message.isFormatted" v-html="message.text"></div>
+                        <div v-else>{{ message.text }}</div>
+                    </div>
+                    <div v-if="isThinking" class="message assistant-message">
+                        <div class="thinking">
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                            <span class="dot"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <input 
+                        type="text" 
+                        v-model="userInput" 
+                        @keyup.enter="sendMessage" 
+                        @keydown.tab.prevent="completeInput"
+                        @keydown.up="navigateHistory(-1)"
+                        @keydown.down="navigateHistory(1)"
+                        @input="updateSuggestion"
+                        placeholder="Type your message..."
+                    >
+                    <div class="ghost-text">{{ userInput }}{{ suggestion }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
