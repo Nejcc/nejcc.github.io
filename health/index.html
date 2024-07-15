@@ -38,8 +38,8 @@
             <!-- Add more QRD buttons as needed -->
         </div>
         <div class="mt-4">
-            <button @click="callEmergency" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800">
-                Call Emergency ({{ $t('emergency_phone_number') }})
+            <button @click="quickEmergency('self')" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800">
+                Call Emergency <span class="text-end">112</span>
             </button>
         </div>
     </main>
@@ -96,12 +96,43 @@
         <h2 class="text-lg font-semibold mb-6">{{ $t('settingsTitle') }}</h2>
         <p class="mb-4">{{ $t('settingsDescription') }}</p>
         <div class="mb-4">
-            <label for="language" class="block mb-2">{{ $t('language') }}</label>
-            <select id="language" v-model="currentLocale" @change="setLocale(currentLocale)" class="w-full p-2 border border-gray-300 rounded">
-                <option value="en">English</option>
-                <option value="si">Slovenščina</option>
+            <label for="doctor_number" class="block mb-2">{{ $t('doctorNumber') }}</label>
+            <input id="doctor_number" v-model="settings.doctorNumber" type="text" placeholder="Doctor's Number" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="blood_type" class="block mb-2">{{ $t('bloodType') }}</label>
+            <select id="blood_type" v-model="settings.bloodType" class="w-full p-2 border border-gray-300 rounded">
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
             </select>
         </div>
+        <div class="mb-4">
+            <label for="name" class="block mb-2">{{ $t('name') }}</label>
+            <input id="name" v-model="settings.name" type="text" placeholder="Name" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="lastname" class="block mb-2">{{ $t('lastname') }}</label>
+            <input id="lastname" v-model="settings.lastname" type="text" placeholder="Last Name" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
+            <label for="sex" class="block mb-2">{{ $t('sex') }}</label>
+            <select id="sex" v-model="settings.sex" class="w-full p-2 border border-gray-300 rounded">
+                <option value="male">{{ $t('male') }}</option>
+                <option value="female">{{ $t('female') }}</option>
+                <option value="other">{{ $t('other') }}</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="date_of_birth" class="block mb-2">{{ $t('dateOfBirth') }}</label>
+            <input id="date_of_birth" v-model="settings.dateOfBirth" type="date" placeholder="Date of Birth" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <button @click="saveSettings" class="btn w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 mb-4">{{ $t('saveSettings') }}</button>
         <button @click="clearLocalStorage" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600">{{ $t('clearData') }}</button>
     </main>
 

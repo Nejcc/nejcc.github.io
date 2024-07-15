@@ -49,7 +49,15 @@ const loadQRDQuestions = async (locale, qrd) => {
                     smsMessage: '', // SMS message content
                     location: null, // GPS location
                     address: '', // Address derived from GPS location
-                    mapUrl: '' // URL for the map
+                    mapUrl: '', // URL for the map
+                    settings: { // Personal settings
+                        doctorNumber: localStorage.getItem('doctorNumber') || '',
+                        bloodType: localStorage.getItem('bloodType') || '',
+                        name: localStorage.getItem('name') || '',
+                        lastname: localStorage.getItem('lastname') || '',
+                        sex: localStorage.getItem('sex') || '',
+                        dateOfBirth: localStorage.getItem('dateOfBirth') || ''
+                    }
                 };
             },
             created() {
@@ -158,6 +166,17 @@ const loadQRDQuestions = async (locale, qrd) => {
                     } catch (error) {
                         console.error('Error fetching address:', error);
                     }
+                },
+                quickEmergency(type) {
+                    this.steps.push(`Quick Emergency for ${type === 'self' ? 'myself' : 'someone else'}`);
+                    this.critical = true;
+                    this.getGpsLocation();
+                },
+                saveSettings() {
+                    Object.keys(this.settings).forEach(key => {
+                        localStorage.setItem(key, this.settings[key]);
+                    });
+                    alert(this.$t('settingsSaved'));
                 }
             },
             watch: {
