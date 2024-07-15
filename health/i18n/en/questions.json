@@ -15,5 +15,13 @@
     "instructions": "Instructions",
     "help": "Help",
     "settings": "Settings",
-    "clearData": "Clear All Data"
+    "clearData": "Clear All Data",
+    "clearDataMessage": "All data has been cleared.",
+    "injury": "Injury",
+    "car_accident": "Car Accident",
+    "illness": "Illness",
+    "pain": "Pain",
+    "animal_bite": "Animal Bite",
+    "allergy": "Allergy",
+    "shock": "Shock"
 }

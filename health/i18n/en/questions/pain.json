@@ -1,0 +1,82 @@
+{
+  "start": {
+    "text": "What type of injury is it?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Cut",
+        "description": "There is a cut.",
+        "next": "cut_severity"
+      },
+      {
+        "short": "Burn",
+        "description": "There is a burn.",
+        "next": "burn_severity"
+      },
+      {
+        "short": "Fracture",
+        "description": "There is a fracture.",
+        "next": "fracture_type"
+      }
+    ]
+  },
+  "cut_severity": {
+    "text": "How severe is the cut?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Minor",
+        "description": "Minor cut.",
+        "next": null
+      },
+      {
+        "short": "Severe",
+        "description": "Severe cut, bleeding heavily.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "burn_severity": {
+    "text": "How severe is the burn?",
+    "type": "options",
+    "options": [
+      {
+        "short": "First Degree",
+        "description": "First degree burn.",
+        "next": null
+      },
+      {
+        "short": "Third Degree",
+        "description": "Third degree burn.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "fracture_type": {
+    "text": "What type of fracture?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Open",
+        "description": "Bone is visible.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Closed",
+        "description": "Bone is not visible.",
+        "next": null
+      }
+    ]
+  },
+  "call_emergency": {
+    "text": "Call emergency services immediately and provide necessary information.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Called",
+        "description": "Emergency services notified.",
+        "next": null
+      }
+    ]
+  }
+}

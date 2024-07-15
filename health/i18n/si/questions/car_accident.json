@@ -1,0 +1,88 @@
+{
+  "start": {
+    "text": "What is the condition of the person involved in the car accident?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Conscious",
+        "description": "The person is conscious.",
+        "next": "conscious_check"
+      },
+      {
+        "short": "Unconscious",
+        "description": "The person is unconscious.",
+        "next": "unconscious_check"
+      }
+    ]
+  },
+  "conscious_check": {
+    "text": "Is the person responsive and able to communicate?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "The person is responsive.",
+        "next": null
+      },
+      {
+        "short": "No",
+        "description": "The person is not responsive.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "unconscious_check": {
+    "text": "Is the person breathing?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "The person is breathing.",
+        "next": "check_injuries"
+      },
+      {
+        "short": "No",
+        "description": "The person is not breathing.",
+        "next": "perform_cpr"
+      }
+    ]
+  },
+  "check_injuries": {
+    "text": "Check for visible injuries.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Visible injuries present.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "No",
+        "description": "No visible injuries.",
+        "next": null
+      }
+    ]
+  },
+  "perform_cpr": {
+    "text": "Perform CPR: Chest compressions at a rate of 100-120 per minute.",
+    "type": "options",
+    "options": [
+      {
+        "short": "CPR Done",
+        "description": "Performed chest compressions.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "call_emergency": {
+    "text": "Call emergency services immediately and provide necessary information.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Called",
+        "description": "Emergency services notified.",
+        "next": null
+      }
+    ]
+  }
+}

@@ -71,3 +71,25 @@ A
 health/index.html,f\b\fbe82fdb127c7c06991d52cc9ebb0a5611452aac
 C
 health/i18n/de.json,d\9\d903d8876e45088b2dba8a7af02c191e8dbeb4dd
+Q
+!health/i18n/questions/injury.json,9\0\90f40f4a50b8d251991889636b12ff50a3f897fd
+W
+'health/i18n/questions/car_accident.json,1\0\1036b6cf885ec2d5cfc1d2a0b6acd366e4adcdad
+R
+"health/i18n/questions/illness.json,3\d\3d1a123b8384757647f9488fabb13760150f8b2f
+O
+health/i18n/questions/pain.json,3\d\3d8fb5b492e93c6ca475f70f6102eb6fdbd48741
+V
+&health/i18n/questions/animal_bite.json,7\8\781845b1cbf221ad879d37fb8c7aa92b324e49b4
+R
+"health/i18n/questions/allergy.json,1\e\1e92dfc1ceef9f889cd9da2de35b78a2e78b636e
+P
+ health/i18n/questions/shock.json,e\0\e082c7280ea66762626fbdafafd33bcee76f344e
+M
+health/questions/allergy.json,0\6\06289168e025517c431b22663bd6aa02a1a566aa
+M
+health/i18n/en/questions.json,0\3\03a6d0111c0af93c3c887293481ef9afdb4b9f10
+T
+$health/i18n/en/questions/injury.json,8\5\85a6ecebca40c0bcf15ed3aa14b7ff5e888d5ca6
+M
+health/i18n/si/questions.json,3\0\3019697eba58791e5a21f8ec217c66b6b63e0dba
