@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medical Emergency App</title>
+    <link rel="manifest" href="manifest.json">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
@@ -104,7 +105,10 @@
             </div>
             <div v-else-if="currentQuestion.type === 'input'">
                 <div class="input-container">
-                    <input type="number" v-model="userInput" placeholder="Enter value" />
+                    <div v-for="(field, index) in currentQuestion.input_fields" :key="index">
+                        <label :for="field.label">{{ field.label }} ({{ field.unit }})</label>
+                        <input :id="field.label" v-model="vitals[field.label]" type="number" :placeholder="field.label" />
+                    </div>
                     <button @click="submitInput" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600">
                         {{ $t('submit') }}
                     </button>
@@ -163,5 +167,16 @@
 </div>
 
 <script src="app.js"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            }, function(error) {
+                console.log('ServiceWorker registration failed: ', error);
+            });
+        });
+    }
+</script>
 </body>
 </html>

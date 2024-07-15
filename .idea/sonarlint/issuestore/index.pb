@@ -93,3 +93,13 @@ T
 $health/i18n/en/questions/injury.json,8\5\85a6ecebca40c0bcf15ed3aa14b7ff5e888d5ca6
 M
 health/i18n/si/questions.json,3\0\3019697eba58791e5a21f8ec217c66b6b63e0dba
+T
+$health/i18n/si/questions/injury.json,2\d\2d9c756e447e898c9383520867c128863e54832e
+F
+health/i18n/en/en.json,c\0\c0c5abfd1b0939a68de96a84e4b75cd375659219
+F
+health/i18n/si/si.json,7\d\7d2ca771ef48b9b9dfdff8ddbae08cf733355e6f
+D
+health/manifest.json,0\3\03fb57beaab351e267df86f38ac206160a44f517
+H
+health/service-worker.js,2\d\2d9b73eb92b7e391309a2d442c48490dceb47e2b

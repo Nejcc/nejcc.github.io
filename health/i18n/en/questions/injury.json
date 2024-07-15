@@ -32,6 +32,22 @@
       {
         "short": "Severe",
         "description": "Severe cut, bleeding heavily.",
+        "next": "cut_bleeding"
+      }
+    ]
+  },
+  "cut_bleeding": {
+    "text": "Is the bleeding controllable?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Bleeding is controllable.",
+        "next": "collect_vitals"
+      },
+      {
+        "short": "No",
+        "description": "Bleeding is not controllable.",
         "next": "call_emergency"
       }
     ]
@@ -48,7 +64,23 @@
       {
         "short": "Third Degree",
         "description": "Third degree burn.",
-        "next": "call_emergency"
+        "next": "burn_symptoms"
+      }
+    ]
+  },
+  "burn_symptoms": {
+    "text": "Is there any other symptom?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Shock",
+        "description": "Patient is in shock.",
+        "next": "collect_vitals"
+      },
+      {
+        "short": "Breathing Difficulty",
+        "description": "Patient has breathing difficulty.",
+        "next": "collect_vitals"
       }
     ]
   },
@@ -59,7 +91,7 @@
       {
         "short": "Open",
         "description": "Bone is visible.",
-        "next": "call_emergency"
+        "next": "fracture_protruding"
       },
       {
         "short": "Closed",
@@ -67,6 +99,42 @@
         "next": null
       }
     ]
+  },
+  "fracture_protruding": {
+    "text": "Is the bone protruding?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Bone is protruding.",
+        "next": "collect_vitals"
+      },
+      {
+        "short": "No",
+        "description": "Bone is not protruding.",
+        "next": null
+      }
+    ]
+  },
+  "collect_vitals": {
+    "text": "Please collect the following vital signs.",
+    "type": "input",
+    "input_fields": [
+      {
+        "label": "Temperature",
+        "unit": "°C"
+      },
+      {
+        "label": "Oxygen Level",
+        "unit": "%"
+      }
+    ],
+    "next": "summary"
+  },
+  "summary": {
+    "text": "Summary of collected data",
+    "type": "summary",
+    "next": null
   },
   "call_emergency": {
     "text": "Call emergency services immediately and provide necessary information.",

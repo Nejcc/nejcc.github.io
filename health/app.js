@@ -6,9 +6,9 @@ const loadLocaleMessages = async () => {
     const locales = ['en', 'si'];
     const messages = {};
     for (const locale of locales) {
-        const response = await fetch(`./i18n/${locale}/questions.json`);
+        const response = await fetch(`./i18n/${locale}/${locale}.json`);
         if (!response.ok) {
-            throw new Error(`Failed to load ${locale}/questions.json`);
+            throw new Error(`Failed to load ${locale}/${locale}.json`);
         }
         messages[locale] = await response.json();
     }
@@ -41,6 +41,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                     currentQuestion: null,
                     steps: [],
                     userInput: '',
+                    vitals: {},
                     currentTab: 'home', // Track the current tab
                     currentLocale: localStorage.getItem('locale') || 'en' // Track the current locale
                 };
@@ -59,10 +60,6 @@ const loadQRDQuestions = async (locale, qrd) => {
                         alert(`Failed to load ${qrd} questions.`);
                     }
                 },
-                startInstructions() {
-                    this.currentTab = 'instructions';
-                    this.currentQuestion = this.questions.start;
-                },
                 selectOption(option) {
                     this.steps.push(this.currentQuestion.text + ": " + option.short);
                     if (option.next) {
@@ -72,18 +69,21 @@ const loadQRDQuestions = async (locale, qrd) => {
                     }
                 },
                 submitInput() {
-                    this.steps.push(this.currentQuestion.text + ": " + this.userInput + " bpm");
+                    this.currentQuestion.input_fields.forEach(field => {
+                        this.steps.push(`${field.label}: ${this.vitals[field.label]} ${field.unit}`);
+                    });
                     if (this.currentQuestion.next) {
                         this.currentQuestion = this.questions[this.currentQuestion.next];
                     } else {
                         this.currentQuestion = null;
                     }
-                    this.userInput = '';
+                    this.vitals = {};
                 },
                 reset() {
                     this.currentTab = 'home';
                     this.steps = [];
                     this.userInput = '';
+                    this.vitals = {};
                 },
                 setLocale(locale) {
                     this.currentLocale = locale;
