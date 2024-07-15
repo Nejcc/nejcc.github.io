@@ -1,0 +1,115 @@
+{
+    "start": {
+        "text": "Is the individual responsive to your call?",
+        "type": "options",
+        "options": [
+            {
+                "short": "Yes",
+                "description": "They respond to verbal stimuli.",
+                "next": "breathing"
+            },
+            {
+                "short": "No",
+                "description": "No response to any stimuli.",
+                "next": "call_emergency"
+            }
+        ]
+    },
+    "breathing": {
+        "text": "Is the individual breathing normally?",
+        "type": "options",
+        "options": [
+            {
+                "short": "Yes",
+                "description": "Breathing is regular.",
+                "next": "heart_rate"
+            },
+            {
+                "short": "No",
+                "description": "Irregular or no breathing.",
+                "next": "perform_cpr"
+            }
+        ]
+    },
+    "heart_rate": {
+        "text": "Please enter the individual's heart rate (beats per minute):",
+        "type": "input",
+        "next": "conscious"
+    },
+    "call_emergency": {
+        "text": "Call emergency services immediately and provide necessary information.",
+        "type": "options",
+        "options": [
+            {
+                "short": "Called",
+                "description": "Emergency services notified.",
+                "next": null
+            }
+        ]
+    },
+    "perform_cpr": {
+        "text": "Perform CPR: Chest compressions at a rate of 100-120 per minute.",
+        "type": "options",
+        "options": [
+            {
+                "short": "CPR Done",
+                "description": "Performed chest compressions.",
+                "next": null
+            }
+        ]
+    },
+    "conscious": {
+        "text": "Is the individual conscious and able to communicate?",
+        "type": "options",
+        "options": [
+            {
+                "short": "Yes",
+                "description": "Conscious and communicative.",
+                "next": "stop_bleeding"
+            },
+            {
+                "short": "No",
+                "description": "Unconscious.",
+                "next": "treat_shock"
+            }
+        ]
+    },
+    "stop_bleeding": {
+        "text": "Is there severe bleeding needing immediate attention?",
+        "type": "options",
+        "options": [
+            {
+                "short": "Yes",
+                "description": "Severe bleeding present.",
+                "next": "apply_pressure"
+            },
+            {
+                "short": "No",
+                "description": "No severe bleeding.",
+                "next": "treat_shock"
+            }
+        ]
+    },
+    "apply_pressure": {
+        "text": "Apply pressure to the wound using a clean cloth to stop the bleeding.",
+        "type": "options",
+        "options": [
+            {
+                "short": "Pressure Applied",
+                "description": "Applied pressure to wound.",
+                "next": null
+            }
+        ]
+    },
+    "treat_shock": {
+        "text": "Treat for shock: Keep the individual warm and comfortable.",
+        "type": "options",
+        "options": [
+            {
+                "short": "Shock Treated",
+                "description": "Administered shock treatment.",
+                "next": null
+            }
+        ]
+    }
+}

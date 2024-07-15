@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Emergency App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vue-i18n@9.1.6/dist/vue-i18n.global.js"></script>
+    <style>
+        body {
+            background-color: #f8fafc; /* Light background */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        .btn {
+            padding: 1.5rem;
+            font-size: 1.5rem;
+            text-align: left;
+        }
+        .description {
+            font-size: 1rem;
+            color: #ffffff; /* White color for descriptions */
+            margin-left: 1rem;
+        }
+        .input-container {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .input-container input {
+            padding: 1rem;
+            font-size: 1.25rem;
+            color: #1a202c;
+            border-radius: 0.375rem;
+        }
+        .nav-button {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+        }
+        .nav-button.active {
+            color: #ef4444; /* Red color for active tab */
+        }
+        .nav-button i {
+            font-size: 1.5rem;
+        }
+        .nav-button span {
+            display: block;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="text-gray-900">
+<div id="app" class="flex flex-col h-screen">
+    <!-- Header -->
+    <header class="bg-red-600 text-white text-center p-4">
+        <h1 class="text-2xl font-bold">{{ $t('appTitle') }}</h1>
+    </header>
+
+    <!-- Content -->
+    <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'home'">
+        <h2 class="text-lg font-semibold mb-6">{{ $t('homeTitle') }}</h2>
+        <p class="mb-4">{{ $t('homeDescription') }}</p>
+        <button @click="startInstructions" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600">{{ $t('startInstructions') }}</button>
+    </main>
+
+    <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'instructions'">
+        <div v-if="currentQuestion">
+            <h2 class="text-lg font-semibold mb-6">{{ currentQuestion.text }}</h2>
+            <div v-if="currentQuestion.type === 'options'">
+                <div v-for="(option, index) in currentQuestion.options" :key="index" class="mb-4">
+                    <button @click="selectOption(option)" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600 flex items-center justify-between">
+                        <span>{{ option.short }}</span>
+                        <p class="description">{{ option.description }}</p>
+                    </button>
+                </div>
+            </div>
+            <div v-else-if="currentQuestion.type === 'input'">
+                <div class="input-container">
+                    <input type="number" v-model="userInput" placeholder="Enter value" />
+                    <button @click="submitInput" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600">
+                        {{ $t('submit') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div v-else>
+            <h2 class="text-lg font-semibold mb-4">{{ $t('summaryTitle') }}</h2>
+            <ul>
+                <li v-for="(step, index) in steps" :key="index" class="mb-2">
+                    <p class="text-gray-700">{{ step }}</p>
+                </li>
+            </ul>
+            <button @click="reset" class="btn w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 mt-4">{{ $t('restart') }}</button>
+        </div>
+    </main>
+
+    <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'help'">
+        <h2 class="text-lg font-semibold mb-6">{{ $t('helpTitle') }}</h2>
+        <p class="mb-4">{{ $t('helpDescription') }}</p>
+        <button @click="reset" class="btn w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600">{{ $t('restart') }}</button>
+    </main>
+
+    <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'settings'">
+        <h2 class="text-lg font-semibold mb-6">{{ $t('settingsTitle') }}</h2>
+        <p class="mb-4">{{ $t('settingsDescription') }}</p>
+        <div class="mb-4">
+            <label for="language" class="block mb-2">{{ $t('language') }}</label>
+            <select id="language" v-model="currentLocale" @change="setLocale(currentLocale)" class="w-full p-2 border border-gray-300 rounded">
+                <option value="en">English</option>
+                <option value="de">Deutsch</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+                <option value="si">Slovenščina</option>
+                <option value="hr">Hrvatski</option>
+                <option value="it">Italiano</option>
+                <option value="ru">Русский</option>
+                <option value="uk">Українська</option>
+            </select>
+        </div>
+        <button @click="clearLocalStorage" class="btn w-full bg-red-500 text-white py-3 px-6 rounded-lg hover:bg-red-600">{{ $t('clearData') }}</button>
+    </main>
+
+    <!-- Bottom Navigation -->
+    <nav class="bg-white border-t border-gray-300 p-4 flex">
+        <button class="nav-button" :class="{ active: currentTab === 'home' }" @click="currentTab = 'home'">
+            <i class="fas fa-home"></i>
+            <span>{{ $t('home') }}</span>
+        </button>
+        <button class="nav-button" :class="{ active: currentTab === 'instructions' }" @click="currentTab = 'instructions'">
+            <i class="fas fa-stethoscope"></i>
+            <span>{{ $t('instructions') }}</span>
+        </button>
+        <button class="nav-button" :class="{ active: currentTab === 'help' }" @click="currentTab = 'help'">
+            <i class="fas fa-question-circle"></i>
+            <span>{{ $t('help') }}</span>
+        </button>
+        <button class="nav-button" :class="{ active: currentTab === 'settings' }" @click="currentTab = 'settings'">
+            <i class="fas fa-cog"></i>
+            <span>{{ $t('settings') }}</span>
+        </button>
+    </nav>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

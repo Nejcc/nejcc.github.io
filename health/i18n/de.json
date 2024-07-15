@@ -1,0 +1,19 @@
+{
+    "appTitle": "Medizinische Notfall-App",
+    "homeTitle": "Willkommen in der Medizinischen Notfall-App",
+    "homeDescription": "Folgen Sie den Anweisungen, um medizinische Notfälle effektiv zu bewältigen.",
+    "startInstructions": "Anweisungen Starten",
+    "summaryTitle": "Zusammenfassung",
+    "submit": "Absenden",
+    "restart": "Neustart",
+    "helpTitle": "Hilfe",
+    "helpDescription": "Wenn Sie Hilfe benötigen, rufen Sie bitte sofort den Notdienst an oder konsultieren Sie die detaillierten Anweisungen in der App.",
+    "settingsTitle": "Einstellungen",
+    "settingsDescription": "Konfigurieren Sie unten Ihre App-Einstellungen.",
+    "language": "Sprache",
+    "home": "Startseite",
+    "instructions": "Anweisungen",
+    "help": "Hilfe",
+    "settings": "Einstellungen",
+    "clearData": "Alle Daten Löschen"
+}

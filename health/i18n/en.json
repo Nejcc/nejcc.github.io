@@ -1,0 +1,19 @@
+{
+    "appTitle": "Medical Emergency App",
+    "homeTitle": "Welcome to the Medical Emergency App",
+    "homeDescription": "Follow the instructions provided to handle medical emergencies effectively.",
+    "startInstructions": "Start Instructions",
+    "summaryTitle": "Summary",
+    "submit": "Submit",
+    "restart": "Restart",
+    "helpTitle": "Help",
+    "helpDescription": "If you need any assistance, please call emergency services immediately or refer to the detailed instructions provided in the app.",
+    "settingsTitle": "Settings",
+    "settingsDescription": "Configure your app settings below.",
+    "language": "Language",
+    "home": "Home",
+    "instructions": "Instructions",
+    "help": "Help",
+    "settings": "Settings",
+    "clearData": "Clear All Data"
+}

@@ -63,3 +63,11 @@ I
 terminal/js/filesystem.js,e\f\efc6a23718ddf41149a4294cf9a39791a6a2511f
 G
 terminal/js/commands.js,0\f\0f790278fd08c41b7221cc54d77fa324d76eda4a
+C
+health/i18n/en.json,d\1\d1fb4e18fe4c0ef92d03512bd9f00032810da58c
+=
+health/app.js,5\a\5a5a33c5088cfa804233fdb5e261e2890fdceb03
+A
+health/index.html,f\b\fbe82fdb127c7c06991d52cc9ebb0a5611452aac
+C
+health/i18n/de.json,d\9\d903d8876e45088b2dba8a7af02c191e8dbeb4dd
