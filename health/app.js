@@ -43,7 +43,13 @@ const loadQRDQuestions = async (locale, qrd) => {
                     userInput: '',
                     vitals: {},
                     currentTab: 'home', // Track the current tab
-                    currentLocale: localStorage.getItem('locale') || 'en' // Track the current locale
+                    currentLocale: localStorage.getItem('locale') || 'en', // Track the current locale
+                    critical: false, // Track if the condition is critical
+                    showSmsPanel: false, // Track if the SMS panel is shown
+                    smsMessage: '', // SMS message content
+                    location: null, // GPS location
+                    address: '', // Address derived from GPS location
+                    mapUrl: '' // URL for the map
                 };
             },
             created() {
@@ -55,6 +61,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                         this.questions = await loadQRDQuestions(this.currentLocale, qrd);
                         this.currentQuestion = this.questions.start;
                         this.currentTab = 'instructions';
+                        this.critical = false; // Reset critical status
                     } catch (error) {
                         console.error(error.message);
                         alert(`Failed to load ${qrd} questions.`);
@@ -66,6 +73,10 @@ const loadQRDQuestions = async (locale, qrd) => {
                         this.currentQuestion = this.questions[option.next];
                     } else {
                         this.currentQuestion = null;
+                    }
+                    // Check if the condition is critical
+                    if (option.short.toLowerCase().includes('severe') || option.short.toLowerCase().includes('critical')) {
+                        this.critical = true;
                     }
                 },
                 submitInput() {
@@ -84,6 +95,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                     this.steps = [];
                     this.userInput = '';
                     this.vitals = {};
+                    this.critical = false; // Reset critical status
                 },
                 setLocale(locale) {
                     this.currentLocale = locale;
@@ -94,6 +106,65 @@ const loadQRDQuestions = async (locale, qrd) => {
                     localStorage.clear();
                     alert(this.$t('clearDataMessage'));
                     this.reset();
+                },
+                callEmergency() {
+                    const phoneNumber = this.$t('emergency_phone_number');
+                    window.location.href = `tel:${phoneNumber}`;
+                },
+                showSmsPanel() {
+                    this.prepareSmsMessage();
+                    this.showSmsPanel = true;
+                },
+                hideSmsPanel() {
+                    this.showSmsPanel = false;
+                    this.smsMessage = '';
+                },
+                prepareSmsMessage() {
+                    this.smsMessage = 'Emergency! Details:\n';
+                    this.steps.forEach(step => {
+                        this.smsMessage += `${step.split(': ')[0]}: ${step.split(': ')[1]}\n`;
+                    });
+                    if (this.location) {
+                        this.smsMessage += `Location: ${this.location.lat}, ${this.location.lng}\nAddress: ${this.address}`;
+                    }
+                },
+                sendSms() {
+                    const phoneNumber = this.$t('emergency_phone_number');
+                    const smsBody = encodeURIComponent(this.smsMessage);
+                    window.location.href = `sms:${phoneNumber}?body=${smsBody}`;
+                    this.hideSmsPanel();
+                },
+                getGpsLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(position => {
+                            this.location = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            this.mapUrl = `https://www.google.com/maps?q=${this.location.lat},${this.location.lng}`;
+                            this.fetchAddress();
+                        }, error => {
+                            console.error(error);
+                        });
+                    } else {
+                        alert('Geolocation is not supported by this browser.');
+                    }
+                },
+                async fetchAddress() {
+                    try {
+                        const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${this.location.lat}&lon=${this.location.lng}`);
+                        this.address = response.data.display_name;
+                        this.prepareSmsMessage();
+                    } catch (error) {
+                        console.error('Error fetching address:', error);
+                    }
+                }
+            },
+            watch: {
+                critical(newVal) {
+                    if (newVal) {
+                        this.getGpsLocation();
+                    }
                 }
             }
         }).use(i18n).mount('#app');
