@@ -114,8 +114,6 @@
                     </ul>
                 </div>
             </div>
-
-            <button @click="reset" class="btn w-full bg-green-500 text-white py-3 px-6 rounded-lg hover:bg-green-600 mb-4">{{ $t('restart') }}</button>
             <button v-if="critical" @click="callEmergency" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800 mb-4">
                 Call Emergency ({{ $t('emergency_phone_number') }})
             </button>

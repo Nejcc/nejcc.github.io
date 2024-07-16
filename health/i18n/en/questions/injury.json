@@ -1,59 +1,88 @@
 {
   "start": {
+    "text": "Is the injured person yourself or someone else?",
+    "type": "options",
+    "options": [
+      { "short": "Myself", "description": "I am the injured person.", "next": "injury_type" },
+      { "short": "Someone Else", "description": "The injured person is someone else.", "next": "injury_type" }
+    ]
+  },
+  "injury_type": {
     "text": "What type of injury is it?",
     "type": "options",
     "options": [
-      { "short": "Cut", "description": "There is a cut.", "next": "cut_severity" },
-      { "short": "Burn", "description": "There is a burn.", "next": "burn_severity" },
-      { "short": "Fracture", "description": "There is a fracture.", "next": "fracture_severity" }
-    ]
-  },
-  "cut_severity": {
-    "text": "How severe is the cut?",
-    "type": "options",
-    "options": [
-      { "short": "Minor", "description": "Minor cut.", "next": "cut_treatment" },
-      { "short": "Severe", "description": "Severe cut, bleeding heavily.", "next": "cut_treatment", "critical": true }
-    ]
-  },
-  "cut_treatment": {
-    "text": "Apply pressure to the cut and clean with water. Use a bandage to cover it. Do you need further assistance?",
-    "type": "options",
-    "options": [
-      { "short": "Yes", "description": "Need further assistance.", "next": null },
-      { "short": "No", "description": "No further assistance needed.", "next": null }
-    ]
-  },
-  "burn_severity": {
-    "text": "How severe is the burn?",
-    "type": "options",
-    "options": [
-      { "short": "Minor", "description": "Minor burn.", "next": "burn_treatment" },
-      { "short": "Severe", "description": "Severe burn, blistering.", "next": "burn_treatment", "critical": true }
-    ]
-  },
-  "burn_treatment": {
-    "text": "Cool the burn under running water for at least 10 minutes. Do you need further assistance?",
-    "type": "options",
-    "options": [
-      { "short": "Yes", "description": "Need further assistance.", "next": null },
-      { "short": "No", "description": "No further assistance needed.", "next": null }
+      { "short": "Fracture", "description": "Bone fracture.", "next": "fracture_severity" },
+      { "short": "Cut", "description": "Laceration or incision.", "next": "cut_severity" },
+      { "short": "Burn", "description": "Thermal injury.", "next": "burn_severity" }
     ]
   },
   "fracture_severity": {
     "text": "How severe is the fracture?",
     "type": "options",
     "options": [
-      { "short": "Minor", "description": "Minor fracture.", "next": "fracture_treatment" },
-      { "short": "Severe", "description": "Severe fracture, bone visible.", "next": "fracture_treatment", "critical": true }
+      { "short": "Severe", "description": "Open fracture with visible bone.", "next": "fracture_treatment", "critical": true },
+      { "short": "Minor", "description": "Closed fracture without skin break.", "next": "fracture_treatment" },
+      { "short": "Unknown", "description": "Unknown severity.", "next": "fracture_treatment" }
     ]
   },
   "fracture_treatment": {
-    "text": "Immobilize the fracture with a splint. Do you need further assistance?",
+    "text": "Follow these steps for treating the fracture. Stabilize the affected area with a splint. Avoid moving the injured limb unnecessarily. Apply cold packs to reduce swelling. Do you require further medical assistance?",
     "type": "options",
     "options": [
-      { "short": "Yes", "description": "Need further assistance.", "next": null },
-      { "short": "No", "description": "No further assistance needed.", "next": null }
+      { "short": "Yes", "description": "Require further medical assistance.", "next": null },
+      { "short": "No", "description": "No further assistance required.", "next": null }
+    ]
+  },
+  "cut_severity": {
+    "text": "How severe is the cut?",
+    "type": "options",
+    "options": [
+      { "short": "Severe", "description": "Deep cut with significant bleeding.", "next": "cut_treatment", "critical": true },
+      { "short": "Minor", "description": "Superficial laceration with minimal bleeding.", "next": "cut_treatment" },
+      { "short": "Unknown", "description": "Unknown severity.", "next": "cut_treatment" }
+    ]
+  },
+  "cut_treatment": {
+    "text": "Follow these steps for treating the cut. Apply firm pressure to the wound to control bleeding. Clean the wound with sterile water. Cover the wound with a sterile bandage. Do you require further medical assistance?",
+    "type": "options",
+    "options": [
+      { "short": "Yes", "description": "Require further medical assistance.", "next": null },
+      { "short": "No", "description": "No further assistance required.", "next": null }
+    ]
+  },
+  "burn_severity": {
+    "text": "How severe is the burn?",
+    "type": "options",
+    "options": [
+      { "short": "Severe", "description": "Second or third-degree burn with blistering or charred skin.", "next": "burn_treatment", "critical": true },
+      { "short": "Minor", "description": "First-degree burn (superficial).", "next": "burn_treatment" },
+      { "short": "Unknown", "description": "Unknown severity.", "next": "burn_treatment" }
+    ]
+  },
+  "burn_treatment": {
+    "text": "Follow these steps for treating the burn. Cool the affected area under running water for at least 10 minutes. Avoid using ice. Cover with a sterile, non-stick dressing. Do you require further medical assistance?",
+    "type": "options",
+    "options": [
+      { "short": "Yes", "description": "Require further medical assistance.", "next": null },
+      { "short": "No", "description": "No further assistance required.", "next": null }
+    ]
+  },
+  "relation_to_injured": {
+    "text": "What is your relation to the injured person?",
+    "type": "options",
+    "options": [
+      { "short": "Family", "description": "Family member.", "next": "additional_details" },
+      { "short": "Friend", "description": "Friend.", "next": "additional_details" },
+      { "short": "Stranger", "description": "Stranger.", "next": "additional_details" },
+      { "short": "Unknown", "description": "Unknown relation.", "next": "additional_details" }
+    ]
+  },
+  "additional_details": {
+    "text": "Any additional information about the injured person?",
+    "type": "options",
+    "options": [
+      { "short": "Known", "description": "Known details provided.", "next": null },
+      { "short": "Unknown", "description": "Unknown details.", "next": null }
     ]
   }
 }
