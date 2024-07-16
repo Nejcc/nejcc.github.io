@@ -26,7 +26,6 @@
 
     <!-- Content -->
     <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'home'">
-
         <h2 class="text-lg font-semibold mb-6">{{ $t('homeTitle') }}</h2>
         <p class="mb-4">{{ $t('homeDescription') }}</p>
         <div class="grid grid-cols-2 gap-4">
@@ -45,8 +44,8 @@
                     Call Emergency 122
                 </button>
             </div>
-            <img v-if="doctor=='female'" src="images/female_doctor-removebg-preview.png" width="300" style="position: absolute; z-index: 9999; transform: scaleX(-1); right: 0; bottom: 100px;" alt="">
-            <img v-else src="images/doctor-removebg-preview.png" width="250" style="position: absolute; z-index: 9999; right: 0; bottom: 100px;" alt="">
+            <img v-if="settings.doctorGender === 'female'" src="images/female_doctor-removebg-preview.png" width="230" style="position: absolute; z-index: 9999; transform: scaleX(-1); right: 0; bottom: 100px;" alt="">
+            <img v-else src="images/doctor-removebg-preview.png" width="200" style="position: absolute; z-index: 9999; right: 25px; bottom: 100px;" alt="">
         </div>
     </main>
 
@@ -132,6 +131,13 @@
                 <option value="male">{{ $t('male') }}</option>
                 <option value="female">{{ $t('female') }}</option>
                 <option value="other">{{ $t('other') }}</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="doctor_gender" class="block mb-2">{{ $t('doctorGender') }}</label>
+            <select id="doctor_gender" v-model="settings.doctorGender" class="w-full p-2 border border-gray-300 rounded">
+                <option value="male">{{ $t('male') }}</option>
+                <option value="female">{{ $t('female') }}</option>
             </select>
         </div>
         <div class="mb-4">

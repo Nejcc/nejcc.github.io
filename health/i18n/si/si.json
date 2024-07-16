@@ -30,6 +30,7 @@
     "male": "Moški",
     "female": "Ženska",
     "other": "Drugo",
+    "doctorGender": "Spol Zdravnika",
     "home": "Domov",
     "instructions": "Navodila",
     "help": "Pomoč",

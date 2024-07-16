@@ -30,6 +30,7 @@
     "male": "Male",
     "female": "Female",
     "other": "Other",
+    "doctorGender": "Doctor's Gender",
     "home": "Home",
     "instructions": "Instructions",
     "help": "Help",

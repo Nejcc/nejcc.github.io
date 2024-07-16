@@ -38,7 +38,6 @@ const loadQRDQuestions = async (locale, qrd) => {
             data() {
                 return {
                     questions: null,
-                    doctor: 'female',
                     currentQuestion: null,
                     steps: [],
                     userInput: '',
@@ -57,7 +56,8 @@ const loadQRDQuestions = async (locale, qrd) => {
                         name: localStorage.getItem('name') || '',
                         lastname: localStorage.getItem('lastname') || '',
                         sex: localStorage.getItem('sex') || '',
-                        dateOfBirth: localStorage.getItem('dateOfBirth') || ''
+                        dateOfBirth: localStorage.getItem('dateOfBirth') || '',
+                        doctorGender: localStorage.getItem('doctorGender') || 'male'
                     }
                 };
             },
