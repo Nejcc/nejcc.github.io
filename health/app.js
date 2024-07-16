@@ -38,6 +38,7 @@ const loadQRDQuestions = async (locale, qrd) => {
             data() {
                 return {
                     questions: null,
+                    doctor: 'female',
                     currentQuestion: null,
                     steps: [],
                     userInput: '',
