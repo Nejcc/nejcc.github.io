@@ -146,7 +146,16 @@
         </div>
         <div class="mb-4">
             <label for="known_conditions" class="block mb-2">{{ $t('knownConditions') }}</label>
-            <textarea id="known_conditions" v-model="settings.knownConditions" placeholder="Known Conditions" class="w-full p-2 border border-gray-300 rounded"></textarea>
+            <div class="flex flex-wrap">
+                <div v-for="condition in conditionsList" :key="condition" class="w-full mb-2">
+                    <input type="checkbox" :id="condition" :value="condition" v-model="settings.knownConditions" class="mr-2">
+                    <label :for="condition">{{ $t(condition) }}</label>
+                </div>
+            </div>
+        </div>
+        <div class="mb-4">
+            <label for="additional_info" class="block mb-2">{{ $t('additionalInfo') }}</label>
+            <textarea id="additional_info" v-model="settings.additionalInfo" placeholder="Additional Information" class="w-full p-2 border border-gray-300 rounded"></textarea>
         </div>
         <div class="mb-4">
             <label for="date_of_birth" class="block mb-2">{{ $t('dateOfBirth') }}</label>

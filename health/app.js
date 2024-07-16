@@ -59,8 +59,12 @@ const loadQRDQuestions = async (locale, qrd) => {
                         sex: localStorage.getItem('sex') || '',
                         dateOfBirth: localStorage.getItem('dateOfBirth') || '',
                         doctorGender: localStorage.getItem('doctorGender') || 'male',
-                        knownConditions: localStorage.getItem('knownConditions') || ''
-                    }
+                        knownConditions: JSON.parse(localStorage.getItem('knownConditions')) || [],
+                        additionalInfo: localStorage.getItem('additionalInfo') || ''
+                    },
+                    conditionsList: [
+                        'asma', 'heart_problems', 'low_blood_sugar', 'epileptic'
+                    ]
                 };
             },
             created() {
@@ -137,7 +141,8 @@ const loadQRDQuestions = async (locale, qrd) => {
                     this.smsMessage += `Date of Birth: ${this.settings.dateOfBirth}\n`;
                     this.smsMessage += `Medical ID: ${this.settings.medicalIdNumber}\n`;
                     this.smsMessage += `Blood Type: ${this.settings.bloodType}\n`;
-                    this.smsMessage += `Known Conditions: ${this.settings.knownConditions}\n`;
+                    this.smsMessage += `Known Conditions: ${this.settings.knownConditions.join(', ')}\n`;
+                    this.smsMessage += `Additional Information: ${this.settings.additionalInfo}\n`;
                     this.steps.forEach(step => {
                         this.smsMessage += `${step.split(': ')[0]}: ${step.split(': ')[1]}\n`;
                     });
@@ -183,7 +188,11 @@ const loadQRDQuestions = async (locale, qrd) => {
                 },
                 saveSettings() {
                     Object.keys(this.settings).forEach(key => {
-                        localStorage.setItem(key, this.settings[key]);
+                        if (key === 'knownConditions') {
+                            localStorage.setItem(key, JSON.stringify(this.settings[key]));
+                        } else {
+                            localStorage.setItem(key, this.settings[key]);
+                        }
                     });
                     alert(this.$t('settingsSaved'));
                 }
