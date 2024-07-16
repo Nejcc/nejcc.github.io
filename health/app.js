@@ -95,6 +95,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                     if (option.short.toLowerCase().includes('severe') || option.short.toLowerCase().includes('critical')) {
                         this.critical = true;
                         this.emergencyLevel = 100;
+                        this.offerEmergencyCall();
                     } else {
                         this.emergencyLevel += 20; // Increase emergency level
                     }
@@ -203,6 +204,9 @@ const loadQRDQuestions = async (locale, qrd) => {
                         }
                     });
                     alert(this.$t('settingsSaved'));
+                },
+                offerEmergencyCall() {
+                    this.callEmergency();
                 }
             },
             watch: {

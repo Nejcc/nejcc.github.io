@@ -225,11 +225,13 @@
     </nav>
 
     <!-- Hidden SMS Panel -->
-    <div v-if="showSmsPanel" class="hidden-panel bg-white p-8 rounded-lg shadow-lg">
-        <h2 class="text-xl font-semibold mb-4">Emergency SMS Preview</h2>
-        <textarea v-model="smsMessage" rows="6" class="w-full p-2 border border-gray-300 rounded mb-4"></textarea>
-        <button @click="sendSms" class="btn w-full bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 mb-2">Send SMS</button>
-        <button @click="hideSmsPanel" class="btn w-full bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600">Cancel</button>
+    <div v-if="showSmsPanel" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-xl font-semibold mb-4">Emergency SMS Preview</h2>
+            <textarea v-model="smsMessage" rows="6" class="w-full p-2 border border-gray-300 rounded mb-4"></textarea>
+            <button @click="sendSms" class="btn w-full bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 mb-2">Send SMS</button>
+            <button @click="hideSmsPanel" class="btn w-full bg-gray-500 text-white py-3 px-6 rounded-lg hover:bg-gray-600">Cancel</button>
+        </div>
     </div>
 </div>
 
