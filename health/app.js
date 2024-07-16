@@ -52,12 +52,14 @@ const loadQRDQuestions = async (locale, qrd) => {
                     mapUrl: '', // URL for the map
                     settings: { // Personal settings
                         doctorNumber: localStorage.getItem('doctorNumber') || '',
+                        medicalIdNumber: localStorage.getItem('medicalIdNumber') || '',
                         bloodType: localStorage.getItem('bloodType') || '',
                         name: localStorage.getItem('name') || '',
                         lastname: localStorage.getItem('lastname') || '',
                         sex: localStorage.getItem('sex') || '',
                         dateOfBirth: localStorage.getItem('dateOfBirth') || '',
-                        doctorGender: localStorage.getItem('doctorGender') || 'male'
+                        doctorGender: localStorage.getItem('doctorGender') || 'male',
+                        knownConditions: localStorage.getItem('knownConditions') || ''
                     }
                 };
             },
@@ -130,6 +132,12 @@ const loadQRDQuestions = async (locale, qrd) => {
                 },
                 prepareSmsMessage() {
                     this.smsMessage = 'Emergency! Details:\n';
+                    this.smsMessage += `Name: ${this.settings.name} ${this.settings.lastname}\n`;
+                    this.smsMessage += `Sex: ${this.settings.sex}\n`;
+                    this.smsMessage += `Date of Birth: ${this.settings.dateOfBirth}\n`;
+                    this.smsMessage += `Medical ID: ${this.settings.medicalIdNumber}\n`;
+                    this.smsMessage += `Blood Type: ${this.settings.bloodType}\n`;
+                    this.smsMessage += `Known Conditions: ${this.settings.knownConditions}\n`;
                     this.steps.forEach(step => {
                         this.smsMessage += `${step.split(': ')[0]}: ${step.split(': ')[1]}\n`;
                     });

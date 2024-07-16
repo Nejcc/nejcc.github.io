@@ -44,8 +44,8 @@
                     Call Emergency 122
                 </button>
             </div>
-            <img v-if="settings.doctorGender === 'female'" src="images/female_doctor-removebg-preview.png" width="230" style="position: absolute; z-index: 9999; transform: scaleX(-1); right: 0; bottom: 100px;" alt="">
-            <img v-else src="images/doctor-removebg-preview.png" width="200" style="position: absolute; z-index: 9999; right: 25px; bottom: 100px;" alt="">
+            <img v-if="settings.doctorGender === 'female'" src="images/female_doctor-removebg-preview.png" width="300" style="position: absolute; z-index: 9999; transform: scaleX(-1); right: 0; bottom: 100px;" alt="">
+            <img v-else src="images/doctor-removebg-preview.png" width="250" style="position: absolute; z-index: 9999; right: 0; bottom: 100px;" alt="">
         </div>
     </main>
 
@@ -105,6 +105,10 @@
             <input id="doctor_number" v-model="settings.doctorNumber" type="text" placeholder="Doctor's Number" class="w-full p-2 border border-gray-300 rounded">
         </div>
         <div class="mb-4">
+            <label for="medical_id_number" class="block mb-2">{{ $t('medicalIdNumber') }}</label>
+            <input id="medical_id_number" v-model="settings.medicalIdNumber" type="text" placeholder="Medical ID Number" class="w-full p-2 border border-gray-300 rounded">
+        </div>
+        <div class="mb-4">
             <label for="blood_type" class="block mb-2">{{ $t('bloodType') }}</label>
             <select id="blood_type" v-model="settings.bloodType" class="w-full p-2 border border-gray-300 rounded">
                 <option value="A+">A+</option>
@@ -139,6 +143,10 @@
                 <option value="male">{{ $t('male') }}</option>
                 <option value="female">{{ $t('female') }}</option>
             </select>
+        </div>
+        <div class="mb-4">
+            <label for="known_conditions" class="block mb-2">{{ $t('knownConditions') }}</label>
+            <textarea id="known_conditions" v-model="settings.knownConditions" placeholder="Known Conditions" class="w-full p-2 border border-gray-300 rounded"></textarea>
         </div>
         <div class="mb-4">
             <label for="date_of_birth" class="block mb-2">{{ $t('dateOfBirth') }}</label>
