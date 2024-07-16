@@ -64,7 +64,8 @@ const loadQRDQuestions = async (locale, qrd) => {
                     },
                     conditionsList: [
                         'asma', 'heart_problems', 'low_blood_sugar', 'epileptic'
-                    ]
+                    ],
+                    emergencyLevel: 0 // Progress bar for emergency severity
                 };
             },
             created() {
@@ -77,6 +78,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                         this.currentQuestion = this.questions.start;
                         this.currentTab = 'instructions';
                         this.critical = false; // Reset critical status
+                        this.emergencyLevel = 0; // Reset emergency level
                     } catch (error) {
                         console.error(error.message);
                         alert(`Failed to load ${qrd} questions.`);
@@ -92,6 +94,9 @@ const loadQRDQuestions = async (locale, qrd) => {
                     // Check if the condition is critical
                     if (option.short.toLowerCase().includes('severe') || option.short.toLowerCase().includes('critical')) {
                         this.critical = true;
+                        this.emergencyLevel = 100;
+                    } else {
+                        this.emergencyLevel += 20; // Increase emergency level
                     }
                 },
                 submitInput() {
@@ -104,6 +109,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                         this.currentQuestion = null;
                     }
                     this.vitals = {};
+                    this.emergencyLevel += 10; // Increase emergency level
                 },
                 reset() {
                     this.currentTab = 'home';
@@ -111,6 +117,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                     this.userInput = '';
                     this.vitals = {};
                     this.critical = false; // Reset critical status
+                    this.emergencyLevel = 0; // Reset emergency level
                 },
                 setLocale(locale) {
                     this.currentLocale = locale;
@@ -184,6 +191,7 @@ const loadQRDQuestions = async (locale, qrd) => {
                 quickEmergency(type) {
                     this.steps.push(`Quick Emergency for ${type === 'self' ? 'myself' : 'someone else'}`);
                     this.critical = true;
+                    this.emergencyLevel = 100; // Set emergency level to max
                     this.getGpsLocation();
                 },
                 saveSettings() {

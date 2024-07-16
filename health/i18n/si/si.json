@@ -18,6 +18,7 @@
     "settingsTitle": "Nastavitve",
     "settingsDescription": "Posodobite svoje osebne podatke in nastavitve.",
     "doctorNumber": "Številka Zdravnika",
+    "medicalIdNumber": "Zdravstvena številka",
     "bloodType": "Krvna Skupina",
     "name": "Ime",
     "lastname": "Priimek",
@@ -31,8 +32,15 @@
     "female": "Ženska",
     "other": "Drugo",
     "doctorGender": "Spol Zdravnika",
+    "knownConditions": "Znane bolezni",
+    "additionalInfo": "Dodatne Informacije",
+    "asma": "Astma",
+    "heart_problems": "Težave s srcem",
+    "low_blood_sugar": "Nizek krvni sladkor",
+    "epileptic": "Epileptik",
     "home": "Domov",
     "instructions": "Navodila",
     "help": "Pomoč",
-    "settings": "Nastavitve"
+    "settings": "Nastavitve",
+    "language": "Jezik"
 }
