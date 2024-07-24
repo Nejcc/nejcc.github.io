@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,17 +39,18 @@
             <button @click="selectQRD('shock')" class="qrd-button">{{ $t('shock') }}</button>
             <!-- Add more QRD buttons as needed -->
         </div>
-        <div class="mt-4">
-            <div style="position: absolute; bottom: 120px; width: 94%;" >
-                <button @click="quickEmergency('self')" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800">
-                    Call Emergency 122
+        <div class="container mt-4 relative bottom-actions">
+            <div class="bottom-0 w-full">
+                <button @click="quickEmergency('self')" class="btn w-full bg-red-700 text-white py-6 px-6 rounded-lg hover:bg-red-800">
+                    {{ $t('emergency_call') }} {{ $t('emergency_phone_number') }}
                 </button>
             </div>
-            <img v-if="settings.doctorGender === 'female'" src="images/female_doctor-removebg-preview.png" width="250" style="position: absolute; z-index: 9999; transform: scaleX(-1); right: 0; bottom: 100px;" alt="">
-            <img v-else src="images/doctor-removebg-preview.png" width="200" style="position: absolute; z-index: 9999; right: 0; bottom: 100px;" alt="">
+            <img v-if="settings.doctorGender === 'female'" src="images/female_doctor-removebg-preview.png" width="250" class="absolute bottom-4 right-0 fa-flip-horizontal" alt="">
+            <img v-else src="images/doctor-removebg-preview.png" width="200" class="absolute bottom-4 right-6" alt="">
         </div>
     </main>
 
+    <!-- Instructions Tab -->
     <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'instructions'">
         <div v-if="currentQuestion">
             <h2 class="text-lg font-semibold mb-6">{{ currentQuestion.text }}</h2>
@@ -114,21 +116,17 @@
                     </ul>
                 </div>
             </div>
-            <button v-if="critical" @click="callEmergency" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800 mb-4">
-                Call Emergency ({{ $t('emergency_phone_number') }})
-            </button>
-            <button v-if="critical" @click="showSmsPanel" class="btn w-full bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 mb-4">
-                Send SMS
-            </button>
         </div>
     </main>
 
+    <!-- Help Tab -->
     <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'help'">
         <h2 class="text-lg font-semibold mb-6">{{ $t('helpTitle') }}</h2>
         <p class="mb-4">{{ $t('helpDescription') }}</p>
         <button @click="reset" class="btn w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600">{{ $t('restart') }}</button>
     </main>
 
+    <!-- Settings Tab -->
     <main class="container flex-grow overflow-y-auto p-4" v-if="currentTab === 'settings'">
         <h2 class="text-lg font-semibold mb-6">{{ $t('settingsTitle') }}</h2>
         <p class="mb-4">{{ $t('settingsDescription') }}</p>
@@ -223,6 +221,16 @@
             <span>{{ $t('settings') }}</span>
         </button>
     </nav>
+
+    <!-- Fixed Emergency Buttons -->
+    <div v-if="critical" class="fixed-buttons">
+        <button @click="callEmergency" class="btn w-full bg-red-700 text-white py-3 px-6 rounded-lg hover:bg-red-800 mb-4">
+            Call Emergency ({{ $t('emergency_phone_number') }})
+        </button>
+        <button @click="showSmsPanel" class="btn w-full bg-blue-700 text-white py-3 px-6 rounded-lg hover:bg-blue-800 mb-4">
+            Send SMS
+        </button>
+    </div>
 
     <!-- Hidden SMS Panel -->
     <div v-if="showSmsPanel" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

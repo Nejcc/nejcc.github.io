@@ -63,36 +63,12 @@ I
 terminal/js/filesystem.js,e\f\efc6a23718ddf41149a4294cf9a39791a6a2511f
 G
 terminal/js/commands.js,0\f\0f790278fd08c41b7221cc54d77fa324d76eda4a
-C
-health/i18n/en.json,d\1\d1fb4e18fe4c0ef92d03512bd9f00032810da58c
 =
 health/app.js,5\a\5a5a33c5088cfa804233fdb5e261e2890fdceb03
 A
 health/index.html,f\b\fbe82fdb127c7c06991d52cc9ebb0a5611452aac
-C
-health/i18n/de.json,d\9\d903d8876e45088b2dba8a7af02c191e8dbeb4dd
-Q
-!health/i18n/questions/injury.json,9\0\90f40f4a50b8d251991889636b12ff50a3f897fd
-W
-'health/i18n/questions/car_accident.json,1\0\1036b6cf885ec2d5cfc1d2a0b6acd366e4adcdad
-R
-"health/i18n/questions/illness.json,3\d\3d1a123b8384757647f9488fabb13760150f8b2f
-O
-health/i18n/questions/pain.json,3\d\3d8fb5b492e93c6ca475f70f6102eb6fdbd48741
-V
-&health/i18n/questions/animal_bite.json,7\8\781845b1cbf221ad879d37fb8c7aa92b324e49b4
-R
-"health/i18n/questions/allergy.json,1\e\1e92dfc1ceef9f889cd9da2de35b78a2e78b636e
-P
- health/i18n/questions/shock.json,e\0\e082c7280ea66762626fbdafafd33bcee76f344e
-M
-health/questions/allergy.json,0\6\06289168e025517c431b22663bd6aa02a1a566aa
-M
-health/i18n/en/questions.json,0\3\03a6d0111c0af93c3c887293481ef9afdb4b9f10
 T
 $health/i18n/en/questions/injury.json,8\5\85a6ecebca40c0bcf15ed3aa14b7ff5e888d5ca6
-M
-health/i18n/si/questions.json,3\0\3019697eba58791e5a21f8ec217c66b6b63e0dba
 T
 $health/i18n/si/questions/injury.json,2\d\2d9c756e447e898c9383520867c128863e54832e
 F
@@ -105,3 +81,13 @@ H
 health/service-worker.js,2\d\2d9b73eb92b7e391309a2d442c48490dceb47e2b
 A
 health/styles.css,5\3\533a38e9f1fcb3999a60d3afade16f2684936001
+A
+mobile/index.html,1\9\199e2b6ea2a39051dcf969d80215522a5e7db493
+B
+mobile/_index.html,5\8\5863f95024d64eb0f92e07996b97ec8728926494
+A
+mobile/styles.css,6\7\671270e2c3874b66196828661fe506a13f2e1832
+=
+mobile/app.js,1\4\14ee4b09eb14cdf74ae6c70f975ca919bc6a3462
+E
+health/questions.json,8\4\84075df03ad0a25815f966a54092b3757f32a9d1
