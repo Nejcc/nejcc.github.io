@@ -25,6 +25,7 @@
                 </div>
                 <button @click="startGame" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Začni igro</button>
                 <button @click="addPlayer" class="bg-green-500 text-white px-4 py-2 rounded w-full mt-2">Dodaj igralca</button>
+                <button @click="resetPlayers" class="bg-red-500 text-white px-4 py-2 rounded w-full mt-2">Izbriši igralce</button>
             </div>
         </transition>
         <transition name="fade">
@@ -61,7 +62,7 @@
                 <div v-for="player in players" :key="player.name" class="mb-2">
                     <p class="text-lg">{{ player.name }}: {{ player.score }} točk</p>
                 </div>
-                <button @click="resetGame" class="bg-blue-500 text-white px-4 py-2 rounded w-full mt-4">Nova igra</button>
+                <button @click="newGame" class="bg-blue-500 text-white px-4 py-2 rounded w-full mt-4">Nova igra</button>
             </div>
         </transition>
     </div>
@@ -95,6 +96,7 @@
             },
             startGame() {
                 if (this.players.every(player => player.name.trim() !== '')) {
+                    this.resetPlayerScores();
                     this.scene = 'nextPlayer';
                     this.savePlayers();
                 }
@@ -151,14 +153,25 @@
                     this.feedback = '';
                 }, 1000);
             },
+            resetPlayerScores() {
+                this.players.forEach(player => {
+                    player.score = 0;
+                    player.attempts = 0;
+                });
+                this.currentPlayerIndex = 0;
+            },
             savePlayers() {
                 localStorage.setItem('players', JSON.stringify(this.players));
             },
-            resetGame() {
-                this.scene = 'start';
+            newGame() {
+                this.scene = 'nextPlayer';
+                this.resetPlayerScores();
+                this.savePlayers();
+            },
+            resetPlayers() {
                 this.players = [{ name: '', score: 0, attempts: 0 }];
-                this.currentPlayerIndex = 0;
                 localStorage.removeItem('players');
+                this.scene = 'start';
             }
         }
     }).mount('#app');
