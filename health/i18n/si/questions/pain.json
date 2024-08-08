@@ -1,355 +1,355 @@
 {
   "start": {
-    "text": "Who is experiencing the pain?",
+    "text": "Kdo doživlja bolečino?",
     "type": "options",
     "options": [
       {
-        "short": "Myself",
-        "description": "I am experiencing the pain.",
+        "short": "Jaz",
+        "description": "Jaz doživljam bolečino.",
         "next": "pain_location"
       },
       {
-        "short": "Someone Else",
-        "description": "Someone else is experiencing the pain.",
+        "short": "Nekdo drug",
+        "description": "Nekdo drug doživlja bolečino.",
         "next": "relation_to_pain"
       }
     ]
   },
   "relation_to_pain": {
-    "text": "What is your relation to the person experiencing the pain?",
+    "text": "Kakšen je vaš odnos do osebe, ki doživlja bolečino?",
     "type": "options",
     "options": [
       {
-        "short": "Family",
-        "description": "Family member.",
+        "short": "Družina",
+        "description": "Družinski član.",
         "next": "pain_location"
       },
       {
-        "short": "Friend",
-        "description": "Friend.",
+        "short": "Prijatelj",
+        "description": "Prijatelj.",
         "next": "pain_location"
       },
       {
-        "short": "Stranger",
-        "description": "Stranger.",
+        "short": "Neznanec",
+        "description": "Neznanec.",
         "next": "pain_location"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown relation.",
+        "short": "Neznan",
+        "description": "Neznan odnos.",
         "next": "pain_location"
       }
     ]
   },
   "pain_location": {
-    "text": "Where is the pain located?",
+    "text": "Kje je bolečina?",
     "type": "options",
     "options": [
       {
-        "short": "Head",
-        "description": "Head pain (e.g., headache, migraine).",
+        "short": "Glava",
+        "description": "Bolečina v glavi (npr. glavobol, migrena).",
         "next": "head_pain_details"
       },
       {
-        "short": "Chest",
-        "description": "Chest pain.",
+        "short": "Prsa",
+        "description": "Bolečina v prsih.",
         "next": "chest_pain_details"
       },
       {
-        "short": "Abdomen",
-        "description": "Abdominal pain.",
+        "short": "Trebuh",
+        "description": "Trebuh bolečina.",
         "next": "abdomen_pain_details"
       },
       {
-        "short": "Back",
-        "description": "Back pain.",
+        "short": "Hrbet",
+        "description": "Bolečina v hrbtu.",
         "next": "back_pain_details"
       },
       {
-        "short": "Limb",
-        "description": "Pain in an arm or leg.",
+        "short": "Udi",
+        "description": "Bolečina v okončinah.",
         "next": "limb_pain_details"
       },
       {
-        "short": "Other",
-        "description": "Pain in another area.",
+        "short": "Drugo",
+        "description": "Bolečina na drugem mestu.",
         "next": "other_pain_details"
       }
     ]
   },
   "head_pain_details": {
-    "text": "Please describe the head pain.",
+    "text": "Prosim, opišite bolečino v glavi.",
     "type": "options",
     "options": [
       {
-        "short": "Migraine",
-        "description": "Severe headache often with nausea and light sensitivity.",
-        "next": "head_pain_severity"
+        "short": "Migrena",
+        "description": "Huda glavobol, pogosto s slabostjo in občutljivostjo na svetlobo.",
+        "next": "pain_severity"
       },
       {
-        "short": "Tension",
-        "description": "Tension headache, mild to moderate pain.",
-        "next": "head_pain_severity"
+        "short": "Napetost",
+        "description": "Napetostni glavobol, blaga do zmerna bolečina.",
+        "next": "pain_severity"
       },
       {
-        "short": "Cluster",
-        "description": "Cluster headaches, severe pain around one eye.",
-        "next": "head_pain_severity"
+        "short": "Klopna bolečina",
+        "description": "Huda bolečina okoli enega očesa.",
+        "next": "pain_severity"
       },
       {
-        "short": "Other",
-        "description": "Other type of head pain.",
-        "next": "head_pain_severity"
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine v glavi.",
+        "next": "pain_severity"
       }
     ]
   },
   "chest_pain_details": {
-    "text": "Please describe the chest pain.",
+    "text": "Prosim, opišite bolečino v prsih.",
     "type": "options",
     "options": [
       {
-        "short": "Sharp",
-        "description": "Sharp, stabbing pain.",
-        "next": "chest_pain_severity"
+        "short": "Ostra",
+        "description": "Ostra, zbadajoča bolečina.",
+        "next": "pain_severity"
       },
       {
-        "short": "Pressure",
-        "description": "Pressure or tightness.",
-        "next": "chest_pain_severity"
+        "short": "Pritisk",
+        "description": "Pritisk ali zategnjenost.",
+        "next": "pain_severity"
       },
       {
-        "short": "Burning",
-        "description": "Burning sensation.",
-        "next": "chest_pain_severity"
+        "short": "Pekoča",
+        "description": "Pekoča bolečina.",
+        "next": "pain_severity"
       },
       {
-        "short": "Other",
-        "description": "Other type of chest pain.",
-        "next": "chest_pain_severity"
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine v prsih.",
+        "next": "pain_severity"
       }
     ]
   },
   "abdomen_pain_details": {
-    "text": "Please describe the abdominal pain.",
+    "text": "Prosim, opišite bolečino v trebuhu.",
     "type": "options",
     "options": [
       {
-        "short": "Cramps",
-        "description": "Cramping pain.",
-        "next": "abdomen_pain_severity"
+        "short": "Krči",
+        "description": "Krči.",
+        "next": "pain_severity"
       },
       {
-        "short": "Sharp",
-        "description": "Sharp, stabbing pain.",
-        "next": "abdomen_pain_severity"
+        "short": "Ostra",
+        "description": "Ostra, zbadajoča bolečina.",
+        "next": "pain_severity"
       },
       {
-        "short": "Dull",
-        "description": "Dull, aching pain.",
-        "next": "abdomen_pain_severity"
+        "short": "Topa",
+        "description": "Topa, boleča bolečina.",
+        "next": "pain_severity"
       },
       {
-        "short": "Other",
-        "description": "Other type of abdominal pain.",
-        "next": "abdomen_pain_severity"
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine v trebuhu.",
+        "next": "pain_severity"
       }
     ]
   },
   "back_pain_details": {
-    "text": "Please describe the back pain.",
+    "text": "Prosim, opišite bolečino v hrbtu.",
     "type": "options",
     "options": [
       {
-        "short": "Upper Back",
-        "description": "Pain in the upper back.",
-        "next": "back_pain_severity"
+        "short": "Zgornji del hrbta",
+        "description": "Bolečina v zgornjem delu hrbta.",
+        "next": "pain_severity"
       },
       {
-        "short": "Lower Back",
-        "description": "Pain in the lower back.",
-        "next": "back_pain_severity"
+        "short": "Spodnji del hrbta",
+        "description": "Bolečina v spodnjem delu hrbta.",
+        "next": "pain_severity"
       },
       {
-        "short": "Spine",
-        "description": "Pain along the spine.",
-        "next": "back_pain_severity"
+        "short": "Hrbenica",
+        "description": "Bolečina vzdolž hrbtenice.",
+        "next": "pain_severity"
       },
       {
-        "short": "Other",
-        "description": "Other type of back pain.",
-        "next": "back_pain_severity"
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine v hrbtu.",
+        "next": "pain_severity"
       }
     ]
   },
   "limb_pain_details": {
-    "text": "Please describe the limb pain.",
+    "text": "Prosim, opišite bolečino v udih.",
     "type": "options",
     "options": [
       {
-        "short": "Arm",
-        "description": "Pain in an arm.",
-        "next": "limb_pain_severity"
+        "short": "Roka",
+        "description": "Bolečina v roki.",
+        "next": "pain_severity"
       },
       {
-        "short": "Leg",
-        "description": "Pain in a leg.",
-        "next": "limb_pain_severity"
+        "short": "Noga",
+        "description": "Bolečina v nogi.",
+        "next": "pain_severity"
       },
       {
-        "short": "Joint",
-        "description": "Pain in a joint.",
-        "next": "limb_pain_severity"
+        "short": "Sklep",
+        "description": "Bolečina v sklepu.",
+        "next": "pain_severity"
       },
       {
-        "short": "Other",
-        "description": "Other type of limb pain.",
-        "next": "limb_pain_severity"
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine v udih.",
+        "next": "pain_severity"
       }
     ]
   },
   "other_pain_details": {
-    "text": "Please describe the pain location and type.",
+    "text": "Prosim, opišite lokacijo in vrsto bolečine.",
     "type": "text",
     "next": "pain_severity"
   },
   "pain_severity": {
-    "text": "How severe is the pain?",
+    "text": "Kako resna je bolečina?",
     "type": "options",
     "options": [
       {
-        "short": "Mild",
-        "description": "Mild pain.",
+        "short": "Blaga",
+        "description": "Blaga bolečina.",
         "next": "pain_duration"
       },
       {
-        "short": "Moderate",
-        "description": "Moderate pain.",
+        "short": "Zmerna",
+        "description": "Zmerna bolečina.",
         "next": "pain_duration"
       },
       {
-        "short": "Severe",
-        "description": "Severe pain.",
+        "short": "Huda",
+        "description": "Huda bolečina.",
         "next": "pain_duration"
       },
       {
-        "short": "Unbearable",
-        "description": "Unbearable pain.",
+        "short": "Neznosna",
+        "description": "Neznosna bolečina.",
         "next": "pain_duration"
       }
     ]
   },
   "pain_duration": {
-    "text": "How long has the pain been present?",
+    "text": "Kako dolgo traja bolečina?",
     "type": "options",
     "options": [
       {
-        "short": "Minutes",
-        "description": "Pain present for minutes.",
+        "short": "Minute",
+        "description": "Bolečina prisotna minute.",
         "next": "pain_effect"
       },
       {
-        "short": "Hours",
-        "description": "Pain present for hours.",
+        "short": "Ure",
+        "description": "Bolečina prisotna ure.",
         "next": "pain_effect"
       },
       {
-        "short": "Days",
-        "description": "Pain present for days.",
+        "short": "Dnevi",
+        "description": "Bolečina prisotna dneve.",
         "next": "pain_effect"
       },
       {
-        "short": "Weeks",
-        "description": "Pain present for weeks or longer.",
+        "short": "Tedni",
+        "description": "Bolečina prisotna tedne ali več.",
         "next": "pain_effect"
       }
     ]
   },
   "pain_effect": {
-    "text": "How is the pain affecting the person's ability to perform daily activities?",
+    "text": "Kako bolečina vpliva na sposobnost opravljanja vsakodnevnih dejavnosti?",
     "type": "options",
     "options": [
       {
-        "short": "Not at All",
-        "description": "No effect on daily activities.",
+        "short": "Sploh ne",
+        "description": "Noben vpliv na vsakodnevne dejavnosti.",
         "next": "self_treatment"
       },
       {
-        "short": "Slightly",
-        "description": "Slight impact on daily activities.",
+        "short": "Rahlo",
+        "description": "Blag vpliv na vsakodnevne dejavnosti.",
         "next": "self_treatment"
       },
       {
-        "short": "Moderately",
-        "description": "Moderate impact on daily activities.",
+        "short": "Zmerno",
+        "description": "Zmeren vpliv na vsakodnevne dejavnosti.",
         "next": "self_treatment"
       },
       {
-        "short": "Severely",
-        "description": "Severe impact on daily activities.",
+        "short": "Hudo",
+        "description": "Močan vpliv na vsakodnevne dejavnosti.",
         "next": "self_treatment"
       }
     ]
   },
   "self_treatment": {
-    "text": "Have any self-treatment measures been tried?",
+    "text": "Ali ste poskusili kakšne samo-zdravilne ukrepe?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Self-treatment measures tried.",
+        "short": "Da",
+        "description": "Samo-zdravilni ukrepi poskuseni.",
         "next": "self_treatment_effect"
       },
       {
-        "short": "No",
-        "description": "No self-treatment measures tried.",
+        "short": "Ne",
+        "description": "Brez samo-zdravilnih ukrepov.",
         "next": "medical_assistance"
       }
     ]
   },
   "self_treatment_effect": {
-    "text": "What was the effect of the self-treatment measures?",
+    "text": "Kakšen je bil učinek samo-zdravilnih ukrepov?",
     "type": "options",
     "options": [
       {
-        "short": "Effective",
-        "description": "Self-treatment measures were effective.",
+        "short": "Učinkovito",
+        "description": "Samo-zdravilni ukrepi so bili učinkoviti.",
         "next": "medical_assistance"
       },
       {
-        "short": "Ineffective",
-        "description": "Self-treatment measures were ineffective.",
+        "short": "Neučinkovito",
+        "description": "Samo-zdravilni ukrepi niso bili učinkoviti.",
         "next": "medical_assistance"
       },
       {
-        "short": "Worsened",
-        "description": "Pain worsened after self-treatment.",
+        "short": "Poslabšanje",
+        "description": "Simptomi so se poslabšali po samo-zdravljenju.",
         "next": "medical_assistance"
       }
     ]
   },
   "medical_assistance": {
-    "text": "Do you require further medical assistance?",
+    "text": "Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further medical assistance.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]

@@ -1,80 +1,257 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Kdo doživlja alergijsko reakcijo?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Jaz",
+        "description": "Jaz doživljam alergijsko reakcijo.",
+        "next": "allergy_symptoms"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Nekdo drug",
+        "description": "Nekdo drug doživlja alergijsko reakcijo.",
+        "next": "relation_to_allergy"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_allergy": {
+    "text": "Kakšen je vaš odnos do osebe, ki doživlja alergijsko reakcijo?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Družina",
+        "description": "Družinski član.",
+        "next": "allergy_symptoms"
       },
       {
-        "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "short": "Prijatelj",
+        "description": "Prijatelj.",
+        "next": "allergy_symptoms"
+      },
+      {
+        "short": "Neznanec",
+        "description": "Neznanec.",
+        "next": "allergy_symptoms"
+      },
+      {
+        "short": "Neznan",
+        "description": "Neznan odnos.",
+        "next": "allergy_symptoms"
+      }
+    ]
+  },
+  "allergy_symptoms": {
+    "text": "Kakšni simptomi so prisotni?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Koža",
+        "description": "Kožne reakcije (npr. izpuščaj, koprivnica, srbenje).",
+        "next": "skin_symptoms_details"
+      },
+      {
+        "short": "Dihala",
+        "description": "Dihalni simptomi (npr. težave z dihanjem, piskanje).",
+        "next": "respiratory_symptoms_details"
+      },
+      {
+        "short": "Prebavni",
+        "description": "Prebavni simptomi (npr. slabost, bruhanje, driska).",
+        "next": "digestive_symptoms_details"
+      },
+      {
+        "short": "Splošni",
+        "description": "Splošni simptomi (npr. otekanje, omotica, anafilaksija).",
+        "next": "general_symptoms_details"
+      }
+    ]
+  },
+  "skin_symptoms_details": {
+    "text": "Prosim, opišite kožne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Izpuščaj",
+        "description": "Izpuščaj.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Koprivnica",
+        "description": "Koprivnica.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Srbenje",
+        "description": "Srbenje.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Oteklina",
+        "description": "Oteklina.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "respiratory_symptoms_details": {
+    "text": "Prosim, opišite dihalne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Težave z dihanjem",
+        "description": "Težave z dihanjem.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Piskanje",
+        "description": "Piskanje.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Kašelj",
+        "description": "Kašelj.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Zategnjenost v grlu",
+        "description": "Zategnjenost v grlu.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "digestive_symptoms_details": {
+    "text": "Prosim, opišite prebavne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Slabost",
+        "description": "Slabost.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Bruhanje",
+        "description": "Bruhanje.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Driska",
+        "description": "Driska.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Trebuh bolečina",
+        "description": "Bolečina v trebuhu.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "general_symptoms_details": {
+    "text": "Prosim, opišite splošne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Oteklina",
+        "description": "Oteklina (npr. ustnice, jezik, obraz).",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Omotica",
+        "description": "Omotica ali vrtoglavica.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Anafilaksija",
+        "description": "Anafilaksija (huda alergijska reakcija).",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "allergy_severity": {
+    "text": "Kako resni so simptomi?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Blagi",
+        "description": "Blagi simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Zmerni",
+        "description": "Zmerni simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Hudi",
+        "description": "Hudi simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Smrtno nevarni",
+        "description": "Smrtno nevarni simptomi.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "self_treatment": {
+    "text": "Ali ste poskusili kakšne samo-zdravilne ukrepe?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Da",
+        "description": "Samo-zdravilni ukrepi poskuseni.",
+        "next": "self_treatment_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
+        "short": "Ne",
+        "description": "Brez samo-zdravilnih ukrepov.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "Kakšen je bil učinek samo-zdravilnih ukrepov?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Učinkovito",
+        "description": "Samo-zdravilni ukrepi so bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Neučinkovito",
+        "description": "Samo-zdravilni ukrepi niso bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Poslabšanje",
+        "description": "Simptomi so se poslabšali po samo-zdravljenju.",
         "next": "call_emergency"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "medical_assistance": {
+    "text": "Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]

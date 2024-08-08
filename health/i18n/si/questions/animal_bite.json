@@ -1,137 +1,179 @@
 {
   "start": {
-    "text": "What type of animal caused the bite?",
+    "text": "Kdo je oseba, ki jo je ugriznila žival?",
     "type": "options",
     "options": [
       {
-        "short": "Domestic",
-        "description": "Bitten by a domestic animal (e.g., dog, cat).",
+        "short": "Jaz",
+        "description": "Jaz sem oseba, ki jo je ugriznila žival.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Nekdo drug",
+        "description": "Nekdo drug je oseba, ki jo je ugriznila žival.",
+        "next": "relation_to_bitten"
+      }
+    ]
+  },
+  "relation_to_bitten": {
+    "text": "Kakšen je vaš odnos do osebe, ki jo je ugriznila žival?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Družina",
+        "description": "Družinski član.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Prijatelj",
+        "description": "Prijatelj.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Neznanec",
+        "description": "Neznanec.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Neznan",
+        "description": "Neznan odnos.",
+        "next": "animal_type"
+      }
+    ]
+  },
+  "animal_type": {
+    "text": "Kakšna žival je povzročila ugriz?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Domača",
+        "description": "Ugriz domače živali (npr. pes, mačka).",
         "next": "domestic_animal_details"
       },
       {
-        "short": "Wild",
-        "description": "Bitten by a wild animal.",
+        "short": "Divja",
+        "description": "Ugriz divje živali.",
         "next": "wild_animal_details"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown animal.",
-        "next": "animal_bite_severity"
+        "short": "Neznano",
+        "description": "Neznana žival.",
+        "next": "bite_severity"
       }
     ]
   },
   "domestic_animal_details": {
-    "text": "What type of domestic animal caused the bite?",
+    "text": "Kakšna domača žival je povzročila ugriz?",
     "type": "options",
     "options": [
       {
-        "short": "Dog",
-        "description": "Bitten by a dog.",
-        "next": "animal_bite_severity"
+        "short": "Pes",
+        "description": "Ugriz psa.",
+        "next": "bite_severity"
       },
       {
-        "short": "Cat",
-        "description": "Bitten by a cat.",
-        "next": "animal_bite_severity"
+        "short": "Mačka",
+        "description": "Ugriz mačke.",
+        "next": "bite_severity"
       },
       {
-        "short": "Other",
-        "description": "Bitten by another type of domestic animal.",
-        "next": "animal_bite_severity"
+        "short": "Drugo",
+        "description": "Ugriz druge vrste domače živali.",
+        "next": "bite_severity"
       }
     ]
   },
   "wild_animal_details": {
-    "text": "What type of wild animal caused the bite?",
+    "text": "Kakšna divja žival je povzročila ugriz?",
     "type": "options",
     "options": [
       {
-        "short": "Rodent",
-        "description": "Bitten by a rodent (e.g., rat, squirrel).",
-        "next": "animal_bite_severity"
+        "short": "Glodalec",
+        "description": "Ugriz glodalca (npr. podgana, veverica).",
+        "next": "bite_severity"
       },
       {
-        "short": "Reptile",
-        "description": "Bitten by a reptile (e.g., snake, lizard).",
-        "next": "animal_bite_severity"
+        "short": "Plazilec",
+        "description": "Ugriz plazilca (npr. kača, kuščar).",
+        "next": "bite_severity"
       },
       {
-        "short": "Other",
-        "description": "Bitten by another type of wild animal.",
-        "next": "animal_bite_severity"
+        "short": "Drugo",
+        "description": "Ugriz druge vrste divje živali.",
+        "next": "bite_severity"
       }
     ]
   },
-  "animal_bite_severity": {
-    "text": "How severe is the bite?",
+  "bite_severity": {
+    "text": "Kako resen je ugriz?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Superficial bite with minimal bleeding.",
-        "next": "animal_bite_treatment"
+        "short": "Manjši",
+        "description": "Površinski ugriz z minimalnim krvavenjem.",
+        "next": "bite_treatment"
       },
       {
-        "short": "Moderate",
-        "description": "Moderate bite with some bleeding.",
-        "next": "animal_bite_treatment"
+        "short": "Zmeren",
+        "description": "Zmeren ugriz z nekaj krvavitve.",
+        "next": "bite_treatment"
       },
       {
-        "short": "Severe",
-        "description": "Deep bite with significant bleeding or tissue damage.",
-        "next": "animal_bite_treatment"
+        "short": "Resen",
+        "description": "Globok ugriz z znatno krvavitvijo ali poškodbo tkiva.",
+        "next": "bite_treatment"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown severity.",
-        "next": "animal_bite_treatment"
+        "short": "Neznano",
+        "description": "Neznana resnost.",
+        "next": "bite_treatment"
       }
     ]
   },
-  "animal_bite_treatment": {
-    "text": "Follow these steps for treating the bite: Clean the wound thoroughly with soap and water, apply an antibiotic ointment, and cover with a clean bandage. Do you know if the animal was vaccinated against rabies?",
+  "bite_treatment": {
+    "text": "Sledite tem korakom za zdravljenje ugriza: Temeljito očistite rano z milom in vodo, nanesite antibiotično mazilo in pokrijte s čistim povojem. Ali veste, ali je bila žival cepljena proti steklini?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "The animal was vaccinated.",
-        "next": "animal_bite_treatment_step2"
+        "short": "Da",
+        "description": "Žival je bila cepljena.",
+        "next": "bite_treatment_step2"
       },
       {
-        "short": "No",
-        "description": "The animal was not vaccinated.",
+        "short": "Ne",
+        "description": "Žival ni bila cepljena.",
         "next": "call_emergency"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown vaccination status.",
+        "short": "Neznano",
+        "description": "Neznan status cepljenja.",
         "next": "call_emergency"
       }
     ]
   },
-  "animal_bite_treatment_step2": {
-    "text": "Do you require further medical assistance?",
+  "bite_treatment_step2": {
+    "text": "Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further medical assistance.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]

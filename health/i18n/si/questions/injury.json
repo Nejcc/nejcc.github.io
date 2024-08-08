@@ -1,188 +1,363 @@
 {
   "start": {
-    "text": "Who is the injured person?",
+    "text": "Kdo je poškodovana oseba?",
     "type": "options",
     "options": [
       {
-        "short": "Myself",
-        "description": "I am the injured person.",
+        "short": "Jaz",
+        "description": "Jaz sem poškodovan.",
         "next": "injury_type"
       },
       {
-        "short": "Someone Else",
-        "description": "The injured person is someone else.",
-        "next": "relation_to_injured"
+        "short": "Nekdo drug",
+        "description": "Nekdo drug je poškodovan.",
+        "next": "relation_to_injury"
       }
     ]
   },
-  "relation_to_injured": {
-    "text": "What is your relation to the injured person?",
+  "relation_to_injury": {
+    "text": "Kakšen je vaš odnos do poškodovane osebe?",
     "type": "options",
     "options": [
       {
-        "short": "Family",
-        "description": "Family member.",
+        "short": "Družina",
+        "description": "Družinski član.",
         "next": "injury_type"
       },
       {
-        "short": "Friend",
-        "description": "Friend.",
+        "short": "Prijatelj",
+        "description": "Prijatelj.",
         "next": "injury_type"
       },
       {
-        "short": "Stranger",
-        "description": "Stranger.",
+        "short": "Neznanec",
+        "description": "Neznanec.",
         "next": "injury_type"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown relation.",
+        "short": "Neznan",
+        "description": "Neznan odnos.",
         "next": "injury_type"
       }
     ]
   },
   "injury_type": {
-    "text": "What type of injury is it?",
+    "text": "Kakšna je vrsta poškodbe?",
     "type": "options",
     "options": [
       {
-        "short": "Fracture",
-        "description": "Bone fracture.",
+        "short": "Zlom",
+        "description": "Zlom kosti.",
         "next": "fracture_severity"
       },
       {
-        "short": "Cut",
-        "description": "Laceration or incision.",
+        "short": "Ureznina",
+        "description": "Ureznina ali rez.",
         "next": "cut_severity"
       },
       {
-        "short": "Burn",
-        "description": "Thermal injury.",
+        "short": "Opeklina",
+        "description": "Toplotna poškodba.",
         "next": "burn_severity"
+      },
+      {
+        "short": "Modrica",
+        "description": "Modrica ali kontuzija.",
+        "next": "bruise_severity"
+      },
+      {
+        "short": "Izvin",
+        "description": "Izvin ali nateg.",
+        "next": "sprain_severity"
+      },
+      {
+        "short": "Drugo",
+        "description": "Druga vrsta poškodbe.",
+        "next": "other_injury_details"
       }
     ]
   },
   "fracture_severity": {
-    "text": "How severe is the fracture?",
+    "text": "Kako resen je zlom?",
     "type": "options",
     "options": [
       {
-        "short": "Severe",
-        "description": "Open fracture with visible bone.",
+        "short": "Resen",
+        "description": "Odprt zlom z vidno kostjo.",
         "next": "fracture_treatment",
         "critical": true
       },
       {
-        "short": "Minor",
-        "description": "Closed fracture without skin break.",
+        "short": "Manjši",
+        "description": "Zaprt zlom brez preloma kože.",
         "next": "fracture_treatment"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown severity.",
+        "short": "Neznano",
+        "description": "Neznana resnost.",
         "next": "fracture_treatment"
       }
     ]
   },
   "fracture_treatment": {
-    "text": "Follow these steps for treating the fracture: Stabilize the affected area with a splint, avoid moving the injured limb unnecessarily, and apply cold packs to reduce swelling. Do you require further medical assistance?",
+    "text": "Sledite tem korakom za zdravljenje zloma: Stabilizirajte prizadeto območje z opornico, izogibajte se nepotrebnemu premikanju poškodovanega uda in nanesite hladne obkladke za zmanjšanje otekline. Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further medical assistance.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "cut_severity": {
-    "text": "How severe is the cut?",
+    "text": "Kako resna je ureznina?",
     "type": "options",
     "options": [
       {
-        "short": "Severe",
-        "description": "Deep cut with significant bleeding.",
+        "short": "Resna",
+        "description": "Globoka ureznina s precejšnjim krvavenjem.",
         "next": "cut_treatment",
         "critical": true
       },
       {
-        "short": "Minor",
-        "description": "Superficial laceration with minimal bleeding.",
+        "short": "Manjša",
+        "description": "Površinska ureznina z minimalnim krvavenjem.",
         "next": "cut_treatment"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown severity.",
+        "short": "Neznano",
+        "description": "Neznana resnost.",
         "next": "cut_treatment"
       }
     ]
   },
   "cut_treatment": {
-    "text": "Follow these steps for treating the cut: Apply firm pressure to the wound to control bleeding, clean the wound with sterile water, and cover the wound with a sterile bandage. Do you require further medical assistance?",
+    "text": "Sledite tem korakom za zdravljenje ureznine: Močno pritisnite na rano, da ustavite krvavitev, očistite rano s sterilno vodo in pokrijte rano s sterilno povojem. Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further medical assistance.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "burn_severity": {
-    "text": "How severe is the burn?",
+    "text": "Kako resna je opeklina?",
     "type": "options",
     "options": [
       {
-        "short": "Severe",
-        "description": "Second or third-degree burn with blistering or charred skin.",
+        "short": "Resna",
+        "description": "Opeklina druge ali tretje stopnje z mehurji ali ožganjem kože.",
         "next": "burn_treatment",
         "critical": true
       },
       {
-        "short": "Minor",
-        "description": "First-degree burn (superficial).",
+        "short": "Manjša",
+        "description": "Opeklina prve stopnje (površinska).",
         "next": "burn_treatment"
       },
       {
-        "short": "Unknown",
-        "description": "Unknown severity.",
+        "short": "Neznano",
+        "description": "Neznana resnost.",
         "next": "burn_treatment"
       }
     ]
   },
   "burn_treatment": {
-    "text": "Follow these steps for treating the burn: Cool the affected area under running water for at least 10 minutes, avoid using ice, and cover with a sterile, non-stick dressing. Do you require further medical assistance?",
+    "text": "Sledite tem korakom za zdravljenje opekline: Ohlajajte prizadeto območje pod tekočo vodo vsaj 10 minut, izogibajte se uporabi ledu in pokrijte s sterilno, nelepljivo obvezo. Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further medical assistance.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
+        "next": null
+      }
+    ]
+  },
+  "bruise_severity": {
+    "text": "Kako resna je modrica?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Resna",
+        "description": "Huda modrica z oteklino.",
+        "next": "bruise_treatment",
+        "critical": true
+      },
+      {
+        "short": "Manjša",
+        "description": "Manjša modrica z malo ali brez otekline.",
+        "next": "bruise_treatment"
+      },
+      {
+        "short": "Neznano",
+        "description": "Neznana resnost.",
+        "next": "bruise_treatment"
+      }
+    ]
+  },
+  "bruise_treatment": {
+    "text": "Sledite tem korakom za zdravljenje modrice: Nanesite hladne obkladke za zmanjšanje otekline, dvignite prizadeto območje in počivajte. Ali potrebujete nadaljnjo medicinsko pomoč?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
+        "next": null
+      }
+    ]
+  },
+  "sprain_severity": {
+    "text": "Kako resen je izvin?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Resen",
+        "description": "Huda zvina z precejšnjo bolečino in oteklino.",
+        "next": "sprain_treatment",
+        "critical": true
+      },
+      {
+        "short": "Manjši",
+        "description": "Manjši zvina z blagimi bolečinami in oteklino.",
+        "next": "sprain_treatment"
+      },
+      {
+        "short": "Neznano",
+        "description": "Neznana resnost.",
+        "next": "sprain_treatment"
+      }
+    ]
+  },
+  "sprain_treatment": {
+    "text": "Sledite tem korakom za zdravljenje zvinov: Nanesite hladne obkladke za zmanjšanje otekline, stisnite območje z elastičnim povojem, dvignite poškodovani ud in počivajte. Ali potrebujete nadaljnjo medicinsko pomoč?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
+        "next": null
+      }
+    ]
+  },
+  "other_injury_details": {
+    "text": "Prosim, podrobno opišite poškodbo.",
+    "type": "text",
+    "next": "severity_assessment"
+  },
+  "severity_assessment": {
+    "text": "Kako resni so splošni simptomi?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Blagi",
+        "description": "Blagi simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Zmerni",
+        "description": "Zmerni simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Resni",
+        "description": "Resni simptomi.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Smrtno nevarni",
+        "description": "Smrtno nevarni simptomi.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "self_treatment": {
+    "text": "Ali ste poskusili kakšne samo-zdravilne ukrepe?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Da",
+        "description": "Samo-zdravilni ukrepi poskuseni.",
+        "next": "self_treatment_effect"
+      },
+      {
+        "short": "Ne",
+        "description": "Brez samo-zdravilnih ukrepov.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "Kakšen je bil učinek samo-zdravilnih ukrepov?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Učinkovito",
+        "description": "Samo-zdravilni ukrepi so bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Neučinkovito",
+        "description": "Samo-zdravilni ukrepi niso bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Poslabšanje",
+        "description": "Simptomi so se poslabšali po samo-zdravljenju.",
+        "next": "call_emergency"
+      }
+    ]
+  },
+  "medical_assistance": {
+    "text": "Ali potrebujete nadaljnjo medicinsko pomoč?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]

@@ -1,107 +1,107 @@
 {
   "start": {
-    "text": "What is the condition of the person involved in the car accident?",
+    "text": "Kakšno je stanje osebe, udeležene v prometni nesreči?",
     "type": "options",
     "options": [
       {
-        "short": "Conscious",
-        "description": "The person is conscious.",
+        "short": "Pri zavesti",
+        "description": "Oseba je pri zavesti.",
         "next": "conscious_check"
       },
       {
-        "short": "Unconscious",
-        "description": "The person is unconscious.",
+        "short": "Nezavest",
+        "description": "Oseba je nezavestna.",
         "next": "unconscious_check"
       }
     ]
   },
   "conscious_check": {
-    "text": "Is the person responsive and able to communicate?",
+    "text": "Ali je oseba odzivna in sposobna komunicirati?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "The person is responsive.",
+        "short": "Da",
+        "description": "Oseba je odzivna.",
         "next": "check_injuries"
       },
       {
-        "short": "No",
-        "description": "The person is not responsive.",
+        "short": "Ne",
+        "description": "Oseba ni odzivna.",
         "next": "call_emergency"
       }
     ]
   },
   "unconscious_check": {
-    "text": "Is the person breathing?",
+    "text": "Ali oseba diha?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "The person is breathing.",
+        "short": "Da",
+        "description": "Oseba diha.",
         "next": "check_injuries"
       },
       {
-        "short": "No",
-        "description": "The person is not breathing.",
+        "short": "Ne",
+        "description": "Oseba ne diha.",
         "next": "perform_cpr"
       }
     ]
   },
   "check_injuries": {
-    "text": "Check for visible injuries. Are there any visible injuries?",
+    "text": "Preverite vidne poškodbe. Ali so vidne poškodbe?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Visible injuries present.",
+        "short": "Da",
+        "description": "Prisotne so vidne poškodbe.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No visible injuries.",
+        "short": "Ne",
+        "description": "Vidnih poškodb ni.",
         "next": "monitor_condition"
       }
     ]
   },
   "monitor_condition": {
-    "text": "Continue to monitor the person's condition. Do you need further assistance?",
+    "text": "Nadaljujte z nadzorom stanja osebe. Ali potrebujete dodatno pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further assistance.",
+        "short": "Da",
+        "description": "Potrebujem dodatno pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem dodatne pomoči.",
         "next": null
       }
     ]
   },
   "perform_cpr": {
-    "text": "Perform CPR: Chest compressions at a rate of 100-120 per minute. After performing CPR, do you need further assistance?",
+    "text": "Izvajajte KPR: Stiski prsnega koša s hitrostjo 100-120 na minuto. Po izvajanju KPR, ali potrebujete dodatno pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Yes",
-        "description": "Require further assistance.",
+        "short": "Da",
+        "description": "Potrebujem dodatno pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "No",
-        "description": "No further assistance required.",
+        "short": "Ne",
+        "description": "Ne potrebujem dodatne pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]

@@ -1,80 +1,397 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Kdo doživlja bolezen?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Jaz",
+        "description": "Jaz doživljam bolezen.",
+        "next": "symptom_description"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Nekdo drug",
+        "description": "Nekdo drug doživlja bolezen.",
+        "next": "relation_to_illness"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_illness": {
+    "text": "Kakšen je vaš odnos do osebe, ki doživlja bolezen?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Družina",
+        "description": "Družinski član.",
+        "next": "symptom_description"
       },
       {
-        "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "short": "Prijatelj",
+        "description": "Prijatelj.",
+        "next": "symptom_description"
+      },
+      {
+        "short": "Neznanec",
+        "description": "Neznanec.",
+        "next": "symptom_description"
+      },
+      {
+        "short": "Neznan",
+        "description": "Neznan odnos.",
+        "next": "symptom_description"
+      }
+    ]
+  },
+  "symptom_description": {
+    "text": "Kakšni so simptomi?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Vročina",
+        "description": "Vročina.",
+        "next": "fever_details"
+      },
+      {
+        "short": "Kašelj",
+        "description": "Kašelj.",
+        "next": "cough_details"
+      },
+      {
+        "short": "Bolečina",
+        "description": "Bolečina.",
+        "next": "pain_details"
+      },
+      {
+        "short": "Prebavne težave",
+        "description": "Prebavne težave (npr. slabost, bruhanje, driska).",
+        "next": "digestive_details"
+      },
+      {
+        "short": "Koža",
+        "description": "Kožne težave (npr. izpuščaj, srbenje).",
+        "next": "skin_details"
+      },
+      {
+        "short": "Drugo",
+        "description": "Drugi simptomi.",
+        "next": "other_details"
+      }
+    ]
+  },
+  "fever_details": {
+    "text": "Prosim, opišite simptome vročine.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Nizka",
+        "description": "Nizka vročina (pod 38°C ali 100.4°F).",
+        "next": "fever_duration"
+      },
+      {
+        "short": "Visoka",
+        "description": "Visoka vročina (nad 38°C ali 100.4°F).",
+        "next": "fever_duration"
+      },
+      {
+        "short": "Mrzlica",
+        "description": "Mrzlica ali tresenje.",
+        "next": "fever_duration"
+      }
+    ]
+  },
+  "fever_duration": {
+    "text": "Kako dolgo traja vročina?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Ure",
+        "description": "Vročina prisotna ure.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Dnevi",
+        "description": "Vročina prisotna dneve.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Tedni",
+        "description": "Vročina prisotna tedne.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "cough_details": {
+    "text": "Prosim, opišite simptome kašlja.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Suh",
+        "description": "Suh kašelj.",
+        "next": "cough_duration"
+      },
+      {
+        "short": "Mokri",
+        "description": "Mokri kašelj z izpljunkom.",
+        "next": "cough_duration"
+      },
+      {
+        "short": "Hudi",
+        "description": "Hud kašelj.",
+        "next": "cough_duration"
+      },
+      {
+        "short": "Drugo",
+        "description": "Druga vrsta kašlja.",
+        "next": "cough_duration"
+      }
+    ]
+  },
+  "cough_duration": {
+    "text": "Kako dolgo traja kašelj?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Ure",
+        "description": "Kašelj prisoten ure.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Dnevi",
+        "description": "Kašelj prisoten dneve.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Tedni",
+        "description": "Kašelj prisoten tedne.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "pain_details": {
+    "text": "Prosim, opišite simptome bolečine.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Glavobol",
+        "description": "Glavobol.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Trebušna bolečina",
+        "description": "Trebušna bolečina.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Bolečina v prsih",
+        "description": "Bolečina v prsih.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Mišična bolečina",
+        "description": "Mišična bolečina.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Drugo",
+        "description": "Druga vrsta bolečine.",
+        "next": "pain_severity"
+      }
+    ]
+  },
+  "digestive_details": {
+    "text": "Prosim, opišite prebavne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Slabost",
+        "description": "Slabost.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Bruhanje",
+        "description": "Bruhanje.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Driska",
+        "description": "Driska.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Drugo",
+        "description": "Drugi prebavni simptomi.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "skin_details": {
+    "text": "Prosim, opišite kožne simptome.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Izpuščaj",
+        "description": "Izpuščaj.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Srbenje",
+        "description": "Srbenje.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Koprivnica",
+        "description": "Koprivnica.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Drugo",
+        "description": "Drugi kožni simptomi.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "other_details": {
+    "text": "Prosim, opišite simptome.",
+    "type": "text",
+    "next": "severity_assessment"
+  },
+  "pain_severity": {
+    "text": "Kako resna je bolečina?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Blaga",
+        "description": "Blaga bolečina.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Zmerna",
+        "description": "Zmerna bolečina.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Huda",
+        "description": "Huda bolečina.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Neznosna",
+        "description": "Neznosna bolečina.",
+        "next": "pain_duration"
+      }
+    ]
+  },
+  "pain_duration": {
+    "text": "Kako dolgo traja bolečina?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Minute",
+        "description": "Bolečina prisotna minute.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Ure",
+        "description": "Bolečina prisotna ure.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Dnevi",
+        "description": "Bolečina prisotna dneve.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Tedni",
+        "description": "Bolečina prisotna tedne ali več.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "severity_assessment": {
+    "text": "Kako resni so splošni simptomi?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Blagi",
+        "description": "Blagi simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Zmerni",
+        "description": "Zmerni simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Resni",
+        "description": "Resni simptomi.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Smrtno nevarni",
+        "description": "Smrtno nevarni simptomi.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "self_treatment": {
+    "text": "Ali ste poskusili kakšne samo-zdravilne ukrepe?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Da",
+        "description": "Samo-zdravilni ukrepi poskuseni.",
+        "next": "self_treatment_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
+        "short": "Ne",
+        "description": "Brez samo-zdravilnih ukrepov.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "Kakšen je bil učinek samo-zdravilnih ukrepov?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Učinkovito",
+        "description": "Samo-zdravilni ukrepi so bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Neučinkovito",
+        "description": "Samo-zdravilni ukrepi niso bili učinkoviti.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Poslabšanje",
+        "description": "Simptomi so se poslabšali po samo-zdravljenju.",
         "next": "call_emergency"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "medical_assistance": {
+    "text": "Ali potrebujete nadaljnjo medicinsko pomoč?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Da",
+        "description": "Potrebujem nadaljnjo medicinsko pomoč.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "Ne",
+        "description": "Ne potrebujem nadaljnje pomoči.",
         "next": null
       }
     ]
   },
   "call_emergency": {
-    "text": "Call emergency services immediately and provide necessary information.",
+    "text": "Nemudoma pokličite nujno medicinsko pomoč in posredujte potrebne informacije.",
     "type": "options",
     "options": [
       {
-        "short": "Called",
-        "description": "Emergency services notified.",
+        "short": "Poklicano",
+        "description": "Nujna medicinska pomoč obveščena.",
         "next": null
       }
     ]
