@@ -30,6 +30,7 @@
         <h2 class="text-lg font-semibold mb-6">{{ $t('homeTitle') }}</h2>
         <p class="mb-4">{{ $t('homeDescription') }}</p>
         <div class="grid grid-cols-2 gap-4">
+            <button @click="selectQRD('unresponsive')" class="qrd-button">{{ $t('unresponsive') }}</button>
             <button @click="selectQRD('injury')" class="qrd-button">{{ $t('injury') }}</button>
             <button @click="selectQRD('car_accident')" class="qrd-button">{{ $t('car_accident') }}</button>
             <button @click="selectQRD('illness')" class="qrd-button">{{ $t('illness') }}</button>

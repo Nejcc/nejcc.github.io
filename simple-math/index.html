@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matematična igra za otroke</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <style>
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.5s;
+        }
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div id="app" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+        <transition name="fade">
+            <div v-if="scene === 'start'" class="text-center">
+                <h1 class="text-2xl font-bold mb-4">Matematična igra za otroke</h1>
+                <div v-for="(player, index) in players" :key="index" class="mb-2">
+                    <input v-model="player.name" type="text" :placeholder="'Vnesi ime igralca ' + (index + 1)" class="border p-2 rounded w-full mb-2">
+                </div>
+                <button @click="startGame" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Začni igro</button>
+                <button @click="addPlayer" class="bg-green-500 text-white px-4 py-2 rounded w-full mt-2">Dodaj igralca</button>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div v-if="scene === 'nextPlayer'" class="text-center">
+                <h1 class="text-2xl font-bold mb-4">{{ nextPlayerName }}, pripravi se!</h1>
+                <button @click="startNextPlayer" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Začni</button>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div v-if="scene === 'game'" class="text-center">
+                <h1 class="text-2xl font-bold mb-4">Pozdravljen, {{ currentPlayer.name }}!</h1>
+                <div class="mb-4">
+                    <p class="text-lg">Koliko je {{ number1 }} + {{ number2 }}?</p>
+                </div>
+                <div class="space-y-4">
+                    <button v-for="option in options" :key="option" @click="checkAnswer(option)" class="bg-blue-500 text-white px-4 py-2 rounded text-lg w-full">
+                        {{ option }}
+                    </button>
+                </div>
+                <transition name="fade">
+                    <div v-if="feedback" :class="feedbackClass" class="mt-4 p-2 rounded text-center text-lg">
+                        {{ feedback }}
+                    </div>
+                </transition>
+                <div class="mt-4 text-center text-lg">
+                    <p>Točke: {{ currentPlayer.score }}</p>
+                    <p>Računi: {{ currentPlayer.attempts }}/10</p>
+                </div>
+            </div>
+        </transition>
+        <transition name="fade">
+            <div v-if="scene === 'results'" class="text-center">
+                <h1 class="text-2xl font-bold mb-4">Rezultati</h1>
+                <div v-for="player in players" :key="player.name" class="mb-2">
+                    <p class="text-lg">{{ player.name }}: {{ player.score }} točk</p>
+                </div>
+                <button @click="resetGame" class="bg-blue-500 text-white px-4 py-2 rounded w-full mt-4">Nova igra</button>
+            </div>
+        </transition>
+    </div>
+<script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                scene: 'start',
+                players: JSON.parse(localStorage.getItem('players')) || [{ name: '', score: 0, attempts: 0 }],
+                currentPlayerIndex: 0,
+                number1: 0,
+                number2: 0,
+                options: [],
+                feedback: '',
+                feedbackClass: ''
+            };
+        },
+        computed: {
+            currentPlayer() {
+                return this.players[this.currentPlayerIndex];
+            },
+            nextPlayerName() {
+                return this.players[this.currentPlayerIndex + 1]?.name || '';
+            }
+        },
+        methods: {
+            addPlayer() {
+                this.players.push({ name: '', score: 0, attempts: 0 });
+            },
+            startGame() {
+                if (this.players.every(player => player.name.trim() !== '')) {
+                    this.scene = 'nextPlayer';
+                    this.savePlayers();
+                }
+            },
+            startNextPlayer() {
+                this.scene = 'game';
+                this.resetGame();
+            },
+            getRandomNumber() {
+                return Math.floor(Math.random() * 10) + 1;
+            },
+            generateOptions() {
+                const correctAnswer = this.number1 + this.number2;
+                this.options = [correctAnswer];
+                while (this.options.length < 4) {
+                    const option = this.getRandomNumber() + this.getRandomNumber();
+                    if (!this.options.includes(option)) {
+                        this.options.push(option);
+                    }
+                }
+                this.options = this.options.sort(() => Math.random() - 0.5);
+            },
+            checkAnswer(selectedOption) {
+                const correctAnswer = this.number1 + this.number2;
+                if (selectedOption === correctAnswer) {
+                    this.feedback = 'Pravilno! Bravo!';
+                    this.feedbackClass = 'bg-green-500 text-white';
+                    this.currentPlayer.score++;
+                } else {
+                    this.feedback = 'Napačno! Poskusi znova!';
+                    this.feedbackClass = 'bg-red-500 text-white';
+                }
+                this.currentPlayer.attempts++;
+                if (this.currentPlayer.attempts >= 10) {
+                    this.savePlayers();
+                    this.nextPlayer();
+                } else {
+                    this.resetGame();
+                }
+            },
+            nextPlayer() {
+                if (this.currentPlayerIndex < this.players.length - 1) {
+                    this.currentPlayerIndex++;
+                    this.scene = 'nextPlayer';
+                } else {
+                    this.scene = 'results';
+                }
+            },
+            resetGame() {
+                this.number1 = this.getRandomNumber();
+                this.number2 = this.getRandomNumber();
+                this.generateOptions();
+                setTimeout(() => {
+                    this.feedback = '';
+                }, 1000);
+            },
+            savePlayers() {
+                localStorage.setItem('players', JSON.stringify(this.players));
+            },
+            resetGame() {
+                this.scene = 'start';
+                this.players = [{ name: '', score: 0, attempts: 0 }];
+                this.currentPlayerIndex = 0;
+                localStorage.removeItem('players');
+            }
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>

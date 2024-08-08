@@ -43,5 +43,6 @@
     "instructions": "Navodila",
     "help": "Pomoč",
     "settings": "Nastavitve",
-    "language": "Jezik"
+    "language": "Jezik",
+    "unresponsive": "Ne odziven"
 }
