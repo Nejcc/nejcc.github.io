@@ -159,10 +159,10 @@ const loadQRDQuestions = async (locale, qrd) => {
                     }
                 },
                 sendSms() {
-                    const phoneNumber = this.$t('emergency_phone_number');
-                    const smsBody = encodeURIComponent(this.smsMessage);
-                    window.location.href = `sms:${phoneNumber}?body=${smsBody}`;
-                    this.hideSmsPanel();
+                    //const phoneNumber = this.$t('emergency_phone_number');
+                    //const smsBody = encodeURIComponent(this.smsMessage);
+                    //window.location.href = `sms:${phoneNumber}?body=${smsBody}`;
+                    //this.hideSmsPanel();
                 },
                 getGpsLocation() {
                     if (navigator.geolocation) {

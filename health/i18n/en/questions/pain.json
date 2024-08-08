@@ -1,69 +1,344 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Who is experiencing the pain?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Myself",
+        "description": "I am experiencing the pain.",
+        "next": "pain_location"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Someone Else",
+        "description": "Someone else is experiencing the pain.",
+        "next": "relation_to_pain"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_pain": {
+    "text": "What is your relation to the person experiencing the pain?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Family",
+        "description": "Family member.",
+        "next": "pain_location"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "pain_location"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "pain_location"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "pain_location"
+      }
+    ]
+  },
+  "pain_location": {
+    "text": "Where is the pain located?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Head",
+        "description": "Head pain (e.g., headache, migraine).",
+        "next": "head_pain_details"
+      },
+      {
+        "short": "Chest",
+        "description": "Chest pain.",
+        "next": "chest_pain_details"
+      },
+      {
+        "short": "Abdomen",
+        "description": "Abdominal pain.",
+        "next": "abdomen_pain_details"
+      },
+      {
+        "short": "Back",
+        "description": "Back pain.",
+        "next": "back_pain_details"
+      },
+      {
+        "short": "Limb",
+        "description": "Pain in an arm or leg.",
+        "next": "limb_pain_details"
+      },
+      {
+        "short": "Other",
+        "description": "Pain in another area.",
+        "next": "other_pain_details"
+      }
+    ]
+  },
+  "head_pain_details": {
+    "text": "Please describe the head pain.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Migraine",
+        "description": "Severe headache often with nausea and light sensitivity.",
+        "next": "head_pain_severity"
+      },
+      {
+        "short": "Tension",
+        "description": "Tension headache, mild to moderate pain.",
+        "next": "head_pain_severity"
+      },
+      {
+        "short": "Cluster",
+        "description": "Cluster headaches, severe pain around one eye.",
+        "next": "head_pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of head pain.",
+        "next": "head_pain_severity"
+      }
+    ]
+  },
+  "chest_pain_details": {
+    "text": "Please describe the chest pain.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Sharp",
+        "description": "Sharp, stabbing pain.",
+        "next": "chest_pain_severity"
+      },
+      {
+        "short": "Pressure",
+        "description": "Pressure or tightness.",
+        "next": "chest_pain_severity"
+      },
+      {
+        "short": "Burning",
+        "description": "Burning sensation.",
+        "next": "chest_pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of chest pain.",
+        "next": "chest_pain_severity"
+      }
+    ]
+  },
+  "abdomen_pain_details": {
+    "text": "Please describe the abdominal pain.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Cramps",
+        "description": "Cramping pain.",
+        "next": "abdomen_pain_severity"
+      },
+      {
+        "short": "Sharp",
+        "description": "Sharp, stabbing pain.",
+        "next": "abdomen_pain_severity"
+      },
+      {
+        "short": "Dull",
+        "description": "Dull, aching pain.",
+        "next": "abdomen_pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of abdominal pain.",
+        "next": "abdomen_pain_severity"
+      }
+    ]
+  },
+  "back_pain_details": {
+    "text": "Please describe the back pain.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Upper Back",
+        "description": "Pain in the upper back.",
+        "next": "back_pain_severity"
+      },
+      {
+        "short": "Lower Back",
+        "description": "Pain in the lower back.",
+        "next": "back_pain_severity"
+      },
+      {
+        "short": "Spine",
+        "description": "Pain along the spine.",
+        "next": "back_pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of back pain.",
+        "next": "back_pain_severity"
+      }
+    ]
+  },
+  "limb_pain_details": {
+    "text": "Please describe the limb pain.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Arm",
+        "description": "Pain in an arm.",
+        "next": "limb_pain_severity"
+      },
+      {
+        "short": "Leg",
+        "description": "Pain in a leg.",
+        "next": "limb_pain_severity"
+      },
+      {
+        "short": "Joint",
+        "description": "Pain in a joint.",
+        "next": "limb_pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of limb pain.",
+        "next": "limb_pain_severity"
+      }
+    ]
+  },
+  "other_pain_details": {
+    "text": "Please describe the pain location and type.",
+    "type": "text",
+    "next": "pain_severity"
+  },
+  "pain_severity": {
+    "text": "How severe is the pain?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Mild",
+        "description": "Mild pain.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate pain.",
+        "next": "pain_duration"
       },
       {
         "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
-        "next": "call_emergency"
+        "description": "Severe pain.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Unbearable",
+        "description": "Unbearable pain.",
+        "next": "pain_duration"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "pain_duration": {
+    "text": "How long has the pain been present?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Minutes",
+        "description": "Pain present for minutes.",
+        "next": "pain_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
-        "next": "call_emergency"
+        "short": "Hours",
+        "description": "Pain present for hours.",
+        "next": "pain_effect"
+      },
+      {
+        "short": "Days",
+        "description": "Pain present for days.",
+        "next": "pain_effect"
+      },
+      {
+        "short": "Weeks",
+        "description": "Pain present for weeks or longer.",
+        "next": "pain_effect"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "pain_effect": {
+    "text": "How is the pain affecting the person's ability to perform daily activities?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Not at All",
+        "description": "No effect on daily activities.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Slightly",
+        "description": "Slight impact on daily activities.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Moderately",
+        "description": "Moderate impact on daily activities.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Severely",
+        "description": "Severe impact on daily activities.",
+        "next": "self_treatment"
+      }
+    ]
+  },
+  "self_treatment": {
+    "text": "Have any self-treatment measures been tried?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Self-treatment measures tried.",
+        "next": "self_treatment_effect"
+      },
+      {
+        "short": "No",
+        "description": "No self-treatment measures tried.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "What was the effect of the self-treatment measures?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Effective",
+        "description": "Self-treatment measures were effective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Ineffective",
+        "description": "Self-treatment measures were ineffective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Worsened",
+        "description": "Pain worsened after self-treatment.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "medical_assistance": {
+    "text": "Do you require further medical assistance?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]

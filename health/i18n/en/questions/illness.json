@@ -1,69 +1,386 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Who is experiencing the illness?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Myself",
+        "description": "I am experiencing the illness.",
+        "next": "symptom_description"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Someone Else",
+        "description": "Someone else is experiencing the illness.",
+        "next": "relation_to_illness"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_illness": {
+    "text": "What is your relation to the person experiencing the illness?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Family",
+        "description": "Family member.",
+        "next": "symptom_description"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "symptom_description"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "symptom_description"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "symptom_description"
+      }
+    ]
+  },
+  "symptom_description": {
+    "text": "What symptoms are being experienced?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Fever",
+        "description": "Fever.",
+        "next": "fever_details"
+      },
+      {
+        "short": "Cough",
+        "description": "Cough.",
+        "next": "cough_details"
+      },
+      {
+        "short": "Pain",
+        "description": "Pain.",
+        "next": "pain_details"
+      },
+      {
+        "short": "Digestive",
+        "description": "Digestive issues (e.g., nausea, vomiting, diarrhea).",
+        "next": "digestive_details"
+      },
+      {
+        "short": "Skin",
+        "description": "Skin issues (e.g., rash, itching).",
+        "next": "skin_details"
+      },
+      {
+        "short": "Other",
+        "description": "Other symptoms.",
+        "next": "other_details"
+      }
+    ]
+  },
+  "fever_details": {
+    "text": "Please describe the fever symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Low-grade",
+        "description": "Low-grade fever (below 38°C or 100.4°F).",
+        "next": "fever_duration"
+      },
+      {
+        "short": "High-grade",
+        "description": "High-grade fever (above 38°C or 100.4°F).",
+        "next": "fever_duration"
+      },
+      {
+        "short": "Chills",
+        "description": "Chills or shivering.",
+        "next": "fever_duration"
+      }
+    ]
+  },
+  "fever_duration": {
+    "text": "How long has the fever been present?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Hours",
+        "description": "Fever present for hours.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Days",
+        "description": "Fever present for days.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Weeks",
+        "description": "Fever present for weeks.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "cough_details": {
+    "text": "Please describe the cough symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Dry",
+        "description": "Dry cough.",
+        "next": "cough_duration"
+      },
+      {
+        "short": "Productive",
+        "description": "Productive cough with mucus.",
+        "next": "cough_duration"
       },
       {
         "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "description": "Severe cough.",
+        "next": "cough_duration"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of cough.",
+        "next": "cough_duration"
+      }
+    ]
+  },
+  "cough_duration": {
+    "text": "How long has the cough been present?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Hours",
+        "description": "Cough present for hours.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Days",
+        "description": "Cough present for days.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Weeks",
+        "description": "Cough present for weeks.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "pain_details": {
+    "text": "Please describe the pain symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Headache",
+        "description": "Headache.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Abdominal",
+        "description": "Abdominal pain.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Chest",
+        "description": "Chest pain.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Muscle",
+        "description": "Muscle pain.",
+        "next": "pain_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of pain.",
+        "next": "pain_severity"
+      }
+    ]
+  },
+  "digestive_details": {
+    "text": "Please describe the digestive symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Nausea",
+        "description": "Nausea.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Vomiting",
+        "description": "Vomiting.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Diarrhea",
+        "description": "Diarrhea.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Other",
+        "description": "Other digestive issues.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "skin_details": {
+    "text": "Please describe the skin symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Rash",
+        "description": "Rash.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Itching",
+        "description": "Itching.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Hives",
+        "description": "Hives.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Other",
+        "description": "Other skin issues.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "other_details": {
+    "text": "Please describe the symptoms.",
+    "type": "text",
+    "next": "severity_assessment"
+  },
+  "pain_severity": {
+    "text": "How severe is the pain?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Mild",
+        "description": "Mild pain.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate pain.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Severe",
+        "description": "Severe pain.",
+        "next": "pain_duration"
+      },
+      {
+        "short": "Unbearable",
+        "description": "Unbearable pain.",
+        "next": "pain_duration"
+      }
+    ]
+  },
+  "pain_duration": {
+    "text": "How long has the pain been present?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Minutes",
+        "description": "Pain present for minutes.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Hours",
+        "description": "Pain present for hours.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Days",
+        "description": "Pain present for days.",
+        "next": "severity_assessment"
+      },
+      {
+        "short": "Weeks",
+        "description": "Pain present for weeks or longer.",
+        "next": "severity_assessment"
+      }
+    ]
+  },
+  "severity_assessment": {
+    "text": "How severe are the overall symptoms?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Mild",
+        "description": "Mild symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Severe",
+        "description": "Severe symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Life-threatening",
+        "description": "Life-threatening symptoms.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "self_treatment": {
+    "text": "Have any self-treatment measures been tried?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Yes",
+        "description": "Self-treatment measures tried.",
+        "next": "self_treatment_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
+        "short": "No",
+        "description": "No self-treatment measures tried.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "What was the effect of the self-treatment measures?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Effective",
+        "description": "Self-treatment measures were effective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Ineffective",
+        "description": "Self-treatment measures were ineffective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Worsened",
+        "description": "Symptoms worsened after self-treatment.",
         "next": "call_emergency"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "medical_assistance": {
+    "text": "Do you require further medical assistance?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]

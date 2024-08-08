@@ -22,7 +22,7 @@
       {
         "short": "Yes",
         "description": "The person is responsive.",
-        "next": null
+        "next": "check_injuries"
       },
       {
         "short": "No",
@@ -48,7 +48,7 @@
     ]
   },
   "check_injuries": {
-    "text": "Check for visible injuries.",
+    "text": "Check for visible injuries. Are there any visible injuries?",
     "type": "options",
     "options": [
       {
@@ -59,18 +59,39 @@
       {
         "short": "No",
         "description": "No visible injuries.",
+        "next": "monitor_condition"
+      }
+    ]
+  },
+  "monitor_condition": {
+    "text": "Continue to monitor the person's condition. Do you need further assistance?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Require further assistance.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]
   },
   "perform_cpr": {
-    "text": "Perform CPR: Chest compressions at a rate of 100-120 per minute.",
+    "text": "Perform CPR: Chest compressions at a rate of 100-120 per minute. After performing CPR, do you need further assistance?",
     "type": "options",
     "options": [
       {
-        "short": "CPR Done",
-        "description": "Performed chest compressions.",
+        "short": "Yes",
+        "description": "Require further assistance.",
         "next": "call_emergency"
+      },
+      {
+        "short": "No",
+        "description": "No further assistance required.",
+        "next": null
       }
     ]
   },

@@ -1,69 +1,246 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Who is experiencing the allergic reaction?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Myself",
+        "description": "I am experiencing the allergic reaction.",
+        "next": "allergy_symptoms"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Someone Else",
+        "description": "Someone else is experiencing the allergic reaction.",
+        "next": "relation_to_allergy"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_allergy": {
+    "text": "What is your relation to the person experiencing the allergic reaction?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Family",
+        "description": "Family member.",
+        "next": "allergy_symptoms"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "allergy_symptoms"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "allergy_symptoms"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "allergy_symptoms"
+      }
+    ]
+  },
+  "allergy_symptoms": {
+    "text": "What symptoms are present?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Skin",
+        "description": "Skin reactions (e.g., rash, hives, itching).",
+        "next": "skin_symptoms_details"
+      },
+      {
+        "short": "Respiratory",
+        "description": "Respiratory symptoms (e.g., difficulty breathing, wheezing).",
+        "next": "respiratory_symptoms_details"
+      },
+      {
+        "short": "Digestive",
+        "description": "Digestive symptoms (e.g., nausea, vomiting, diarrhea).",
+        "next": "digestive_symptoms_details"
+      },
+      {
+        "short": "General",
+        "description": "General symptoms (e.g., swelling, dizziness, anaphylaxis).",
+        "next": "general_symptoms_details"
+      }
+    ]
+  },
+  "skin_symptoms_details": {
+    "text": "Please describe the skin symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Rash",
+        "description": "Rash.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Hives",
+        "description": "Hives.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Itching",
+        "description": "Itching.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Swelling",
+        "description": "Swelling.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "respiratory_symptoms_details": {
+    "text": "Please describe the respiratory symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Difficulty Breathing",
+        "description": "Difficulty breathing.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Wheezing",
+        "description": "Wheezing.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Coughing",
+        "description": "Coughing.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Throat Tightness",
+        "description": "Throat tightness.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "digestive_symptoms_details": {
+    "text": "Please describe the digestive symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Nausea",
+        "description": "Nausea.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Vomiting",
+        "description": "Vomiting.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Diarrhea",
+        "description": "Diarrhea.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Stomach Pain",
+        "description": "Stomach pain.",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "general_symptoms_details": {
+    "text": "Please describe the general symptoms.",
+    "type": "options",
+    "options": [
+      {
+        "short": "Swelling",
+        "description": "Swelling (e.g., lips, tongue, face).",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Dizziness",
+        "description": "Dizziness or lightheadedness.",
+        "next": "allergy_severity"
+      },
+      {
+        "short": "Anaphylaxis",
+        "description": "Anaphylaxis (severe allergic reaction).",
+        "next": "allergy_severity"
+      }
+    ]
+  },
+  "allergy_severity": {
+    "text": "How severe are the symptoms?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Mild",
+        "description": "Mild symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate symptoms.",
+        "next": "self_treatment"
       },
       {
         "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "description": "Severe symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Life-threatening",
+        "description": "Life-threatening symptoms.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "self_treatment": {
+    "text": "Have any self-treatment measures been tried?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Yes",
+        "description": "Self-treatment measures tried.",
+        "next": "self_treatment_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
+        "short": "No",
+        "description": "No self-treatment measures tried.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "What was the effect of the self-treatment measures?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Effective",
+        "description": "Self-treatment measures were effective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Ineffective",
+        "description": "Self-treatment measures were ineffective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Worsened",
+        "description": "Symptoms worsened after self-treatment.",
         "next": "call_emergency"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "medical_assistance": {
+    "text": "Do you require further medical assistance?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]

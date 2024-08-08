@@ -1,69 +1,168 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Who is the person bitten by the animal?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Myself",
+        "description": "I am the person bitten.",
+        "next": "animal_type"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Someone Else",
+        "description": "Someone else was bitten.",
+        "next": "relation_to_bitten"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_bitten": {
+    "text": "What is your relation to the person bitten?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Family",
+        "description": "Family member.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "animal_type"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "animal_type"
+      }
+    ]
+  },
+  "animal_type": {
+    "text": "What type of animal caused the bite?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Domestic",
+        "description": "Bitten by a domestic animal (e.g., dog, cat).",
+        "next": "domestic_animal_details"
+      },
+      {
+        "short": "Wild",
+        "description": "Bitten by a wild animal.",
+        "next": "wild_animal_details"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown animal.",
+        "next": "bite_severity"
+      }
+    ]
+  },
+  "domestic_animal_details": {
+    "text": "What type of domestic animal caused the bite?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Dog",
+        "description": "Bitten by a dog.",
+        "next": "bite_severity"
+      },
+      {
+        "short": "Cat",
+        "description": "Bitten by a cat.",
+        "next": "bite_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Bitten by another type of domestic animal.",
+        "next": "bite_severity"
+      }
+    ]
+  },
+  "wild_animal_details": {
+    "text": "What type of wild animal caused the bite?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Rodent",
+        "description": "Bitten by a rodent (e.g., rat, squirrel).",
+        "next": "bite_severity"
+      },
+      {
+        "short": "Reptile",
+        "description": "Bitten by a reptile (e.g., snake, lizard).",
+        "next": "bite_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Bitten by another type of wild animal.",
+        "next": "bite_severity"
+      }
+    ]
+  },
+  "bite_severity": {
+    "text": "How severe is the bite?",
     "type": "options",
     "options": [
       {
         "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "description": "Superficial bite with minimal bleeding.",
+        "next": "bite_treatment"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate bite with some bleeding.",
+        "next": "bite_treatment"
       },
       {
         "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "description": "Deep bite with significant bleeding or tissue damage.",
+        "next": "bite_treatment"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown severity.",
+        "next": "bite_treatment"
+      }
+    ]
+  },
+  "bite_treatment": {
+    "text": "Follow these steps for treating the bite: Clean the wound thoroughly with soap and water, apply an antibiotic ointment, and cover with a clean bandage. Do you know if the animal was vaccinated against rabies?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "The animal was vaccinated.",
+        "next": "bite_treatment_step2"
+      },
+      {
+        "short": "No",
+        "description": "The animal was not vaccinated.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown vaccination status.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "bite_treatment_step2": {
+    "text": "Do you require further medical assistance?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
-      },
-      {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
-        "next": "call_emergency"
-      }
-    ]
-  },
-  "fracture_type": {
-    "text": "What type of fracture?",
-    "type": "options",
-    "options": [
-      {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]

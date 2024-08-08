@@ -1,22 +1,102 @@
 {
   "start": {
+    "text": "Who is the injured person?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Myself",
+        "description": "I am the injured person.",
+        "next": "injury_type"
+      },
+      {
+        "short": "Someone Else",
+        "description": "The injured person is someone else.",
+        "next": "relation_to_injured"
+      }
+    ]
+  },
+  "relation_to_injured": {
+    "text": "What is your relation to the injured person?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Family",
+        "description": "Family member.",
+        "next": "injury_type"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "injury_type"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "injury_type"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "injury_type"
+      }
+    ]
+  },
+  "injury_type": {
     "text": "What type of injury is it?",
     "type": "options",
     "options": [
       {
+        "short": "Fracture",
+        "description": "Bone fracture.",
+        "next": "fracture_severity"
+      },
+      {
         "short": "Cut",
-        "description": "There is a cut.",
+        "description": "Laceration or incision.",
         "next": "cut_severity"
       },
       {
         "short": "Burn",
-        "description": "There is a burn.",
+        "description": "Thermal injury.",
         "next": "burn_severity"
+      }
+    ]
+  },
+  "fracture_severity": {
+    "text": "How severe is the fracture?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Severe",
+        "description": "Open fracture with visible bone.",
+        "next": "fracture_treatment",
+        "critical": true
       },
       {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Minor",
+        "description": "Closed fracture without skin break.",
+        "next": "fracture_treatment"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown severity.",
+        "next": "fracture_treatment"
+      }
+    ]
+  },
+  "fracture_treatment": {
+    "text": "Follow these steps for treating the fracture: Stabilize the affected area with a splint, avoid moving the injured limb unnecessarily, and apply cold packs to reduce swelling. Do you require further medical assistance?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Require further medical assistance.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "No",
+        "description": "No further assistance required.",
+        "next": null
       }
     ]
   },
@@ -25,14 +105,36 @@
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Severe",
+        "description": "Deep cut with significant bleeding.",
+        "next": "cut_treatment",
+        "critical": true
       },
       {
-        "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "short": "Minor",
+        "description": "Superficial laceration with minimal bleeding.",
+        "next": "cut_treatment"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown severity.",
+        "next": "cut_treatment"
+      }
+    ]
+  },
+  "cut_treatment": {
+    "text": "Follow these steps for treating the cut: Apply firm pressure to the wound to control bleeding, clean the wound with sterile water, and cover the wound with a sterile bandage. Do you require further medical assistance?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
+      },
+      {
+        "short": "No",
+        "description": "No further assistance required.",
+        "next": null
       }
     ]
   },
@@ -41,29 +143,35 @@
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Severe",
+        "description": "Second or third-degree burn with blistering or charred skin.",
+        "next": "burn_treatment",
+        "critical": true
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
-        "next": "call_emergency"
+        "short": "Minor",
+        "description": "First-degree burn (superficial).",
+        "next": "burn_treatment"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown severity.",
+        "next": "burn_treatment"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "burn_treatment": {
+    "text": "Follow these steps for treating the burn: Cool the affected area under running water for at least 10 minutes, avoid using ice, and cover with a sterile, non-stick dressing. Do you require further medical assistance?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]

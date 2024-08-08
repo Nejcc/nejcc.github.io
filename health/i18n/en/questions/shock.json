@@ -1,69 +1,203 @@
 {
   "start": {
-    "text": "What type of injury is it?",
+    "text": "Who is experiencing shock?",
     "type": "options",
     "options": [
       {
-        "short": "Cut",
-        "description": "There is a cut.",
-        "next": "cut_severity"
+        "short": "Myself",
+        "description": "I am experiencing shock.",
+        "next": "shock_type"
       },
       {
-        "short": "Burn",
-        "description": "There is a burn.",
-        "next": "burn_severity"
-      },
-      {
-        "short": "Fracture",
-        "description": "There is a fracture.",
-        "next": "fracture_type"
+        "short": "Someone Else",
+        "description": "Someone else is experiencing shock.",
+        "next": "relation_to_shock"
       }
     ]
   },
-  "cut_severity": {
-    "text": "How severe is the cut?",
+  "relation_to_shock": {
+    "text": "What is your relation to the person experiencing shock?",
     "type": "options",
     "options": [
       {
-        "short": "Minor",
-        "description": "Minor cut.",
-        "next": null
+        "short": "Family",
+        "description": "Family member.",
+        "next": "shock_type"
+      },
+      {
+        "short": "Friend",
+        "description": "Friend.",
+        "next": "shock_type"
+      },
+      {
+        "short": "Stranger",
+        "description": "Stranger.",
+        "next": "shock_type"
+      },
+      {
+        "short": "Unknown",
+        "description": "Unknown relation.",
+        "next": "shock_type"
+      }
+    ]
+  },
+  "shock_type": {
+    "text": "What type of shock is suspected?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Hypovolemic",
+        "description": "Hypovolemic shock (due to blood loss).",
+        "next": "shock_symptoms"
+      },
+      {
+        "short": "Cardiogenic",
+        "description": "Cardiogenic shock (due to heart problems).",
+        "next": "shock_symptoms"
+      },
+      {
+        "short": "Anaphylactic",
+        "description": "Anaphylactic shock (severe allergic reaction).",
+        "next": "shock_symptoms"
+      },
+      {
+        "short": "Septic",
+        "description": "Septic shock (due to severe infection).",
+        "next": "shock_symptoms"
+      },
+      {
+        "short": "Neurogenic",
+        "description": "Neurogenic shock (due to nervous system damage).",
+        "next": "shock_symptoms"
+      },
+      {
+        "short": "Other",
+        "description": "Other type of shock.",
+        "next": "shock_symptoms"
+      }
+    ]
+  },
+  "shock_symptoms": {
+    "text": "What symptoms are being experienced?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Rapid Pulse",
+        "description": "Rapid pulse.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Weak Pulse",
+        "description": "Weak pulse.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Cold/Clammy Skin",
+        "description": "Cold, clammy skin.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Pale Skin",
+        "description": "Pale skin.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Rapid Breathing",
+        "description": "Rapid breathing.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Confusion",
+        "description": "Confusion or disorientation.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Unconsciousness",
+        "description": "Unconsciousness.",
+        "next": "shock_severity"
+      },
+      {
+        "short": "Other",
+        "description": "Other symptoms.",
+        "next": "shock_severity"
+      }
+    ]
+  },
+  "shock_severity": {
+    "text": "How severe are the symptoms?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Mild",
+        "description": "Mild symptoms.",
+        "next": "self_treatment"
+      },
+      {
+        "short": "Moderate",
+        "description": "Moderate symptoms.",
+        "next": "self_treatment"
       },
       {
         "short": "Severe",
-        "description": "Severe cut, bleeding heavily.",
+        "description": "Severe symptoms.",
+        "next": "call_emergency"
+      },
+      {
+        "short": "Life-threatening",
+        "description": "Life-threatening symptoms.",
         "next": "call_emergency"
       }
     ]
   },
-  "burn_severity": {
-    "text": "How severe is the burn?",
+  "self_treatment": {
+    "text": "Have any self-treatment measures been tried?",
     "type": "options",
     "options": [
       {
-        "short": "First Degree",
-        "description": "First degree burn.",
-        "next": null
+        "short": "Yes",
+        "description": "Self-treatment measures tried.",
+        "next": "self_treatment_effect"
       },
       {
-        "short": "Third Degree",
-        "description": "Third degree burn.",
+        "short": "No",
+        "description": "No self-treatment measures tried.",
+        "next": "medical_assistance"
+      }
+    ]
+  },
+  "self_treatment_effect": {
+    "text": "What was the effect of the self-treatment measures?",
+    "type": "options",
+    "options": [
+      {
+        "short": "Effective",
+        "description": "Self-treatment measures were effective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Ineffective",
+        "description": "Self-treatment measures were ineffective.",
+        "next": "medical_assistance"
+      },
+      {
+        "short": "Worsened",
+        "description": "Symptoms worsened after self-treatment.",
         "next": "call_emergency"
       }
     ]
   },
-  "fracture_type": {
-    "text": "What type of fracture?",
+  "medical_assistance": {
+    "text": "Do you require further medical assistance?",
     "type": "options",
     "options": [
       {
-        "short": "Open",
-        "description": "Bone is visible.",
+        "short": "Yes",
+        "description": "Require further medical assistance.",
         "next": "call_emergency"
       },
       {
-        "short": "Closed",
-        "description": "Bone is not visible.",
+        "short": "No",
+        "description": "No further assistance required.",
         "next": null
       }
     ]
