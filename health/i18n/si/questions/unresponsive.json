@@ -1,0 +1,154 @@
+{
+    "start": {
+      "text": "You have encountered an unresponsive person. What should you do first?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Check Safety",
+          "description": "Ensure the area is safe for you and the unresponsive person.",
+          "next": "check_responsiveness"
+        },
+        {
+          "short": "Call for Help",
+          "description": "Call for additional help if others are nearby.",
+          "next": "call_emergency"
+        }
+      ]
+    },
+    "check_responsiveness": {
+      "text": "Tap the person gently and shout, 'Are you okay?' Is the person responsive?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "The person is responsive.",
+          "next": "check_injuries"
+        },
+        {
+          "short": "No",
+          "description": "The person is unresponsive.",
+          "next": "call_emergency"
+        }
+      ]
+    },
+    "call_emergency": {
+      "text": "Call emergency services immediately. After calling, what should you check next?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Check Breathing",
+          "description": "Check if the person is breathing.",
+          "next": "check_breathing"
+        }
+      ]
+    },
+    "check_breathing": {
+      "text": "Look for chest movements, listen for breathing sounds, and feel for breath on your cheek. Is the person breathing?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "The person is breathing.",
+          "next": "place_recovery_position"
+        },
+        {
+          "short": "No",
+          "description": "The person is not breathing.",
+          "next": "start_cpr"
+        }
+      ]
+    },
+    "place_recovery_position": {
+      "text": "Place the person in the recovery position to keep their airway clear and open. Do you need further instructions on how to do this?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I need instructions.",
+          "next": "recovery_position_instructions"
+        },
+        {
+          "short": "No",
+          "description": "I know how to do this.",
+          "next": "monitor_person"
+        }
+      ]
+    },
+    "recovery_position_instructions": {
+      "text": "To place someone in the recovery position: 1) Kneel beside the person. 2) Place their arm nearest to you at a right angle to their body. 3) Bring the far arm across their chest and hold the back of their hand against their cheek. 4) Pull up the far knee, then pull on it to roll the person toward you. 5) Tilt the head back to keep the airway open. Have you placed the person in the recovery position?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "The person is in the recovery position.",
+          "next": "monitor_person"
+        }
+      ]
+    },
+    "monitor_person": {
+      "text": "Continue to monitor the person’s condition until help arrives. Ensure they are breathing and their airway remains open. Do you need any additional instructions?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I need additional instructions.",
+          "next": "additional_instructions"
+        },
+        {
+          "short": "No",
+          "description": "No additional instructions needed.",
+          "next": null
+        }
+      ]
+    },
+    "additional_instructions": {
+      "text": "Keep monitoring the person. If they stop breathing or their condition worsens, be prepared to start CPR. Do you understand?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I understand.",
+          "next": null
+        }
+      ]
+    },
+    "start_cpr": {
+      "text": "Start CPR immediately: 1) Place the heel of one hand in the center of the chest. 2) Place your other hand on top and interlock your fingers. 3) Press down hard and fast, at a rate of 100-120 compressions per minute. 4) After 30 compressions, give 2 rescue breaths if trained. Continue until help arrives. Are you performing CPR?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I am performing CPR.",
+          "next": "continue_cpr"
+        }
+      ]
+    },
+    "continue_cpr": {
+      "text": "Continue CPR until the person starts breathing or emergency help arrives. Do you need any additional assistance?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I need additional assistance.",
+          "next": "additional_cpr_instructions"
+        },
+        {
+          "short": "No",
+          "description": "No additional assistance needed.",
+          "next": null
+        }
+      ]
+    },
+    "additional_cpr_instructions": {
+      "text": "Make sure you are giving compressions at the correct rate and depth. If trained, provide rescue breaths. Switch with another person if you become tired. Continue until professional help takes over. Do you understand?",
+      "type": "options",
+      "options": [
+        {
+          "short": "Yes",
+          "description": "I understand.",
+          "next": null
+        }
+      ]
+    }
+  }
+  

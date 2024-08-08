@@ -43,5 +43,6 @@
     "instructions": "Instructions",
     "help": "Help",
     "settings": "Settings",
-    "language": "Language"
+    "language": "Language",
+    "unresponsive": "Unresponsive"
 }
