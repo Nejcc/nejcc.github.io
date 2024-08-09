@@ -1,0 +1,120 @@
+{
+    "sun": {
+      "name": "Sun",
+      "radius": 696340,
+      "color": "yellow"
+    },
+    "planets": [
+      {
+        "name": "Mercury",
+        "radius": 2440,
+        "color": "gray",
+        "distanceFromSun": 0.39,
+        "orbitSpeed": 0.024,
+        "moons": []
+      },
+      {
+        "name": "Venus",
+        "radius": 6052,
+        "color": "orange",
+        "distanceFromSun": 0.72,
+        "orbitSpeed": 0.018,
+        "moons": []
+      },
+      {
+        "name": "Earth",
+        "radius": 6371,
+        "color": "blue",
+        "distanceFromSun": 1.0,
+        "orbitSpeed": 0.01,
+        "moons": [
+          {
+            "name": "Moon",
+            "radius": 1737,
+            "distanceFromPlanet": 0.00257,
+            "orbitSpeed": 0.1,
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "name": "Mars",
+        "radius": 3389,
+        "color": "red",
+        "distanceFromSun": 1.52,
+        "orbitSpeed": 0.008,
+        "moons": [
+          {
+            "name": "Phobos",
+            "radius": 11,
+            "distanceFromPlanet": 0.000062,
+            "orbitSpeed": 0.12,
+            "color": "white"
+          },
+          {
+            "name": "Deimos",
+            "radius": 6.2,
+            "distanceFromPlanet": 0.000156,
+            "orbitSpeed": 0.08,
+            "color": "gray"
+          }
+        ]
+      },
+      {
+        "name": "Jupiter",
+        "radius": 69911,
+        "color": "brown",
+        "distanceFromSun": 5.2,
+        "orbitSpeed": 0.004,
+        "moons": [
+          {
+            "name": "Io",
+            "radius": 1821,
+            "distanceFromPlanet": 0.00282,
+            "orbitSpeed": 0.1,
+            "color": "white"
+          },
+          {
+            "name": "Europa",
+            "radius": 1561,
+            "distanceFromPlanet": 0.00448,
+            "orbitSpeed": 0.09,
+            "color": "gray"
+          }
+        ]
+      },
+      {
+        "name": "Saturn",
+        "radius": 58232,
+        "color": "tan",
+        "distanceFromSun": 9.58,
+        "orbitSpeed": 0.003,
+        "moons": [
+          {
+            "name": "Titan",
+            "radius": 2574,
+            "distanceFromPlanet": 0.00817,
+            "orbitSpeed": 0.06,
+            "color": "white"
+          }
+        ]
+      },
+      {
+        "name": "Uranus",
+        "radius": 25362,
+        "color": "lightblue",
+        "distanceFromSun": 19.22,
+        "orbitSpeed": 0.002,
+        "moons": []
+      },
+      {
+        "name": "Neptune",
+        "radius": 24622,
+        "color": "darkblue",
+        "distanceFromSun": 30.05,
+        "orbitSpeed": 0.001,
+        "moons": []
+      }
+    ]
+  }
+  
