@@ -1,0 +1,76 @@
+/* styles.css */
+body.light {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+body.dark {
+    background-color: #111;
+    color: #fff;
+}
+
+#terminal .terminal-input .input-field {
+    color: var(--terminal-text-color, #00ff00);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 1;
+}
+
+#terminal .suggestion {
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 0;
+}
+
+.theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-switcher button {
+    background: none;
+    border: 1px solid currentColor;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+/* styles.css */
+#terminal {
+    max-height: 100%; /* Limits the height of the terminal */
+    overflow-y: auto; /* Allows vertical scrolling */
+    padding-right: 10px; /* Space for scrollbar */
+}
+
+#terminal::-webkit-scrollbar {
+    width: 8px;
+}
+
+#terminal::-webkit-scrollbar-thumb {
+    background-color: #00ff00;
+    border-radius: 10px;
+}
+
+#terminal .terminal-input .input-field {
+    color: var(--terminal-text-color, #00ff00);
+    background: transparent;
+    border: none;
+    outline: none;
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 1;
+}
+
+#terminal .suggestion {
+    color: #555;
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre;
+    font-family: 'Courier New', Courier, monospace;
+    z-index: 0;
+}

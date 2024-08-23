@@ -1,0 +1,48 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced CLI CV</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div id="app">
+        <!-- Intro Section -->
+        <div v-if="showIntro" id="intro" class="h-screen flex items-center justify-center flex-col">
+            <div id="intro-text" class="text-3xl text-center">{{ displayedText }}<span v-if="isTyping">|</span></div>
+            <a href="#" @click.prevent="skipIntro" class="absolute bottom-8 text-white underline">Skip Intro</a>
+        </div>
+
+        <!-- Terminal Section -->
+        <div v-else id="terminal" class="h-screen bg-black text-green-400 p-6 font-mono overflow-y-auto">
+            <div class="terminal-window">
+                <div class="terminal-output" v-for="command in commands">
+                    <span class="prompt">Nejc@osx:~$</span> <span>{{ command.input }}</span>
+                    <div v-if="command.response" v-html="formatResponse(command.response)"></div>
+                </div>
+                <div class="terminal-input flex">
+                    <span class="prompt">Nejc@osx:~$</span>
+                    <div class="input-wrapper relative">
+                        <input 
+                            v-model="currentInput" 
+                            @input="suggestCommand" 
+                            @keydown.tab.prevent="completeSuggestion" 
+                            @keyup.enter="handleCommand" 
+                            @keydown.up.prevent="navigateHistory(-1)"
+                            @keydown.down.prevent="navigateHistory(1)"
+                            class="input-field bg-black border-none outline-none text-green-400" 
+                            autofocus>
+                        <span class="suggestion text-green-700">{{ ghostedSuggestion }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
