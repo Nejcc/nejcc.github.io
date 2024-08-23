@@ -1,0 +1,166 @@
+{
+    "chartsData": [
+      {
+        "elementId": "chart1",
+        "label": "LOVE",
+        "data": [0, -1, 1, 2],
+        "backgroundColor": "rgba(255, 99, 132, 0.2)",
+        "borderColor": "rgba(255, 99, 132, 1)",
+        "description": "The chart representing love starts with a dip, symbolizing the initial struggles or the feeling of loss that often precedes deep affection. As time progresses, love strengthens, represented by the upward trajectory."
+      },
+      {
+        "elementId": "chart2",
+        "label": "SUCCESS",
+        "data": [0, 1, 0.5, 1.5, 1, 2],
+        "backgroundColor": "rgba(75, 192, 192, 0.2)",
+        "borderColor": "rgba(75, 192, 192, 1)",
+        "description": "Success is rarely a straight path. The stair-like progression in this chart illustrates the incremental gains, each step representing a small victory, with occasional plateaus where one consolidates before moving forward again."
+      },
+      {
+        "elementId": "chart3",
+        "label": "LIE",
+        "data": [0, -0.5, 0, -1, 0, -2],
+        "backgroundColor": "rgba(255, 205, 86, 0.2)",
+        "borderColor": "rgba(255, 205, 86, 1)",
+        "description": "The downward staircase of the 'LIE' chart depicts how deception usually leads to a decline, with each lie leading to further complications, ultimately resulting in a downfall."
+      },
+      {
+        "elementId": "chart4",
+        "label": "LOYALTY",
+        "data": [0, 2],
+        "backgroundColor": "rgba(54, 162, 235, 0.2)",
+        "borderColor": "rgba(54, 162, 235, 1)",
+        "description": "True loyalty is steadfast. The steady upward line indicates a continual build-up of trust and commitment over time."
+      },
+      {
+        "elementId": "chart5",
+        "label": "GAMBLE",
+        "data": [0, 1, -2],
+        "backgroundColor": "rgba(153, 102, 255, 0.2)",
+        "borderColor": "rgba(153, 102, 255, 1)",
+        "description": "The 'GAMBLE' chart shows a brief rise in fortune followed by a steep decline, a common narrative in the world of risk-taking where short-term gains often lead to long-term losses."
+      },
+      {
+        "elementId": "chart6",
+        "label": "DECISION",
+        "data": [0, 1, -1],
+        "backgroundColor": "rgba(255, 159, 64, 0.2)",
+        "borderColor": "rgba(255, 159, 64, 1)",
+        "description": "Making decisions often leads to a fork in the road. This chart represents the potential for vastly different outcomes based on the choices made at the pivotal moment."
+      },
+      {
+        "elementId": "chart7",
+        "label": "DRUG",
+        "data": [0, -2],
+        "backgroundColor": "rgba(201, 203, 207, 0.2)",
+        "borderColor": "rgba(201, 203, 207, 1)",
+        "description": "The 'DRUG' chart is a stark depiction of how substance abuse can lead to a rapid decline, starting with an initial high that soon plummets into detrimental consequences."
+      },
+      {
+        "elementId": "chart8",
+        "label": "FRIENDSHIP",
+        "data": [0, 1, 0.5, 2],
+        "backgroundColor": "rgba(255, 159, 64, 0.2)",
+        "borderColor": "rgba(255, 159, 64, 1)",
+        "description": "The 'FRIENDSHIP' chart has its ups and downs, representing the natural fluctuations in relationships, but with an overall positive trend, reflecting the growth that comes with true companionship."
+      },
+      {
+        "elementId": "chart9",
+        "label": "HAPPINESS",
+        "data": [0, 1, 1.5, 2, 3],
+        "backgroundColor": "rgba(54, 162, 235, 0.2)",
+        "borderColor": "rgba(54, 162, 235, 1)",
+        "description": "Happiness, as shown, can build over time, with each peak representing a joyful moment. The overall upward trend suggests that happiness is a journey, not a destination."
+      },
+      {
+        "elementId": "chart10",
+        "label": "REGRET",
+        "data": [0, -0.5, -1, -2],
+        "backgroundColor": "rgba(255, 99, 132, 0.2)",
+        "borderColor": "rgba(255, 99, 132, 1)",
+        "description": "Regret is depicted as a steep decline, showing how actions or inactions can weigh heavily over time, dragging one down further into remorse."
+      },
+      {
+        "elementId": "chart11",
+        "label": "GROWTH",
+        "data": [0, 0.5, 1, 1.5, 2],
+        "backgroundColor": "rgba(75, 192, 192, 0.2)",
+        "borderColor": "rgba(75, 192, 192, 1)",
+        "description": "Personal growth is shown as a gradual climb, where each small step forward contributes to overall development, despite occasional setbacks."
+      },
+      {
+        "elementId": "chart12",
+        "label": "SACRIFICE",
+        "data": [0, 1, 0.5, 0],
+        "backgroundColor": "rgba(153, 102, 255, 0.2)",
+        "borderColor": "rgba(153, 102, 255, 1)",
+        "description": "The 'SACRIFICE' chart represents the cost of giving up something valuable, with an initial rise as the sacrifice is made, but potentially leading to a plateau or decline as the weight of the sacrifice takes its toll."
+      },
+      {
+        "elementId": "chart13",
+        "label": "AMBITION",
+        "data": [0, 1, 1.5, 2, 2.5],
+        "backgroundColor": "rgba(54, 162, 235, 0.2)",
+        "borderColor": "rgba(54, 162, 235, 1)",
+        "description": "Ambition is a driving force, depicted here as a steady ascent, pushing higher and higher, though sometimes it may plateau before another burst of determination propels it further."
+      },
+      {
+        "elementId": "chart14",
+        "label": "TRUST",
+        "data": [0, 1, 0.5, 1.5, 2],
+        "backgroundColor": "rgba(255, 159, 64, 0.2)",
+        "borderColor": "rgba(255, 159, 64, 1)",
+        "description": "Trust is fragile and precious. This chart shows how trust, once established, can grow steadily, but it may also face challenges that test its strength."
+      },
+      {
+        "elementId": "chart15",
+        "label": "ANGER",
+        "data": [0, 2, -1],
+        "backgroundColor": "rgba(255, 99, 132, 0.2)",
+        "borderColor": "rgba(255, 99, 132, 1)",
+        "description": "Anger is explosive, rising quickly and intensely before often burning out or leading to destructive outcomes, as represented by the sharp peaks and drops in this chart."
+      },
+      {
+        "elementId": "chart16",
+        "label": "FORGIVENESS",
+        "data": [0, -0.5, 0.5, 1.5],
+        "backgroundColor": "rgba(75, 192, 192, 0.2)",
+        "borderColor": "rgba(75, 192, 192, 1)",
+        "description": "Forgiveness is a healing process, shown as a slow upward trend that represents the gradual easing of pain and the rebuilding of relationships."
+      },
+      {
+        "elementId": "chart17",
+        "label": "DEPRESSION",
+        "data": [0, -0.5, -1, -1.5],
+        "backgroundColor": "rgba(201, 203, 207, 0.2)",
+        "borderColor": "rgba(201, 203, 207, 1)",
+        "description": "The 'DEPRESSION' chart shows a gradual decline, reflecting how this condition often worsens over time without intervention, highlighting the need for support and treatment."
+      },
+      {
+        "elementId": "chart18",
+        "label": "PATIENCE",
+        "data": [0, 0.5, 1, 1.2, 1.5, 1.8, 2],
+        "backgroundColor": "rgba(75, 192, 192, 0.2)",
+        "borderColor": "rgba(75, 192, 192, 1)",
+        "description": "PATIENCE is depicted as a slow and steady upward trend, representing the gradual rewards that come with persistence and the ability to wait for the right moment. It reflects the idea that good things take time and that steady progress is often more valuable than quick, short-lived gains."
+      },
+      {
+        "elementId": "chart19",
+        "label": "RESILIENCE",
+        "data": [0, -1, 0, 1, -0.5, 1.5, 2],
+        "backgroundColor": "rgba(34, 197, 94, 0.2)",
+        "borderColor": "rgba(34, 197, 94, 1)",
+        "description": "RESILIENCE is represented by fluctuations with an overall upward trend, showing the ability to recover from setbacks and emerge stronger. Each dip represents a challenge, while the subsequent rise indicates the recovery and growth."
+      },
+      {
+        "elementId": "chart20",
+        "label": "ANXIETY",
+        "data": [0, 1, 0.5, 1.5, 1, 2.5, 1.5],
+        "backgroundColor": "rgba(239, 68, 68, 0.2)",
+        "borderColor": "rgba(239, 68, 68, 1)",
+        "description": "ANXIETY is depicted by sharp peaks and valleys, illustrating the unpredictable and often overwhelming nature of anxious thoughts. The erratic pattern reflects the emotional highs and lows experienced during periods of anxiety."
+      }
+      
+    ]
+  }
+  

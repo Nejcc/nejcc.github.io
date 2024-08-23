@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Behavioral Charts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .chart-column {
+            width: 300px;
+            margin: 20px;
+            text-align: center;
+        }
+        canvas {
+            background-color: #fafafa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .description {
+            text-align: justify;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        .description h3 {
+            text-align: center;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="w-full text-4xl text-center item-center">Exploring Human Behavior Through Charts</h1> 
+    <!-- Chart 1 -->
+    <div class="chart-column">
+        <canvas id="chart1"></canvas>
+        <div class="description">
+            <h3>LOVE</h3>
+            <p>The chart representing love starts with a dip, symbolizing the initial struggles or the feeling of loss that often precedes deep affection. As time progresses, love strengthens, represented by the upward trajectory.</p>
+        </div>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="chart-column">
+        <canvas id="chart2"></canvas>
+        <div class="description">
+            <h3>SUCCESS</h3>
+            <p>Success is rarely a straight path. The stair-like progression in this chart illustrates the incremental gains, each step representing a small victory, with occasional plateaus where one consolidates before moving forward again.</p>
+        </div>
+    </div>
+
+    <!-- Chart 3 -->
+    <div class="chart-column">
+        <canvas id="chart3"></canvas>
+        <div class="description">
+            <h3>LIE</h3>
+            <p>The downward staircase of the "LIE" chart depicts how deception usually leads to a decline, with each lie leading to further complications, ultimately resulting in a downfall.</p>
+        </div>
+    </div>
+
+    <!-- Chart 4 -->
+    <div class="chart-column">
+        <canvas id="chart4"></canvas>
+        <div class="description">
+            <h3>LOYALTY</h3>
+            <p>True loyalty is steadfast. The steady upward line indicates a continual build-up of trust and commitment over time.</p>
+        </div>
+    </div>
+
+    <!-- Chart 5 -->
+    <div class="chart-column">
+        <canvas id="chart5"></canvas>
+        <div class="description">
+            <h3>GAMBLE</h3>
+            <p>The "GAMBLE" chart shows a brief rise in fortune followed by a steep decline, a common narrative in the world of risk-taking where short-term gains often lead to long-term losses.</p>
+        </div>
+    </div>
+
+    <!-- Chart 6 -->
+    <div class="chart-column">
+        <canvas id="chart6"></canvas>
+        <div class="description">
+            <h3>DECISION</h3>
+            <p>Making decisions often leads to a fork in the road. This chart represents the potential for vastly different outcomes based on the choices made at the pivotal moment.</p>
+        </div>
+    </div>
+
+    <!-- Chart 7 -->
+    <div class="chart-column">
+        <canvas id="chart7"></canvas>
+        <div class="description">
+            <h3>DRUG</h3>
+            <p>The "DRUG" chart is a stark depiction of how substance abuse can lead to a rapid decline, starting with an initial high that soon plummets into detrimental consequences.</p>
+        </div>
+    </div>
+
+    <!-- Chart 8 -->
+    <div class="chart-column">
+        <canvas id="chart8"></canvas>
+        <div class="description">
+            <h3>FRIENDSHIP</h3>
+            <p>The "FRIENDSHIP" chart has its ups and downs, representing the natural fluctuations in relationships, but with an overall positive trend, reflecting the growth that comes with true companionship.</p>
+        </div>
+    </div>
+
+    <!-- Chart 9 -->
+    <div class="chart-column">
+        <canvas id="chart9"></canvas>
+        <div class="description">
+            <h3>HAPPINESS</h3>
+            <p>Happiness, as shown, can build over time, with each peak representing a joyful moment. The overall upward trend suggests that happiness is a journey, not a destination.</p>
+        </div>
+    </div>
+
+    <!-- Chart 10 -->
+    <div class="chart-column">
+        <canvas id="chart10"></canvas>
+        <div class="description">
+            <h3>REGRET</h3>
+            <p>Regret is depicted as a steep decline, showing how actions or inactions can weigh heavily over time, dragging one down further into remorse.</p>
+        </div>
+    </div>
+
+    <!-- Chart 11 -->
+    <div class="chart-column">
+        <canvas id="chart11"></canvas>
+        <div class="description">
+            <h3>GROWTH</h3>
+            <p>Personal growth is shown as a gradual climb, where each small step forward contributes to overall development, despite occasional setbacks.</p>
+        </div>
+    </div>
+
+    <!-- Chart 12 -->
+    <div class="chart-column">
+        <canvas id="chart12"></canvas>
+        <div class="description">
+            <h3>SACRIFICE</h3>
+            <p>The "SACRIFICE" chart represents the cost of giving up something valuable, with an initial rise as the sacrifice is made, but potentially leading to a plateau or decline as the weight of the sacrifice takes its toll.</p>
+        </div>
+    </div>
+
+    <!-- Additional charts with descriptions below -->
+    <div class="chart-column">
+        <canvas id="chart13"></canvas>
+        <div class="description">
+            <h3>AMBITION</h3>
+            <p>Ambition is a driving force, depicted here as a steady ascent, pushing higher and higher, though sometimes it may plateau before another burst of determination propels it further.</p>
+        </div>
+    </div>
+
+    <div class="chart-column">
+        <canvas id="chart14"></canvas>
+        <div class="description">
+            <h3>TRUST</h3>
+            <p>Trust is fragile and precious. This chart shows how trust, once established, can grow steadily, but it may also face challenges that test its strength.</p>
+        </div>
+    </div>
+
+    <div class="chart-column">
+        <canvas id="chart15"></canvas>
+        <div class="description">
+            <h3>ANGER</h3>
+            <p>Anger is explosive, rising quickly and intensely before often burning out or leading to destructive outcomes, as represented by the sharp peaks and drops in this chart.</p>
+        </div>
+    </div>
+
+    <div class="chart-column">
+        <canvas id="chart16"></canvas>
+        <div class="description">
+            <h3>FORGIVENESS</h3>
+            <p>Forgiveness is a healing process, shown as a slow upward trend that represents the gradual easing of pain and the rebuilding of relationships.</p>
+        </div>
+    </div>
+
+    <div class="chart-column">
+        <canvas id="chart17"></canvas>
+        <div class="description">
+            <h3>DEPRESSION</h3>
+            <p>The "DEPRESSION" chart shows a gradual decline, reflecting how this condition often worsens over time without intervention, highlighting the need for support and treatment.</p>
+        </div>
+    </div>
+
+    <div class="chart-column">
+        <canvas id="chart18"></canvas>
+        <div class="description">
+            <h3>PATIENCE</h3>
+            <p>PATIENCE is depicted as a slow and steady upward trend, representing the gradual rewards that come with persistence and the ability to wait for the right moment. It reflects the idea that good things take time and that steady progress is often more valuable than quick, short-lived gains.</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
