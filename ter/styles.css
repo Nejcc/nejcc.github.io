@@ -1,0 +1,140 @@
+/* styles.css */
+
+/* Reset margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Set the html and body to occupy the full viewport height */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+/* The #app should also take the full height */
+#app {
+    height: 100%;
+}
+
+/* The terminal and editor scenes will occupy the full viewport height */
+.terminal, .editor-scene {
+    height: 100vh;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+}
+
+/* General styles */
+body {
+    background-color: #1e1e1e;
+    color: #d4d4d4;
+    font-family: monospace;
+}
+
+/* Styles for the terminal */
+.terminal {
+    padding: 10px;
+    background-color: #1e1e1e;
+}
+
+.prompt {
+    display: flex;
+    position: relative;
+}
+
+.prompt > span {
+    margin-right: 5px;
+}
+
+.input-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.input {
+    background: none;
+    border: none;
+    color: #d4d4d4;
+    font-family: monospace;
+    font-size: 14px;
+    outline: none;
+    width: 100%;
+}
+
+.input::placeholder {
+    color: #555;
+}
+
+.ghost-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #555;
+    pointer-events: none;
+    font-family: monospace;
+    font-size: 14px;
+    white-space: pre;
+}
+
+.line {
+    display: flex;
+}
+
+.line span {
+    white-space: pre-wrap;
+}
+
+.line .error {
+    color: red;
+}
+
+/* Styles for the editor scene */
+.editor-scene {
+    background-color: #000;
+    color: #d4d4d4;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-header {
+    background-color: #333;
+    padding: 5px;
+    color: #fff;
+}
+
+.editor-textarea {
+    flex-grow: 1;
+    background-color: #000;
+    color: #d4d4d4;
+    font-family: monospace;
+    resize: none;
+    outline: none;
+    border: none;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Ensure textarea can scroll if content overflows */
+}
+
+
+
+/* Styles for the nano action prompt */
+.editor-action-prompt {
+    background-color: #222;
+    color: #fff;
+    padding: 5px;
+    position: absolute;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.editor-action-prompt input {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    outline: none;
+    padding: 5px;
+    font-family: monospace;
+}
