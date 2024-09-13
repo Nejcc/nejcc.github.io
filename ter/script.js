@@ -39,8 +39,9 @@ createApp({
                             v-model="editorContent"
                             ref="editorTextarea"
                         ></textarea>
-                        <div v-if="showActionPrompt" class="editor-action-prompt">
-                            :<input v-model="actionCommand" @keydown="handleActionCommand" />
+                        <div class="editor-bottom-bar" v-if="showBottomBar">
+                            [q: close  w: write  f: find ...]
+                            <input v-model="bottomBarInput" @keydown="handleBottomBarInput" />
                         </div>
                     </div>
                 </div>
@@ -66,32 +67,35 @@ createApp({
                     'touch', 'cat', 'rm', 'alias', 'nano', 'tree', 'history'
                 ];
 
-                const commandDescriptions = {
-                    'help': 'Display information about builtin commands.',
-                    'echo': 'Display a line of text.',
-                    'clear': 'Clear the terminal screen.',
-                    'date': 'Display or set the system date and time.',
-                    'uname': 'Print system information.',
-                    'ls': 'List directory contents.',
-                    'pwd': 'Print the name of the current working directory.',
-                    'cd': 'Change the shell working directory.',
-                    'mkdir': 'Create directories.',
-                    'touch': 'Change file timestamps or create files.',
-                    'cat': 'Concatenate files and print on the standard output.',
-                    'rm': 'Remove files or directories.',
-                    'alias': 'Define or display aliases.',
-                    'nano': 'Edit files using nano editor.',
-                    'tree': 'List contents of directories in a tree-like format.',
-                    'history': 'Display the command history.',
-                };
-
                 const unsavedChanges = ref(false);
-                const showActionPrompt = ref(false);
-                const actionCommand = ref('');
+                const showSearchPrompt = ref(false);
+                const searchQuery = ref('');
+                const lastSearchIndex = ref(0);
+                const showBottomBar = ref(false);
+                const bottomBarInput = ref('');
 
                 const fileSystem = reactive({
                     '/': { type: 'dir', contents: {} },
                 });
+
+                const commandsInfo = {
+                    help: 'Display information about builtin commands',
+                    echo: 'Display a line of text',
+                    clear: 'Clear the terminal screen',
+                    date: 'Display or set the system date and time',
+                    uname: 'Print system information',
+                    ls: 'List directory contents',
+                    pwd: 'Print name of current working directory',
+                    cd: 'Change the shell working directory',
+                    mkdir: 'Make directories',
+                    touch: 'Change file timestamps or create empty files',
+                    cat: 'Concatenate files and print on the standard output',
+                    rm: 'Remove files or directories',
+                    alias: 'Define or display aliases',
+                    nano: 'Edit text files',
+                    tree: 'List contents of directories in a tree-like format',
+                    history: 'Display the command history'
+                };
 
                 // Helper functions
                 const resolvePath = (path) => {
@@ -193,23 +197,24 @@ createApp({
 
                 const commands = {
                     help: (args) => {
-                        if (args.length === 0) {
-                            return 'Available commands:\n' + availableCommands.map(cmd => `${cmd} - ${commandDescriptions[cmd] || ''}`).join('\n');
-                        } else if (args.length === 1 && args[0] === '--help') {
-                            return 'Usage: help [command]\nDisplay information about builtin commands.';
-                        } else if (args.length === 1) {
-                            const cmd = args[0];
-                            if (commands[cmd]) {
-                                return `${cmd} - ${commandDescriptions[cmd] || 'No description available.'}`;
-                            } else {
-                                return `help: no help topics match '${cmd}'.`;
-                            }
-                        } else {
-                            return 'Usage: help [command]\nDisplay information about builtin commands.';
+                        if (args.length === 1 && args[0] === '--help') {
+                            return `Usage: help\nDisplay information about builtin commands.`;
                         }
+                        const lines = [];
+                        lines.push('Available commands:');
+                        for (let cmd of availableCommands) {
+                            const desc = commandsInfo[cmd] || '';
+                            lines.push(`  ${cmd.padEnd(10)} - ${desc}`);
+                        }
+                        return lines.join('\n');
                     },
                     echo: (args) => args.join(' '),
-                    date: () => new Date().toString(),
+                    date: (args) => {
+                        if (args.length === 1 && args[0] === '--help') {
+                            return `Usage: date\nDisplay the current date and time.`;
+                        }
+                        return new Date().toString();
+                    },
                     uname: () => 'Linux web-terminal 5.4.0-66-generic x86_64 GNU/Linux',
                     clear: () => {
                         history.splice(0, history.length);
@@ -217,6 +222,9 @@ createApp({
                     },
                     pwd: () => currentDir.value,
                     ls: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: ls [path]\nList directory contents.`;
+                        }
                         const path = args[0] ? resolvePath(args[0]) : currentDir.value;
                         const dir = getNode(path);
                         if (dir && dir.contents) {
@@ -227,6 +235,9 @@ createApp({
                         }
                     },
                     cd: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: cd [path]\nChange the shell working directory.`;
+                        }
                         let path = args[0] ? resolvePath(args[0]) : '/home/user';
                         path = normalizePath(path);
                         const dir = getNode(path);
@@ -237,6 +248,9 @@ createApp({
                         }
                     },
                     mkdir: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: mkdir [directory]\nCreate a new directory.`;
+                        }
                         if (!args[0]) return 'mkdir: missing operand';
                         const path = resolvePath(args[0]);
                         const normalizedPath = normalizePath(path);
@@ -248,6 +262,9 @@ createApp({
                         }
                     },
                     touch: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: touch [file]\nCreate an empty file or update its timestamp.`;
+                        }
                         if (!args[0]) return 'touch: missing file operand';
                         const path = resolvePath(args[0]);
                         const normalizedPath = normalizePath(path);
@@ -262,6 +279,9 @@ createApp({
                         }
                     },
                     cat: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: cat [file]\nDisplay the contents of a file.`;
+                        }
                         if (!args[0]) return 'cat: missing file operand';
                         const path = resolvePath(args[0]);
                         const normalizedPath = normalizePath(path);
@@ -275,6 +295,9 @@ createApp({
                         }
                     },
                     rm: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: rm [file]\nRemove a file.`;
+                        }
                         if (!args[0]) return 'rm: missing operand';
                         const path = resolvePath(args[0]);
                         const normalizedPath = normalizePath(path);
@@ -289,6 +312,9 @@ createApp({
                         }
                     },
                     alias: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: alias [name='value']\nDefine or display aliases.`;
+                        }
                         if (args.length === 0) {
                             // List all aliases
                             return Object.entries(aliases).map(([k, v]) => `alias ${k}='${v}'`).join('\n');
@@ -307,6 +333,9 @@ createApp({
                         }
                     },
                     nano: async (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: nano [file]\nEdit text files.`;
+                        }
                         if (!args[0]) return 'nano: missing file operand';
                         const path = resolvePath(args[0]);
                         const normalizedPath = normalizePath(path);
@@ -323,6 +352,8 @@ createApp({
                         editingFilePath.value = normalizedPath;
                         editorContent.value = file.content;
                         unsavedChanges.value = false;
+                        showBottomBar.value = false;
+                        bottomBarInput.value = '';
                         await nextTick(() => {
                             const editorElement = document.querySelector('.editor-textarea');
                             if (editorElement) {
@@ -330,7 +361,10 @@ createApp({
                             }
                         });
                     },
-                    tree: () => {
+                    tree: (args) => {
+                        if (args.includes('--help')) {
+                            return `Usage: tree\nList contents of directories in a tree-like format.`;
+                        }
                         const output = [];
                         const indent = (level) => '│   '.repeat(level);
                         const drawTree = (node, level) => {
@@ -360,8 +394,7 @@ createApp({
                 const handleCommand = async (inputText) => {
                     history.push({ type: 'input', text: inputText, prompt: prompt.value });
                     commandHistory.push(inputText);
-                    // Reset history index
-                    historyIndex.value = -1;
+                    historyIndex.value = commandHistory.length;
                     // Handle aliases
                     const [firstWord, ...rest] = inputText.trim().split(' ');
                     let commandLine = inputText;
@@ -370,9 +403,6 @@ createApp({
                     }
                     const [cmd, ...args] = commandLine.trim().split(' ');
                     if (commands[cmd]) {
-                        if (args.includes('--help')) {
-                            return handleCommand(`help ${cmd}`);
-                        }
                         const output = await commands[cmd](args);
                         if (output) {
                             history.push({ type: 'output', text: output, isError: output.startsWith(cmd) });
@@ -395,13 +425,14 @@ createApp({
 
                 const editorKeydown = (event) => {
                     if (event.ctrlKey && event.key === ':') {
+                        // Open bottom bar
                         event.preventDefault();
-                        showActionPrompt.value = true;
-                        actionCommand.value = '';
+                        showBottomBar.value = true;
+                        bottomBarInput.value = '';
                         nextTick(() => {
-                            const actionInput = document.querySelector('.editor-action-prompt input');
-                            if (actionInput) {
-                                actionInput.focus();
+                            const bottomBarInputElement = document.querySelector('.editor-bottom-bar input');
+                            if (bottomBarInputElement) {
+                                bottomBarInputElement.focus();
                             }
                         });
                     } else {
@@ -409,28 +440,42 @@ createApp({
                     }
                 };
 
-                const handleActionCommand = (event) => {
+                const handleBottomBarInput = (event) => {
                     if (event.key === 'Enter') {
-                        const command = actionCommand.value.trim();
-                        if (command === 'w') {
+                        const input = bottomBarInput.value.trim();
+                        if (input === 'w') {
                             saveFile();
-                        } else if (command === 'q') {
+                            showBottomBar.value = false;
+                            focusEditor();
+                        } else if (input === 'q') {
                             if (unsavedChanges.value) {
-                                // Ask for confirmation
-                                if (confirm('Unsaved changes will be lost. Exit anyway?')) {
-                                    exitEditor();
-                                }
+                                // Prompt user to save changes
+                                showBottomBar.value = true;
+                                bottomBarInput.value = 'wq';
+                                handleBottomBarInput({ key: 'Enter' });
                             } else {
+                                showBottomBar.value = false;
                                 exitEditor();
                             }
-                        } else if (command === 'f') {
-                            // Implement search functionality if desired
-                            alert('Search functionality not implemented yet.');
+                        } else if (input === 'wq') {
+                            saveFile();
+                            showBottomBar.value = false;
+                            exitEditor();
+                        } else if (input === 'f') {
+                            showBottomBar.value = false;
+                            showSearchPrompt.value = true;
+                            searchQuery.value = '';
+                            nextTick(() => {
+                                const searchInput = document.querySelector('.editor-search-prompt input');
+                                if (searchInput) {
+                                    searchInput.focus();
+                                }
+                            });
                         } else {
-                            alert(`Unknown command: ${command}`);
+                            // Invalid command
+                            showBottomBar.value = false;
+                            focusEditor();
                         }
-                        showActionPrompt.value = false;
-                        actionCommand.value = '';
                     }
                 };
 
@@ -439,7 +484,6 @@ createApp({
                     if (file && file.type === 'file') {
                         file.content = editorContent.value;
                         unsavedChanges.value = false;
-                        // Optionally, show a message in the editor
                         history.push({ type: 'output', text: `[ File saved ]` });
                     }
                 };
@@ -455,7 +499,25 @@ createApp({
                     });
                 };
 
-                const onInput = (event) => {
+                const performSearch = () => {
+                    showSearchPrompt.value = false;
+                    const query = searchQuery.value;
+                    const content = editorContent.value;
+                    const index = content.indexOf(query, lastSearchIndex.value + 1);
+                    if (index !== -1) {
+                        lastSearchIndex.value = index;
+                        const editorElement = document.querySelector('.editor-textarea');
+                        if (editorElement) {
+                            editorElement.focus();
+                            editorElement.setSelectionRange(index, index + query.length);
+                        }
+                    } else {
+                        alert('Not found');
+                        lastSearchIndex.value = -1;
+                    }
+                };
+
+                const onInput = () => {
                     updateGhostText();
                 };
 
@@ -474,12 +536,8 @@ createApp({
                         }
                     } else if (event.key === 'ArrowUp') {
                         event.preventDefault();
-                        if (historyIndex.value === -1) {
-                            historyIndex.value = commandHistory.length - 1;
-                        } else if (historyIndex.value > 0) {
+                        if (historyIndex.value > 0) {
                             historyIndex.value--;
-                        }
-                        if (commandHistory[historyIndex.value]) {
                             currentInput.value = commandHistory[historyIndex.value];
                         }
                     } else if (event.key === 'ArrowDown') {
@@ -488,7 +546,7 @@ createApp({
                             historyIndex.value++;
                             currentInput.value = commandHistory[historyIndex.value];
                         } else {
-                            historyIndex.value = -1;
+                            historyIndex.value = commandHistory.length;
                             currentInput.value = '';
                         }
                     }
@@ -507,6 +565,15 @@ createApp({
                     } else {
                         ghostText.value = '';
                     }
+                };
+
+                const focusEditor = () => {
+                    nextTick(() => {
+                        const editorElement = document.querySelector('.editor-textarea');
+                        if (editorElement) {
+                            editorElement.focus();
+                        }
+                    });
                 };
 
                 onMounted(() => {
@@ -533,9 +600,13 @@ createApp({
                     onInput,
                     onKeydown,
                     unsavedChanges,
-                    showActionPrompt,
-                    actionCommand,
-                    handleActionCommand
+                    showSearchPrompt,
+                    searchQuery,
+                    performSearch,
+                    showBottomBar,
+                    bottomBarInput,
+                    handleBottomBarInput,
+                    focusEditor
                 };
             }
         }
