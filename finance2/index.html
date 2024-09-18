@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conscious Spending Plan Wizard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2pdf.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="max-w-3xl mx-auto p-6 bg-white shadow-md mt-10 rounded-lg">
+        <h1 class="text-3xl font-bold mb-6 text-center">Conscious Spending Plan Wizard</h1>
+
+        <!-- Progress Bar -->
+        <div class="mb-8" v-if="currentGroupIndex < groups.length">
+            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                <div class="bg-blue-500 h-2.5 rounded-full" :style="{ width: progressPercentage + '%' }"></div>
+            </div>
+            <div class="text-right text-sm text-gray-600 mt-1">{{ progressPercentage.toFixed(0) }}% completed</div>
+        </div>
+
+        <!-- Wizard Content -->
+        <div v-if="currentGroupIndex < groups.length">
+            <h2 class="text-2xl font-semibold mb-4">{{ currentGroup.name }}</h2>
+
+            <!-- Questions in current group -->
+            <div v-for="(question, index) in currentGroup.questions" :key="question.name" class="mb-6">
+                <label class="block text-lg mb-2">{{ question.question }}</label>
+                <input
+                    v-if="question.type === 'number'"
+                    type="number"
+                    v-model.number="answers[question.name]"
+                    class="w-full p-2 border rounded"
+                >
+                <input
+                    v-else-if="question.type === 'text'"
+                    type="text"
+                    v-model="answers[question.name]"
+                    class="w-full p-2 border rounded"
+                >
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between mt-8">
+                <button
+                    v-if="currentGroupIndex > 0"
+                    @click="prevGroup"
+                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded"
+                >Previous</button>
+                <div></div>
+                <button
+                    @click="nextGroup"
+                    :disabled="!isGroupComplete"
+                    class="px-4 py-2 bg-blue-500 text-white rounded"
+                >Next</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div v-else>
+            <div id="summary">
+                <h2 class="text-2xl font-semibold mb-6 text-center">Your Conscious Spending Plan Summary</h2>
+
+                <!-- Net Worth Summary -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-2">Net Worth</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Total Assets:</strong> {{ formatCurrency(totalAssets) }}</li>
+                        <li><strong>Total Investments:</strong> {{ formatCurrency(totalInvestments) }}</li>
+                        <li><strong>Total Savings:</strong> {{ formatCurrency(answers.savings || 0) }}</li>
+                        <li><strong>Total Debt:</strong> {{ formatCurrency(answers.debt || 0) }}</li>
+                        <li><strong>Net Worth:</strong> {{ formatCurrency(netWorth) }}</li>
+                    </ul>
+                </div>
+
+                <!-- Income Summary -->
+                <div class="mb-6">
+                    <h3 class="text-xl font-semibold mb-2">Income</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Gross Monthly Income:</strong> {{ formatCurrency(answers.grossIncome || 0) }}</li>
+                        <li><strong>Net Monthly Income:</strong> {{ formatCurrency(netIncome) }}</li>
+                        <li><strong>Additional Monthly Income:</strong> {{ formatCurrency(answers.additionalIncome || 0) }}</li>
+                        <li><strong>Total Net Monthly Income:</strong> {{ formatCurrency(totalNetIncome) }}</li>
+                    </ul>
+                </div>
+
+                <!-- Spending Analysis -->
+                <div class="mb-6" v-for="category in spendingCategories" :key="category.name">
+                    <h3 class="text-xl font-semibold mb-2">{{ category.name }}</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Total {{ category.name }}:</strong> {{ formatCurrency(category.total) }}</li>
+                        <li>
+                            <strong>Percentage of Net Income:</strong>
+                            <span :class="getPercentageClass(category.percentage, category.recommendedMin, category.recommendedMax)">
+                                {{ category.percentage.toFixed(2) }}%
+                            </span>
+                            <span> (Recommended: {{ category.recommendedMin }}% - {{ category.recommendedMax }}%)</span>
+                        </li>
+                    </ul>
+                    <!-- Suggestions -->
+                    <div v-if="category.suggestion" class="mt-2">
+                        <p class="text-sm text-gray-700">{{ category.suggestion }}</p>
+                    </div>
+                </div>
+
+                <!-- Expense Breakdown Pie Chart -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Expense Breakdown</h3>
+                    <!-- Placeholder for image replacement -->
+                    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Financial Ratios -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Key Financial Ratios</h3>
+                    <ul class="list-disc pl-5">
+                        <li><strong>Savings Rate:</strong> {{ financialRatios.savingsRate.toFixed(2) }}%</li>
+                        <li><strong>Debt-to-Income Ratio:</strong> {{ financialRatios.debtToIncomeRatio.toFixed(2) }}%</li>
+                        <li><strong>Investment Rate:</strong> {{ financialRatios.investmentRate.toFixed(2) }}%</li>
+                        <li><strong>Emergency Fund Adequacy:</strong> {{ financialRatios.emergencyFundMonths.toFixed(1) }} months</li>
+                    </ul>
+                </div>
+
+                <!-- Score Meter -->
+                <div class="mt-8 text-center">
+                    <h3 class="text-xl font-semibold mb-4">Overall Financial Health Score</h3>
+                    <div class="relative h-8 bg-gray-200 rounded-full">
+                        <div class="absolute top-0 h-8 rounded-full"
+                             :style="{ width: overallScore + '%', backgroundColor: scoreColor }">
+                        </div>
+                    </div>
+                    <p class="mt-2 text-lg font-semibold" :class="scoreColorClass">{{ overallScore.toFixed(0) }}%</p>
+                    <p class="text-sm text-gray-600 mt-1">{{ scoreMessage }}</p>
+                </div>
+
+                <!-- Financial Projections -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">12-Month Financial Projections</h3>
+                    <!-- Placeholder for image replacement -->
+                    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                        <canvas id="projectionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Net Worth Projection -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Net Worth Projection</h3>
+                    <!-- Placeholder for image replacement -->
+                    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                        <canvas id="netWorthChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Additional Statistics and Recommendations -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Professional Advisor Recommendations</h3>
+                    <div v-for="(recommendation, index) in recommendations" :key="index" class="mb-4">
+                        <p class="text-gray-700">{{ recommendation }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export and Restart Buttons -->
+            <div class="flex flex-wrap justify-center space-x-4 mt-8">
+                <button @click="exportPlan" class="px-6 py-3 bg-blue-500 text-white rounded mt-2">Export Plan (JSON)</button>
+                <button @click="exportPDF" class="px-6 py-3 bg-purple-500 text-white rounded mt-2">Export to PDF</button>
+                <button @click="restart" class="px-6 py-3 bg-green-500 text-white rounded mt-2">Start Over</button>
+            </div>
+        </div>
+
+        <!-- Import Plan Button -->
+        <div class="text-center mt-8" v-if="currentGroupIndex === 0 && Object.keys(answers).length === 0">
+            <label class="px-6 py-3 bg-gray-300 text-gray-700 rounded cursor-pointer">
+                Import Plan
+                <input type="file" @change="importPlan" class="hidden" accept=".json">
+            </label>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentGroupIndex: 0,
+                    groups: [],
+                    answers: {},
+                    projectionChart: null,
+                    expenseChart: null,
+                    netWorthChart: null,
+                    isExporting: false,
+                    chartImages: {},
+                };
+            },
+            computed: {
+                currentGroup() {
+                    return this.groups[this.currentGroupIndex];
+                },
+                isGroupComplete() {
+                    if (!this.currentGroup) return false;
+                    return this.currentGroup.questions.every(question => {
+                        const answer = this.answers[question.name];
+                        return answer !== undefined && answer !== '';
+                    });
+                },
+                progressPercentage() {
+                    return ((this.currentGroupIndex) / this.groups.length) * 100;
+                },
+                netIncome() {
+                    return parseFloat(this.answers.netIncome) || 0;
+                },
+                additionalIncome() {
+                    return parseFloat(this.answers.additionalIncome) || 0;
+                },
+                totalNetIncome() {
+                    return this.netIncome + this.additionalIncome;
+                },
+                totalAssets() {
+                    return parseFloat(this.answers.assets) || 0;
+                },
+                totalInvestments() {
+                    return parseFloat(this.answers.investments) || 0;
+                },
+                netWorth() {
+                    return this.totalAssets + this.totalInvestments + (parseFloat(this.answers.savings) || 0) - (parseFloat(this.answers.debt) || 0);
+                },
+                spendingCategories() {
+                    const categories = [];
+
+                    // Fixed Costs
+                    const fixedCostsFields = ['rentMortgage', 'utilities', 'insurance', 'transportation', 'debtPayments', 'groceries', 'clothing', 'phone', 'subscriptions'];
+                    let fixedCostsTotal = fixedCostsFields.reduce((sum, field) => sum + (parseFloat(this.answers[field]) || 0), 0);
+                    let miscellaneous = parseFloat(this.answers['miscellaneous']) || 0;
+                    miscellaneous += miscellaneous * 0.15; // Add 15% to miscellaneous
+                    fixedCostsTotal += miscellaneous;
+
+                    const fixedCostsPercentage = (fixedCostsTotal / this.totalNetIncome) * 100;
+                    categories.push({
+                        name: 'Fixed Costs',
+                        total: fixedCostsTotal,
+                        percentage: fixedCostsPercentage || 0,
+                        recommendedMin: 50,
+                        recommendedMax: 60,
+                        suggestion: this.getSuggestion(fixedCostsPercentage, 50, 60, 'Fixed Costs'),
+                    });
+
+                    // Investments
+                    const investmentsFields = ['retirementSavings', 'stockInvestments', 'otherInvestments'];
+                    const investmentsTotal = investmentsFields.reduce((sum, field) => sum + (parseFloat(this.answers[field]) || 0), 0);
+                    const investmentsPercentage = (investmentsTotal / this.totalNetIncome) * 100;
+                    categories.push({
+                        name: 'Investments',
+                        total: investmentsTotal,
+                        percentage: investmentsPercentage || 0,
+                        recommendedMin: 10,
+                        recommendedMax: 10,
+                        suggestion: this.getSuggestion(investmentsPercentage, 10, 10, 'Investments'),
+                    });
+
+                    // Savings Goals
+                    const savingsFields = ['vacations', 'gifts', 'emergencyFund', 'otherSavingsGoals'];
+                    const savingsTotal = savingsFields.reduce((sum, field) => sum + (parseFloat(this.answers[field]) || 0), 0);
+                    const savingsPercentage = (savingsTotal / this.totalNetIncome) * 100;
+                    categories.push({
+                        name: 'Savings Goals',
+                        total: savingsTotal,
+                        percentage: savingsPercentage || 0,
+                        recommendedMin: 5,
+                        recommendedMax: 10,
+                        suggestion: this.getSuggestion(savingsPercentage, 5, 10, 'Savings Goals'),
+                    });
+
+                    // Guilt-Free Spending
+                    const totalAllocated = fixedCostsTotal + investmentsTotal + savingsTotal;
+                    const guiltFreeTotal = this.totalNetIncome - totalAllocated;
+                    const guiltFreePercentage = (guiltFreeTotal / this.totalNetIncome) * 100;
+                    categories.push({
+                        name: 'Guilt-Free Spending',
+                        total: guiltFreeTotal,
+                        percentage: guiltFreePercentage || 0,
+                        recommendedMin: 20,
+                        recommendedMax: 35,
+                        suggestion: this.getSuggestion(guiltFreePercentage, 20, 35, 'Guilt-Free Spending'),
+                    });
+
+                    return categories;
+                },
+                overallScore() {
+                    // Calculate score based on how close the user's percentages are to the recommended ranges
+                    let score = 0;
+                    let totalCategories = this.spendingCategories.length;
+                    this.spendingCategories.forEach(category => {
+                        const min = category.recommendedMin;
+                        const max = category.recommendedMax;
+                        const percentage = category.percentage;
+                        if (percentage >= min && percentage <= max) {
+                            score += 1;
+                        } else if (percentage < min) {
+                            score += (percentage / min);
+                        } else if (percentage > max) {
+                            score += (max / percentage);
+                        }
+                    });
+                    return (score / totalCategories) * 100;
+                },
+                scoreColor() {
+                    if (this.overallScore >= 80) {
+                        return 'green';
+                    } else if (this.overallScore >= 50) {
+                        return 'orange';
+                    } else {
+                        return 'red';
+                    }
+                },
+                scoreColorClass() {
+                    if (this.overallScore >= 80) {
+                        return 'text-green-500';
+                    } else if (this.overallScore >= 50) {
+                        return 'text-yellow-500';
+                    } else {
+                        return 'text-red-500';
+                    }
+                },
+                scoreMessage() {
+                    if (this.overallScore >= 80) {
+                        return 'Excellent! Your spending aligns well with recommended financial guidelines.';
+                    } else if (this.overallScore >= 50) {
+                        return 'Good. There is room for improvement to better align your spending with recommended guidelines.';
+                    } else {
+                        return 'Needs Attention. Consider reviewing your spending to align with recommended financial guidelines.';
+                    }
+                },
+                financialRatios() {
+                    const savingsRate = (this.spendingCategories.find(cat => cat.name === 'Savings Goals').total / this.totalNetIncome) * 100;
+                    const debtToIncomeRatio = ((parseFloat(this.answers.debtPayments) || 0) / this.totalNetIncome) * 100;
+                    const investmentRate = (this.spendingCategories.find(cat => cat.name === 'Investments').total / this.totalNetIncome) * 100;
+                    const emergencyFund = parseFloat(this.answers.emergencyFund) || 0;
+                    const monthlyExpenses = this.spendingCategories.find(cat => cat.name === 'Fixed Costs').total;
+                    const emergencyFundMonths = emergencyFund / monthlyExpenses;
+
+                    return {
+                        savingsRate: savingsRate || 0,
+                        debtToIncomeRatio: debtToIncomeRatio || 0,
+                        investmentRate: investmentRate || 0,
+                        emergencyFundMonths: emergencyFundMonths || 0,
+                    };
+                },
+                recommendations() {
+                    const recs = [];
+                    const { debtToIncomeRatio, emergencyFundMonths, savingsRate, investmentRate } = this.financialRatios;
+                    const netWorthGrowth = this.projectedNetWorth[11] - this.netWorth;
+
+                    if (debtToIncomeRatio > 36) {
+                        recs.push(`Your debt-to-income ratio is ${debtToIncomeRatio.toFixed(2)}%, which is above the recommended maximum of 36%. Consider strategies to reduce your debt.`);
+                    } else {
+                        recs.push(`Your debt-to-income ratio is ${debtToIncomeRatio.toFixed(2)}%, which is within the healthy range.`);
+                    }
+
+                    if (emergencyFundMonths < 3) {
+                        recs.push(`Your emergency fund covers ${emergencyFundMonths.toFixed(1)} months of expenses. It's advisable to have at least 3-6 months' worth of expenses saved.`);
+                    } else {
+                        recs.push(`Your emergency fund is sufficient, covering ${emergencyFundMonths.toFixed(1)} months of expenses.`);
+                    }
+
+                    if (this.netWorth < 0) {
+                        recs.push(`Your net worth is negative. Focus on reducing debts and increasing assets to improve your financial health.`);
+                    } else {
+                        recs.push(`Your net worth is positive. Continue to build assets and manage debts responsibly.`);
+                    }
+
+                    if (savingsRate < 5) {
+                        recs.push(`Your savings rate is ${savingsRate.toFixed(2)}%, which is below the recommended minimum of 5%. Consider increasing your savings contributions.`);
+                    }
+
+                    if (investmentRate < 10) {
+                        recs.push(`Your investment rate is ${investmentRate.toFixed(2)}%, which is below the recommended 10%. Consider allocating more funds to investments for long-term growth.`);
+                    }
+
+                    if (netWorthGrowth <= 0) {
+                        recs.push(`Your projected net worth is not increasing over the next 12 months. Review your expenses and consider increasing your savings and investments.`);
+                    } else {
+                        recs.push(`Your net worth is projected to increase by ${this.formatCurrency(netWorthGrowth)} over the next 12 months. Keep up the good work!`);
+                    }
+
+                    // Additional recommendations can be added here.
+
+                    return recs;
+                },
+                projectedNetWorth() {
+                    // Calculate projected net worth over the next 12 months
+                    const netWorthProjection = [];
+                    let currentNetWorth = this.netWorth;
+                    const monthlySavings = this.spendingCategories.find(cat => cat.name === 'Savings Goals').total;
+                    const monthlyInvestments = this.spendingCategories.find(cat => cat.name === 'Investments').total;
+
+                    for (let i = 0; i < 12; i++) {
+                        currentNetWorth += monthlySavings + monthlyInvestments;
+                        netWorthProjection.push(currentNetWorth);
+                    }
+                    return netWorthProjection;
+                },
+            },
+            methods: {
+                nextGroup() {
+                    if (this.currentGroupIndex < this.groups.length - 1) {
+                        this.currentGroupIndex++;
+                    } else {
+                        // All groups completed
+                        this.currentGroupIndex++;
+                        this.$nextTick(() => {
+                            this.renderCharts();
+                        });
+                    }
+                },
+                prevGroup() {
+                    if (this.currentGroupIndex > 0) {
+                        this.currentGroupIndex--;
+                    }
+                },
+                restart() {
+                    this.currentGroupIndex = 0;
+                    this.answers = {};
+                    if (this.projectionChart) {
+                        this.projectionChart.destroy();
+                        this.projectionChart = null;
+                    }
+                    if (this.expenseChart) {
+                        this.expenseChart.destroy();
+                        this.expenseChart = null;
+                    }
+                    if (this.netWorthChart) {
+                        this.netWorthChart.destroy();
+                        this.netWorthChart = null;
+                    }
+                },
+                formatCurrency(value) {
+                    if (isNaN(value) || value === null || value === '') {
+                        return '$0.00';
+                    }
+                    return '$' + parseFloat(value).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                },
+                getPercentageClass(percentage, min, max) {
+                    if (percentage < min) {
+                        return 'text-yellow-500'; // Below recommended
+                    } else if (percentage > max) {
+                        return 'text-red-500'; // Above recommended
+                    } else {
+                        return 'text-green-500'; // Within recommended
+                    }
+                },
+                getSuggestion(percentage, min, max, categoryName) {
+                    if (percentage < min) {
+                        return `You're allocating less than the recommended amount to ${categoryName}. Consider if this aligns with your financial goals or if you can allocate more funds here.`;
+                    } else if (percentage > max) {
+                        return `You're allocating more than the recommended amount to ${categoryName}. Look for areas to adjust to meet the recommended range.`;
+                    } else {
+                        return `Your allocation for ${categoryName} is within the recommended range. Great job!`;
+                    }
+                },
+                exportPlan() {
+                    const data = {
+                        answers: this.answers,
+                        netWorth: this.netWorth,
+                        netIncome: this.totalNetIncome,
+                        spendingCategories: this.spendingCategories,
+                        overallScore: this.overallScore,
+                        financialRatios: this.financialRatios,
+                    };
+                    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+                    const downloadAnchorNode = document.createElement('a');
+                    downloadAnchorNode.setAttribute("href", dataStr);
+                    downloadAnchorNode.setAttribute("download", "spending_plan.json");
+                    document.body.appendChild(downloadAnchorNode);
+                    downloadAnchorNode.click();
+                    downloadAnchorNode.remove();
+                },
+                exportPDF() {
+                    this.isExporting = true;
+
+                    // Convert charts to images
+                    this.chartImages.expenseChart = this.expenseChart.toBase64Image();
+                    this.chartImages.projectionChart = this.projectionChart.toBase64Image();
+                    this.chartImages.netWorthChart = this.netWorthChart.toBase64Image();
+
+                    // Replace canvas with images
+                    document.getElementById('expenseChart').parentNode.innerHTML = `<img src="${this.chartImages.expenseChart}" style="width:100%;">`;
+                    document.getElementById('projectionChart').parentNode.innerHTML = `<img src="${this.chartImages.projectionChart}" style="width:100%;">`;
+                    document.getElementById('netWorthChart').parentNode.innerHTML = `<img src="${this.chartImages.netWorthChart}" style="width:100%;">`;
+
+                    const element = document.getElementById('summary');
+                    const options = {
+                        margin:       0.5,
+                        filename:     'spending_plan_summary.pdf',
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2 },
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' },
+                        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] },
+                    };
+
+                    html2pdf().set(options).from(element).save().then(() => {
+                        // Restore the original charts
+                        this.$nextTick(() => {
+                            this.renderCharts();
+                            this.isExporting = false;
+                        });
+                    });
+                },
+                importPlan(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            try {
+                                const data = JSON.parse(e.target.result);
+                                if (data.answers) {
+                                    this.answers = data.answers;
+                                    // Ensure charts are destroyed before re-rendering
+                                    if (this.projectionChart) {
+                                        this.projectionChart.destroy();
+                                        this.projectionChart = null;
+                                    }
+                                    if (this.expenseChart) {
+                                        this.expenseChart.destroy();
+                                        this.expenseChart = null;
+                                    }
+                                    if (this.netWorthChart) {
+                                        this.netWorthChart.destroy();
+                                        this.netWorthChart = null;
+                                    }
+                                    // Optionally, you can set the currentGroupIndex to the results page
+                                    this.currentGroupIndex = this.groups.length; // Skip to results
+                                    this.$nextTick(() => {
+                                        this.renderCharts();
+                                    });
+                                } else {
+                                    alert('Invalid file format.');
+                                }
+                            } catch (error) {
+                                alert('Error reading file: ' + error.message);
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                },
+                loadQuestions() {
+                    fetch('questions.json')
+                        .then(response => response.json())
+                        .then(data => {
+                            this.groups = data;
+                        })
+                        .catch(error => {
+                            console.error('Error loading questions:', error);
+                        });
+                },
+                renderCharts() {
+                    this.renderProjectionChart();
+                    this.renderExpenseChart();
+                    this.renderNetWorthChart();
+                },
+                renderProjectionChart() {
+                    const ctx = document.getElementById('projectionChart').getContext('2d');
+
+                    const months = [];
+                    for (let i = 1; i <= 12; i++) {
+                        months.push('Month ' + i);
+                    }
+
+                    // Simulate projections based on current inputs
+                    const savingsProjection = [];
+                    let cumulativeSavings = parseFloat(this.answers.savings) || 0;
+                    const monthlySavings = this.spendingCategories.find(cat => cat.name === 'Savings Goals').total;
+
+                    for (let i = 0; i < 12; i++) {
+                        cumulativeSavings += monthlySavings;
+                        savingsProjection.push(cumulativeSavings);
+                    }
+
+                    const investmentProjection = [];
+                    let cumulativeInvestments = parseFloat(this.answers.investments) || 0;
+                    const monthlyInvestments = this.spendingCategories.find(cat => cat.name === 'Investments').total;
+
+                    for (let i = 0; i < 12; i++) {
+                        cumulativeInvestments += monthlyInvestments;
+                        investmentProjection.push(cumulativeInvestments);
+                    }
+
+                    if (this.projectionChart) {
+                        this.projectionChart.destroy();
+                    }
+
+                    this.projectionChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: months,
+                            datasets: [
+                                {
+                                    label: 'Savings Projection',
+                                    data: savingsProjection,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    fill: true,
+                                },
+                                {
+                                    label: 'Investments Projection',
+                                    data: investmentProjection,
+                                    borderColor: 'rgba(153, 102, 255, 1)',
+                                    backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                    fill: true,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + value.toLocaleString();
+                                        },
+                                    },
+                                },
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += '$' + context.parsed.y.toLocaleString();
+                                            }
+                                            return label;
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    });
+                },
+                renderExpenseChart() {
+                    const ctx = document.getElementById('expenseChart').getContext('2d');
+
+                    const labels = this.spendingCategories.map(cat => cat.name);
+                    const data = this.spendingCategories.map(cat => cat.total);
+
+                    if (this.expenseChart) {
+                        this.expenseChart.destroy();
+                    }
+
+                    this.expenseChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                data: data,
+                                backgroundColor: [
+                                    '#FF6384',
+                                    '#36A2EB',
+                                    '#FFCE56',
+                                    '#4BC0C0',
+                                ],
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed !== null) {
+                                                label += '$' + context.parsed.toLocaleString();
+                                            }
+                                            return label;
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    });
+                },
+                renderNetWorthChart() {
+                    const ctx = document.getElementById('netWorthChart').getContext('2d');
+
+                    const months = [];
+                    for (let i = 1; i <= 12; i++) {
+                        months.push('Month ' + i);
+                    }
+
+                    const netWorthProjection = this.projectedNetWorth;
+
+                    if (this.netWorthChart) {
+                        this.netWorthChart.destroy();
+                    }
+
+                    this.netWorthChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: months,
+                            datasets: [
+                                {
+                                    label: 'Net Worth Projection',
+                                    data: netWorthProjection,
+                                    borderColor: 'rgba(255, 159, 64, 1)',
+                                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                    fill: true,
+                                },
+                            ],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                y: {
+                                    beginAtZero: false,
+                                    ticks: {
+                                        callback: function(value) {
+                                            return '$' + value.toLocaleString();
+                                        },
+                                    },
+                                },
+                            },
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += '$' + context.parsed.y.toLocaleString();
+                                            }
+                                            return label;
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    });
+                },
+            },
+            created() {
+                this.loadQuestions();
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+[
+    {
+        "name": "Net Worth",
+        "questions": [
+            {
+                "question": "What is the current total value of your assets? (Include items like your car, home, property, business, or any other valuable possessions you own outright.)",
+                "label": "Total Assets",
+                "name": "assets",
+                "type": "number"
+            },
+            {
+                "question": "What is the total value of your investments? (Include retirement accounts like 401(k)s, IRAs, as well as any non-retirement investment accounts.)",
+                "label": "Total Investments",
+                "name": "investments",
+                "type": "number"
+            },
+            {
+                "question": "How much do you have in savings? (Include all your savings accounts, emergency funds, or any cash reserves.)",
+                "label": "Total Savings",
+                "name": "savings",
+                "type": "number"
+            },
+            {
+                "question": "What is your total debt amount? (Include all debts such as student loans, credit card balances, mortgages, car loans, personal loans, etc.)",
+                "label": "Total Debt",
+                "name": "debt",
+                "type": "number"
+            }
+        ]
+    },
+    {
+        "name": "Income",
+        "questions": [
+            {
+                "question": "What is your gross monthly income? (This is your total income before taxes and deductions are taken out.)",
+                "label": "Gross Monthly Income",
+                "name": "grossIncome",
+                "type": "number"
+            },
+            {
+                "question": "What is your net monthly income? (This is the amount you take home after taxes and deductions.)",
+                "label": "Net Monthly Income",
+                "name": "netIncome",
+                "type": "number"
+            },
+            {
+                "question": "Do you have any additional monthly income? (Include side jobs, freelance work, rental income, etc.)",
+                "label": "Additional Monthly Income",
+                "name": "additionalIncome",
+                "type": "number"
+            }
+        ]
+    },
+    {
+        "name": "Fixed Costs (50-60% of take home)",
+        "questions": [
+            {
+                "question": "How much do you pay monthly for rent or mortgage? (Include any property taxes or homeowners association fees if applicable.)",
+                "label": "Rent/Mortgage",
+                "name": "rentMortgage",
+                "type": "number"
+            },
+            {
+                "question": "What is your average monthly cost for utilities? (Include expenses like gas, water, electricity, internet, cable, and any other regular utility bills.)",
+                "label": "Utilities",
+                "name": "utilities",
+                "type": "number"
+            },
+            {
+                "question": "How much do you pay monthly for insurance? (Include medical, dental, vision, auto, home or renters insurance, life insurance, etc.)",
+                "label": "Insurance",
+                "name": "insurance",
+                "type": "number"
+            },
+            {
+                "question": "What are your monthly transportation costs? (Include car payments, fuel, public transit passes, ride-sharing services, maintenance, and repairs.)",
+                "label": "Transportation",
+                "name": "transportation",
+                "type": "number"
+            },
+            {
+                "question": "How much do you pay monthly towards debt payments? (Include minimum payments on credit cards, loans, and any other debt obligations.)",
+                "label": "Debt Payments",
+                "name": "debtPayments",
+                "type": "number"
+            },
+            {
+                "question": "What is your average monthly expenditure on groceries? (Include all food and household items purchased at grocery stores.)",
+                "label": "Groceries",
+                "name": "groceries",
+                "type": "number"
+            },
+            {
+                "question": "How much do you spend on clothing each month? (Include all purchases of clothing, shoes, and accessories.)",
+                "label": "Clothing",
+                "name": "clothing",
+                "type": "number"
+            },
+            {
+                "question": "What is your monthly phone bill? (Include costs for mobile phone service and any additional charges.)",
+                "label": "Phone Bill",
+                "name": "phone",
+                "type": "number"
+            },
+            {
+                "question": "How much do you spend monthly on subscriptions? (Include services like Netflix, Spotify, gym memberships, meal delivery services, Amazon Prime, etc.)",
+                "label": "Subscriptions",
+                "name": "subscriptions",
+                "type": "number"
+            },
+            {
+                "question": "Do you have any other fixed monthly expenses? (Include any other regular payments not already listed, such as child care, pet care, or recurring donations.)",
+                "label": "Miscellaneous Fixed Costs (an additional 15% will be automatically added to account for forgotten expenses)",
+                "name": "miscellaneous",
+                "type": "number"
+            }
+        ]
+    },
+    {
+        "name": "Investments (10% of take home)",
+        "questions": [
+            {
+                "question": "How much do you contribute monthly to post-tax retirement savings? (Include contributions to Roth IRAs or other post-tax retirement accounts.)",
+                "label": "Post-Tax Retirement Savings",
+                "name": "retirementSavings",
+                "type": "number"
+            },
+            {
+                "question": "How much do you invest in stocks each month? (Include amounts invested in individual stocks, ETFs, mutual funds outside of retirement accounts.)",
+                "label": "Stock Investments",
+                "name": "stockInvestments",
+                "type": "number"
+            },
+            {
+                "question": "How much do you invest monthly in other investment vehicles? (Include real estate, bonds, cryptocurrencies, etc.)",
+                "label": "Other Investments",
+                "name": "otherInvestments",
+                "type": "number"
+            }
+        ]
+    },
+    {
+        "name": "Savings Goals (5-10% of take home)",
+        "questions": [
+            {
+                "question": "How much are you saving monthly for vacations? (Include any funds set aside specifically for travel and leisure activities.)",
+                "label": "Vacations Savings",
+                "name": "vacations",
+                "type": "number"
+            },
+            {
+                "question": "How much are you saving monthly for gifts? (Include funds set aside for birthdays, holidays, weddings, or any other gift-giving occasions.)",
+                "label": "Gifts Savings",
+                "name": "gifts",
+                "type": "number"
+            },
+            {
+                "question": "How much are you saving monthly for a long-term emergency fund? (Include any amounts saved for unforeseen major expenses or financial security.)",
+                "label": "Emergency Fund Savings",
+                "name": "emergencyFund",
+                "type": "number"
+            },
+            {
+                "question": "Are you saving for any other specific goals? (Include funds set aside for buying a home, education, starting a business, etc.)",
+                "label": "Other Savings Goals",
+                "name": "otherSavingsGoals",
+                "type": "number"
+            }
+        ]
+    }
+]

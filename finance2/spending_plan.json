@@ -1,0 +1,65 @@
+{
+  "answers": {
+    "assets": 100,
+    "investments": 100,
+    "savings": 100,
+    "debt": 100,
+    "grossIncome": 100,
+    "netIncome": 100,
+    "additionalIncome": 100,
+    "rentMortgage": 100,
+    "utilities": 100,
+    "insurance": 100,
+    "transportation": 100,
+    "debtPayments": 100,
+    "groceries": 100,
+    "clothing": 100,
+    "phone": 100,
+    "subscriptions": 100,
+    "miscellaneous": 100,
+    "retirementSavings": 100,
+    "stockInvestments": 100,
+    "otherInvestments": 100,
+    "vacations": 100,
+    "gifts": 100,
+    "emergencyFund": 100,
+    "otherSavingsGoals": 100
+  },
+  "netWorth": 200,
+  "netIncome": 200,
+  "spendingCategories": [
+    {
+      "name": "Fixed Costs",
+      "total": 1015,
+      "percentage": 507.5,
+      "recommendedMin": 50,
+      "recommendedMax": 60,
+      "suggestion": "You're allocating more than the recommended amount to Fixed Costs. Look for areas to adjust to meet the recommended range."
+    },
+    {
+      "name": "Investments",
+      "total": 300,
+      "percentage": 150,
+      "recommendedMin": 10,
+      "recommendedMax": 10,
+      "suggestion": "You're allocating more than the recommended amount to Investments. Look for areas to adjust to meet the recommended range."
+    },
+    {
+      "name": "Savings Goals",
+      "total": 400,
+      "percentage": 200,
+      "recommendedMin": 5,
+      "recommendedMax": 10,
+      "suggestion": "You're allocating more than the recommended amount to Savings Goals. Look for areas to adjust to meet the recommended range."
+    },
+    {
+      "name": "Guilt-Free Spending",
+      "total": -1515,
+      "percentage": -757.5,
+      "recommendedMin": 20,
+      "recommendedMax": 35,
+      "suggestion": "You're allocating less than the recommended amount to Guilt-Free Spending. Consider if this aligns with your financial goals or if you can allocate more funds here."
+    }
+  ],
+  "overallScore": -941.0026683087027
+}
