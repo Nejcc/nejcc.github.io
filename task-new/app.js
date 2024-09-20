@@ -49,8 +49,8 @@ createApp({
       newUserName: '',
       addUserModalTitle: 'Add New User',
       // Filter Data
-      selectedFilterStatuses: ['Open', 'In Progress', 'Waiting for Answer'], // Default selected filters
-      statusOptions: ['All', 'Open', 'In Progress', 'Waiting for Answer', 'On Hold', 'In Review', 'Rejected', 'Approved', 'Completed'],
+      selectedFilterStatuses: ['Open', 'In Progress', ], // Default selected filters
+      statusOptions: ['All', 'Open', 'In Progress', 'On Hold', 'In Review', 'Rejected', 'Approved', 'Completed'],
       // Template Search
       templateSearchQuery: '',
       // Description Expansion
