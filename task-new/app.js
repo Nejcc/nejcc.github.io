@@ -4,8 +4,14 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      tasks: [], // All tasks
-      templates: [], // All templates
+      users: [], // All users
+      currentUser: '', // Selected user
+      // Default user setup
+      defaultUser: {
+        name: 'Default User',
+        tasks: [],
+        templates: [],
+      },
       commonTasks: [
         { title: 'Email Correspondence', avgTime: 30 },
         { title: 'Team Meeting', avgTime: 60 },
@@ -23,6 +29,7 @@ createApp({
         description: '',
         tags: '',
         date: '',
+        status: 'Open', // Default status
       },
       editingTaskIndex: null,
       // Template related data
@@ -38,12 +45,19 @@ createApp({
       alertMessage: '',
       alertType: 'success', // 'success', 'danger', 'warning', 'info'
       showAlert: false,
+      // Add User Modal Data
+      newUserName: '',
+      addUserModalTitle: 'Add New User',
     };
   },
   computed: {
+    // Get current user's tasks and templates
+    currentUserData() {
+      return this.users.find(user => user.name === this.currentUser) || this.defaultUser;
+    },
     filteredTasks() {
       // Filter tasks based on the selected date
-      return this.tasks.filter(
+      return this.currentUserData.tasks.filter(
         (task) => task.date === this.selectedDate
       );
     },
@@ -73,12 +87,20 @@ createApp({
 
       const query = this.searchQuery.toLowerCase();
 
-      return this.tasks.filter(
-        (task) =>
-          task.title.toLowerCase().includes(query) ||
-          task.description.toLowerCase().includes(query) ||
-          task.tags.some((tag) => tag.toLowerCase().includes(query))
-      );
+      // Search across all users
+      let results = [];
+      this.users.forEach(user => {
+        const userResults = user.tasks.filter(
+          (task) =>
+            task.title.toLowerCase().includes(query) ||
+            task.description.toLowerCase().includes(query) ||
+            task.tags.some((tag) => tag.toLowerCase().includes(query)) ||
+            task.status.toLowerCase().includes(query)
+        ).map(task => ({ ...task, user: user.name }));
+        results = results.concat(userResults);
+      });
+
+      return results;
     },
     groupedSearchResults() {
       return this.searchResults.reduce((groups, task) => {
@@ -91,16 +113,16 @@ createApp({
     },
     // Advanced Statistics
     totalTasks() {
-      return this.tasks.length;
+      return this.currentUserData.tasks.length;
     },
     averageTaskTime() {
-      if (this.tasks.length === 0) return 0;
-      const total = this.tasks.reduce((sum, task) => sum + task.time, 0);
-      return Math.round(total / this.tasks.length);
+      if (this.currentUserData.tasks.length === 0) return 0;
+      const total = this.currentUserData.tasks.reduce((sum, task) => sum + task.time, 0);
+      return Math.round(total / this.currentUserData.tasks.length);
     },
     tasksPerTag() {
       const tagCount = {};
-      this.tasks.forEach(task => {
+      this.currentUserData.tasks.forEach(task => {
         task.tags.forEach(tag => {
           if (tag) {
             tagCount[tag] = (tagCount[tag] || 0) + 1;
@@ -116,7 +138,7 @@ createApp({
         const date = new Date();
         date.setDate(today.getDate() - i);
         const dateStr = date.toISOString().substr(0, 10);
-        result[dateStr] = this.tasks.filter(task => task.date === dateStr).length;
+        result[dateStr] = this.currentUserData.tasks.filter(task => task.date === dateStr).length;
       }
       return result;
     },
@@ -135,6 +157,47 @@ createApp({
     closeAlert() {
       this.showAlert = false;
     },
+    // User Management Methods
+    addUserModal() {
+      const modal = new bootstrap.Modal(this.$refs.addUserModal);
+      modal.show();
+    },
+    saveNewUser() {
+      const name = this.newUserName.trim();
+      if (!name) {
+        this.showAlertMethod('User name cannot be empty.', 'warning');
+        return;
+      }
+      if (this.users.find(user => user.name === name)) {
+        this.showAlertMethod('User already exists.', 'warning');
+        return;
+      }
+      this.users.push({
+        name,
+        tasks: [],
+        templates: [],
+      });
+      this.currentUser = name;
+      this.newUserName = ''; // Reset input
+      this.saveData();
+      const modal = bootstrap.Modal.getInstance(this.$refs.addUserModal);
+      modal.hide();
+      this.showAlertMethod(`User "${name}" added and selected successfully.`, 'success');
+    },
+    deleteUser(index) {
+      const user = this.users[index];
+      if (confirm(`Are you sure you want to delete the user "${user.name}" and all their data?`)) {
+        this.users.splice(index, 1);
+        if (this.currentUser === user.name) {
+          this.currentUser = this.users.length > 0 ? this.users[0].name : '';
+        }
+        this.saveData();
+        this.showAlertMethod(`User "${user.name}" deleted successfully.`, 'success');
+      }
+    },
+    switchUser(event) {
+      this.currentUser = event.target.value;
+    },
     // Task Modal Methods
     openTaskModal(task = null) {
       if (task) {
@@ -144,7 +207,7 @@ createApp({
           ...task,
           tags: task.tags.join(', '),
         };
-        this.editingTaskIndex = this.tasks.indexOf(task);
+        this.editingTaskIndex = this.currentUserData.tasks.indexOf(task);
       } else {
         // Add new task
         this.modalTitle = 'Add New Task';
@@ -154,6 +217,7 @@ createApp({
           description: '',
           tags: '',
           date: this.selectedDate,
+          status: 'Open', // Default status
         };
         this.editingTaskIndex = null;
       }
@@ -182,15 +246,17 @@ createApp({
         description: this.taskForm.description,
         tags: tagsArray,
         date: this.taskForm.date || this.selectedDate,
+        status: this.taskForm.status || 'Open',
+        user: this.currentUser, // Associate task with current user
       };
 
       if (this.editingTaskIndex !== null) {
         // Update existing task
-        this.tasks.splice(this.editingTaskIndex, 1, taskData);
+        this.currentUserData.tasks.splice(this.editingTaskIndex, 1, taskData);
         this.showAlertMethod(`Task "${taskData.title}" updated successfully.`, 'success');
       } else {
         // Add new task
-        this.tasks.push(taskData);
+        this.currentUserData.tasks.push(taskData);
         this.showAlertMethod(`Task "${taskData.title}" added successfully.`, 'success');
       }
 
@@ -206,17 +272,19 @@ createApp({
         description: '',
         tags: [],
         date: this.selectedDate,
+        status: 'Open',
+        user: this.currentUser,
       };
-      this.tasks.push(taskData);
+      this.currentUserData.tasks.push(taskData);
       this.saveData();
       this.showAlertMethod(`Common task "${commonTask.title}" added successfully.`, 'success');
     },
     deleteTask(index) {
       const task = this.filteredTasks[index];
-      const taskIndex = this.tasks.indexOf(task);
+      const taskIndex = this.currentUserData.tasks.indexOf(task);
       if (taskIndex > -1) {
         if (confirm(`Are you sure you want to delete the task "${task.title}"?`)) {
-          this.tasks.splice(taskIndex, 1);
+          this.currentUserData.tasks.splice(taskIndex, 1);
           this.saveData();
           this.showAlertMethod(`Task "${task.title}" deleted successfully.`, 'success');
         }
@@ -224,7 +292,7 @@ createApp({
     },
     // Prefab (Template) Methods
     createPrefab(task) {
-      const existingTemplate = this.templates.find(t => t.title === task.title && t.time === task.time);
+      const existingTemplate = this.currentUserData.templates.find(t => t.title === task.title && t.time === task.time);
       if (existingTemplate) {
         this.showAlertMethod('A template with the same title and time already exists.', 'warning');
         return;
@@ -237,7 +305,7 @@ createApp({
         tags: [...task.tags],
       };
 
-      this.templates.push(newTemplate);
+      this.currentUserData.templates.push(newTemplate);
       this.saveData();
       this.showAlertMethod(`Template "${task.title}" created successfully.`, 'success');
     },
@@ -281,11 +349,11 @@ createApp({
 
       if (this.editingTemplateIndex !== null) {
         // Update existing template
-        this.templates.splice(this.editingTemplateIndex, 1, templateData);
+        this.currentUserData.templates.splice(this.editingTemplateIndex, 1, templateData);
         this.showAlertMethod(`Template "${templateData.title}" updated successfully.`, 'success');
       } else {
         // Add new template
-        this.templates.push(templateData);
+        this.currentUserData.templates.push(templateData);
         this.showAlertMethod(`Template "${templateData.title}" created successfully.`, 'success');
       }
 
@@ -301,14 +369,16 @@ createApp({
         description: template.description,
         tags: [...template.tags],
         date: this.selectedDate,
+        status: 'Open',
+        user: this.currentUser,
       };
-      this.tasks.push(taskData);
+      this.currentUserData.tasks.push(taskData);
       this.saveData();
       this.showAlertMethod(`Task "${template.title}" added from template.`, 'success');
     },
     deleteTemplate(index) {
       if (confirm('Are you sure you want to delete this template?')) {
-        const deletedTemplate = this.templates.splice(index, 1)[0];
+        const deletedTemplate = this.currentUserData.templates.splice(index, 1)[0];
         this.saveData();
         this.showAlertMethod(`Template "${deletedTemplate.title}" deleted successfully.`, 'success');
       }
@@ -324,20 +394,53 @@ createApp({
       modal.show();
     },
     exportTasks() {
-      const dataStr = JSON.stringify({
-        tasks: this.tasks,
-        templates: this.templates,
+      const data = {
+        users: this.users,
+        currentUser: this.currentUser,
         arrivalTime: this.arrivalTime,
         departureTime: this.departureTime,
-      }, null, 2);
+      };
+
+      // Create a temporary object for export
+      const exportData = {
+        allUsers: data,
+      };
+
+      const dataStr = JSON.stringify(exportData, null, 2);
       const blob = new Blob([dataStr], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
-      link.href = url;
-      link.download = 'taskManagerData.json';
-      link.click();
-      URL.revokeObjectURL(url);
-      this.showAlertMethod('Tasks exported successfully.', 'success');
+      
+      // Prompt user to choose export type
+      // Instead of using prompt, we'll provide options in the UI
+      // For simplicity, we'll use a simple prompt here
+      const exportType = prompt('Enter "all" to export all users or "current" to export only your tasks:', 'all');
+      if (exportType === null) return; // Cancelled
+
+      if (exportType.toLowerCase() === 'all') {
+        link.download = 'taskManagerData_AllUsers.json';
+        link.href = url;
+        link.click();
+        URL.revokeObjectURL(url);
+        this.showAlertMethod('All users tasks exported successfully.', 'success');
+      } else if (exportType.toLowerCase() === 'current') {
+        const currentData = {
+          users: this.users.filter(user => user.name === this.currentUser),
+          arrivalTime: this.arrivalTime,
+          departureTime: this.departureTime,
+        };
+        const currentDataStr = JSON.stringify(currentData, null, 2);
+        const currentBlob = new Blob([currentDataStr], { type: 'application/json' });
+        const currentUrl = URL.createObjectURL(currentBlob);
+        const currentLink = document.createElement('a');
+        currentLink.href = currentUrl;
+        currentLink.download = `taskManagerData_${this.currentUser}.json`;
+        currentLink.click();
+        URL.revokeObjectURL(currentUrl);
+        this.showAlertMethod('Current user tasks exported successfully.', 'success');
+      } else {
+        this.showAlertMethod('Invalid export type selected.', 'warning');
+      }
     },
     importTasks(event) {
       const file = event.target.files[0];
@@ -346,13 +449,62 @@ createApp({
         reader.onload = (e) => {
           try {
             const importedData = JSON.parse(e.target.result);
-            if (importedData.tasks && Array.isArray(importedData.tasks)) {
-              this.tasks = importedData.tasks;
-              this.templates = importedData.templates || [];
-              this.arrivalTime = importedData.arrivalTime || '';
-              this.departureTime = importedData.departureTime || '';
-              this.saveData();
-              this.showAlertMethod('Tasks imported successfully.', 'success');
+            if (importedData.allUsers && importedData.allUsers.users && Array.isArray(importedData.allUsers.users)) {
+              // Determine import type
+              const importType = prompt('Enter "all" to import all users or "current" to import only your tasks:', 'all');
+              if (importType === null) return; // Cancelled
+
+              if (importType.toLowerCase() === 'all') {
+                // Merge users
+                importedData.allUsers.users.forEach(importedUser => {
+                  const existingUser = this.users.find(user => user.name === importedUser.name);
+                  if (existingUser) {
+                    // Merge tasks
+                    importedUser.tasks.forEach(task => {
+                      if (!existingUser.tasks.find(t => t.title === task.title && t.date === task.date && t.status === task.status)) {
+                        existingUser.tasks.push(task);
+                      }
+                    });
+                    // Merge templates
+                    importedUser.templates.forEach(template => {
+                      if (!existingUser.templates.find(t => t.title === template.title && t.time === template.time)) {
+                        existingUser.templates.push(template);
+                      }
+                    });
+                  } else {
+                    // Add new user
+                    this.users.push(importedUser);
+                  }
+                });
+                this.arrivalTime = importedData.allUsers.arrivalTime || this.arrivalTime;
+                this.departureTime = importedData.allUsers.departureTime || this.departureTime;
+                this.saveData();
+                this.showAlertMethod('All users tasks imported successfully.', 'success');
+              } else if (importType.toLowerCase() === 'current') {
+                const currentUserData = importedData.allUsers.users.find(user => user.name === this.currentUser);
+                if (currentUserData) {
+                  // Merge tasks
+                  currentUserData.tasks.forEach(task => {
+                    if (!this.currentUserData.tasks.find(t => t.title === task.title && t.date === task.date && t.status === task.status)) {
+                      this.currentUserData.tasks.push(task);
+                    }
+                  });
+                  // Merge templates
+                  currentUserData.templates.forEach(template => {
+                    if (!this.currentUserData.templates.find(t => t.title === template.title && t.time === template.time)) {
+                      this.currentUserData.templates.push(template);
+                    }
+                  });
+                  this.arrivalTime = importedData.allUsers.arrivalTime || this.arrivalTime;
+                  this.departureTime = importedData.allUsers.departureTime || this.departureTime;
+                  this.saveData();
+                  this.showAlertMethod('Current user tasks imported successfully.', 'success');
+                } else {
+                  this.showAlertMethod('No matching user found for current user in the imported data.', 'danger');
+                }
+              } else {
+                this.showAlertMethod('Invalid import type selected.', 'warning');
+              }
             } else {
               this.showAlertMethod('Invalid tasks data in the file.', 'danger');
             }
@@ -376,7 +528,12 @@ createApp({
       if (scope === 'now') {
         tasksToExport = this.filteredTasks;
       } else if (scope === 'all') {
-        tasksToExport = this.tasks;
+        // Export all tasks across all users
+        this.users.forEach(user => {
+          user.tasks.forEach(task => {
+            tasksToExport.push({ ...task, user: user.name });
+          });
+        });
       }
 
       if (tasksToExport.length === 0) {
@@ -386,9 +543,9 @@ createApp({
 
       let reportContent = 'Task Report\n\n';
       tasksToExport.forEach((task, index) => {
-        reportContent += `${index + 1}. ${task.title} - ${this.formatTime(
+        reportContent += `${index + 1}. ${scope === 'all' ? `[${task.user}] ` : ''}${task.title} - ${this.formatTime(
           task.time
-        )}\n`;
+        )} - Status: ${task.status}\n`;
         if (task.description) {
           reportContent += `Description: ${task.description}\n`;
         }
@@ -398,13 +555,14 @@ createApp({
         reportContent += `Date: ${task.date}\n`;
         reportContent += '\n';
       });
-      const totalTime = scope === 'now' ? this.totalTime : this.tasks.reduce((sum, task) => sum + task.time, 0);
+      const totalTime = scope === 'now' ? this.totalTime : this.users.reduce((sum, user) => sum + user.tasks.reduce((s, t) => s + t.time, 0), 0);
       reportContent += `Total Time Spent: ${this.formatTime(totalTime)}\n`;
 
       const blob = new Blob([reportContent], { type: 'text/plain' });
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
+
       const fileName = scope === 'now' ? 'Task_Report_Today.txt' : 'Task_Report_All.txt';
+      link.href = URL.createObjectURL(blob);
       link.download = fileName;
       link.click();
       URL.revokeObjectURL(link.href);
@@ -419,8 +577,8 @@ createApp({
     // Data Persistence
     saveData() {
       const data = {
-        tasks: this.tasks,
-        templates: this.templates,
+        users: this.users,
+        currentUser: this.currentUser,
         arrivalTime: this.arrivalTime,
         departureTime: this.departureTime,
       };
@@ -429,10 +587,15 @@ createApp({
     loadData() {
       const data = JSON.parse(localStorage.getItem('taskManagerData'));
       if (data) {
-        this.tasks = data.tasks || [];
-        this.templates = data.templates || [];
+        this.users = data.users || [];
+        this.currentUser = data.currentUser || (this.users.length > 0 ? this.users[0].name : '');
         this.arrivalTime = data.arrivalTime || '';
         this.departureTime = data.departureTime || '';
+      } else {
+        // Initialize with default user
+        this.users.push(this.defaultUser);
+        this.currentUser = this.defaultUser.name;
+        this.saveData();
       }
     },
   },
@@ -443,13 +606,7 @@ createApp({
     departureTime() {
       this.saveData();
     },
-    tasks: {
-      handler() {
-        this.saveData();
-      },
-      deep: true,
-    },
-    templates: {
+    users: {
       handler() {
         this.saveData();
       },

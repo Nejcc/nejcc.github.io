@@ -15,7 +15,22 @@
             <div class="container">
                 <a class="navbar-brand" href="#">Task Manager</a>
                 <div class="collapse navbar-collapse">
-                    <div class="d-flex ms-auto">
+                    <div class="d-flex ms-auto align-items-center">
+                        <!-- User Selection Dropdown -->
+                        <div class="me-3">
+                            <select class="form-select" v-model="currentUser" @change="switchUser">
+                                <option v-for="(user, index) in users" :key="index" :value="user.name">
+                                    {{ user.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <!-- Add User Button -->
+                        <div class="me-3">
+                            <button class="btn btn-outline-primary" @click="addUserModal">
+                                Add User
+                            </button>
+                        </div>
+                        <!-- Export and Import Buttons -->
                         <button class="btn btn-secondary me-2" @click="generateReport('txt', 'now')">
                             TXT Export Today
                         </button>
@@ -103,12 +118,12 @@
                             <button class="btn btn-sm btn-primary" @click="openTemplateModal()">Add Template</button>
                         </div>
                         <div class="card-body">
-                            <div v-if="templates.length === 0">
+                            <div v-if="currentUserData.templates.length === 0">
                                 <p class="text-muted">No templates saved.</p>
                             </div>
                             <ul class="list-group">
                                 <li class="list-group-item d-flex justify-content-between align-items-center"
-                                    v-for="(template, index) in templates" :key="index">
+                                    v-for="(template, index) in currentUserData.templates" :key="index">
                                     <div>
                                         <strong>{{ template.title }}</strong>
                                         <br />
@@ -135,13 +150,16 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-5">
                                                 <h5 class="card-title">{{ task.title }}</h5>
                                                 <h6 class="card-subtitle mb-2 text-muted">
                                                     {{ formatTime(task.time) }}
                                                 </h6>
+                                                <p>
+                                                    <strong>Status:</strong> {{ task.status }}
+                                                </p>
                                             </div>
-                                            <div class="col-6 text-end">
+                                            <div class="col-7 text-end">
                                                 <button class="btn btn-sm btn-warning me-2" @click="openTaskModal(task)">
                                                     Edit
                                                 </button>
@@ -149,10 +167,10 @@
                                                     Delete
                                                 </button>
                                                 <button class="btn btn-sm btn-secondary" @click="createPrefab(task)">
-                                                    Create Prefab
+                                                    Create Template
                                                 </button>
                                             </div>
-                                            <div class="col-12">
+                                            <div class="col-12 mt-3">
                                                 <p class="card-text">{{ task.description }}</p>
                                             </div>
                                         </div>
@@ -172,12 +190,11 @@
                             <h5>{{ date }}</h5>
                             <ul class="list-group mb-3">
                                 <li class="list-group-item" v-for="(task, index) in tasks" :key="index">
-                                    <strong>{{ task.title }}</strong> -
-                                    {{ formatTime(task.time) }}
+                                    <strong>{{ task.title }}</strong> - {{ formatTime(task.time) }} - Status: {{ task.status }}
                                     <br />
                                     {{ task.description }}
                                     <br />
-                                    <small class="text-muted">Tags: {{ task.tags.join(', ') }}</small>
+                                    <small class="text-muted">Tags: {{ task.tags.join(', ') }} | User: {{ task.user }}</small>
                                 </li>
                             </ul>
                         </div>
@@ -203,6 +220,18 @@
                         <div class="mb-3">
                             <label class="form-label">Time (minutes)</label>
                             <input type="number" class="form-control" v-model.number="taskForm.time" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <select class="form-select" v-model="taskForm.status">
+                                <option>Open</option>
+                                <option>In Progress</option>
+                                <option>Completed</option>
+                                <option>On Hold</option>
+                                <option>In Review</option>
+                                <option>Rejected</option>
+                                <option>Approved</option>
+                            </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Description</label>
@@ -332,10 +361,46 @@
                             Choose File
                             <input type="file" hidden @change="importTasks" />
                         </label>
+                        <hr>
+                        <h6>Manage Users</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center"
+                                v-for="(user, index) in users" :key="index">
+                                {{ user.name }}
+                                <button class="btn btn-sm btn-danger" @click="deleteUser(index)">Delete</button>
+                            </li>
+                        </ul>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                             Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true"
+            ref="addUserModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ addUserModalTitle }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="newUserName" class="form-label">User Name</label>
+                            <input type="text" class="form-control" id="newUserName" v-model="newUserName" placeholder="Enter user name">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="saveNewUser">
+                            Add User
                         </button>
                     </div>
                 </div>
