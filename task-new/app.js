@@ -48,6 +48,9 @@ createApp({
       // Add User Modal Data
       newUserName: '',
       addUserModalTitle: 'Add New User',
+      // Filter Data
+      filterStatus: 'All', // Default filter
+      statusOptions: ['All', 'Open', 'In Progress', 'Completed', 'On Hold', 'In Review', 'Rejected', 'Approved'],
     };
   },
   computed: {
@@ -56,13 +59,15 @@ createApp({
       return this.users.find(user => user.name === this.currentUser) || this.defaultUser;
     },
     filteredTasks() {
-      // Filter tasks based on the selected date
-      return this.currentUserData.tasks.filter(
-        (task) => task.date === this.selectedDate
-      );
+      // Filter tasks based on the selected date and status
+      return this.currentUserData.tasks.filter(task => {
+        const dateMatch = task.date === this.selectedDate;
+        const statusMatch = this.filterStatus === 'All' || task.status === this.filterStatus;
+        return dateMatch && statusMatch;
+      });
     },
     totalTime() {
-      // Calculate the total time spent on tasks for the selected date
+      // Calculate the total time spent on tasks for the selected date and filter
       return this.filteredTasks.reduce((sum, task) => sum + task.time, 0);
     },
     remainingEffectiveTime() {
@@ -406,11 +411,6 @@ createApp({
         allUsers: data,
       };
 
-      const dataStr = JSON.stringify(exportData, null, 2);
-      const blob = new Blob([dataStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      
       // Prompt user to choose export type
       // Instead of using prompt, we'll provide options in the UI
       // For simplicity, we'll use a simple prompt here
@@ -418,8 +418,12 @@ createApp({
       if (exportType === null) return; // Cancelled
 
       if (exportType.toLowerCase() === 'all') {
-        link.download = 'taskManagerData_AllUsers.json';
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
         link.href = url;
+        link.download = 'taskManagerData_AllUsers.json';
         link.click();
         URL.revokeObjectURL(url);
         this.showAlertMethod('All users tasks exported successfully.', 'success');
@@ -596,6 +600,15 @@ createApp({
         this.users.push(this.defaultUser);
         this.currentUser = this.defaultUser.name;
         this.saveData();
+      }
+    },
+    // Quick Status Change Method
+    changeTaskStatus(task, newStatus) {
+      const taskIndex = this.currentUserData.tasks.indexOf(task);
+      if (taskIndex > -1) {
+        this.currentUserData.tasks[taskIndex].status = newStatus;
+        this.saveData();
+        this.showAlertMethod(`Task "${task.title}" status updated to "${newStatus}".`, 'success');
       }
     },
   },
