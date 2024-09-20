@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Task Manager</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+                <a class="navbar-brand" href="#">Task Manager</a>
+                <div class="collapse navbar-collapse">
+                    <div class="d-flex ms-auto">
+                        <button class="btn btn-secondary me-2" @click="generateReport('txt', 'now')">
+                            TXT Export Today
+                        </button>
+                        <button class="btn btn-secondary me-2" @click="generateReport('txt', 'all')">
+                            TXT Export All
+                        </button>
+                        <div class="me-2">
+                            <input type="date" v-model="selectedDate" id="selectedDate" class="form-control" />
+                        </div>
+                        <div>
+                            <button class="btn btn-primary me-2" @click="openTaskModal()">Add New Task</button>
+                            <button class="btn btn-secondary" @click="openSettingsModal()">Settings</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container my-4">
+            <div class="row">
+                <!-- Alert Container -->
+                <div class="col-12 mb-3">
+                    <div v-if="showAlert" :class="`alert alert-${alertType} alert-dismissible fade show`" role="alert">
+                        {{ alertMessage }}
+                        <button type="button" class="btn-close" @click="closeAlert" aria-label="Close"></button>
+                    </div>
+                </div>
+
+                <div class="col-12 mb-3">
+                    <form>
+                        <input class="form-control me-2" type="search" placeholder="Search tasks..." aria-label="Search"
+                            v-model="searchQuery" />
+                    </form>
+                </div>
+                <div class="col-4">
+                    <!-- Settings Card -->
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Settings</span>
+                            <!-- You can add settings-related buttons here if needed -->
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="arrivalTime" class="form-label">Arrival Time</label>
+                                    <input type="time" v-model="arrivalTime" id="arrivalTime" class="form-control" />
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="departureTime" class="form-label">Departure Time</label>
+                                    <input type="time" v-model="departureTime" id="departureTime"
+                                        class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Statistics Card -->
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Statistics</span>
+                            <button class="btn btn-sm btn-info" @click="openStatisticsModal()">Show Statistics</button>
+                        </div>
+                        <div class="card-body">
+                            <p>
+                                <strong>Total Tasks:</strong> {{ totalTasks }}
+                            </p>
+                            <p>
+                                <strong>Average Time per Task:</strong> {{ formatTime(averageTaskTime) }}
+                            </p>
+                            <p>
+                                <strong>Total Time Spent:</strong> {{ formatTime(totalTime) }}
+                            </p>
+                            <p>
+                                <strong>Remaining Effective Time:</strong>
+                                {{ formatTime(remainingEffectiveTime) }}
+                            </p>
+                            <strong>Shift Duration:</strong> {{ formatTime(shiftDuration) }}
+                        </div>
+                    </div>
+
+                    <!-- Templates Card -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <span>Templates</span>
+                            <button class="btn btn-sm btn-primary" @click="openTemplateModal()">Add Template</button>
+                        </div>
+                        <div class="card-body">
+                            <div v-if="templates.length === 0">
+                                <p class="text-muted">No templates saved.</p>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item d-flex justify-content-between align-items-center"
+                                    v-for="(template, index) in templates" :key="index">
+                                    <div>
+                                        <strong>{{ template.title }}</strong>
+                                        <br />
+                                        <small>{{ formatTime(template.time) }} - {{ template.tags.join(', ') }}</small>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-sm btn-success me-2"
+                                            @click="addTaskFromTemplate(template)">Add</button>
+                                        <button class="btn btn-sm btn-warning me-2"
+                                            @click="openTemplateModal(template, index)">Edit</button>
+                                        <button class="btn btn-sm btn-danger"
+                                            @click="deleteTemplate(index)">Delete</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <!-- Task List -->
+                    <div v-if="!searchQuery">
+                        <div class="row">
+                            <div class="col-md-12 mb-4" v-for="(task, index) in filteredTasks" :key="index">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <h5 class="card-title">{{ task.title }}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">
+                                                    {{ formatTime(task.time) }}
+                                                </h6>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <button class="btn btn-sm btn-warning me-2" @click="openTaskModal(task)">
+                                                    Edit
+                                                </button>
+                                                <button class="btn btn-sm btn-danger me-2" @click="deleteTask(index)">
+                                                    Delete
+                                                </button>
+                                                <button class="btn btn-sm btn-secondary" @click="createPrefab(task)">
+                                                    Create Prefab
+                                                </button>
+                                            </div>
+                                            <div class="col-12">
+                                                <p class="card-text">{{ task.description }}</p>
+                                            </div>
+                                        </div>
+                                        <p class="card-text">
+                                            <small class="text-muted">Tags: {{ task.tags.join(', ') }}</small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Results -->
+                    <div v-else>
+                        <h4>Search Results for "{{ searchQuery }}":</h4>
+                        <div v-for="(tasks, date) in groupedSearchResults" :key="date">
+                            <h5>{{ date }}</h5>
+                            <ul class="list-group mb-3">
+                                <li class="list-group-item" v-for="(task, index) in tasks" :key="index">
+                                    <strong>{{ task.title }}</strong> -
+                                    {{ formatTime(task.time) }}
+                                    <br />
+                                    {{ task.description }}
+                                    <br />
+                                    <small class="text-muted">Tags: {{ task.tags.join(', ') }}</small>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Modal -->
+        <div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true"
+            ref="taskModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ modalTitle }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Task Title</label>
+                            <input type="text" class="form-control" v-model="taskForm.title" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Time (minutes)</label>
+                            <input type="number" class="form-control" v-model.number="taskForm.time" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" v-model="taskForm.description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tags (comma separated)</label>
+                            <input type="text" class="form-control" v-model="taskForm.tags" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Date</label>
+                            <input type="date" class="form-control" v-model="taskForm.date" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="saveTask">
+                            Save Task
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Template Modal -->
+        <div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="templateModalLabel" aria-hidden="true"
+            ref="templateModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ templateModalTitle }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label">Template Title</label>
+                            <input type="text" class="form-control" v-model="templateForm.title" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Time (minutes)</label>
+                            <input type="number" class="form-control" v-model.number="templateForm.time" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" v-model="templateForm.description"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tags (comma separated)</label>
+                            <input type="text" class="form-control" v-model="templateForm.tags" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                        <button type="button" class="btn btn-primary" @click="saveTemplate">
+                            Save Template
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Modal -->
+        <div class="modal fade" id="statisticsModal" tabindex="-1" aria-labelledby="statisticsModalLabel" aria-hidden="true"
+            ref="statisticsModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Advanced Statistics</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <strong>Total Tasks:</strong> {{ totalTasks }}
+                        </p>
+                        <p>
+                            <strong>Average Time per Task:</strong> {{ formatTime(averageTaskTime) }}
+                        </p>
+                        <p>
+                            <strong>Tasks per Tag:</strong>
+                            <ul>
+                                <li v-for="(count, tag) in tasksPerTag" :key="tag">{{ tag }}: {{ count }}</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <strong>Tasks Over the Past Week:</strong>
+                            <ul>
+                                <li v-for="(count, date) in tasksOverTime" :key="date">{{ date }}: {{ count }}</li>
+                            </ul>
+                        </p>
+                        <p>
+                            <strong>Total Time Spent:</strong> {{ formatTime(totalTime) }}
+                        </p>
+                        <p>
+                            <strong>Remaining Effective Time:</strong>
+                            {{ formatTime(remainingEffectiveTime) }}
+                        </p>
+                        <strong>Shift Duration:</strong> {{ formatTime(shiftDuration) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Modal -->
+        <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true"
+            ref="settingsModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Settings</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h6>Export Tasks as JSON</h6>
+                        <button class="btn btn-success mb-3" @click="exportTasks()">Export JSON</button>
+                        <hr>
+                        <h6>Import Tasks from JSON</h6>
+                        <label class="btn btn-primary">
+                            Choose File
+                            <input type="file" hidden @change="importTasks" />
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your main JavaScript file -->
+    <script src="app.js"></script>
+</body>
+
+</html>
