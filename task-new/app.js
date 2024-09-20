@@ -25,7 +25,7 @@ createApp({
       modalTitle: 'Add New Task',
       taskForm: {
         title: '',
-        time: 0,
+        time: 10, // Default to 10 minutes
         description: '',
         tags: '',
         date: '',
@@ -36,7 +36,7 @@ createApp({
       templateModalTitle: 'Add New Template',
       templateForm: {
         title: '',
-        time: 0,
+        time: 10, // Default to 10 minutes
         description: '',
         tags: '',
       },
@@ -49,8 +49,12 @@ createApp({
       newUserName: '',
       addUserModalTitle: 'Add New User',
       // Filter Data
-      filterStatus: 'All', // Default filter
-      statusOptions: ['All', 'Open', 'In Progress', 'Completed', 'On Hold', 'In Review', 'Rejected', 'Approved'],
+      selectedFilterStatuses: ['Open', 'In Progress', 'Waiting for Answer'], // Default selected filters
+      statusOptions: ['All', 'Open', 'In Progress', 'Waiting for Answer', 'On Hold', 'In Review', 'Rejected', 'Approved', 'Completed'],
+      // Template Search
+      templateSearchQuery: '',
+      // Description Expansion
+      expandedDescriptions: {}, // Object to track expanded descriptions
     };
   },
   computed: {
@@ -59,10 +63,15 @@ createApp({
       return this.users.find(user => user.name === this.currentUser) || this.defaultUser;
     },
     filteredTasks() {
-      // Filter tasks based on the selected date and status
+      // If 'All' is selected, ignore other filters
+      if (this.selectedFilterStatuses.includes('All')) {
+        return this.currentUserData.tasks.filter(task => task.date === this.selectedDate);
+      }
+
+      // Otherwise, filter based on selected statuses
       return this.currentUserData.tasks.filter(task => {
         const dateMatch = task.date === this.selectedDate;
-        const statusMatch = this.filterStatus === 'All' || task.status === this.filterStatus;
+        const statusMatch = this.selectedFilterStatuses.includes(task.status);
         return dateMatch && statusMatch;
       });
     },
@@ -147,6 +156,15 @@ createApp({
       }
       return result;
     },
+    // Filtered Templates based on search query
+    filteredTemplates() {
+      const query = this.templateSearchQuery.toLowerCase();
+      return this.currentUserData.templates.filter(template =>
+        template.title.toLowerCase().includes(query) ||
+        template.description.toLowerCase().includes(query) ||
+        template.tags.some(tag => tag.toLowerCase().includes(query))
+      );
+    },
   },
   methods: {
     // Alert Methods
@@ -218,7 +236,7 @@ createApp({
         this.modalTitle = 'Add New Task';
         this.taskForm = {
           title: '',
-          time: 0,
+          time: 10, // Default to 10 minutes
           description: '',
           tags: '',
           date: this.selectedDate,
@@ -270,20 +288,6 @@ createApp({
       const modal = bootstrap.Modal.getInstance(this.$refs.taskModal);
       modal.hide();
     },
-    addCommonTask(commonTask) {
-      const taskData = {
-        title: commonTask.title,
-        time: commonTask.avgTime,
-        description: '',
-        tags: [],
-        date: this.selectedDate,
-        status: 'Open',
-        user: this.currentUser,
-      };
-      this.currentUserData.tasks.push(taskData);
-      this.saveData();
-      this.showAlertMethod(`Common task "${commonTask.title}" added successfully.`, 'success');
-    },
     deleteTask(index) {
       const task = this.filteredTasks[index];
       const taskIndex = this.currentUserData.tasks.indexOf(task);
@@ -292,6 +296,18 @@ createApp({
           this.currentUserData.tasks.splice(taskIndex, 1);
           this.saveData();
           this.showAlertMethod(`Task "${task.title}" deleted successfully.`, 'success');
+        }
+      }
+    },
+    deleteTaskFromModal() {
+      if (this.editingTaskIndex !== null) {
+        const task = this.currentUserData.tasks[this.editingTaskIndex];
+        if (confirm(`Are you sure you want to delete the task "${task.title}"?`)) {
+          this.currentUserData.tasks.splice(this.editingTaskIndex, 1);
+          this.saveData();
+          this.showAlertMethod(`Task "${task.title}" deleted successfully.`, 'success');
+          const modal = bootstrap.Modal.getInstance(this.$refs.taskModal);
+          modal.hide();
         }
       }
     },
@@ -330,7 +346,7 @@ createApp({
         this.templateModalTitle = 'Add New Template';
         this.templateForm = {
           title: '',
-          time: 0,
+          time: 10, // Default to 10 minutes
           description: '',
           tags: '',
         };
@@ -364,8 +380,27 @@ createApp({
 
       this.saveData();
 
-      const modal = new bootstrap.Modal(this.$refs.templateModal);
+      const modal = bootstrap.Modal.getInstance(this.$refs.templateModal);
       modal.hide();
+    },
+    deleteTemplate(index) {
+      if (confirm('Are you sure you want to delete this template?')) {
+        const deletedTemplate = this.currentUserData.templates.splice(index, 1)[0];
+        this.saveData();
+        this.showAlertMethod(`Template "${deletedTemplate.title}" deleted successfully.`, 'success');
+      }
+    },
+    deleteTemplateFromModal() {
+      if (this.editingTemplateIndex !== null) {
+        const template = this.currentUserData.templates[this.editingTemplateIndex];
+        if (confirm(`Are you sure you want to delete the template "${template.title}"?`)) {
+          this.currentUserData.templates.splice(this.editingTemplateIndex, 1);
+          this.saveData();
+          this.showAlertMethod(`Template "${template.title}" deleted successfully.`, 'success');
+          const modal = bootstrap.Modal.getInstance(this.$refs.templateModal);
+          modal.hide();
+        }
+      }
     },
     addTaskFromTemplate(template) {
       const taskData = {
@@ -381,13 +416,6 @@ createApp({
       this.saveData();
       this.showAlertMethod(`Task "${template.title}" added from template.`, 'success');
     },
-    deleteTemplate(index) {
-      if (confirm('Are you sure you want to delete this template?')) {
-        const deletedTemplate = this.currentUserData.templates.splice(index, 1)[0];
-        this.saveData();
-        this.showAlertMethod(`Template "${deletedTemplate.title}" deleted successfully.`, 'success');
-      }
-    },
     // Statistics Modal Methods
     openStatisticsModal() {
       const modal = new bootstrap.Modal(this.$refs.statisticsModal);
@@ -399,26 +427,17 @@ createApp({
       modal.show();
     },
     exportTasks() {
-      const data = {
-        users: this.users,
-        currentUser: this.currentUser,
-        arrivalTime: this.arrivalTime,
-        departureTime: this.departureTime,
-      };
-
-      // Create a temporary object for export
-      const exportData = {
-        allUsers: data,
-      };
-
       // Prompt user to choose export type
-      // Instead of using prompt, we'll provide options in the UI
-      // For simplicity, we'll use a simple prompt here
-      const exportType = prompt('Enter "all" to export all users or "current" to export only your tasks:', 'all');
+      const exportType = prompt('Enter "all" to export all users or "specific" to export only a particular user:', 'all');
       if (exportType === null) return; // Cancelled
 
       if (exportType.toLowerCase() === 'all') {
-        const dataStr = JSON.stringify(exportData, null, 2);
+        const data = {
+          users: this.users,
+          arrivalTime: this.arrivalTime,
+          departureTime: this.departureTime,
+        };
+        const dataStr = JSON.stringify(data, null, 2);
         const blob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
@@ -427,21 +446,29 @@ createApp({
         link.click();
         URL.revokeObjectURL(url);
         this.showAlertMethod('All users tasks exported successfully.', 'success');
-      } else if (exportType.toLowerCase() === 'current') {
-        const currentData = {
-          users: this.users.filter(user => user.name === this.currentUser),
+      } else if (exportType.toLowerCase() === 'specific') {
+        // Let user select which user to export
+        const userName = prompt('Enter the user name to export:', this.currentUser);
+        if (userName === null) return; // Cancelled
+        const user = this.users.find(u => u.name === userName.trim());
+        if (!user) {
+          this.showAlertMethod(`User "${userName}" not found.`, 'danger');
+          return;
+        }
+        const data = {
+          user: user,
           arrivalTime: this.arrivalTime,
           departureTime: this.departureTime,
         };
-        const currentDataStr = JSON.stringify(currentData, null, 2);
-        const currentBlob = new Blob([currentDataStr], { type: 'application/json' });
-        const currentUrl = URL.createObjectURL(currentBlob);
-        const currentLink = document.createElement('a');
-        currentLink.href = currentUrl;
-        currentLink.download = `taskManagerData_${this.currentUser}.json`;
-        currentLink.click();
-        URL.revokeObjectURL(currentUrl);
-        this.showAlertMethod('Current user tasks exported successfully.', 'success');
+        const dataStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `taskManagerData_${user.name}.json`;
+        link.click();
+        URL.revokeObjectURL(url);
+        this.showAlertMethod(`User "${user.name}" tasks exported successfully.`, 'success');
       } else {
         this.showAlertMethod('Invalid export type selected.', 'warning');
       }
@@ -453,14 +480,15 @@ createApp({
         reader.onload = (e) => {
           try {
             const importedData = JSON.parse(e.target.result);
-            if (importedData.allUsers && importedData.allUsers.users && Array.isArray(importedData.allUsers.users)) {
-              // Determine import type
-              const importType = prompt('Enter "all" to import all users or "current" to import only your tasks:', 'all');
+            // Determine if it's all users or a specific user
+            if (importedData.users && Array.isArray(importedData.users)) {
+              // It's an export of all users
+              const importType = prompt('Enter "all" to import all users or "specific" to import a particular user:', 'all');
               if (importType === null) return; // Cancelled
 
               if (importType.toLowerCase() === 'all') {
-                // Merge users
-                importedData.allUsers.users.forEach(importedUser => {
+                // Merge all users
+                importedData.users.forEach(importedUser => {
                   const existingUser = this.users.find(user => user.name === importedUser.name);
                   if (existingUser) {
                     // Merge tasks
@@ -480,32 +508,74 @@ createApp({
                     this.users.push(importedUser);
                   }
                 });
-                this.arrivalTime = importedData.allUsers.arrivalTime || this.arrivalTime;
-                this.departureTime = importedData.allUsers.departureTime || this.departureTime;
+                this.arrivalTime = importedData.arrivalTime || this.arrivalTime;
+                this.departureTime = importedData.departureTime || this.departureTime;
                 this.saveData();
                 this.showAlertMethod('All users tasks imported successfully.', 'success');
-              } else if (importType.toLowerCase() === 'current') {
-                const currentUserData = importedData.allUsers.users.find(user => user.name === this.currentUser);
-                if (currentUserData) {
+              } else if (importType.toLowerCase() === 'specific') {
+                // Let user choose which user to import
+                const userName = prompt('Enter the user name to import:', this.currentUser);
+                if (userName === null) return; // Cancelled
+                const importedUser = importedData.users.find(u => u.name === userName.trim());
+                if (!importedUser) {
+                  this.showAlertMethod(`User "${userName}" not found in the imported data.`, 'danger');
+                  return;
+                }
+                const existingUser = this.users.find(u => u.name === importedUser.name);
+                if (existingUser) {
                   // Merge tasks
-                  currentUserData.tasks.forEach(task => {
-                    if (!this.currentUserData.tasks.find(t => t.title === task.title && t.date === task.date && t.status === task.status)) {
-                      this.currentUserData.tasks.push(task);
+                  importedUser.tasks.forEach(task => {
+                    if (!existingUser.tasks.find(t => t.title === task.title && t.date === task.date && t.status === task.status)) {
+                      existingUser.tasks.push(task);
                     }
                   });
                   // Merge templates
-                  currentUserData.templates.forEach(template => {
-                    if (!this.currentUserData.templates.find(t => t.title === template.title && t.time === template.time)) {
-                      this.currentUserData.templates.push(template);
+                  importedUser.templates.forEach(template => {
+                    if (!existingUser.templates.find(t => t.title === template.title && t.time === template.time)) {
+                      existingUser.templates.push(template);
                     }
                   });
-                  this.arrivalTime = importedData.allUsers.arrivalTime || this.arrivalTime;
-                  this.departureTime = importedData.allUsers.departureTime || this.departureTime;
-                  this.saveData();
-                  this.showAlertMethod('Current user tasks imported successfully.', 'success');
                 } else {
-                  this.showAlertMethod('No matching user found for current user in the imported data.', 'danger');
+                  // Add new user
+                  this.users.push(importedUser);
                 }
+                this.arrivalTime = importedData.arrivalTime || this.arrivalTime;
+                this.departureTime = importedData.departureTime || this.departureTime;
+                this.saveData();
+                this.showAlertMethod(`User "${importedUser.name}" tasks imported successfully.`, 'success');
+              } else {
+                this.showAlertMethod('Invalid import type selected.', 'warning');
+              }
+            } else if (importedData.user && typeof importedData.user === 'object') {
+              // It's an export of a specific user
+              const importType = prompt('Enter "specific" to import a particular user:', 'specific');
+              if (importType === null) return; // Cancelled
+
+              if (importType.toLowerCase() === 'specific') {
+                const userName = prompt('Enter the user name to import:', importedData.user.name);
+                if (userName === null) return; // Cancelled
+                const existingUser = this.users.find(u => u.name === userName.trim());
+                if (existingUser) {
+                  // Merge tasks
+                  importedData.user.tasks.forEach(task => {
+                    if (!existingUser.tasks.find(t => t.title === task.title && t.date === task.date && t.status === task.status)) {
+                      existingUser.tasks.push(task);
+                    }
+                  });
+                  // Merge templates
+                  importedData.user.templates.forEach(template => {
+                    if (!existingUser.templates.find(t => t.title === template.title && t.time === template.time)) {
+                      existingUser.templates.push(template);
+                    }
+                  });
+                } else {
+                  // Add new user
+                  this.users.push(importedData.user);
+                }
+                this.arrivalTime = importedData.arrivalTime || this.arrivalTime;
+                this.departureTime = importedData.departureTime || this.departureTime;
+                this.saveData();
+                this.showAlertMethod(`User "${importedData.user.name}" tasks imported successfully.`, 'success');
               } else {
                 this.showAlertMethod('Invalid import type selected.', 'warning');
               }
@@ -609,6 +679,36 @@ createApp({
         this.currentUserData.tasks[taskIndex].status = newStatus;
         this.saveData();
         this.showAlertMethod(`Task "${task.title}" status updated to "${newStatus}".`, 'success');
+      }
+    },
+    // Complete Task Method
+    completeTask(task) {
+      this.changeTaskStatus(task, 'Completed');
+    },
+    // Toggle Description Expansion
+    toggleDescription(task) {
+      const key = this.getTaskKey(task);
+      if (this.expandedDescriptions[key]) {
+        this.$delete(this.expandedDescriptions, key);
+      } else {
+        this.$set(this.expandedDescriptions, key, true);
+      }
+    },
+    isDescriptionExpanded(task) {
+      const key = this.getTaskKey(task);
+      return this.expandedDescriptions[key];
+    },
+    getTaskKey(task) {
+      return `${task.title}-${task.date}-${task.status}`;
+    },
+    // Toggle All Filters
+    toggleAllFilters(event) {
+      if (event.target.checked) {
+        // Select all statuses
+        this.selectedFilterStatuses = ['All'];
+      } else {
+        // Deselect all
+        this.selectedFilterStatuses = [];
       }
     },
   },
