@@ -23,7 +23,7 @@
         }
 
         .filter-inputs label {
-           font-size: 14px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -53,9 +53,6 @@
                         <!-- Export and Import Buttons -->
                         <button class="btn btn-secondary me-2" @click="generateReport('txt', 'now')">
                             TXT Export Today
-                        </button>
-                        <button class="btn btn-secondary me-2" @click="generateReport('txt', 'all')">
-                            TXT Export All
                         </button>
                         <div class="me-2">
                             <input type="date" v-model="selectedDate" id="selectedDate" class="form-control" />
@@ -129,8 +126,8 @@
                                 <input type="text" class="form-control" v-model="templateSearchQuery"
                                     placeholder="Search templates..." />
                                 <ul class="list-group mt-2" v-if="filteredTemplates.length > 0">
-                                    <li class="list-group-item d-flex"
-                                        v-for="(template, index) in filteredTemplates" :key="index">
+                                    <li class="list-group-item d-flex" v-for="(template, index) in filteredTemplates"
+                                        :key="index">
                                         <div class="row">
                                             <div class="col-12">
                                                 <strong>{{ template.title }}</strong>
@@ -156,7 +153,7 @@
                             <div v-if="currentUserData.templates.length === 0">
                                 <p class="text-muted">No templates saved.</p>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -203,35 +200,47 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row align-items-center">
-                                            <div class="col-md-4">
+                                            <div class="col-md-12">
                                                 <h5 class="card-title">{{ task.title }}</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted">
-                                                    {{ formatTime(task.time) }}
-                                                </h6>
+
                                             </div>
-                                            <div class="col-md-8 text-end">
-                                                <!-- Quick Status Change Dropdown -->
-                                                <select class="form-select form-select-sm w-auto d-inline mx-2"
-                                                    :value="task.status"
-                                                    @change="changeTaskStatus(task, $event.target.value)">
-                                                    <option v-for="status in statusOptions.slice(1)" :key="status"
-                                                        :value="status">
-                                                        {{ status }}
-                                                    </option>
-                                                </select>
-                                                <!-- Complete Button -->
-                                                <button class="btn btn-sm btn-success me-2" @click="completeTask(task)">
-                                                    Complete
-                                                </button>
-                                                <!-- Edit Button -->
-                                                <button class="btn btn-sm btn-warning me-2"
-                                                    @click="openTaskModal(task)">
-                                                    Edit
-                                                </button>
-                                                <!-- Create Template Button -->
-                                                <button class="btn btn-sm btn-secondary" @click="createPrefab(task)">
-                                                    CT
-                                                </button>
+                                            <div class="col-md-12 ">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <h6 class="card-subtitle mb-2 text-muted">
+                                                            {{ formatTime(task.time) }}
+                                                        </h6>
+                                                    </div>
+                                                    <div class="col-8 text-end">
+                                                        <!-- Quick Status Change Dropdown -->
+                                                        <select v-if="task.status !== 'Completed'"
+                                                            class="form-select form-select-sm w-auto d-inline mx-2"
+                                                            :value="task.status"
+                                                            @change="changeTaskStatus(task, $event.target.value)">
+                                                            <option v-for="status in statusOptions.slice(1)"
+                                                                :key="status" :value="status">
+                                                                {{ status }}
+                                                            </option>
+                                                        </select>
+                                                        <!-- Complete Button -->
+                                                        <button v-show="task.status !== 'Completed'"
+                                                            class="btn btn-sm btn-success me-2"
+                                                            @click="completeTask(task)">
+                                                            Mark as Complete
+                                                        </button>
+                                                        <!-- Edit Button -->
+                                                        <button class="btn btn-sm btn-warning me-2"
+                                                            @click="openTaskModal(task)">
+                                                            Edit
+                                                        </button>
+                                                        <!-- Create Template Button -->
+                                                        <button class="btn btn-sm btn-secondary"
+                                                            @click="createPrefab(task)">
+                                                            CT
+                                                        </button>
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <div class="col-12">
                                                 {{ task.description }}
@@ -240,9 +249,8 @@
                                         <div class="row mt-3">
                                             <div class="col-12">
                                                 <p class="card-text">
-                                                    <small class="text-muted">Tags: {{ task.tags.join(', ') }}</small>
-
-                                                    <small class="text-muted">Status: {{ task.status }}</small>
+                                                    <small class="text-muted me-3">Tags: {{ task.tags.join(', ') }}</small> 
+                                                    <small class="text-muted me-3">Status: {{ task.status }}</small>
                                                 </p>
                                             </div>
                                         </div>
@@ -436,6 +444,12 @@
                             <h6>Export Tasks as JSON</h6>
                             <button class="btn btn-success mb-3" @click="exportTasks()">Export JSON</button>
                             <hr>
+
+                            <button class="btn btn-secondary me-2" @click="generateReport('txt', 'all')">
+                                TXT Export All
+                            </button>
+                            <hr>
+
                             <!-- Import Tasks from JSON -->
                             <h6>Import Tasks from JSON</h6>
                             <label class="btn btn-primary">
