@@ -49,15 +49,38 @@ createApp({
       newUserName: '',
       addUserModalTitle: 'Add New User',
       // Filter Data
-      selectedFilterStatuses: ['Open', 'In Progress', ], // Default selected filters
+      selectedFilterStatuses: ['Open', 'In Progress',], // Default selected filters
       statusOptions: ['All', 'Open', 'In Progress', 'On Hold', 'In Review', 'Rejected', 'Approved', 'Completed'],
       // Template Search
       templateSearchQuery: '',
       // Description Expansion
       expandedDescriptions: {}, // Object to track expanded descriptions
+      noTaskFound: false,
     };
   },
   computed: {
+    searchResults() {
+      if (!this.searchQuery) return [];
+
+      const query = this.searchQuery.toLowerCase();
+
+      let results = [];
+      this.users.forEach(user => {
+        const userResults = user.tasks.filter(
+          (task) =>
+            task.title.toLowerCase().includes(query) ||
+            task.description.toLowerCase().includes(query) ||
+            task.tags.some((tag) => tag.toLowerCase().includes(query)) ||
+            task.status.toLowerCase().includes(query)
+        ).map(task => ({ ...task, user: user.name }));
+        results = results.concat(userResults);
+      });
+
+      // Toggle the "noTaskFound" flag based on search results
+      this.noTaskFound = results.length === 0;
+
+      return results;
+    },
     // Get current user's tasks and templates
     currentUserData() {
       return this.users.find(user => user.name === this.currentUser) || this.defaultUser;
@@ -95,26 +118,6 @@ createApp({
         return (end - start) / (1000 * 60); // Duration in minutes
       }
       return 0;
-    },
-    searchResults() {
-      if (!this.searchQuery) return [];
-
-      const query = this.searchQuery.toLowerCase();
-
-      // Search across all users
-      let results = [];
-      this.users.forEach(user => {
-        const userResults = user.tasks.filter(
-          (task) =>
-            task.title.toLowerCase().includes(query) ||
-            task.description.toLowerCase().includes(query) ||
-            task.tags.some((tag) => tag.toLowerCase().includes(query)) ||
-            task.status.toLowerCase().includes(query)
-        ).map(task => ({ ...task, user: user.name }));
-        results = results.concat(userResults);
-      });
-
-      return results;
     },
     groupedSearchResults() {
       return this.searchResults.reduce((groups, task) => {
@@ -701,6 +704,43 @@ createApp({
     getTaskKey(task) {
       return `${task.title}-${task.date}-${task.status}`;
     },
+    saveArrivalDepartureTimes() {
+      const today = this.selectedDate;
+
+      const user = this.currentUserData;
+      if (!user.times) {
+        user.times = {}; // Create times object if not exists
+      }
+
+      // If no entry for today, create one
+      if (!user.times[today]) {
+        user.times[today] = {};
+      }
+
+      // Store today's arrival and departure times
+      user.times[today].arrivalTime = this.arrivalTime;
+      user.times[today].departureTime = this.departureTime;
+
+      // Save the updated user data
+      this.saveData();
+    },
+    handleSearchAndCreateTask() {
+      if (!this.noTaskFound) return;
+
+      const newTask = {
+        title: this.searchQuery,
+        time: 10, // Default time
+        description: 'Automatically created task',
+        tags: [],
+        date: this.selectedDate,
+        status: 'Open',
+        user: this.currentUser,
+      };
+
+      this.currentUserData.tasks.push(newTask);
+      this.saveData();
+      this.showAlertMethod(`Task "${newTask.title}" created successfully.`, 'success');
+    },
     // Toggle All Filters
     toggleAllFilters(event) {
       if (event.target.checked) {
@@ -714,10 +754,10 @@ createApp({
   },
   watch: {
     arrivalTime() {
-      this.saveData();
+      this.saveArrivalDepartureTimes(); // Save when arrival time changes
     },
     departureTime() {
-      this.saveData();
+      this.saveArrivalDepartureTimes(); // Save when departure time changes
     },
     users: {
       handler() {
