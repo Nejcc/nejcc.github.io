@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homelab Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div id="app" class="container mx-auto mt-10">
+    <div class="flex justify-between items-center mb-6">
+      <!-- Title as a clickable link -->
+      <h1 class="text-3xl font-bold text-center cursor-pointer" @click="goToDashboard">Homelab Dashboard</h1>
+      <div class="flex space-x-4">
+        <input type="text" v-model="searchTerm" @input="handleSearch" class="px-4 py-2 border border-gray-300 rounded shadow-sm" placeholder="Search URLs...">
+        <button class="bg-blue-500 text-white px-4 py-2 rounded shadow" @click="openSettingsModal">Settings</button>
+        <button class="bg-green-500 text-white px-4 py-2 rounded shadow" @click="showAddForm = true">Add New Link</button>
+      </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" v-if="showSettingsModal">
+      <div class="bg-white p-6 rounded shadow-lg w-1/3">
+        <h3 class="text-xl font-bold mb-4">Settings</h3>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded shadow w-full mb-4" @click="exportJSON">Export JSON</button>
+        <input type="file" @change="importJSON" class="block w-full text-gray-700 mb-4" accept=".json">
+        <button class="bg-red-500 text-white px-4 py-2 rounded shadow w-full" @click="closeSettingsModal">Close</button>
+      </div>
+    </div>
+
+    <!-- Add New Link Form -->
+    <div v-if="showAddForm" class="bg-white p-6 rounded shadow-lg mb-6">
+      <h3 class="text-xl font-bold mb-4">Add New Link</h3>
+      <form @submit.prevent="addLink">
+        <div class="mb-4">
+          <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
+          <input type="text" v-model="newLink.url" id="url" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm" required>
+        </div>
+        <div class="mb-4">
+          <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+          <input type="text" v-model="newLink.title" id="title" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm" required>
+        </div>
+        <div class="mb-4">
+          <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+          <input type="text" v-model="newLink.description" id="description" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm">
+        </div>
+        <div class="mb-4">
+          <label for="categories" class="block text-sm font-medium text-gray-700">Categories (comma-separated)</label>
+          <input type="text" v-model="newLink.categories" id="categories" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm">
+        </div>
+        <div class="mb-4">
+          <label for="tags" class="block text-sm font-medium text-gray-700">Tags (comma-separated)</label>
+          <input type="text" v-model="newLink.tags" id="tags" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm">
+        </div>
+        <div class="flex justify-between">
+          <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded shadow">Add Link</button>
+          <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded shadow" @click="goToDashboard">Cancel</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Display Links -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" v-if="!showAddForm && filteredLinks.length > 0">
+      <div v-for="(link, index) in filteredLinks" :key="index" class="bg-white p-6 rounded shadow-lg block cursor-pointer" @click="incrementUsageAndOpenLink(index)">
+        <h3 class="text-xl font-semibold">{{ link.title }}</h3>
+        <p class="text-gray-700">{{ link.description }}</p>
+        <p class="mt-2"><strong>Categories:</strong> {{ link.categories.join(', ') }}</p>
+        <p><strong>Tags:</strong> {{ link.tags.join(', ') }}</p>
+        <p><strong>Usage:</strong> {{ link.usageCount }} times</p>
+        <div class="flex space-x-2 mt-4">
+          <button class="bg-yellow-500 text-white px-4 py-2 rounded shadow" @click.stop="editLink(index)">Edit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Results and Suggest Add -->
+    <div v-if="filteredLinks.length === 0 && searchTerm && !showAddForm" class="text-center mt-6">
+      <p class="text-gray-700">No results found for "{{ searchTerm }}".</p>
+      <button class="bg-yellow-500 text-white px-4 py-2 rounded shadow" @click="addLinkFromSearch">Add "{{ searchTerm }}" as new link</button>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50" v-if="showEditModal">
+      <div class="bg-white p-6 rounded shadow-lg w-1/3">
+        <h3 class="text-xl font-bold mb-4">Edit Link</h3>
+        <form @submit.prevent="saveEdit">
+          <div class="mb-4">
+            <label for="editTitle" class="block text-sm font-medium text-gray-700">Title</label>
+            <input type="text" v-model="editLinkData.title" id="editTitle" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm">
+          </div>
+          <div class="mb-4">
+            <label for="editDescription" class="block text-sm font-medium text-gray-700">Description</label>
+            <input type="text" v-model="editLinkData.description" id="editDescription" class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded shadow-sm">
+          </div>
+          <div class="flex justify-between">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded shadow">Save</button>
+            <button type="button" class="bg-red-500 text-white px-4 py-2 rounded shadow" @click="deleteLink(editLinkIndex)">Delete</button>
+            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded shadow" @click="closeEditModal">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
