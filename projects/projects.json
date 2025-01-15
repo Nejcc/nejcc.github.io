@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "image": "/images/project1.jpg",
-    "name": "Watchlist",
-    "description": "This is very simple watch list where i can watch items i want to buy or sell and compare with price. ",
+    "image": "./images/watchlist.png",
+    "name": "Product Watchlist Management System",
+    "description": "This project is a browser-based product watchlist management system designed to help users monitor and evaluate deals for various products. It allows users to add products to a watchlist, categorize them, and assess whether the current or 'asked' price represents a Good Deal, Fair Deal, or Bad Deal based on dynamic pricing thresholds. The system leverages local storage for data persistence and includes functionality to export and import JSON files for easy data management.",
     "link": "https://nejcc.github.io/projects/watchlist"
   }
 ]
