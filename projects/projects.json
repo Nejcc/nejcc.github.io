@@ -1,0 +1,9 @@
+[
+  {
+    "id": 1,
+    "image": "/images/project1.jpg",
+    "name": "Watchlist",
+    "description": "This is very simple watch list where i can watch items i want to buy or sell and compare with price. ",
+    "link": "https://nejcc.github.io/projects/watchlist"
+  }
+]

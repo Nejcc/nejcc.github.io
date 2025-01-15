@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects Search</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+  <style>
+    /* Ensures fallback image is displayed when the primary image fails to load */
+    img {
+      display: block;
+    }
+    img[data-error] {
+      content: url('/images/default.jpg');
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div id="app" class="container mx-auto py-10">
+    <!-- Search Input -->
+    <div class="mb-8">
+      <input 
+        type="text" 
+        v-model="searchQuery" 
+        @input="searchProjects" 
+        placeholder="Search projects..." 
+        class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div 
+        v-for="project in filteredProjects" 
+        :key="project.id" 
+        class="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200"
+      >
+        <img 
+          :src="project.image || '/images/default.jpg'" 
+          :alt="project.name" 
+          class="w-full h-48 object-cover"
+          @error="handleImageError($event)"
+        >
+        <div class="p-4">
+          <h3 class="text-lg font-bold">{{ project.name }}</h3>
+          <p class="text-sm text-gray-600">{{ project.description }}</p>
+          <a :href="project.link" target="_blank" class="text-blue-500 hover:underline mt-2 block">View Project</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div v-if="loading" class="text-center my-4">
+      <p class="text-gray-500">Loading more projects...</p>
+    </div>
+  </div>
+
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          projects: [],        // All projects data
+          filteredProjects: [], // Projects displayed after search
+          searchQuery: '',     // User's search input
+          loading: false,      // Loading indicator for lazy load
+          currentPage: 1,      // Current page for lazy loading
+          pageSize: 8          // Number of projects to load per request
+        };
+      },
+      methods: {
+        // Fetch projects from projects.json
+        async fetchProjects() {
+          this.loading = true;
+          try {
+            const response = await fetch('projects.json');
+            const data = await response.json();
+            this.projects = data;
+            this.filteredProjects = this.projects.slice(0, this.pageSize * this.currentPage);
+          } catch (error) {
+            console.error('Error loading projects:', error);
+          } finally {
+            this.loading = false;
+          }
+        },
+        // Search functionality
+        searchProjects() {
+          const query = this.searchQuery.toLowerCase();
+          this.filteredProjects = this.projects.filter(project => 
+            project.name.toLowerCase().includes(query) || 
+            project.description.toLowerCase().includes(query)
+          );
+        },
+        // Handle infinite scroll
+        handleScroll() {
+          if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200 && !this.loading) {
+            this.currentPage++;
+            const nextProjects = this.projects.slice(0, this.pageSize * this.currentPage);
+            if (nextProjects.length > this.filteredProjects.length) {
+              this.filteredProjects = nextProjects;
+            }
+          }
+        },
+        // Fallback for broken images
+        handleImageError(event) {
+          event.target.setAttribute('data-error', true);
+        }
+      },
+      mounted() {
+        this.fetchProjects();
+        window.addEventListener('scroll', this.handleScroll);
+      },
+      beforeUnmount() {
+        window.removeEventListener('scroll', this.handleScroll);
+      }
+    });
+
+    app.mount('#app');
+  </script>
+</body>
+</html>

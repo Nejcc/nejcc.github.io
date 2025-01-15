@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Product</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3.2.31/dist/vue.global.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app" class="container my-5">
+    <h1 class="text-center mb-4">Create New Product</h1>
+
+    <!-- Add Product Form -->
+    <div class="mb-4">
+      <form @submit.prevent="addProduct">
+        <div class="row g-2">
+          <div class="col-md-3">
+            <input v-model="newProduct.name" class="form-control" placeholder="Product Name" required />
+          </div>
+          <div class="col-md-3">
+            <input v-model="newProduct.category" class="form-control" placeholder="Category" required />
+          </div>
+          <div class="col-md-2">
+            <input v-model.number="newProduct.price" class="form-control" type="number" placeholder="Price" required />
+          </div>
+          <div class="col-md-2">
+            <input v-model.number="newProduct.minPrice" class="form-control" type="number" placeholder="Min Price" required />
+          </div>
+          <div class="col-md-2">
+            <input v-model.number="newProduct.maxPrice" class="form-control" type="number" placeholder="Max Price" required />
+          </div>
+          <div class="col-md-2">
+            <input v-model.number="newProduct.avgPrice" class="form-control" type="number" placeholder="Avg Price" required />
+          </div>
+          <div class="col-md-2 mt-2">
+            <button type="submit" class="btn btn-success w-100">Add Product</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <button class="btn btn-primary mt-4" onclick="window.location.href='index.html'">Go to Product List</button>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+
+    createApp({
+      data() {
+        return {
+          newProduct: {
+            name: "",
+            category: "",
+            price: null,
+            minPrice: null,
+            maxPrice: null,
+            avgPrice: null,
+          },
+          products: [],
+        };
+      },
+      methods: {
+        loadProducts() {
+          const savedProducts = localStorage.getItem("watchlist");
+          this.products = savedProducts ? JSON.parse(savedProducts) : [];
+        },
+        saveProducts() {
+          localStorage.setItem("watchlist", JSON.stringify(this.products));
+        },
+        addProduct() {
+          const newProduct = { id: Date.now(), ...this.newProduct };
+          this.products.push(newProduct);
+          this.saveProducts();
+          alert("Product added successfully!");
+          this.newProduct = {
+            name: "",
+            category: "",
+            price: null,
+            minPrice: null,
+            maxPrice: null,
+            avgPrice: null,
+          };
+        },
+      },
+      mounted() {
+        this.loadProducts();
+      },
+    }).mount("#app");
+  </script>
+</body>
+</html>

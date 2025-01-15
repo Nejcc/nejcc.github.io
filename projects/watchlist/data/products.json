@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "name": "Used Smartphone",
+    "category": "Electronics",
+    "price": 150,
+    "minPrice": 100,
+    "maxPrice": 200,
+    "avgPrice": 150
+  },
+  {
+    "id": 2,
+    "name": "Gaming Laptop",
+    "category": "Computers",
+    "price": 700,
+    "minPrice": 600,
+    "maxPrice": 800,
+    "avgPrice": 700
+  },
+  {
+    "id": 3,
+    "name": "Wireless Earbuds",
+    "category": "Accessories",
+    "price": 50,
+    "minPrice": 40,
+    "maxPrice": 70,
+    "avgPrice": 55
+  },
+  {
+    "id": 4,
+    "name": "Used Camera",
+    "category": "Photography",
+    "price": 300,
+    "minPrice": 250,
+    "maxPrice": 400,
+    "avgPrice": 325
+  }
+]
