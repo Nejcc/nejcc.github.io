@@ -12,6 +12,7 @@
         <!-- Game Header -->
         <header class="mb-8 text-center animate-fade-in">
             <h1 class="text-4xl font-bold text-yellow-400 mb-4">The Oval Office</h1>
+            <p class="text-lg text-gray-400 mb-4">President {{ selectedPresident }}</p>
             <div class="flex justify-center gap-4 mb-6">
                 <div class="bg-blue-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
                     <span class="text-sm text-blue-300">Approval</span>
@@ -24,6 +25,10 @@
                 <div class="bg-purple-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
                     <span class="text-sm text-purple-300">Capital</span>
                     <div class="text-2xl font-bold text-white">{{ metrics.capital }}</div>
+                </div>
+                <div class="bg-red-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+                    <span class="text-sm text-red-300">Stability</span>
+                    <div class="text-2xl font-bold text-white">{{ metrics.stability }}/10</div>
                 </div>
             </div>
         </header>
@@ -76,6 +81,7 @@
         <div v-else class="text-center py-20 animate-fade-in">
             <h2 class="text-3xl font-bold text-yellow-400 mb-4">Presidency Ended</h2>
             <p class="text-gray-300 mb-8 text-xl">Final Approval Rating: {{ metrics.approval }}%</p>
+            <p class="text-gray-300 mb-8 text-xl">Final Stability Score: {{ metrics.stability }}/10</p>
             <button @click="restartGame" 
                     class="bg-yellow-400 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-yellow-300 transition-colors">
                 Begin New Term
@@ -93,78 +99,19 @@
                     metrics: {
                         approval: 55,
                         economy: 7,
-                        capital: 5
+                        capital: 5,
+                        stability: 7
                     },
-                    currentSituationIndex: 0,
-                    situations: [
-                        {
-                            title: "Economic Crisis",
-                            description: "Inflation surges to 8.9%, the highest in 40 years. Families struggle with rising costs while financial markets show signs of panic.",
-                            advisors: [
-                                { 
-                                    role: "Treasury Secretary", 
-                                    name: "Janet Yang",
-                                    advice: "Immediate stimulus for low-income families combined with supply chain tax incentives" 
-                                },
-                                { 
-                                    role: "Federal Reserve Chair", 
-                                    name: "Dr. Marcus Greene",
-                                    advice: "Aggressive interest rate hikes to cool demand, despite recession risks" 
-                                }
-                            ],
-                            options: [
-                                { 
-                                    title: "Stimulus Package",
-                                    description: "$300B direct relief to citizens and businesses",
-                                    risk: "Could worsen inflation if supply chains don't improve",
-                                    effects: { approval: +12, economy: -3, capital: -2 }
-                                },
-                                { 
-                                    title: "Monetary Tightening",
-                                    description: "Support Fed's 1.5% rate hike plan",
-                                    risk: "May trigger stock market crash and unemployment",
-                                    effects: { approval: -15, economy: +4, capital: +1 }
-                                }
-                            ]
-                        },
-                        {
-                            title: "Foreign Conflict",
-                            description: "Two NATO allies are mobilizing naval forces over disputed fishing waters. Casualties reported in border skirmishes.",
-                            advisors: [
-                                { 
-                                    role: "Secretary of State", 
-                                    name: "Eleanor Carter",
-                                    advice: "Emergency diplomatic summit with both leaders at Camp David" 
-                                },
-                                { 
-                                    role: "Defense Secretary", 
-                                    name: "Gen. Mark Dawson",
-                                    advice: "Deploy 7th Fleet as peacekeeping force between the parties" 
-                                }
-                            ],
-                            options: [
-                                { 
-                                    title: "Diplomatic Push",
-                                    description: "Host emergency peace talks",
-                                    risk: "Could be seen as weak by adversaries",
-                                    effects: { approval: +5, economy: 0, capital: -3 }
-                                },
-                                { 
-                                    title: "Military Show",
-                                    description: "Deploy carrier group to disputed zone",
-                                    risk: "Potential for accidental escalation",
-                                    effects: { approval: -10, economy: -2, capital: +4 }
-                                }
-                            ]
-                        }
-                    ],
-                    gameOver: false
-                }
+                    gameOver: false,
+                    currentSituation: null,
+                    advisors: [],
+                    presidents: [],
+                    events: [],
+                    scenarios: [],
+                    selectedPresident: ""
+                };
             },
             computed: {
-                currentSituation() {
-                    return this.situations[this.currentSituationIndex];
-                },
                 decisionButtonClass() {
                     return (index) => ({
                         'bg-green-900/30 border-green-600': index === 0,
@@ -176,32 +123,78 @@
                 }
             },
             methods: {
+                async loadGameData() {
+                    const namesData = await fetch('names.json').then(res => res.json());
+                    const advisorsData = await fetch('advisors.json').then(res => res.json());
+                    const eventsData = await fetch('events.json').then(res => res.json());
+                    const scenariosData = await fetch('scenarios.json').then(res => res.json());
+
+                    this.presidents = namesData.presidents;
+                    this.advisors = this.generateAdvisors(advisorsData);
+                    this.events = eventsData.events;
+                    this.scenarios = scenariosData.scenarios;
+
+                    this.selectedPresident = this.getRandomItem(this.presidents);
+
+                    this.generateSituation();
+                },
+                generateAdvisors(advisorsData) {
+                    const roles = advisorsData.roles;
+                    const advice = advisorsData.advice;
+
+                    return roles.map(role => ({
+                        role,
+                        name: this.getRandomItem(advisorsData.advisors),
+                        advice: this.getRandomItem(advice)
+                    }));
+                },
+                generateSituation() {
+                    const event = this.getRandomItem(this.events);
+                    const scenario = this.getRandomItem(this.scenarios);
+
+                    this.currentSituation = {
+                        title: event.title,
+                        description: event.description + " " + scenario.description,
+                        advisors: this.advisors,
+                        options: scenario.options.map(option => ({
+                            ...option,
+                            risk: event.risk
+                        }))
+                    };
+                },
                 makeDecision(option) {
-                    // Update metrics
                     Object.entries(option.effects).forEach(([metric, value]) => {
                         this.metrics[metric] += value;
                     });
 
-                    // Clamp values
-                    this.metrics.approval = Math.min(Math.max(this.metrics.approval, 0), 100);
-                    this.metrics.economy = Math.min(Math.max(this.metrics.economy, 0), 10);
-                    this.metrics.capital = Math.min(Math.max(this.metrics.capital, 0), 10);
-
-                    // Progress game
+                    this.clampMetrics();
                     this.currentDay++;
-                    this.currentSituationIndex++;
+                    if (this.currentDay % 2 === 0) {
+                        this.generateSituation();
+                    }
 
-                    // Check end conditions
-                    if (this.currentSituationIndex >= this.situations.length || this.metrics.approval <= 0) {
+                    if (this.metrics.approval <= 0 || this.metrics.stability <= 0) {
                         this.gameOver = true;
                     }
                 },
+                clampMetrics() {
+                    this.metrics.approval = Math.min(Math.max(this.metrics.approval, 0), 100);
+                    this.metrics.economy = Math.min(Math.max(this.metrics.economy, 0), 10);
+                    this.metrics.capital = Math.min(Math.max(this.metrics.capital, 0), 10);
+                    this.metrics.stability = Math.min(Math.max(this.metrics.stability, 0), 10);
+                },
                 restartGame() {
                     this.currentDay = 1;
-                    this.metrics = { approval: 55, economy: 7, capital: 5 };
-                    this.currentSituationIndex = 0;
+                    this.metrics = { approval: 55, economy: 7, capital: 5, stability: 7 };
                     this.gameOver = false;
+                    this.generateSituation();
+                },
+                getRandomItem(array) {
+                    return array[Math.floor(Math.random() * array.length)];
                 }
+            },
+            mounted() {
+                this.loadGameData();
             }
         }).mount('#app');
     </script>
