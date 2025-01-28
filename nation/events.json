@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "title": "Economic Recession",
+      "description": "The GDP has fallen for the second quarter in a row. The economy is officially in a recession.",
+      "risk": "Unemployment may surge if immediate action isn't taken.",
+      "effects": [
+        { "metric": "approval", "change": 5 },
+        { "metric": "economy", "change": -3 },
+        { "metric": "capital", "change": -2 }
+      ]
+    },
+    {
+      "title": "Natural Disaster",
+      "description": "A Category 5 hurricane has devastated the southeastern coast, displacing thousands.",
+      "risk": "Failure to act could erode public trust.",
+      "effects": [
+        { "metric": "approval", "change": -10 },
+        { "metric": "economy", "change": -2 },
+        { "metric": "stability", "change": -4 }
+      ]
+    }
+  ]
+}
