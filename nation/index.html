@@ -1,1 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presidential Decision Simulator</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 min-h-screen">
+    <div id="app" class="container mx-auto px-4 py-8">
+        <!-- Game Header -->
+        <header class="mb-8 text-center animate-fade-in">
+            <h1 class="text-4xl font-bold text-yellow-400 mb-4">The Oval Office</h1>
+            <div class="flex justify-center gap-4 mb-6">
+                <div class="bg-blue-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+                    <span class="text-sm text-blue-300">Approval</span>
+                    <div class="text-2xl font-bold text-white">{{ metrics.approval }}%</div>
+                </div>
+                <div class="bg-green-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+                    <span class="text-sm text-green-300">Economy</span>
+                    <div class="text-2xl font-bold text-white">{{ metrics.economy }}/10</div>
+                </div>
+                <div class="bg-purple-900/50 px-4 py-2 rounded-lg backdrop-blur-sm">
+                    <span class="text-sm text-purple-300">Capital</span>
+                    <div class="text-2xl font-bold text-white">{{ metrics.capital }}</div>
+                </div>
+            </div>
+        </header>
 
+        <!-- Main Game Content -->
+        <main v-if="!gameOver" class="bg-gray-800/80 rounded-xl p-6 shadow-2xl backdrop-blur-sm border border-gray-700 transition-all duration-300">
+            <!-- Situation Display -->
+            <div class="mb-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="bg-yellow-400 w-1 h-8 rounded-full"></div>
+                    <h2 class="text-2xl text-white font-bold">Day {{ currentDay }}: {{ currentSituation.title }}</h2>
+                </div>
+                <p class="text-gray-300 mb-6 leading-relaxed">{{ currentSituation.description }}</p>
+                
+                <!-- Cabinet Advisors -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div v-for="(advisor, index) in currentSituation.advisors" 
+                         class="bg-gray-700/50 p-4 rounded-lg border border-gray-600 hover:border-yellow-400 transition-colors">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center">
+                                👤
+                            </div>
+                            <div>
+                                <h3 class="text-yellow-400 font-bold">{{ advisor.role }}</h3>
+                                <p class="text-sm text-gray-400">{{ advisor.name }}</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 italic">"{{ advisor.advice }}"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Decision Options -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button v-for="(option, index) in currentSituation.options" 
+                        @click="makeDecision(option)"
+                        class="p-4 text-left rounded-lg border transition-all duration-200 hover:scale-[1.02] hover:shadow-lg"
+                        :class="decisionButtonClass(index)">
+                    <div class="flex items-center gap-3 mb-2">
+                        <div class="text-2xl">{{ ['💡', '⚖️', '💼', '🌍'][index] }}</div>
+                        <h3 class="font-bold text-lg">{{ option.title }}</h3>
+                    </div>
+                    <p class="text-sm text-gray-300">{{ option.description }}</p>
+                    <div class="mt-3 text-sm text-red-200" v-if="option.risk">⚠️ Risk: {{ option.risk }}</div>
+                </button>
+            </div>
+        </main>
+
+        <!-- Game Over Screen -->
+        <div v-else class="text-center py-20 animate-fade-in">
+            <h2 class="text-3xl font-bold text-yellow-400 mb-4">Presidency Ended</h2>
+            <p class="text-gray-300 mb-8 text-xl">Final Approval Rating: {{ metrics.approval }}%</p>
+            <button @click="restartGame" 
+                    class="bg-yellow-400 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-yellow-300 transition-colors">
+                Begin New Term
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    currentDay: 1,
+                    metrics: {
+                        approval: 55,
+                        economy: 7,
+                        capital: 5
+                    },
+                    currentSituationIndex: 0,
+                    situations: [
+                        {
+                            title: "Economic Crisis",
+                            description: "Inflation surges to 8.9%, the highest in 40 years. Families struggle with rising costs while financial markets show signs of panic.",
+                            advisors: [
+                                { 
+                                    role: "Treasury Secretary", 
+                                    name: "Janet Yang",
+                                    advice: "Immediate stimulus for low-income families combined with supply chain tax incentives" 
+                                },
+                                { 
+                                    role: "Federal Reserve Chair", 
+                                    name: "Dr. Marcus Greene",
+                                    advice: "Aggressive interest rate hikes to cool demand, despite recession risks" 
+                                }
+                            ],
+                            options: [
+                                { 
+                                    title: "Stimulus Package",
+                                    description: "$300B direct relief to citizens and businesses",
+                                    risk: "Could worsen inflation if supply chains don't improve",
+                                    effects: { approval: +12, economy: -3, capital: -2 }
+                                },
+                                { 
+                                    title: "Monetary Tightening",
+                                    description: "Support Fed's 1.5% rate hike plan",
+                                    risk: "May trigger stock market crash and unemployment",
+                                    effects: { approval: -15, economy: +4, capital: +1 }
+                                }
+                            ]
+                        },
+                        {
+                            title: "Foreign Conflict",
+                            description: "Two NATO allies are mobilizing naval forces over disputed fishing waters. Casualties reported in border skirmishes.",
+                            advisors: [
+                                { 
+                                    role: "Secretary of State", 
+                                    name: "Eleanor Carter",
+                                    advice: "Emergency diplomatic summit with both leaders at Camp David" 
+                                },
+                                { 
+                                    role: "Defense Secretary", 
+                                    name: "Gen. Mark Dawson",
+                                    advice: "Deploy 7th Fleet as peacekeeping force between the parties" 
+                                }
+                            ],
+                            options: [
+                                { 
+                                    title: "Diplomatic Push",
+                                    description: "Host emergency peace talks",
+                                    risk: "Could be seen as weak by adversaries",
+                                    effects: { approval: +5, economy: 0, capital: -3 }
+                                },
+                                { 
+                                    title: "Military Show",
+                                    description: "Deploy carrier group to disputed zone",
+                                    risk: "Potential for accidental escalation",
+                                    effects: { approval: -10, economy: -2, capital: +4 }
+                                }
+                            ]
+                        }
+                    ],
+                    gameOver: false
+                }
+            },
+            computed: {
+                currentSituation() {
+                    return this.situations[this.currentSituationIndex];
+                },
+                decisionButtonClass() {
+                    return (index) => ({
+                        'bg-green-900/30 border-green-600': index === 0,
+                        'bg-blue-900/30 border-blue-600': index === 1,
+                        'bg-purple-900/30 border-purple-600': index === 2,
+                        'bg-red-900/30 border-red-600': index === 3,
+                        'text-white': true
+                    });
+                }
+            },
+            methods: {
+                makeDecision(option) {
+                    // Update metrics
+                    Object.entries(option.effects).forEach(([metric, value]) => {
+                        this.metrics[metric] += value;
+                    });
+
+                    // Clamp values
+                    this.metrics.approval = Math.min(Math.max(this.metrics.approval, 0), 100);
+                    this.metrics.economy = Math.min(Math.max(this.metrics.economy, 0), 10);
+                    this.metrics.capital = Math.min(Math.max(this.metrics.capital, 0), 10);
+
+                    // Progress game
+                    this.currentDay++;
+                    this.currentSituationIndex++;
+
+                    // Check end conditions
+                    if (this.currentSituationIndex >= this.situations.length || this.metrics.approval <= 0) {
+                        this.gameOver = true;
+                    }
+                },
+                restartGame() {
+                    this.currentDay = 1;
+                    this.metrics = { approval: 55, economy: 7, capital: 5 };
+                    this.currentSituationIndex = 0;
+                    this.gameOver = false;
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
