@@ -1,1 +1,41 @@
+{
+  "scenarios": [
+    {
+      "title": "Tax Reform Debate",
+      "description": "Should we introduce new tax legislation to address growing income inequality?",
+      "options": [
+        {
+          "title": "Introduce Progressive Tax",
+          "description": "Increase taxes on the wealthy to fund education and healthcare.",
+          "risk": "May face backlash from businesses and wealthy donors.",
+          "effects": { "approval": 10, "economy": -2, "capital": -1 }
+        },
+        {
+          "title": "Cut Corporate Taxes",
+          "description": "Lower taxes for businesses to encourage investments.",
+          "risk": "Could increase the wealth gap and public unrest.",
+          "effects": { "approval": -5, "economy": 5, "capital": 3 }
+        }
+      ]
+    },
+    {
+      "title": "Military Spending Increase",
+      "description": "Should we allocate more funds for national defense amidst rising global tensions?",
+      "options": [
+        {
+          "title": "Increase Spending",
+          "description": "Boost the defense budget by 20%.",
+          "risk": "May lead to budget cuts in social programs.",
+          "effects": { "approval": -5, "economy": -3, "capital": 7 }
+        },
+        {
+          "title": "Freeze Spending",
+          "description": "Maintain the current budget levels.",
+          "risk": "Could weaken global influence and military readiness.",
+          "effects": { "approval": 2, "economy": 1, "capital": -3 }
+        }
+      ]
+    }
+  ]
+}
 
