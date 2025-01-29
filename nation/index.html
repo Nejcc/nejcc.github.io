@@ -3,151 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Presidential Sim</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-900 text-gray-100">
-    <div id="app" class="p-2 max-w-md mx-auto">
-        <div class="grid grid-cols-2 gap-2 mb-4">
-            <div class="col-span-2 bg-gray-800 p-3 rounded-lg">
-                <div class="text-sm text-gray-400">Day {{ day }}</div>
-                <div class="text-xs text-gray-500">Population: {{ formatNumber(population) }}</div>
+<body class="bg-gray-100">
+<div id="app" class="container mx-auto p-4 max-w-lg">
+    <div class="bg-white rounded-lg shadow-lg p-4">
+        <!-- Status Bar -->
+        <div class="grid grid-cols-3 gap-2 mb-4 text-sm">
+            <div class="bg-blue-50 p-2 rounded">
+                <div class="text-xs text-blue-600">Day {{ day }}</div>
+                <div class="font-bold">${{ resources.funds.toFixed(1) }}B</div>
             </div>
-            <div v-for="stat in stats" :key="stat.id" class="bg-gray-800 p-2 rounded-lg text-center">
-                <div class="text-xs mb-1">{{ stat.name }}</div>
-                <div class="text-sm" :class="statColor(stat.value)">{{ stat.value }}%</div>
+            <div class="bg-purple-50 p-2 rounded">
+                <div class="text-xs text-purple-600">Approval</div>
+                <div class="font-bold">{{ resources.approval.toFixed(1) }}%</div>
+            </div>
+            <div class="bg-green-50 p-2 rounded">
+                <div class="text-xs text-green-600">GDP</div>
+                <div class="font-bold">${{ (resources.gdp / 1000).toFixed(1) }}T</div>
             </div>
         </div>
 
-        <div class="bg-gray-800 rounded-lg p-3 mb-4">
-            <div class="text-sm mb-2">{{ currentEvent.description }}</div>
+        <!-- Department Tabs -->
+        <div class="flex gap-1 mb-4">
+            <button v-for="(dept, index) in departments" :key="index"
+                    @click="activeDept = index"
+                    :class="activeDept === index ? 'bg-blue-500 text-white' : 'bg-gray-200'"
+                    class="flex-1 py-1 px-2 rounded text-sm transition-colors">
+                {{ dept.name }}
+            </button>
+        </div>
+
+        <!-- Department Actions -->
+        <div class="space-y-2 mb-4">
+            <div v-for="action in departments[activeDept].actions" :key="action.name"
+                 class="p-3 bg-gray-50 rounded-lg">
+                <div class="flex justify-between items-start mb-1">
+                    <div>
+                        <div class="font-bold">{{ action.name }}</div>
+                        <div class="text-xs text-gray-600">{{ action.desc }}</div>
+                    </div>
+                    <button @click="executeAction(action)"
+                            :disabled="!canAfford(action.cost)"
+                            class="text-xs px-3 py-1 rounded"
+                            :class="canAfford(action.cost) ? 
+                                   'bg-blue-500 text-white' : 
+                                   'bg-gray-300 text-gray-500'">
+                        ${{ action.cost.toFixed(1) }}B
+                    </button>
+                </div>
+                <div class="text-xs text-gray-500 mt-1">
+                    <span v-for="(val, stat) in action.effects" :key="stat">
+                        {{ stat }}: {{ val > 0 ? '+' : '' }}{{ val.toFixed(1) }} 
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market & Stats -->
+        <div class="grid grid-cols-2 gap-4 text-sm">
+            <!-- Economic Indicators -->
             <div class="space-y-2">
-                <button v-for="(choice, index) in currentEvent.choices" 
-                        @click="makeDecision(choice)"
-                        class="w-full p-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-xs text-left"
-                        :class="choice.effects.some(e => e.impact < 0) ? 'text-red-300' : 'text-green-300'">
-                    {{ choice.text }}
-                </button>
+                <div class="text-xs font-bold text-gray-600">Economic Indicators</div>
+                <div v-for="(value, stat) in economyStats" :key="stat"
+                     class="bg-gray-50 p-2 rounded">
+                    <div class="flex justify-between">
+                        <span class="capitalize">{{ stat }}</span>
+                        <span>{{ typeof value === 'number' ? value.toFixed(1) + '%' : value }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commodity Market -->
+            <div class="space-y-2">
+                <div class="text-xs font-bold text-gray-600">Global Market</div>
+                <div v-for="(item, name) in market" :key="name"
+                     class="bg-gray-50 p-2 rounded">
+                    <div class="flex justify-between">
+                        <span>{{ name }}</span>
+                        <span>${{ item.price.toFixed(1) }}/unit</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">
+                        <button @click="tradeCommodity(name, -10)" 
+                                class="px-2 bg-red-100 rounded">Sell</button>
+                        <span class="mx-1">{{ item.owned }}</span>
+                        <button @click="tradeCommodity(name, 10)" 
+                                :disabled="!canAfford(item.price * 10)"
+                                class="px-2 bg-green-100 rounded">Buy</button>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div v-if="gameOver" class="bg-gray-800 p-4 rounded-lg text-center">
-            <div class="text-lg mb-2">Game Over!</div>
-            <button @click="newGame" class="bg-blue-600 px-4 py-2 rounded-lg">New Term</button>
-        </div>
+        <!-- Next Day Button -->
+        <button @click="nextDay" 
+                class="w-full mt-4 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
+            Next Day ►
+        </button>
     </div>
+</div>
 
 <script>
-const { createApp } = Vue;
+const { createApp } = Vue
 
 createApp({
     data() {
         return {
             day: 1,
-            population: 328000000,
-            stats: [
-                { id: 1, name: 'Economy', value: 50 },
-                { id: 2, name: 'Approval', value: 50 },
-                { id: 3, name: 'Security', value: 50 },
-                { id: 4, name: 'Intl. Relations', value: 50 }
-            ],
-            currentEvent: {},
-            gameOver: false,
-            events: []
-        }
-    },
-    created() {
-        this.generateEvents();
-        this.newEvent();
-    },
-    methods: {
-        generateEvents() {
-            this.events = [
+            activeDept: 0,
+            resources: {
+                funds: 5000,
+                approval: 50.0,
+                gdp: 22000 // in billions
+            },
+            economyStats: {
+                inflation: 2.5,
+                unemployment: 5.8,
+                debt: 28000,
+                'stock market': 35400
+            },
+            market: {
+                Oil: { price: 75.3, owned: 0 },
+                Gold: { price: 1850.5, owned: 0 },
+                Wheat: { price: 8.2, owned: 0 }
+            },
+            departments: [
                 {
-                    description: "A major corporation is requesting bailout funds while threatening layoffs.",
-                    choices: [
-                        { 
-                            text: "Approve bailout package", 
-                            effects: [
-                                { stat: 'Economy', impact: 15 },
-                                { stat: 'Approval', impact: -10 }
-                            ]
+                    name: "Economy",
+                    actions: [
+                        {
+                            name: "Infrastructure Plan",
+                            cost: 200,
+                            desc: "Build roads and bridges",
+                            effects: { gdp: 150, approval: 0.5, inflation: 0.2 }
                         },
-                        { 
-                            text: "Let market forces decide", 
-                            effects: [
-                                { stat: 'Economy', impact: -10 },
-                                { stat: 'Approval', impact: 5 }
-                            ]
+                        {
+                            name: "Tax Reform",
+                            cost: 100,
+                            desc: "Adjust corporate tax rates",
+                            effects: { funds: 50, approval: -1.0, unemployment: -0.3 }
                         }
                     ]
                 },
                 {
-                    description: "Neighboring country reports armed border incursions.",
-                    choices: [
-                        { 
-                            text: "Deploy peacekeeping forces", 
-                            effects: [
-                                { stat: 'Security', impact: 10 },
-                                { stat: 'Economy', impact: -8 }
-                            ]
+                    name: "Social",
+                    actions: [
+                        {
+                            name: "Healthcare Reform",
+                            cost: 300,
+                            desc: "Improve public hospitals",
+                            effects: { approval: 2.0, funds: -50 }
                         },
-                        { 
-                            text: "Initiate diplomatic talks", 
-                            effects: [
-                                { stat: 'Intl. Relations', impact: 15 },
-                                { stat: 'Security', impact: -5 }
-                            ]
+                        {
+                            name: "Education Boost",
+                            cost: 150,
+                            desc: "Fund school programs",
+                            effects: { approval: 1.5, unemployment: -0.5 }
+                        }
+                    ]
+                },
+                {
+                    name: "Foreign",
+                    actions: [
+                        {
+                            name: "Trade Deal",
+                            cost: 250,
+                            desc: "Negotiate international agreements",
+                            effects: { gdp: 300, inflation: -0.5 }
+                        },
+                        {
+                            name: "Military Aid",
+                            cost: 400,
+                            desc: "Support allied nations",
+                            effects: { approval: -1.5, 'stock market': 500 }
                         }
                     ]
                 }
-            ];
+            ],
+            events: [
+                { 
+                    condition: () => this.economyStats.inflation > 5,
+                    message: "Hyperinflation crisis! Public trust plummets",
+                    effect: { approval: -10, funds: -200 }
+                },
+                {
+                    condition: () => this.resources.approval < 30,
+                    message: "Protests erupt in major cities!",
+                    effect: { 'stock market': -1000, unemployment: 2 }
+                }
+            ]
+        }
+    },
+    methods: {
+        canAfford(amount) {
+            return this.resources.funds >= amount
         },
-        newEvent() {
-            const baseEvent = this.events[Math.floor(Math.random() * this.events.length)];
-            this.currentEvent = {
-                ...baseEvent,
-                choices: baseEvent.choices.map(choice => ({
-                    ...choice,
-                    effects: choice.effects.map(effect => ({
-                        ...effect,
-                        impact: effect.impact + Math.floor(Math.random() * 5 - 2)
-                    }))
-                }))
-            };
-        },
-        makeDecision(choice) {
-            choice.effects.forEach(effect => {
-                const stat = this.stats.find(s => s.name === effect.stat);
-                stat.value = Math.max(0, Math.min(100, stat.value + effect.impact));
-            });
-
-            this.day++;
-            this.population += Math.floor(Math.random() * 5000 - 2500);
+        executeAction(action) {
+            if (!this.canAfford(action.cost)) return
             
-            if (this.stats.some(s => s.value <= 0 || s.value >= 100) || this.day > 365 * 4) {
-                this.gameOver = true;
-            } else {
-                this.newEvent();
+            this.resources.funds -= action.cost
+            for (const [stat, value] of Object.entries(action.effects)) {
+                this.applyEffect(stat, value)
             }
         },
-        statColor(value) {
-            if (value > 75) return 'text-green-400';
-            if (value > 40) return 'text-yellow-400';
-            return 'text-red-400';
+        applyEffect(stat, value) {
+            if (stat in this.resources) {
+                this.resources[stat] += value
+            } else if (stat in this.economyStats) {
+                this.economyStats[stat] += value
+            } else if (stat === 'stock market') {
+                this.economyStats['stock market'] += value
+            }
         },
-        formatNumber(num) {
-            return num.toLocaleString();
+        tradeCommodity(name, amount) {
+            const totalCost = this.market[name].price * Math.abs(amount)
+            if (amount > 0 && !this.canAfford(totalCost)) return
+
+            this.market[name].owned += amount
+            this.resources.funds += amount > 0 ? -totalCost : totalCost
         },
-        newGame() {
-            this.day = 1;
-            this.stats.forEach(s => s.value = 50);
-            this.population = 328000000;
-            this.gameOver = false;
-            this.newEvent();
+        nextDay() {
+            // Daily economic simulation
+            this.day++
+            this.resources.gdp += (this.economyStats['stock market'] / 10000) * 50
+            this.economyStats.inflation += (this.resources.funds / 1000) * 0.01
+            this.resources.approval -= (this.economyStats.unemployment / 10)
+            
+            // Random market fluctuations
+            for (const commodity of Object.values(this.market)) {
+                commodity.price *= 1 + (Math.random() * 0.1 - 0.05)
+                commodity.price = Math.max(1, commodity.price.toFixed(2))
+            }
+
+            // Random events check
+            const activeEvent = this.events.find(event => event.condition())
+            if (activeEvent) {
+                alert(activeEvent.message)
+                for (const [stat, value] of Object.entries(activeEvent.effect)) {
+                    this.applyEffect(stat, value)
+                }
+            }
+
+            // Check game over
+            if (this.resources.approval <= 0 || this.resources.funds <= -1000) {
+                alert(`Game Over! You lasted ${this.day} days`)
+                this.resetGame()
+            }
+        },
+        resetGame() {
+            this.day = 1
+            this.resources = { funds: 5000, approval: 50.0, gdp: 22000 }
+            this.economyStats = { inflation: 2.5, unemployment: 5.8, debt: 28000, 'stock market': 35400 }
+            this.market = { Oil: { price: 75.3, owned: 0 }, Gold: { price: 1850.5, owned: 0 }, Wheat: { price: 8.2, owned: 0 } }
         }
     }
-}).mount('#app');
+}).mount('#app')
 </script>
 </body>
 </html>
