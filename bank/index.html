@@ -1,0 +1,1884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Manager Game</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+        .slide-up-enter-active,
+        .slide-up-leave-active {
+            transition: all 0.3s ease;
+        }
+        .slide-up-enter-from,
+        .slide-up-leave-to {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        .notification {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .satisfaction-bar {
+            height: 4px;
+            transition: width 0.3s ease;
+        }
+        .nav-button {
+            transition: all 0.2s ease;
+        }
+        .nav-button.active {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
+    <div id="app" v-cloak>
+        <!-- New Client Notification -->
+        <div v-if="pendingClient" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">New Client Request</h2>
+                    <button @click="dismissClient" class="text-gray-400 hover:text-gray-600">✕</button>
+                </div>
+                
+                <div class="space-y-6">
+                    <!-- Personal Information -->
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Personal Information</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Name</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.name }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Age</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.profile.age }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Employment</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.profile.employmentStatus }}</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Income</p>
+                                    <p class="text-sm font-medium">${{ pendingClient.profile.income.toLocaleString() }}/mo</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Credit Score</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.creditScore }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Risk Level</p>
+                                    <p class="text-sm font-medium">{{ getRiskLevel(pendingClient.creditScore) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Financial Profile & Goals -->
+                    <div class="bg-blue-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Financial Profile & Goals</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Initial Deposit</p>
+                                    <p class="text-sm font-medium">${{ pendingClient.initialDeposit.toLocaleString() }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Monthly Activity</p>
+                                    <p class="text-sm font-medium">+${{ pendingClient.profile.expectedDeposits.toLocaleString() }} / -${{ pendingClient.profile.expectedWithdrawals.toLocaleString() }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Financial Goals</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.profile.financialGoals }}</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Daily Transactions</p>
+                                    <p class="text-sm font-medium">{{ pendingClient.profile.expectedTransactions }}/day</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Annual Value</p>
+                                    <p class="text-sm font-medium">${{ pendingClient.profile.potentialValue.toLocaleString() }}</p>
+                                </div>
+                                <div class="bg-white p-2 rounded-lg">
+                                    <p class="text-xs text-gray-500">Risk Level</p>
+                                    <p class="text-sm font-medium">{{ getRiskLevel(pendingClient.creditScore) }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-xs text-gray-500">
+                            <p>SSN: {{ formatSSN(pendingClient.ssn) }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Risk Assessment -->
+                    <div class="bg-yellow-50 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold mb-3 text-gray-800">Risk Assessment</h3>
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Credit Risk</span>
+                                <div class="w-32 h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 rounded-full" 
+                                        :class="{
+                                            'bg-green-500': pendingClient.creditScore >= 750,
+                                            'bg-yellow-500': pendingClient.creditScore >= 600 && pendingClient.creditScore < 750,
+                                            'bg-red-500': pendingClient.creditScore < 600
+                                        }"
+                                        :style="{ width: `${(pendingClient.creditScore - 500) / 3}%` }">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Income Stability</span>
+                                <div class="w-32 h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 rounded-full" 
+                                        :class="{
+                                            'bg-green-500': pendingClient.profile.income >= 8000,
+                                            'bg-yellow-500': pendingClient.profile.income >= 5000 && pendingClient.profile.income < 8000,
+                                            'bg-red-500': pendingClient.profile.income < 5000
+                                        }"
+                                        :style="{ width: `${Math.min(pendingClient.profile.income / 100, 100)}%` }">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">Transaction Volume</span>
+                                <div class="w-32 h-2 bg-gray-200 rounded-full">
+                                    <div class="h-2 rounded-full" 
+                                        :class="{
+                                            'bg-green-500': pendingClient.profile.expectedTransactions >= 8,
+                                            'bg-yellow-500': pendingClient.profile.expectedTransactions >= 5 && pendingClient.profile.expectedTransactions < 8,
+                                            'bg-red-500': pendingClient.profile.expectedTransactions < 5
+                                        }"
+                                        :style="{ width: `${Math.min(pendingClient.profile.expectedTransactions * 10, 100)}%` }">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="flex gap-4 justify-center mt-6">
+                        <button @click="acceptClient" 
+                            class="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 text-sm font-medium">
+                            Accept Client
+                        </button>
+                        <button @click="rejectClient" 
+                            class="flex-1 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-sm font-medium">
+                            Reject Client
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monthly Report Modal -->
+        <div v-if="showMonthlyReport" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-xl shadow-lg p-6 w-96">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold">Monthly Report</h2>
+                    <button @click="showMonthlyReport = false" class="text-gray-400 hover:text-gray-600">✕</button>
+                </div>
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">New Clients</p>
+                            <p class="text-lg font-bold">{{ monthlyStats.newClients }}</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Lost Clients</p>
+                            <p class="text-lg font-bold">{{ monthlyStats.lostClients }}</p>
+                        </div>
+                        <div class="bg-yellow-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Net Income</p>
+                            <p class="text-lg font-bold" :class="monthlyStats.netIncome >= 0 ? 'text-green-600' : 'text-red-600'">
+                                ${{ monthlyStats.netIncome.toLocaleString() }}
+                            </p>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Avg Client Satisfaction</p>
+                            <p class="text-lg font-bold">{{ monthlyStats.avgSatisfaction }}%</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg">
+                        <p class="text-xs text-gray-600">Monthly Summary</p>
+                        <p class="text-sm mt-1">{{ monthlyStats.summary }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="pb-16">
+            <!-- Dashboard Panel -->
+            <div v-show="activePanel === 'dashboard'" class="container mx-auto px-2 py-4">
+                <!-- Game Header -->
+                <header class="bg-white rounded-xl shadow-lg p-4 mb-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <h1 class="text-xl font-bold text-gray-800">🏦 Bank Manager</h1>
+                        <div class="text-sm text-gray-600">{{ formatTime(new Date()) }}</div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2">
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-2 rounded-lg border border-blue-200">
+                            <p class="text-xs text-gray-600">Balance</p>
+                            <p class="text-sm font-bold text-blue-800">${{ bankBalance.toLocaleString() }}</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-2 rounded-lg border border-green-200">
+                            <p class="text-xs text-gray-600">Clients</p>
+                            <p class="text-sm font-bold text-green-800">{{ clients.length }}</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 p-2 rounded-lg border border-yellow-200">
+                            <p class="text-xs text-gray-600">Reputation</p>
+                            <p class="text-sm font-bold text-yellow-800">{{ bankReputation }}%</p>
+                        </div>
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-2 rounded-lg border border-purple-200">
+                            <p class="text-xs text-gray-600">Day</p>
+                            <p class="text-sm font-bold text-purple-800">{{ currentDay }}/30</p>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Main Game Area -->
+                <main class="space-y-4">
+                    <!-- Bank Policies -->
+                    <section class="bg-white rounded-xl shadow-lg p-4">
+                        <h2 class="text-lg font-semibold mb-3 text-gray-800">Bank Policies</h2>
+                        <div class="grid grid-cols-4 gap-2">
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-lg border border-gray-200">
+                                <p class="text-xs text-gray-600">Interest Rate</p>
+                                <p class="text-sm font-bold text-blue-600">{{ interestRate }}%</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-lg border border-gray-200">
+                                <p class="text-xs text-gray-600">Min Balance</p>
+                                <p class="text-sm font-bold text-green-600">${{ minimumBalance }}</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-lg border border-gray-200">
+                                <p class="text-xs text-gray-600">Account Fee</p>
+                                <p class="text-sm font-bold text-red-600">${{ accountFee }}/day</p>
+                            </div>
+                            <div class="bg-gradient-to-br from-gray-50 to-gray-100 p-2 rounded-lg border border-gray-200">
+                                <p class="text-xs text-gray-600">Risk Tolerance</p>
+                                <p class="text-sm font-bold text-purple-600">{{ riskTolerance }}%</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Client Activity -->
+                    <section class="bg-white rounded-xl shadow-lg p-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h2 class="text-lg font-semibold text-gray-800">Client Activity</h2>
+                            <button @click="showMonthlyReport = true" 
+                                class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded-lg">
+                                View Monthly Report
+                            </button>
+                        </div>
+                        <div class="space-y-2 max-h-[200px] overflow-y-auto pr-2">
+                            <div v-for="activity in recentActivities" 
+                                 :key="activity.id" 
+                                 class="bg-gradient-to-r from-gray-50 to-gray-100 p-2 rounded-lg border border-gray-200">
+                                <p class="text-xs text-gray-700">{{ activity.message }}</p>
+                                <p class="text-[10px] text-gray-500">{{ formatTime(activity.timestamp) }}</p>
+                            </div>
+                            <div v-if="recentActivities.length === 0" class="text-center py-4 text-gray-500 text-sm">
+                                No recent activities
+                            </div>
+                        </div>
+                    </section>
+                </main>
+            </div>
+
+            <!-- Clients Panel -->
+            <div v-show="activePanel === 'clients'" class="container mx-auto px-2 py-4">
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-semibold text-gray-800">Client Management</h2>
+                        <div class="flex gap-2">
+                            <button @click="sortClients('balance')" 
+                                class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded-lg">
+                                Sort by Balance
+                            </button>
+                            <button @click="sortClients('satisfaction')" 
+                                class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded-lg">
+                                Sort by Satisfaction
+                            </button>
+                            <button @click="sortClients('days')" 
+                                class="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded-lg">
+                                Sort by Tenure
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Mini Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+                        <div class="bg-blue-50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-600">Total Clients</p>
+                            <p class="text-lg font-bold">{{ clients.length }}</p>
+                        </div>
+                        <div class="bg-green-50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-600">Avg Satisfaction</p>
+                            <p class="text-lg font-bold">{{ getAverageSatisfaction() }}%</p>
+                        </div>
+                        <div class="bg-yellow-50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-600">Total Balance</p>
+                            <p class="text-lg font-bold">${{ totalAssets.toLocaleString() }}</p>
+                        </div>
+                        <div class="bg-purple-50 p-2 rounded-lg">
+                            <p class="text-xs text-gray-600">Avg Balance</p>
+                            <p class="text-lg font-bold">${{ avgClientBalance.toLocaleString() }}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div v-for="(client, index) in sortedClients" :key="client.id"
+                            @click="selectedClient = client"
+                            class="bg-gray-50 p-4 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm font-medium text-gray-500">#{{ index + 1 }}</span>
+                                        <div>
+                                            <p class="text-sm font-medium">{{ client.name }}</p>
+                                            <p class="text-xs text-gray-500">SSN: {{ formatSSN(client.ssn) }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-medium">${{ client.balance.toLocaleString() }}</p>
+                                    <p class="text-xs text-gray-500">{{ getDaysWithBank(client) }} days</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-3 grid grid-cols-2 gap-2">
+                                <div class="bg-white p-2 rounded">
+                                    <p class="text-xs text-gray-500">Satisfaction</p>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                            <div class="h-full rounded-full" 
+                                                :class="{
+                                                    'bg-green-500': client.satisfaction >= 80,
+                                                    'bg-yellow-500': client.satisfaction >= 50 && client.satisfaction < 80,
+                                                    'bg-red-500': client.satisfaction < 50
+                                                }"
+                                                :style="{ width: `${client.satisfaction}%` }">
+                                            </div>
+                                        </div>
+                                        <span class="text-xs font-medium">{{ client.satisfaction }}%</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-2 rounded">
+                                    <p class="text-xs text-gray-500">Risk Level</p>
+                                    <p class="text-sm font-medium" 
+                                        :class="{
+                                            'text-green-600': getRiskLevel(client.creditScore) === 'Low',
+                                            'text-yellow-600': getRiskLevel(client.creditScore) === 'Medium',
+                                            'text-red-600': getRiskLevel(client.creditScore) === 'High'
+                                        }">
+                                        {{ getRiskLevel(client.creditScore) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Details Modal -->
+            <div v-if="selectedClient" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                <div class="bg-white rounded-xl shadow-lg p-6 w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-gray-800">Client Details</h2>
+                        <button @click="selectedClient = null" class="text-gray-400 hover:text-gray-600">✕</button>
+                    </div>
+
+                    <!-- Client Header -->
+                    <div class="bg-gray-50 p-4 rounded-lg mb-4">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <p class="text-lg font-medium">{{ selectedClient.name }}</p>
+                                <p class="text-sm text-gray-500">SSN: {{ formatSSN(selectedClient.ssn) }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-lg font-medium">${{ selectedClient.balance.toLocaleString() }}</p>
+                                <p class="text-sm text-gray-500">{{ getDaysWithBank(selectedClient) }} days with us</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Status -->
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-white p-3 rounded-lg border border-gray-200">
+                            <p class="text-xs text-gray-500">Risk Level</p>
+                            <p class="text-sm font-medium" 
+                                :class="{
+                                    'text-green-600': getRiskLevel(selectedClient.creditScore) === 'Low',
+                                    'text-yellow-600': getRiskLevel(selectedClient.creditScore) === 'Medium',
+                                    'text-red-600': getRiskLevel(selectedClient.creditScore) === 'High'
+                                }">
+                                {{ getRiskLevel(selectedClient.creditScore) }}
+                            </p>
+                            <p class="text-xs text-gray-500 mt-1">Credit Score: {{ selectedClient.creditScore }}</p>
+                        </div>
+                        <div class="bg-white p-3 rounded-lg border border-gray-200">
+                            <p class="text-xs text-gray-500">Daily Activity</p>
+                            <p class="text-sm font-medium">{{ selectedClient.dailyTransactions }}/day</p>
+                            <p class="text-xs text-gray-500 mt-1">Loyalty Points: {{ selectedClient.loyaltyPoints }}</p>
+                        </div>
+                    </div>
+
+                    <!-- Client Profile -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-200 mb-4">
+                        <h3 class="text-sm font-medium text-gray-800 mb-3">Profile Information</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <p class="text-xs text-gray-500">Age</p>
+                                <p class="text-sm font-medium">{{ selectedClient.profile.age }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Employment</p>
+                                <p class="text-sm font-medium">{{ selectedClient.profile.employmentStatus }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Income</p>
+                                <p class="text-sm font-medium">${{ selectedClient.profile.income.toLocaleString() }}/mo</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Financial Goals</p>
+                                <p class="text-sm font-medium">{{ selectedClient.profile.financialGoals }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Client Activity -->
+                    <div class="bg-white p-4 rounded-lg border border-gray-200">
+                        <h3 class="text-sm font-medium text-gray-800 mb-3">Recent Activity</h3>
+                        <div class="space-y-2">
+                            <div v-for="activity in getClientActivities(selectedClient)" :key="activity.id"
+                                class="text-sm text-gray-600">
+                                {{ activity.message }}
+                                <p class="text-xs text-gray-400">{{ formatTime(activity.timestamp) }}</p>
+                            </div>
+                            <div v-if="getClientActivities(selectedClient).length === 0" 
+                                class="text-sm text-gray-400">
+                                No recent activity
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Panel -->
+            <div v-show="activePanel === 'statistics'" class="container mx-auto px-2 py-4">
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <h2 class="text-lg font-semibold mb-3 text-gray-800">Bank Statistics</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Total Assets</p>
+                            <p class="text-lg font-bold">${{ totalAssets.toLocaleString() }}</p>
+                        </div>
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Monthly Income</p>
+                            <p class="text-lg font-bold">${{ monthlyIncome.toLocaleString() }}</p>
+                        </div>
+                        <div class="bg-yellow-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Avg Client Balance</p>
+                            <p class="text-lg font-bold">${{ avgClientBalance.toLocaleString() }}</p>
+                        </div>
+                        <div class="bg-purple-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Client Retention</p>
+                            <p class="text-lg font-bold">{{ clientRetention }}%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-lg p-4 mt-4">
+                    <h2 class="text-lg font-semibold mb-3 text-gray-800">Client Demographics</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Age Distribution</p>
+                            <div class="mt-2 space-y-1">
+                                <div v-for="(count, range) in ageDistribution" :key="range"
+                                    class="flex items-center justify-between">
+                                    <span class="text-xs">{{ range }}</span>
+                                    <span class="text-xs font-medium">{{ count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg">
+                            <p class="text-xs text-gray-600">Employment Status</p>
+                            <div class="mt-2 space-y-1">
+                                <div v-for="(count, status) in employmentDistribution" :key="status"
+                                    class="flex items-center justify-between">
+                                    <span class="text-xs">{{ status }}</span>
+                                    <span class="text-xs font-medium">{{ count }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Companies Panel -->
+            <div v-show="activePanel === 'companies'" class="container mx-auto px-2 py-4">
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <h2 class="text-lg font-semibold mb-3 text-gray-800">Competitors & Business</h2>
+                    <div class="space-y-4">
+                        <!-- Competitor Banks -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-3 text-gray-800">Competitor Banks</h3>
+                            <div class="space-y-3">
+                                <div v-for="bank in competitorBanks" :key="bank.id" 
+                                    class="bg-white p-3 rounded-lg border border-gray-200">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <div>
+                                            <p class="text-sm font-medium">{{ bank.name }}</p>
+                                            <p class="text-xs text-gray-600">Reputation: {{ bank.reputation }}%</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-medium">Interest Rate: {{ bank.interestRate }}%</p>
+                                            <p class="text-xs text-gray-600">Account Fee: ${{ bank.accountFee }}/day</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button @click="takeLoan(bank)" 
+                                            class="flex-1 bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                                            Take Loan
+                                        </button>
+                                        <button @click="investInBank(bank)" 
+                                            class="flex-1 bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600">
+                                            Invest
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Business Opportunities -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-3 text-gray-800">Business Opportunities</h3>
+                            <div class="space-y-3">
+                                <div v-for="opportunity in businessOpportunities" :key="opportunity.id" 
+                                    class="bg-white p-3 rounded-lg border border-gray-200">
+                                    <div class="flex justify-between items-center mb-2">
+                                        <div>
+                                            <p class="text-sm font-medium">{{ opportunity.name }}</p>
+                                            <p class="text-xs text-gray-600">{{ opportunity.description }}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-medium">Investment: ${{ opportunity.investment.toLocaleString() }}</p>
+                                            <p class="text-xs text-gray-600">Potential Return: {{ opportunity.returnRate }}%</p>
+                                        </div>
+                                    </div>
+                                    <button @click="investInOpportunity(opportunity)" 
+                                        class="w-full bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600">
+                                        Invest
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Current Investments -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-3 text-gray-800">Current Investments</h3>
+                            <div class="space-y-3">
+                                <div v-for="investment in currentInvestments" :key="investment.id" 
+                                    class="bg-white p-3 rounded-lg border border-gray-200">
+                                    <div class="flex justify-between items-center">
+                                        <div>
+                                            <p class="text-sm font-medium">{{ investment.name }}</p>
+                                            <p class="text-xs text-gray-600">Amount: ${{ investment.amount.toLocaleString() }}</p>
+                                        </div>
+                                        <div class="text-right">
+                                            <p class="text-sm font-medium">Return: {{ investment.returnRate }}%</p>
+                                            <p class="text-xs text-gray-600">Days Left: {{ investment.daysLeft }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Policies Panel -->
+            <div v-show="activePanel === 'policies'" class="container mx-auto px-2 py-4">
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <h2 class="text-lg font-semibold mb-3 text-gray-800">Current Policies</h2>
+                    <div class="space-y-4">
+                        <!-- Interest Rate Policy -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-800">Interest Rate</h3>
+                                    <p class="text-xs text-gray-500">Current: {{ interestRate }}%</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold" 
+                                        :class="{
+                                            'text-green-600': interestRate >= 3,
+                                            'text-yellow-600': interestRate >= 2 && interestRate < 3,
+                                            'text-red-600': interestRate < 2
+                                        }">
+                                        {{ getInterestRateStatus() }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button @click="adjustInterestRate('decrease')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors">
+                                    Decrease (-0.5%)
+                                </button>
+                                <button @click="adjustInterestRate('increase')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors">
+                                    Increase (+0.5%)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Account Fee Policy -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-800">Account Fee</h3>
+                                    <p class="text-xs text-gray-500">Current: ${{ accountFee }}/day</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold" 
+                                        :class="{
+                                            'text-green-600': accountFee <= 3,
+                                            'text-yellow-600': accountFee > 3 && accountFee <= 5,
+                                            'text-red-600': accountFee > 5
+                                        }">
+                                        {{ getAccountFeeStatus() }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button @click="modifyAccountFee('decrease')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors"
+                                    :disabled="accountFee <= 1">
+                                    Decrease (-$1)
+                                </button>
+                                <button @click="modifyAccountFee('increase')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors"
+                                    :disabled="accountFee >= 10">
+                                    Increase (+$1)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Risk Tolerance Policy -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-center mb-3">
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-800">Risk Tolerance</h3>
+                                    <p class="text-xs text-gray-500">Current: {{ riskTolerance }}%</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold" 
+                                        :class="{
+                                            'text-green-600': riskTolerance >= 60,
+                                            'text-yellow-600': riskTolerance >= 40 && riskTolerance < 60,
+                                            'text-red-600': riskTolerance < 40
+                                        }">
+                                        {{ getRiskToleranceStatus() }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button @click="adjustRiskTolerance('decrease')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors"
+                                    :disabled="riskTolerance <= 10">
+                                    Decrease (-5%)
+                                </button>
+                                <button @click="adjustRiskTolerance('increase')" 
+                                    class="flex-1 bg-blue-100 text-blue-600 px-3 py-2 rounded-lg text-sm font-medium hover:bg-blue-200 transition-colors"
+                                    :disabled="riskTolerance >= 90">
+                                    Increase (+5%)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Policy Impact -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-sm font-medium text-gray-800 mb-2">Policy Impact</h3>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">Client Satisfaction</span>
+                                    <span class="text-xs font-medium" 
+                                        :class="{
+                                            'text-green-600': getAverageSatisfaction() >= 80,
+                                            'text-yellow-600': getAverageSatisfaction() >= 50 && getAverageSatisfaction() < 80,
+                                            'text-red-600': getAverageSatisfaction() < 50
+                                        }">
+                                        {{ getAverageSatisfaction() }}%
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">Daily Income</span>
+                                    <span class="text-xs font-medium" 
+                                        :class="{
+                                            'text-green-600': monthlyIncome >= 1000,
+                                            'text-yellow-600': monthlyIncome >= 500 && monthlyIncome < 1000,
+                                            'text-red-600': monthlyIncome < 500
+                                        }">
+                                        ${{ monthlyIncome.toLocaleString() }}
+                                    </span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-xs text-gray-500">Client Retention</span>
+                                    <span class="text-xs font-medium" 
+                                        :class="{
+                                            'text-green-600': clientRetention >= 80,
+                                            'text-yellow-600': clientRetention >= 50 && clientRetention < 80,
+                                            'text-red-600': clientRetention < 50
+                                        }">
+                                        {{ clientRetention }}%
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Panel -->
+            <div v-show="activePanel === 'settings'" class="container mx-auto px-2 py-4">
+                <div class="bg-white rounded-xl shadow-lg p-4">
+                    <h2 class="text-lg font-semibold mb-3 text-gray-800">Game Settings</h2>
+                    <div class="space-y-4">
+                        <!-- Save Game -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-2 text-gray-800">Save Game</h3>
+                            <div class="flex gap-2">
+                                <button @click="saveGame" 
+                                    class="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm font-medium">
+                                    Save Now
+                                </button>
+                                <button @click="exportGame" 
+                                    class="flex-1 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 text-sm font-medium">
+                                    Export Game
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                Last auto-save: {{ lastSaved ? formatTime(lastSaved) : 'Never' }}
+                            </p>
+                        </div>
+
+                        <!-- Load Game -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-2 text-gray-800">Load Game</h3>
+                            <div class="flex gap-2">
+                                <button @click="loadGame" 
+                                    class="flex-1 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm font-medium">
+                                    Load from Local Storage
+                                </button>
+                                <div class="flex-1">
+                                    <input type="file" 
+                                        @change="importGame" 
+                                        accept=".json"
+                                        class="hidden" 
+                                        ref="fileInput">
+                                    <button @click="$refs.fileInput.click()" 
+                                        class="w-full bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 text-sm font-medium">
+                                        Import Game
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Start Over -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-2 text-gray-800">Start Over</h3>
+                            <button @click="confirmStartOver" 
+                                class="w-full bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 text-sm font-medium">
+                                Start New Game
+                            </button>
+                            <p class="text-xs text-gray-500 mt-2">
+                                This will delete all current progress and start a fresh game
+                            </p>
+                        </div>
+
+                        <!-- Game Info -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="text-md font-medium mb-2 text-gray-800">Game Information</h3>
+                            <div class="space-y-2">
+                                <p class="text-sm"><span class="font-medium">Current Day:</span> {{ currentDay }}</p>
+                                <p class="text-sm"><span class="font-medium">Total Clients:</span> {{ clients.length }}</p>
+                                <p class="text-sm"><span class="font-medium">Bank Balance:</span> ${{ bankBalance.toLocaleString() }}</p>
+                                <p class="text-sm"><span class="font-medium">Last Saved:</span> {{ lastSaved ? formatTime(lastSaved) : 'Never' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40">
+            <div class="container mx-auto px-4">
+                <div class="flex justify-between items-center h-16">
+                    <button @click="switchPanel('dashboard')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'dashboard', 'text-gray-600': activePanel !== 'dashboard' }">
+                        <span class="text-xl">🏦</span>
+                        <span class="text-xs">Dashboard</span>
+                    </button>
+                    <button @click="switchPanel('clients')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'clients', 'text-gray-600': activePanel !== 'clients' }">
+                        <span class="text-xl">👥</span>
+                        <span class="text-xs">Clients</span>
+                    </button>
+                    <button @click="switchPanel('companies')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'companies', 'text-gray-600': activePanel !== 'companies' }">
+                        <span class="text-xl">🏢</span>
+                        <span class="text-xs">Companies</span>
+                    </button>
+                    <button @click="switchPanel('statistics')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'statistics', 'text-gray-600': activePanel !== 'statistics' }">
+                        <span class="text-xl">📊</span>
+                        <span class="text-xs">Stats</span>
+                    </button>
+                    <button @click="switchPanel('policies')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'policies', 'text-gray-600': activePanel !== 'policies' }">
+                        <span class="text-xl">⚙️</span>
+                        <span class="text-xs">Policies</span>
+                    </button>
+                    <button @click="switchPanel('settings')" 
+                        class="flex flex-col items-center justify-center px-2 py-1 nav-button"
+                        :class="{ 'active text-blue-600': activePanel === 'settings', 'text-gray-600': activePanel !== 'settings' }">
+                        <span class="text-xl">⚙️</span>
+                        <span class="text-xs">Settings</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, computed, watch } = Vue
+
+        createApp({
+            setup() {
+                const bankBalance = ref(0)
+                const clients = ref([])
+                const bankReputation = ref(100)
+                const interestRate = ref(2)
+                const minimumBalance = ref(100)
+                const accountFee = ref(5)
+                const riskTolerance = ref(50)
+                const recentActivities = ref([])
+                const gameTimer = ref(null)
+                const clientTimer = ref(null)
+                const dayTimer = ref(null)
+                const autoSaveTimer = ref(null)
+                const pendingClient = ref(null)
+                const usedSSNs = new Set()
+                const currentDay = ref(1)
+                const currentMonth = ref(1)
+                const showMonthlyReport = ref(false)
+                const monthlyStats = ref({
+                    newClients: 0,
+                    lostClients: 0,
+                    netIncome: 0,
+                    avgSatisfaction: 0,
+                    summary: ''
+                })
+                const activePanel = ref('dashboard')
+                const lastSaved = ref(null)
+                const fileInput = ref(null)
+                const competitorBanks = ref([
+                    {
+                        id: 1,
+                        name: 'Global Trust Bank',
+                        reputation: 85,
+                        interestRate: 2.5,
+                        accountFee: 4,
+                        loanRate: 5.5,
+                        investmentReturn: 3.5
+                    },
+                    {
+                        id: 2,
+                        name: 'Capital One Financial',
+                        reputation: 78,
+                        interestRate: 3.0,
+                        accountFee: 6,
+                        loanRate: 6.0,
+                        investmentReturn: 4.0
+                    },
+                    {
+                        id: 3,
+                        name: 'Metropolitan Bank',
+                        reputation: 92,
+                        interestRate: 2.0,
+                        accountFee: 8,
+                        loanRate: 4.5,
+                        investmentReturn: 2.5
+                    }
+                ])
+
+                const businessOpportunities = ref([
+                    {
+                        id: 1,
+                        name: 'Tech Startup Investment',
+                        description: 'Invest in a promising tech startup',
+                        investment: 50000,
+                        returnRate: 15,
+                        risk: 'High',
+                        duration: 90
+                    },
+                    {
+                        id: 2,
+                        name: 'Real Estate Development',
+                        description: 'Commercial property development project',
+                        investment: 100000,
+                        returnRate: 8,
+                        risk: 'Medium',
+                        duration: 180
+                    },
+                    {
+                        id: 3,
+                        name: 'Green Energy Initiative',
+                        description: 'Renewable energy infrastructure project',
+                        investment: 75000,
+                        returnRate: 12,
+                        risk: 'Medium',
+                        duration: 120
+                    }
+                ])
+
+                const currentInvestments = ref([])
+
+                const autoSave = () => {
+                    saveGame()
+                    addActivity('Game auto-saved')
+                }
+
+                const confirmStartOver = () => {
+                    if (confirm('Are you sure you want to start a new game? All current progress will be lost.')) {
+                        startOver()
+                    }
+                }
+
+                const startOver = () => {
+                    // Clear all game state
+                    bankBalance.value = 0
+                    clients.value = []
+                    bankReputation.value = 100
+                    interestRate.value = 2
+                    minimumBalance.value = 100
+                    accountFee.value = 5
+                    riskTolerance.value = 50
+                    recentActivities.value = []
+                    currentDay.value = 1
+                    currentMonth.value = 1
+                    usedSSNs.clear()
+                    lastSaved.value = null
+                    
+                    // Clear timers
+                    clearInterval(gameTimer.value)
+                    clearInterval(clientTimer.value)
+                    clearInterval(dayTimer.value)
+                    clearInterval(autoSaveTimer.value)
+                    
+                    // Restart timers with new intervals
+                    gameTimer.value = setInterval(handleClientActivity, 10000)
+                    clientTimer.value = setInterval(() => {
+                        if (!pendingClient.value) {
+                            const baseChance = 0.05
+                            const reputationBonus = bankReputation.value / 400
+                            const chance = baseChance + reputationBonus
+                            if (Math.random() < chance) {
+                                generateNewClient()
+                            }
+                        }
+                    }, 15000)
+                    
+                    dayTimer.value = setInterval(() => {
+                        currentDay.value++
+                        if (currentDay.value > 30) {
+                            currentDay.value = 1
+                            currentMonth.value = (currentMonth.value % 12) + 1
+                            generateMonthlyReport()
+                            showMonthlyReport.value = true
+                        }
+                    }, 60000)
+                    autoSaveTimer.value = setInterval(autoSave, 300000)
+                    
+                    addActivity('Started new game')
+                }
+
+                const generateSSN = () => {
+                    let ssn
+                    do {
+                        ssn = Math.floor(Math.random() * 900000000) + 100000000
+                    } while (usedSSNs.has(ssn))
+                    usedSSNs.add(ssn)
+                    return ssn
+                }
+
+                const formatSSN = (ssn) => {
+                    const ssnStr = ssn.toString()
+                    return `${ssnStr.slice(0, 3)}-${ssnStr.slice(3, 5)}-${ssnStr.slice(5)}`
+                }
+
+                const getRiskLevel = (creditScore) => {
+                    if (creditScore >= 750) return 'Low'
+                    if (creditScore >= 600) return 'Medium'
+                    return 'High'
+                }
+
+                const addActivity = (message) => {
+                    recentActivities.value.unshift({
+                        id: Date.now(),
+                        message,
+                        timestamp: new Date()
+                    })
+                    if (recentActivities.value.length > 10) {
+                        recentActivities.value.pop()
+                    }
+                }
+
+                const formatTime = (date) => {
+                    return `Day ${currentDay.value}, ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                }
+
+                const updateClientSatisfaction = (client) => {
+                    // Base satisfaction
+                    let satisfaction = 100
+
+                    // Interest rate impact
+                    satisfaction -= Math.abs(interestRate.value - 3) * 5
+
+                    // Account fee impact
+                    satisfaction -= accountFee.value * 2
+
+                    // Minimum balance impact
+                    satisfaction -= (minimumBalance.value / 50)
+
+                    // Risk tolerance impact
+                    const clientRiskLevel = getRiskLevel(client.creditScore)
+                    if (clientRiskLevel === 'High' && riskTolerance.value < 70) {
+                        satisfaction -= 10
+                    } else if (clientRiskLevel === 'Low' && riskTolerance.value > 30) {
+                        satisfaction -= 5
+                    }
+
+                    // Loyalty bonus
+                    const daysWithBank = Math.floor((new Date() - client.joinDate) / (24 * 60 * 60 * 1000))
+                    satisfaction += Math.min(daysWithBank * 2, 20)
+
+                    // Balance bonus
+                    if (client.balance > 1000) {
+                        satisfaction += 5
+                    }
+                    if (client.balance > 5000) {
+                        satisfaction += 10
+                    }
+
+                    // Financial goals alignment
+                    if (client.profile.financialGoals === 'Saving for retirement' && interestRate.value > 4) {
+                        satisfaction += 5
+                    } else if (client.profile.financialGoals === 'Investment growth' && riskTolerance.value > 60) {
+                        satisfaction += 5
+                    } else if (client.profile.financialGoals === 'Building emergency fund' && minimumBalance.value < 200) {
+                        satisfaction += 5
+                    }
+
+                    // Employment status impact
+                    if (client.profile.employmentStatus === 'Retired' && interestRate.value > 3) {
+                        satisfaction += 5
+                    } else if (client.profile.employmentStatus === 'Student' && accountFee.value < 3) {
+                        satisfaction += 5
+                    }
+
+                    // Ensure satisfaction stays within bounds
+                    client.satisfaction = Math.max(0, Math.min(100, satisfaction))
+                }
+
+                const generateNewClient = () => {
+                    const names = ['John Doe', 'Jane Smith', 'Robert Johnson', 'Emily Davis', 'Michael Wilson']
+                    const randomName = names[Math.floor(Math.random() * names.length)]
+                    const creditScore = Math.floor(Math.random() * 300) + 500
+                    const initialDeposit = Math.floor(Math.random() * 1000) + 500
+                    const ssn = generateSSN()
+                    
+                    // Generate client profile
+                    const age = Math.floor(Math.random() * 50) + 20
+                    const employmentStatus = ['Employed', 'Self-employed', 'Retired', 'Student'][Math.floor(Math.random() * 4)]
+                    const income = Math.floor(Math.random() * 10000) + 2000
+                    const financialGoals = [
+                        'Saving for retirement',
+                        'Building emergency fund',
+                        'Saving for a house',
+                        'Investment growth',
+                        'Education fund',
+                        'Business expansion'
+                    ][Math.floor(Math.random() * 6)]
+                    
+                    // Calculate expected daily activity
+                    const expectedTransactions = Math.floor(Math.random() * 10) + 5
+                    const expectedDeposits = Math.floor(income * 0.2) // 20% of income
+                    const expectedWithdrawals = Math.floor(income * 0.15) // 15% of income
+                    
+                    // Calculate potential value
+                    const potentialValue = Math.floor((expectedDeposits - expectedWithdrawals) * 30) // Daily net deposits
+                    
+                    // Pause game timers
+                    clearInterval(gameTimer.value)
+                    clearInterval(clientTimer.value)
+                    
+                    pendingClient.value = {
+                        id: Date.now(),
+                        name: randomName,
+                        ssn: ssn,
+                        initialDeposit: initialDeposit,
+                        creditScore: creditScore,
+                        balance: 0,
+                        satisfaction: 100,
+                        lastActivity: new Date(),
+                        joinDate: new Date(),
+                        riskLevel: getRiskLevel(creditScore),
+                        loyaltyPoints: 0,
+                        dailyTransactions: 0,
+                        profile: {
+                            age: age,
+                            employmentStatus: employmentStatus,
+                            income: income,
+                            financialGoals: financialGoals,
+                            expectedTransactions: expectedTransactions,
+                            expectedDeposits: expectedDeposits,
+                            expectedWithdrawals: expectedWithdrawals,
+                            potentialValue: potentialValue
+                        }
+                    }
+                }
+
+                const acceptClient = () => {
+                    if (pendingClient.value) {
+                        if (clients.value.some(client => client.ssn === pendingClient.value.ssn)) {
+                            addActivity(`${pendingClient.value.name} already has an account with us`)
+                            pendingClient.value = null
+                            return
+                        }
+
+                        const client = {
+                            ...pendingClient.value,
+                            balance: pendingClient.value.initialDeposit
+                        }
+                        clients.value.push(client)
+                        bankBalance.value += client.initialDeposit
+                        addActivity(`${client.name} (SSN: ${formatSSN(client.ssn)}) opened a new account with $${client.initialDeposit}`)
+                        pendingClient.value = null
+                        bankReputation.value = Math.min(100, bankReputation.value + 1)
+                        monthlyStats.value.newClients++
+
+                        // Resume game timers
+                        gameTimer.value = setInterval(handleClientActivity, 10000)
+                        clientTimer.value = setInterval(() => {
+                            if (!pendingClient.value) {
+                                const baseChance = 0.05
+                                const reputationBonus = bankReputation.value / 400
+                                const chance = baseChance + reputationBonus
+                                if (Math.random() < chance) {
+                                    generateNewClient()
+                                }
+                            }
+                        }, 15000)
+                    }
+                }
+
+                const rejectClient = () => {
+                    if (pendingClient.value) {
+                        addActivity(`Rejected ${pendingClient.value.name}'s (SSN: ${formatSSN(pendingClient.value.ssn)}) application`)
+                        pendingClient.value = null
+                        bankReputation.value = Math.max(0, bankReputation.value - 2)
+
+                        // Resume game timers
+                        gameTimer.value = setInterval(handleClientActivity, 10000)
+                        clientTimer.value = setInterval(() => {
+                            if (!pendingClient.value) {
+                                const baseChance = 0.05
+                                const reputationBonus = bankReputation.value / 400
+                                const chance = baseChance + reputationBonus
+                                if (Math.random() < chance) {
+                                    generateNewClient()
+                                }
+                            }
+                        }, 15000)
+                    }
+                }
+
+                const dismissClient = () => {
+                    pendingClient.value = null
+                    bankReputation.value = Math.max(0, bankReputation.value - 1)
+
+                    // Resume game timers
+                    gameTimer.value = setInterval(handleClientActivity, 10000)
+                    clientTimer.value = setInterval(() => {
+                        if (!pendingClient.value) {
+                            const baseChance = 0.05
+                            const reputationBonus = bankReputation.value / 400
+                            const chance = baseChance + reputationBonus
+                            if (Math.random() < chance) {
+                                generateNewClient()
+                            }
+                        }
+                    }, 15000)
+                }
+
+                const adjustInterestRate = (action) => {
+                    const change = action === 'increase' ? 0.5 : -0.5
+                    const newRate = interestRate.value + change
+                    
+                    if (newRate >= 0 && newRate <= 10) {
+                        interestRate.value = newRate
+                        addActivity(`Interest rate ${action === 'increase' ? 'increased' : 'decreased'} to ${interestRate.value}%`)
+                        
+                        if (action === 'increase') {
+                            bankReputation.value = Math.min(100, bankReputation.value + 0.5)
+                        } else {
+                            bankReputation.value = Math.max(0, bankReputation.value - 0.5)
+                        }
+
+                        // Update all clients' satisfaction
+                        clients.value.forEach(updateClientSatisfaction)
+                    }
+                }
+
+                const modifyAccountFee = (action) => {
+                    const change = action === 'increase' ? 1 : -1
+                    const newFee = accountFee.value + change
+                    
+                    if (newFee >= 1 && newFee <= 10) {
+                        accountFee.value = newFee
+                        addActivity(`Account fee ${action === 'increase' ? 'increased' : 'decreased'} to $${accountFee.value}/day`)
+                        
+                        if (action === 'decrease') {
+                            bankReputation.value = Math.min(100, bankReputation.value + 1)
+                        } else {
+                            bankReputation.value = Math.max(0, bankReputation.value - 1)
+                        }
+
+                        // Update all clients' satisfaction
+                        clients.value.forEach(updateClientSatisfaction)
+                    }
+                }
+
+                const adjustRiskTolerance = (action) => {
+                    const change = action === 'increase' ? 5 : -5
+                    const newTolerance = riskTolerance.value + change
+                    
+                    if (newTolerance >= 10 && newTolerance <= 90) {
+                        riskTolerance.value = newTolerance
+                        addActivity(`Risk tolerance ${action === 'increase' ? 'increased' : 'decreased'} to ${riskTolerance.value}%`)
+                        
+                        // Update all clients' satisfaction
+                        clients.value.forEach(updateClientSatisfaction)
+                    }
+                }
+
+                const getAccountClosureReason = (client) => {
+                    const daysWithBank = Math.floor((new Date() - client.joinDate) / (24 * 60 * 60 * 1000))
+                    const reasons = [
+                        `Moved to another bank with better interest rates`,
+                        `Dissatisfied with account fees`,
+                        `Found a bank with better customer service`,
+                        `Personal financial situation changed`,
+                        `Bank policies no longer meet their needs`,
+                        `Found a bank with better online services`,
+                        `Dissatisfied with minimum balance requirements`,
+                        `Bank reputation concerns`,
+                        `Looking for better investment options`,
+                        `Personal banking preferences changed`
+                    ]
+
+                    // Add special reasons for long-term clients
+                    if (daysWithBank > 6) {
+                        reasons.push(
+                            `Retired and moving to a retirement-focused bank`,
+                            `Moving to a different city`,
+                            `Found a bank with better senior benefits`,
+                            `Looking for more specialized financial services`
+                        )
+                    }
+
+                    return reasons[Math.floor(Math.random() * reasons.length)]
+                }
+
+                const handleClientActivity = () => {
+                    // Handle existing clients
+                    clients.value.forEach(client => {
+                        // Update client satisfaction
+                        updateClientSatisfaction(client)
+
+                        // Reset daily transactions at the start of each day
+                        if (new Date().getHours() === 0) {
+                            client.dailyTransactions = 0
+                        }
+
+                        if (Math.random() < 0.2) {
+                            const action = Math.random()
+                            if (action < 0.4) {
+                                // Deposit
+                                const amount = Math.floor(Math.random() * 500) + 100
+                                client.balance += amount
+                                bankBalance.value += amount
+                                client.dailyTransactions++
+                                client.loyaltyPoints += 1
+                                addActivity(`${client.name} (SSN: ${formatSSN(client.ssn)}) deposited $${amount}`)
+                            } else if (action < 0.8) {
+                                // Withdraw
+                                const amount = Math.floor(Math.random() * 300) + 50
+                                if (client.balance >= amount) {
+                                    client.balance -= amount
+                                    bankBalance.value -= amount
+                                    client.dailyTransactions++
+                                    client.loyaltyPoints += 1
+                                    addActivity(`${client.name} (SSN: ${formatSSN(client.ssn)}) withdrew $${amount}`)
+                                }
+                            } else {
+                                // Consider closing account
+                                const daysWithBank = Math.floor((new Date() - client.joinDate) / (24 * 60 * 60 * 1000))
+                                const loyaltyBonus = Math.min(daysWithBank * 2, 50) // Up to 50% bonus for long-term clients
+                                const transactionBonus = Math.min(client.dailyTransactions * 5, 20) // Up to 20% bonus for active clients
+                                const balanceBonus = Math.min(client.balance / 1000, 30) // Up to 30% bonus for high balance
+                                
+                                // Calculate chance of leaving
+                                let leaveChance = 0.3 // Base chance
+                                leaveChance -= (client.satisfaction / 200) // Satisfaction impact
+                                leaveChance -= (loyaltyBonus / 100) // Loyalty impact
+                                leaveChance -= (transactionBonus / 100) // Activity impact
+                                leaveChance -= (balanceBonus / 100) // Balance impact
+                                leaveChance = Math.max(0.05, leaveChance) // Minimum 5% chance
+
+                                if (Math.random() < leaveChance) {
+                                    const reason = getAccountClosureReason(client)
+                                    if (client.balance > 0) {
+                                        bankBalance.value -= client.balance
+                                        addActivity(`${client.name} (SSN: ${formatSSN(client.ssn)}) closed their account with $${client.balance}. Reason: ${reason}`)
+                                    } else {
+                                        addActivity(`${client.name} (SSN: ${formatSSN(client.ssn)}) closed their account. Reason: ${reason}`)
+                                    }
+                                    clients.value = clients.value.filter(c => c.id !== client.id)
+                                    monthlyStats.value.lostClients++
+                                }
+                            }
+                        }
+                    })
+                }
+
+                const generateMonthlyReport = () => {
+                    const totalSatisfaction = clients.value.reduce((sum, client) => sum + client.satisfaction, 0)
+                    monthlyStats.value.avgSatisfaction = clients.value.length > 0 
+                        ? Math.round(totalSatisfaction / clients.value.length) 
+                        : 0
+
+                    // Calculate net income
+                    const dailyInterest = clients.value.reduce((sum, client) => 
+                        sum + (client.balance * (interestRate.value / 100) / 30), 0)
+                    const dailyFees = clients.value.length * accountFee.value
+                    monthlyStats.value.netIncome = Math.round(dailyInterest + dailyFees)
+
+                    // Generate summary
+                    const summaries = [
+                        `A steady day with ${monthlyStats.value.newClients} new clients and ${monthlyStats.value.lostClients} departures.`,
+                        `Client satisfaction remains at ${monthlyStats.value.avgSatisfaction}%.`,
+                        `Daily income: $${monthlyStats.value.netIncome.toLocaleString()}.`,
+                        `Current interest rate of ${interestRate.value}% seems to be ${monthlyStats.value.netIncome >= 0 ? 'working well' : 'too high'}.`,
+                        `Risk tolerance at ${riskTolerance.value}% is ${riskTolerance.value > 70 ? 'quite aggressive' : riskTolerance.value < 30 ? 'very conservative' : 'balanced'}.`
+                    ]
+                    monthlyStats.value.summary = summaries.join(' ')
+                }
+
+                // Start the game
+                gameTimer.value = setInterval(handleClientActivity, 10000)
+                clientTimer.value = setInterval(() => {
+                    if (!pendingClient.value) {
+                        const baseChance = 0.05
+                        const reputationBonus = bankReputation.value / 400
+                        const chance = baseChance + reputationBonus
+                        if (Math.random() < chance) {
+                            generateNewClient()
+                        }
+                    }
+                }, 15000)
+
+                // Day timer (1 day = 1 minute)
+                dayTimer.value = setInterval(() => {
+                    currentDay.value++
+                    if (currentDay.value > 30) {
+                        currentDay.value = 1
+                        currentMonth.value = (currentMonth.value % 12) + 1
+                        generateMonthlyReport()
+                        showMonthlyReport.value = true
+                    }
+                }, 60000) // 1 minute = 1 day
+
+                const topClients = computed(() => {
+                    return [...clients.value]
+                        .sort((a, b) => b.balance - a.balance)
+                        .slice(0, 25)
+                })
+
+                const totalAssets = computed(() => {
+                    return clients.value.reduce((sum, client) => sum + client.balance, 0)
+                })
+
+                const monthlyIncome = computed(() => {
+                    const dailyInterest = clients.value.reduce((sum, client) => 
+                        sum + (client.balance * (interestRate.value / 100) / 30), 0)
+                    const dailyFees = clients.value.length * accountFee.value
+                    return Math.round(dailyInterest + dailyFees)
+                })
+
+                const avgClientBalance = computed(() => {
+                    return clients.value.length > 0 
+                        ? Math.round(totalAssets.value / clients.value.length)
+                        : 0
+                })
+
+                const clientRetention = computed(() => {
+                    const totalClients = monthlyStats.value.newClients + monthlyStats.value.lostClients
+                    return totalClients > 0 
+                        ? Math.round((monthlyStats.value.newClients / totalClients) * 100)
+                        : 100
+                })
+
+                const ageDistribution = computed(() => {
+                    const distribution = {
+                        '20-30': 0,
+                        '31-40': 0,
+                        '41-50': 0,
+                        '51-60': 0,
+                        '60+': 0
+                    }
+                    
+                    clients.value.forEach(client => {
+                        const age = client.profile.age
+                        if (age <= 30) distribution['20-30']++
+                        else if (age <= 40) distribution['31-40']++
+                        else if (age <= 50) distribution['41-50']++
+                        else if (age <= 60) distribution['51-60']++
+                        else distribution['60+']++
+                    })
+                    
+                    return distribution
+                })
+
+                const employmentDistribution = computed(() => {
+                    const distribution = {
+                        'Employed': 0,
+                        'Self-employed': 0,
+                        'Retired': 0,
+                        'Student': 0
+                    }
+                    
+                    clients.value.forEach(client => {
+                        distribution[client.profile.employmentStatus]++
+                    })
+                    
+                    return distribution
+                })
+
+                const getDaysWithBank = (client) => {
+                    return Math.floor((new Date() - client.joinDate) / (24 * 60 * 60 * 1000))
+                }
+
+                const saveGame = () => {
+                    const gameState = {
+                        bankBalance: bankBalance.value,
+                        clients: clients.value,
+                        bankReputation: bankReputation.value,
+                        interestRate: interestRate.value,
+                        minimumBalance: minimumBalance.value,
+                        accountFee: accountFee.value,
+                        riskTolerance: riskTolerance.value,
+                        currentDay: currentDay.value,
+                        currentMonth: currentMonth.value,
+                        usedSSNs: Array.from(usedSSNs),
+                        lastSaved: new Date()
+                    }
+                    localStorage.setItem('bankManagerGame', JSON.stringify(gameState))
+                    lastSaved.value = new Date()
+                    addActivity('Game saved successfully')
+                }
+
+                const exportGame = () => {
+                    const gameState = {
+                        bankBalance: bankBalance.value,
+                        clients: clients.value,
+                        bankReputation: bankReputation.value,
+                        interestRate: interestRate.value,
+                        minimumBalance: minimumBalance.value,
+                        accountFee: accountFee.value,
+                        riskTolerance: riskTolerance.value,
+                        currentDay: currentDay.value,
+                        currentMonth: currentMonth.value,
+                        usedSSNs: Array.from(usedSSNs),
+                        lastSaved: new Date()
+                    }
+                    const blob = new Blob([JSON.stringify(gameState, null, 2)], { type: 'application/json' })
+                    const url = URL.createObjectURL(blob)
+                    const a = document.createElement('a')
+                    a.href = url
+                    a.download = `bank-manager-game-${new Date().toISOString().split('T')[0]}.json`
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                    URL.revokeObjectURL(url)
+                    addActivity('Game exported successfully')
+                }
+
+                const loadGame = () => {
+                    const savedGame = localStorage.getItem('bankManagerGame')
+                    if (savedGame) {
+                        try {
+                            const gameState = JSON.parse(savedGame)
+                            bankBalance.value = gameState.bankBalance
+                            clients.value = gameState.clients
+                            bankReputation.value = gameState.bankReputation
+                            interestRate.value = gameState.interestRate
+                            minimumBalance.value = gameState.minimumBalance
+                            accountFee.value = gameState.accountFee
+                            riskTolerance.value = gameState.riskTolerance
+                            currentDay.value = gameState.currentDay
+                            currentMonth.value = gameState.currentMonth
+                            usedSSNs.clear()
+                            gameState.usedSSNs.forEach(ssn => usedSSNs.add(ssn))
+                            lastSaved.value = new Date(gameState.lastSaved)
+                            addActivity('Game loaded successfully')
+                        } catch (error) {
+                            addActivity('Error loading game: Invalid save file')
+                        }
+                    } else {
+                        addActivity('No saved game found')
+                    }
+                }
+
+                const importGame = (event) => {
+                    const file = event.target.files[0]
+                    if (file) {
+                        const reader = new FileReader()
+                        reader.onload = (e) => {
+                            try {
+                                const gameState = JSON.parse(e.target.result)
+                                bankBalance.value = gameState.bankBalance
+                                clients.value = gameState.clients
+                                bankReputation.value = gameState.bankReputation
+                                interestRate.value = gameState.interestRate
+                                minimumBalance.value = gameState.minimumBalance
+                                accountFee.value = gameState.accountFee
+                                riskTolerance.value = gameState.riskTolerance
+                                currentDay.value = gameState.currentDay
+                                currentMonth.value = gameState.currentMonth
+                                usedSSNs.clear()
+                                gameState.usedSSNs.forEach(ssn => usedSSNs.add(ssn))
+                                lastSaved.value = new Date(gameState.lastSaved)
+                                addActivity('Game imported successfully')
+                            } catch (error) {
+                                addActivity('Error importing game: Invalid file format')
+                            }
+                        }
+                        reader.readAsText(file)
+                    }
+                    event.target.value = '' // Reset file input
+                }
+
+                const confirmRestart = () => {
+                    if (confirm('Are you sure you want to restart the game? All progress will be lost.')) {
+                        restartGame()
+                    }
+                }
+
+                const restartGame = () => {
+                    // Clear all game state
+                    bankBalance.value = 0
+                    clients.value = []
+                    bankReputation.value = 100
+                    interestRate.value = 2
+                    minimumBalance.value = 100
+                    accountFee.value = 5
+                    riskTolerance.value = 50
+                    recentActivities.value = []
+                    currentDay.value = 1
+                    currentMonth.value = 1
+                    usedSSNs.clear()
+                    lastSaved.value = null
+                    
+                    // Clear timers
+                    clearInterval(gameTimer.value)
+                    clearInterval(clientTimer.value)
+                    clearInterval(dayTimer.value)
+                    
+                    // Restart timers with new intervals
+                    gameTimer.value = setInterval(handleClientActivity, 10000)
+                    clientTimer.value = setInterval(() => {
+                        if (!pendingClient.value) {
+                            const baseChance = 0.05
+                            const reputationBonus = bankReputation.value / 400
+                            const chance = baseChance + reputationBonus
+                            if (Math.random() < chance) {
+                                generateNewClient()
+                            }
+                        }
+                    }, 15000)
+                    
+                    addActivity('Game restarted')
+                }
+
+                const takeLoan = (bank) => {
+                    const amount = Math.floor(bankBalance.value * 0.5) // Can take up to 50% of current balance
+                    if (confirm(`Take a loan of $${amount.toLocaleString()} from ${bank.name} at ${bank.loanRate}% interest?`)) {
+                        bankBalance.value += amount
+                        currentInvestments.value.push({
+                            id: Date.now(),
+                            name: `Loan from ${bank.name}`,
+                            amount: -amount,
+                            returnRate: bank.loanRate,
+                            daysLeft: 30,
+                            type: 'loan'
+                        })
+                        addActivity(`Took a loan of $${amount.toLocaleString()} from ${bank.name}`)
+                    }
+                }
+
+                const investInBank = (bank) => {
+                    const amount = Math.floor(bankBalance.value * 0.2) // Can invest up to 20% of current balance
+                    if (confirm(`Invest $${amount.toLocaleString()} in ${bank.name} for ${bank.investmentReturn}% return?`)) {
+                        if (bankBalance.value >= amount) {
+                            bankBalance.value -= amount
+                            currentInvestments.value.push({
+                                id: Date.now(),
+                                name: `Investment in ${bank.name}`,
+                                amount: amount,
+                                returnRate: bank.investmentReturn,
+                                daysLeft: 30,
+                                type: 'bank'
+                            })
+                            addActivity(`Invested $${amount.toLocaleString()} in ${bank.name}`)
+                        } else {
+                            addActivity('Not enough funds for investment')
+                        }
+                    }
+                }
+
+                const investInOpportunity = (opportunity) => {
+                    if (confirm(`Invest $${opportunity.investment.toLocaleString()} in ${opportunity.name} for ${opportunity.returnRate}% return?`)) {
+                        if (bankBalance.value >= opportunity.investment) {
+                            bankBalance.value -= opportunity.investment
+                            currentInvestments.value.push({
+                                id: Date.now(),
+                                name: opportunity.name,
+                                amount: opportunity.investment,
+                                returnRate: opportunity.returnRate,
+                                daysLeft: opportunity.duration,
+                                type: 'opportunity'
+                            })
+                            addActivity(`Invested $${opportunity.investment.toLocaleString()} in ${opportunity.name}`)
+                        } else {
+                            addActivity('Not enough funds for investment')
+                        }
+                    }
+                }
+
+                const switchPanel = (panel) => {
+                    // Store current panel
+                    const previousPanel = activePanel.value
+                    
+                    // Update the active panel
+                    activePanel.value = panel
+
+                    // Handle game state based on panel changes
+                    if (panel === 'settings') {
+                        // Pause game when entering settings
+                        clearInterval(gameTimer.value)
+                        clearInterval(clientTimer.value)
+                        clearInterval(dayTimer.value)
+                        clearInterval(autoSaveTimer.value)
+                    } else if (previousPanel === 'settings') {
+                        // Resume game when leaving settings
+                        gameTimer.value = setInterval(handleClientActivity, 10000)
+                        clientTimer.value = setInterval(() => {
+                            if (!pendingClient.value) {
+                                const baseChance = 0.05
+                                const reputationBonus = bankReputation.value / 400
+                                const chance = baseChance + reputationBonus
+                                if (Math.random() < chance) {
+                                    generateNewClient()
+                                }
+                            }
+                        }, 15000)
+                        dayTimer.value = setInterval(() => {
+                            currentDay.value++
+                            if (currentDay.value > 30) {
+                                currentDay.value = 1
+                                currentMonth.value = (currentMonth.value % 12) + 1
+                                generateMonthlyReport()
+                                showMonthlyReport.value = true
+                            }
+                        }, 60000)
+                        autoSaveTimer.value = setInterval(autoSave, 300000)
+                    }
+                }
+
+                // Start auto-save timer on game start
+                autoSaveTimer.value = setInterval(autoSave, 300000)
+
+                // Load game on startup if available
+                loadGame()
+
+                const getInterestRateStatus = () => {
+                    if (interestRate.value >= 3) return 'Competitive'
+                    if (interestRate.value >= 2) return 'Moderate'
+                    return 'Low'
+                }
+
+                const getAccountFeeStatus = () => {
+                    if (accountFee.value <= 3) return 'Low'
+                    if (accountFee.value <= 5) return 'Moderate'
+                    return 'High'
+                }
+
+                const getRiskToleranceStatus = () => {
+                    if (riskTolerance.value >= 60) return 'Aggressive'
+                    if (riskTolerance.value >= 40) return 'Balanced'
+                    return 'Conservative'
+                }
+
+                const getAverageSatisfaction = () => {
+                    if (clients.value.length === 0) return 0
+                    const total = clients.value.reduce((sum, client) => sum + client.satisfaction, 0)
+                    return Math.round(total / clients.value.length)
+                }
+
+                const sortClients = (criteria) => {
+                    if (criteria === 'balance') {
+                        sortedClients.value = [...clients.value].sort((a, b) => b.balance - a.balance)
+                    } else if (criteria === 'satisfaction') {
+                        sortedClients.value = [...clients.value].sort((a, b) => b.satisfaction - a.satisfaction)
+                    } else if (criteria === 'days') {
+                        sortedClients.value = [...clients.value].sort((a, b) => 
+                            (new Date() - b.joinDate) - (new Date() - a.joinDate))
+                    }
+                }
+
+                const getClientActivities = (client) => {
+                    return recentActivities.value
+                        .filter(activity => activity.message.includes(client.name) || 
+                                          activity.message.includes(formatSSN(client.ssn)))
+                        .slice(0, 3)
+                }
+
+                const sortedClients = ref([])
+
+                // Initialize sorted clients
+                watch(clients, () => {
+                    sortedClients.value = [...clients.value].sort((a, b) => b.balance - a.balance)
+                }, { immediate: true })
+
+                const selectedClient = ref(null)
+
+                return {
+                    bankBalance,
+                    clients,
+                    bankReputation,
+                    interestRate,
+                    minimumBalance,
+                    accountFee,
+                    riskTolerance,
+                    recentActivities,
+                    pendingClient,
+                    currentDay,
+                    currentMonth,
+                    showMonthlyReport,
+                    monthlyStats,
+                    adjustInterestRate,
+                    modifyAccountFee,
+                    adjustRiskTolerance,
+                    acceptClient,
+                    rejectClient,
+                    dismissClient,
+                    formatTime,
+                    formatSSN,
+                    getRiskLevel,
+                    activePanel,
+                    topClients,
+                    totalAssets,
+                    monthlyIncome,
+                    avgClientBalance,
+                    clientRetention,
+                    ageDistribution,
+                    employmentDistribution,
+                    getDaysWithBank,
+                    lastSaved,
+                    fileInput,
+                    saveGame,
+                    exportGame,
+                    loadGame,
+                    importGame,
+                    confirmRestart,
+                    competitorBanks,
+                    businessOpportunities,
+                    currentInvestments,
+                    takeLoan,
+                    investInBank,
+                    investInOpportunity,
+                    switchPanel,
+                    confirmStartOver,
+                    autoSave,
+                    getInterestRateStatus,
+                    getAccountFeeStatus,
+                    getRiskToleranceStatus,
+                    getAverageSatisfaction,
+                    sortClients,
+                    sortedClients,
+                    getClientActivities,
+                    selectedClient
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html> 
