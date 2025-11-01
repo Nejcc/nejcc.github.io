@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postani računovodja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in-out',
+                        'slide-up': 'slideUp 0.3s ease-out',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'pulse-answer': 'pulseAnswer 0.6s ease-in-out',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        },
+                        pulseAnswer: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+                            '50%': { transform: 'scale(1.05)', opacity: '0.9' },
+                        },
+                        blink: {
+                            '0%, 100%': { opacity: '1', transform: 'scale(1)' },
+                            '25%': { opacity: '0.3', transform: 'scale(0.98)' },
+                            '50%': { opacity: '1', transform: 'scale(1.02)' },
+                            '75%': { opacity: '0.3', transform: 'scale(0.98)' },
+                        }
+                    },
+                    animationDuration: {
+                        'pulse-answer': '1s',
+                        'blink': '0.5s',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+        }
+        .card-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.1), 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+        .option-card {
+            backdrop-filter: blur(10px);
+        }
+        .touch-manipulation {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .stat-card-red {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 100%);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .stat-card-blue {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        @keyframes blink {
+            0%, 100% { 
+                opacity: 1; 
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+            }
+            50% { 
+                opacity: 0.4; 
+                transform: scale(0.98);
+                box-shadow: 0 0 40px rgba(59, 130, 246, 0.8);
+            }
+        }
+        .blinking {
+            animation: blink 0.4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="gradient-bg text-gray-100 min-h-screen">
+    <div id="app" class="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-4xl">
+        <!-- Header - Always visible -->
+        <header class="mb-4 sm:mb-6 bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-xl card-glow p-3 sm:p-4 border border-slate-700/50 backdrop-blur-xl relative z-30">
+            <div class="flex items-center justify-between">
+                <button 
+                    @click="goToStartScreen"
+                    class="flex items-center gap-2 px-4 py-2 bg-slate-700/50 hover:bg-slate-700 rounded-lg transition-all duration-200 touch-manipulation"
+                    style="min-height: 44px;"
+                >
+                    <svg class="w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span class="text-sm sm:text-base font-semibold text-gray-300 hidden sm:inline">Začetek</span>
+                </button>
+                
+                <div class="flex items-center gap-3">
+                    <!-- Player Selector -->
+                    <div class="relative z-50">
+                        <button 
+                            @click="showingPlayerSelector = !showingPlayerSelector"
+                            class="flex items-center gap-2 px-3 sm:px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 rounded-lg transition-all duration-200 touch-manipulation relative z-50"
+                            style="min-height: 44px;"
+                        >
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            <span class="text-xs sm:text-sm font-semibold text-white max-w-[100px] sm:max-w-none truncate">{{ playerName || 'Igralec' }}</span>
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        
+                        <!-- Player Dropdown -->
+                        <div 
+                            v-if="showingPlayerSelector"
+                            class="absolute right-0 top-full mt-2 w-64 sm:w-80 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl shadow-2xl border border-slate-700/50 z-[60] max-h-[400px] overflow-y-auto"
+                            @click.stop
+                            style="position: absolute;"
+                        >
+                            <div class="p-3 border-b border-slate-700/50">
+                                <h3 class="text-sm font-bold text-gray-100 mb-2">Izberi igralca</h3>
+                                
+                                <!-- New Player Input -->
+                                <div v-if="showingNewPlayerInput" class="mb-3 space-y-2">
+                                    <input 
+                                        v-model="newPlayerNameInput"
+                                        @keyup.enter="saveNewPlayer"
+                                        type="text"
+                                        placeholder="Vnesi ime igralca"
+                                        maxlength="30"
+                                        class="w-full px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm touch-manipulation"
+                                        style="min-height: 40px;"
+                                        autofocus
+                                    >
+                                    <div class="flex gap-2">
+                                        <button 
+                                            @click="saveNewPlayer"
+                                            class="flex-1 px-3 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 text-xs font-semibold touch-manipulation"
+                                            style="min-height: 36px;"
+                                        >
+                                            Dodaj
+                                        </button>
+                                        <button 
+                                            @click="showingNewPlayerInput = false; newPlayerNameInput = ''"
+                                            class="px-3 py-2 bg-slate-700/50 hover:bg-slate-700 text-gray-300 rounded-lg transition-all duration-200 text-xs font-semibold touch-manipulation"
+                                            style="min-height: 36px;"
+                                        >
+                                            Prekliči
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Add New Player Button -->
+                                <button 
+                                    v-else
+                                    @click="addNewPlayer"
+                                    class="w-full px-3 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-lg transition-all duration-200 text-sm font-semibold flex items-center justify-center gap-2 touch-manipulation"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Dodaj novega igralca
+                                </button>
+                            </div>
+                            <div class="py-2">
+                                <div 
+                                    v-for="player in getPlayerList()" 
+                                    :key="player.id"
+                                    @click="switchPlayer(player.id)"
+                                    class="px-3 py-2 mx-2 my-1 rounded-lg cursor-pointer transition-all duration-200 touch-manipulation flex items-center justify-between"
+                                    :class="{
+                                        'bg-indigo-600/50 border border-indigo-500/50': player.id === currentPlayerId,
+                                        'hover:bg-slate-700/50': player.id !== currentPlayerId
+                                    }"
+                                >
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-sm font-semibold text-gray-100 truncate">{{ player.name || 'Anonimen igralec' }}</p>
+                                        <p class="text-xs text-gray-400">Level {{ player.level || 1 }} • {{ player.points || 0 }} točk</p>
+                                    </div>
+                                    <div v-if="player.id === currentPlayerId" class="ml-2 flex-shrink-0">
+                                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                                <div v-if="getPlayerList().length === 0" class="px-3 py-4 text-center">
+                                    <p class="text-sm text-gray-400">Ni shranjenih igralcev</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Click outside to close player selector -->
+        <div 
+            v-if="showingPlayerSelector"
+            class="fixed inset-0 z-[55]"
+            @click="showingPlayerSelector = false"
+            style="background: transparent;"
+        ></div>
+
+        <!-- Start Screen with Scoreboard -->
+        <div v-if="showStartScreen" class="animate-fade-in">
+            <div class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl card-glow p-6 sm:p-8 mb-6 border border-slate-700/50 backdrop-blur-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h1 class="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-300 mb-1">Postani računovodja</h1>
+                        <p class="text-sm sm:text-base text-gray-400 font-medium">Profesionalno testiranje znanja</p>
+                    </div>
+                </div>
+
+                <!-- Player Name -->
+                <div class="mb-6 bg-slate-700/30 rounded-xl p-4 border border-slate-600/30">
+                    <div v-if="!editingName" class="flex items-center justify-between">
+                        <div class="flex items-center gap-3 flex-1">
+                            <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-xs text-gray-400 mb-1">Igra</p>
+                                <p class="text-base sm:text-lg font-bold text-gray-100">{{ playerName || 'Anonimen igralec' }}</p>
+                            </div>
+                        </div>
+                        <button 
+                            @click="editPlayerName"
+                            class="px-4 py-2 bg-slate-600/50 hover:bg-slate-600 rounded-lg transition-all duration-200 flex items-center gap-2 touch-manipulation"
+                            style="min-height: 44px;"
+                        >
+                            <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                            <span class="hidden sm:inline text-sm text-gray-300 font-medium">Uredi</span>
+                        </button>
+                    </div>
+                    <div v-else class="space-y-3">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-2 font-medium">Vnesi svoje ime</label>
+                            <input 
+                                v-model="playerName"
+                                @keyup.enter="savePlayerName"
+                                @blur="savePlayerName"
+                                type="text"
+                                placeholder="Vaše ime"
+                                maxlength="30"
+                                class="w-full px-4 py-3 bg-slate-800 border border-slate-600 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base touch-manipulation"
+                                style="min-height: 48px;"
+                                autofocus
+                            >
+                        </div>
+                        <div class="flex gap-3">
+                            <button 
+                                @click="savePlayerName"
+                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 text-sm font-semibold shadow-lg touch-manipulation"
+                                style="min-height: 44px;"
+                            >
+                                Shrani
+                            </button>
+                            <button 
+                                @click="editingName = false"
+                                class="px-4 py-2.5 bg-slate-700/50 hover:bg-slate-700 text-gray-300 rounded-xl transition-all duration-200 text-sm font-semibold touch-manipulation"
+                                style="min-height: 44px;"
+                            >
+                                Prekliči
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gamification Stats -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
+                    <div class="bg-gradient-to-br from-blue-900/40 to-indigo-900/20 rounded-xl p-4 border border-blue-700/30">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                            <p class="text-xs text-gray-400 font-medium">Level</p>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-blue-400">{{ level }}</p>
+                        <div class="mt-2 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-all duration-300" :style="{ width: levelProgress + '%' }"></div>
+                        </div>
+                    </div>
+                    <div class="bg-gradient-to-br from-emerald-900/40 to-green-900/20 rounded-xl p-4 border border-emerald-700/30">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-xs text-gray-400 font-medium">Točke</p>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-emerald-400">{{ points }}</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-purple-900/40 to-pink-900/20 rounded-xl p-4 border border-purple-700/30">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                            <p class="text-xs text-gray-400 font-medium">Najboljši</p>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-purple-400">{{ bestScore }}%</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-amber-900/40 to-yellow-900/20 rounded-xl p-4 border border-amber-700/30">
+                        <div class="flex items-center gap-2 mb-2">
+                            <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                            </svg>
+                            <p class="text-xs text-gray-400 font-medium">Igral</p>
+                        </div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-amber-400">{{ gamesPlayed }}</p>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div v-if="achievements.length > 0" class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-100 mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                        Dosežki
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                        <div v-if="achievements.includes('first_game')" class="bg-gradient-to-br from-green-900/30 to-emerald-900/20 rounded-lg p-3 border border-green-700/30">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">1</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-green-300">Prva igra</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="achievements.includes('perfect_score')" class="bg-gradient-to-br from-yellow-900/30 to-amber-900/20 rounded-lg p-3 border border-yellow-700/30">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-yellow-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">⭐</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-yellow-300">Popolno</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="achievements.includes('excellent')" class="bg-gradient-to-br from-blue-900/30 to-indigo-900/20 rounded-lg p-3 border border-blue-700/30">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">90+</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-blue-300">Odlično</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="achievements.includes('persistent')" class="bg-gradient-to-br from-purple-900/30 to-pink-900/20 rounded-lg p-3 border border-purple-700/30">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">10</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-purple-300">Vztrajnost</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="achievements.includes('level_5')" class="bg-gradient-to-br from-red-900/30 to-rose-900/20 rounded-lg p-3 border border-red-700/30">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-red-500 rounded-lg flex items-center justify-center">
+                                    <span class="text-white font-bold text-sm">L5</span>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-semibold text-red-300">Moстер</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Scoreboard -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-100 mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Najboljši rezultati
+                    </h3>
+                    <div v-if="getTopScores().length > 0" class="space-y-2">
+                        <div v-for="(score, index) in getTopScores()" :key="index" class="bg-slate-700/30 rounded-lg p-3 border border-slate-600/30 flex items-center justify-between">
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm flex-shrink-0"
+                                    :class="{
+                                        'bg-gradient-to-br from-yellow-500 to-amber-600 text-white': index === 0,
+                                        'bg-gradient-to-br from-gray-400 to-gray-500 text-white': index === 1,
+                                        'bg-gradient-to-br from-amber-700 to-orange-800 text-white': index === 2,
+                                        'bg-slate-600 text-gray-300': index > 2
+                                    }"
+                                >
+                                    {{ index + 1 }}
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-semibold text-gray-100 truncate">{{ score.playerName || playerName || 'Igralec' }}</p>
+                                    <p class="text-xs text-gray-400">{{ score.score }}% • {{ score.date }}</p>
+                                </div>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                <p class="text-xs text-blue-400 font-medium">+{{ score.points }} točk</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else class="bg-slate-700/30 rounded-lg p-6 text-center border border-slate-600/30">
+                        <p class="text-gray-400 text-sm">Še ni rezultatov. Začni z igro!</p>
+                    </div>
+                </div>
+
+                <!-- Start Button -->
+                <button 
+                    @click="startExam"
+                    class="w-full px-6 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white rounded-xl hover:from-blue-700 hover:via-indigo-700 hover:to-purple-700 transition-all duration-200 text-base sm:text-lg font-extrabold shadow-2xl hover:shadow-blue-500/50 transform hover:-translate-y-1 flex items-center justify-center gap-3 touch-manipulation"
+                    style="min-height: 56px;"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Začni izpit
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content (Exam) -->
+        <div v-else>
+        <!-- Header -->
+        <div class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl card-glow p-5 sm:p-7 mb-5 sm:mb-7 border border-slate-700/50 backdrop-blur-xl animate-fade-in">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-blue-300 mb-1">Postani računovodja</h1>
+                    <p class="text-xs sm:text-sm text-gray-400 font-medium">Profesionalno testiranje znanja</p>
+                </div>
+            </div>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0">
+                <div class="flex items-center gap-2 text-sm sm:text-base">
+                    <div class="px-3 py-1.5 bg-slate-700/50 rounded-lg border border-slate-600/50">
+                        <span class="text-gray-300 font-medium">Vprašanje</span>
+                        <span class="text-blue-400 font-bold mx-1">{{ currentQuestionIndex + 1 }}</span>
+                        <span class="text-gray-500">/</span>
+                        <span class="text-gray-400 font-semibold">{{ totalQuestions }}</span>
+                    </div>
+                </div>
+                <button 
+                    v-if="showStatistics"
+                    @click="goToStartScreen"
+                    class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-200 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2 touch-manipulation"
+                    style="min-height: 44px;"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    Nazaj na začetek
+                </button>
+                <button 
+                    v-else-if="currentQuestionIndex === totalQuestions - 1"
+                    @click="finishExam"
+                    class="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-xl hover:from-emerald-700 hover:to-green-700 transition-all duration-200 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2"
+                >
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Zaključi izpit
+                </button>
+            </div>
+            <!-- Progress bar -->
+            <div class="mt-5 w-full bg-slate-700/50 rounded-full h-2.5 overflow-hidden backdrop-blur-sm">
+                <div 
+                    class="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 h-2.5 rounded-full transition-all duration-500 ease-out shadow-lg relative"
+                    :style="{ width: ((currentQuestionIndex + 1) / totalQuestions * 100) + '%' }"
+                >
+                    <div class="absolute inset-0 bg-white/20 animate-pulse-slow"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics View -->
+        <div v-if="showStatistics" class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl card-glow p-5 sm:p-7 border border-slate-700/50 backdrop-blur-xl animate-fade-in">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-extrabold text-gray-100">Rezultati izpita</h2>
+                    <div class="flex items-center gap-2 mt-1">
+                        <div v-for="star in 5" :key="star" class="text-lg">
+                            <span :class="star <= starsEarned ? 'text-yellow-400' : 'text-gray-600'">★</span>
+                        </div>
+                        <span class="text-sm text-gray-400 ml-1">{{ scorePercentage }}%</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-5 mb-6 sm:mb-8">
+                <div class="stat-card rounded-xl p-4 sm:p-5 text-center transform transition-all duration-300 hover:scale-105 animate-slide-up">
+                    <div class="w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                    <p class="text-2xl sm:text-4xl font-extrabold text-emerald-400 mb-1">{{ correctAnswers }}</p>
+                    <p class="text-gray-400 text-xs sm:text-sm font-medium">Pravilnih</p>
+                </div>
+                <div class="stat-card-red rounded-xl p-4 sm:p-5 text-center transform transition-all duration-300 hover:scale-105 animate-slide-up" style="animation-delay: 0.1s">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-rose-600 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <p class="text-2xl sm:text-4xl font-extrabold text-red-400 mb-1">{{ incorrectAnswers }}</p>
+                    <p class="text-gray-400 text-xs sm:text-sm font-medium">Napačnih</p>
+                </div>
+                <div class="stat-card-blue rounded-xl p-4 sm:p-5 text-center transform transition-all duration-300 hover:scale-105 animate-slide-up" style="animation-delay: 0.2s">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-2 shadow-lg">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                    </div>
+                    <p class="text-2xl sm:text-4xl font-extrabold text-blue-400 mb-1">{{ Math.round((correctAnswers / totalQuestions) * 100) }}%</p>
+                    <p class="text-gray-400 text-xs sm:text-sm font-medium">Uspešnost</p>
+                </div>
+            </div>
+
+            <!-- All Questions Review -->
+            <div class="space-y-3 sm:space-y-4">
+                <h3 class="text-lg sm:text-xl font-bold text-gray-100 mb-4 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Pregled vseh vprašanj
+                </h3>
+                <div 
+                    v-for="(question, index) in questions" 
+                    :key="index"
+                    class="border rounded-xl p-4 sm:p-5 backdrop-blur-sm transition-all duration-300 hover:shadow-lg"
+                    :class="{
+                        'bg-gradient-to-br from-emerald-900/40 to-green-900/20 border-emerald-600/50 shadow-emerald-500/10': userAnswers[index] === question.correctAnswer,
+                        'bg-gradient-to-br from-red-900/40 to-rose-900/20 border-red-600/50 shadow-red-500/10': userAnswers[index] !== question.correctAnswer && userAnswers[index] !== null,
+                        'bg-slate-800/40 border-slate-600/50': userAnswers[index] === null
+                    }"
+                >
+                    <div class="flex items-start justify-between mb-3 gap-3">
+                        <div class="flex items-start gap-3 flex-1">
+                            <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm"
+                                :class="{
+                                    'bg-emerald-500/20 text-emerald-300': userAnswers[index] === question.correctAnswer,
+                                    'bg-red-500/20 text-red-300': userAnswers[index] !== question.correctAnswer && userAnswers[index] !== null,
+                                    'bg-slate-700 text-gray-400': userAnswers[index] === null
+                                }"
+                            >
+                                {{ index + 1 }}
+                            </div>
+                            <p class="font-semibold text-gray-100 text-sm sm:text-base leading-relaxed flex-1">{{ question.question }}</p>
+                        </div>
+                        <div 
+                            class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold"
+                            :class="{
+                                'bg-emerald-500/20 text-emerald-300': userAnswers[index] === question.correctAnswer,
+                                'bg-red-500/20 text-red-300': userAnswers[index] !== question.correctAnswer && userAnswers[index] !== null,
+                                'bg-slate-700 text-gray-500': userAnswers[index] === null
+                            }"
+                        >
+                            {{ userAnswers[index] === question.correctAnswer ? '✓' : userAnswers[index] !== null ? '✗' : '○' }}
+                        </div>
+                    </div>
+                    <div class="mt-4 space-y-2">
+                        <div 
+                            v-for="(option, optIndex) in question.options" 
+                            :key="optIndex"
+                            class="p-3 rounded-lg border text-sm sm:text-base transition-all duration-200"
+                            :class="{
+                                'bg-emerald-500/20 border-emerald-500/50 font-semibold text-emerald-200': optIndex === question.correctAnswer,
+                                'bg-red-500/20 border-red-500/50 text-red-200': optIndex === userAnswers[index] && optIndex !== question.correctAnswer,
+                                'bg-slate-700/30 border-slate-600/30 text-gray-300': optIndex !== question.correctAnswer && optIndex !== userAnswers[index]
+                            }"
+                        >
+                            <span class="font-bold mr-2">{{ String.fromCharCode(65 + optIndex) }})</span> {{ option }}
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-700/50 flex flex-wrap gap-4 text-xs sm:text-sm">
+                        <div>
+                            <span class="text-gray-400 font-medium">Vaš odgovor:</span>
+                            <span v-if="userAnswers[index] !== null" class="ml-2 px-2 py-1 bg-blue-500/20 text-blue-300 rounded font-semibold">{{ String.fromCharCode(65 + userAnswers[index]) }}</span>
+                            <span v-else class="ml-2 px-2 py-1 bg-red-500/20 text-red-300 rounded font-semibold">Ni bil izbran</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400 font-medium">Pravilen odgovor:</span>
+                            <span class="ml-2 px-2 py-1 bg-emerald-500/20 text-emerald-300 rounded font-semibold">{{ String.fromCharCode(65 + question.correctAnswer) }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question View -->
+        <div v-else class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl card-glow p-5 sm:p-7 border border-slate-700/50 backdrop-blur-xl animate-fade-in">
+            <!-- Question -->
+            <div class="mb-6 sm:mb-8">
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg font-bold text-white text-sm">
+                        {{ currentQuestionIndex + 1 }}
+                    </div>
+                    <h2 class="text-lg sm:text-2xl font-bold text-gray-100 leading-relaxed flex-1">{{ currentQuestion.question }}</h2>
+                </div>
+                
+                <!-- Help Button -->
+                <button 
+                    @click="showHelp = true"
+                    class="mb-6 w-full sm:w-auto px-5 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl hover:from-amber-600 hover:to-yellow-700 transition-all duration-200 text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2 touch-manipulation"
+                    style="min-height: 48px;"
+                >
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Pomoč
+                </button>
+
+                <!-- Options -->
+                <div class="space-y-3 sm:space-y-4">
+                    <button
+                        v-for="(option, index) in currentQuestion.options"
+                        :key="index"
+                        @click="selectAnswer(index)"
+                        :disabled="selectedAnswer !== null"
+                        class="w-full text-left p-4 sm:p-5 rounded-xl border-2 transition-all duration-300 text-sm sm:text-base option-card group touch-manipulation"
+                        style="min-height: 56px;"
+                        :class="{
+                            'border-slate-600 bg-slate-700/40 hover:border-blue-500 hover:bg-slate-700/60 hover:shadow-lg transform hover:scale-[1.02]': selectedAnswer === null && userAnswers[currentQuestionIndex] !== index,
+                            'blinking border-blue-500 bg-blue-900/60 border-4 shadow-blue-500/50 shadow-lg': isPulsing && selectedAnswerIndex === index,
+                            'border-emerald-500 bg-gradient-to-r from-emerald-900/60 to-green-900/40 text-emerald-100 shadow-emerald-500/20 shadow-lg scale-[1.02]': !isPulsing && selectedAnswer === index && index === currentQuestion.correctAnswer,
+                            'border-red-500 bg-gradient-to-r from-red-900/60 to-rose-900/40 text-red-100 shadow-red-500/20 shadow-lg scale-[1.02]': !isPulsing && selectedAnswer === index && index !== currentQuestion.correctAnswer,
+                            'border-emerald-600/70 bg-emerald-900/30 text-emerald-200': !isPulsing && selectedAnswer !== null && index === currentQuestion.correctAnswer && selectedAnswer !== index,
+                            'border-slate-600/50 bg-slate-800/20 text-gray-400': !isPulsing && selectedAnswer !== null && selectedAnswer !== index && index !== currentQuestion.correctAnswer,
+                            'opacity-60 cursor-not-allowed': selectedAnswer !== null
+                        }"
+                    >
+                        <div class="flex items-center gap-3">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center font-extrabold text-lg border-2"
+                                :class="{
+                                    'bg-blue-500/20 border-blue-500 text-blue-300': isPulsing && selectedAnswerIndex === index,
+                                    'bg-emerald-500/20 border-emerald-500 text-emerald-300': !isPulsing && selectedAnswer === index && index === currentQuestion.correctAnswer,
+                                    'bg-red-500/20 border-red-500 text-red-300': !isPulsing && selectedAnswer === index && index !== currentQuestion.correctAnswer,
+                                    'bg-emerald-500/20 border-emerald-600/50 text-emerald-300': !isPulsing && selectedAnswer !== null && index === currentQuestion.correctAnswer && selectedAnswer !== index,
+                                    'bg-slate-700/50 border-slate-600 text-gray-400': selectedAnswer === null || (!isPulsing && selectedAnswer !== index && index !== currentQuestion.correctAnswer)
+                                }"
+                            >
+                                {{ String.fromCharCode(65 + index) }}
+                            </div>
+                            <span class="flex-1 font-medium leading-relaxed">{{ option }}</span>
+                            <div v-if="!isPulsing && selectedAnswer !== null && index === currentQuestion.correctAnswer" class="flex-shrink-0">
+                                <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <div v-if="!isPulsing && selectedAnswer === index && index !== currentQuestion.correctAnswer" class="flex-shrink-0">
+                                <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Explanation Modal -->
+            <div 
+                v-if="showExplanation"
+                class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[70] p-4 animate-fade-in"
+                @click.self="showExplanation = false"
+            >
+                <div class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl shadow-2xl p-5 sm:p-7 max-w-2xl w-full max-h-[85vh] overflow-y-auto border-2 animate-slide-up"
+                    :class="{
+                        'border-emerald-500/50': selectedAnswer === currentQuestion.correctAnswer,
+                        'border-red-500/50': selectedAnswer !== currentQuestion.correctAnswer
+                    }"
+                >
+                    <div class="flex justify-between items-center mb-5 pb-4 border-b border-slate-700/50">
+                        <div class="flex items-center gap-3">
+                            <div 
+                                class="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg"
+                                :class="{
+                                    'bg-gradient-to-br from-emerald-500 to-green-600': selectedAnswer === currentQuestion.correctAnswer,
+                                    'bg-gradient-to-br from-red-500 to-rose-600': selectedAnswer !== currentQuestion.correctAnswer
+                                }"
+                            >
+                                <svg 
+                                    v-if="selectedAnswer === currentQuestion.correctAnswer"
+                                    class="w-7 h-7 text-white" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <svg 
+                                    v-else
+                                    class="w-7 h-7 text-white" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 
+                                    class="text-lg sm:text-xl font-extrabold"
+                                    :class="{
+                                        'text-emerald-400': selectedAnswer === currentQuestion.correctAnswer,
+                                        'text-red-400': selectedAnswer !== currentQuestion.correctAnswer
+                                    }"
+                                >
+                                    {{ selectedAnswer === currentQuestion.correctAnswer ? 'Pravilen odgovor!' : 'Napačen odgovor' }}
+                                </h3>
+                                <p class="text-xs text-gray-400 mt-1">Pojasnilo</p>
+                            </div>
+                        </div>
+                        <button 
+                            @click="showExplanation = false"
+                            class="text-gray-400 hover:text-gray-200 hover:bg-slate-700/50 rounded-lg p-1 transition-all duration-200"
+                        >
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="bg-emerald-900/30 rounded-lg p-4 border border-emerald-700/50">
+                            <p class="text-xs text-gray-400 mb-2 font-semibold">PRAVILEN ODGOVOR:</p>
+                            <p class="text-base sm:text-lg font-bold text-emerald-300">
+                                {{ String.fromCharCode(65 + currentQuestion.correctAnswer) }}) {{ currentQuestion.options[currentQuestion.correctAnswer] }}
+                            </p>
+                        </div>
+                        
+                        <div class="bg-slate-700/30 rounded-lg p-5 border border-slate-600/30">
+                            <p class="text-xs text-gray-400 mb-2 font-semibold">RAZLOGA:</p>
+                            <p class="text-sm sm:text-base text-gray-300 leading-relaxed whitespace-pre-line">
+                                {{ currentQuestion.answer || currentQuestion.help }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation - Fixed to always be in same row -->
+            <div class="flex flex-row flex-nowrap justify-between items-center gap-3 mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-slate-700/50">
+                <button 
+                    @click="previousQuestion"
+                    :disabled="currentQuestionIndex === 0"
+                    class="flex-1 min-w-0 px-4 sm:px-6 py-3.5 sm:py-3 bg-slate-700/50 hover:bg-slate-700 text-white rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm sm:text-base font-semibold border border-slate-600/50 hover:border-slate-600 flex items-center justify-center gap-2 disabled:hover:bg-slate-700/50 touch-manipulation whitespace-nowrap"
+                    style="min-height: 48px;"
+                >
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    <span class="hidden sm:inline">Nazaj</span>
+                </button>
+                <button 
+                    @click="nextQuestion"
+                    :disabled="currentQuestionIndex === totalQuestions - 1"
+                    class="flex-1 min-w-0 px-4 sm:px-6 py-3.5 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed text-sm sm:text-base font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center gap-2 disabled:hover:transform-none touch-manipulation whitespace-nowrap"
+                    style="min-height: 48px;"
+                >
+                    <span class="hidden sm:inline">Naprej</span>
+                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        </div>
+
+        <!-- Help Modal -->
+        <div 
+            v-if="showHelp"
+            class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[70] p-4 animate-fade-in"
+            @click.self="showHelp = false"
+        >
+            <div class="bg-gradient-to-br from-slate-800 via-slate-800 to-slate-900 rounded-2xl shadow-2xl p-5 sm:p-7 max-w-2xl w-full max-h-[85vh] overflow-y-auto border border-slate-700/50 card-glow animate-slide-up">
+                <div class="flex justify-between items-center mb-5 pb-4 border-b border-slate-700/50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg sm:text-xl font-extrabold text-gray-100">Pojasnilo</h3>
+                            <p class="text-xs text-gray-400 mt-1">Dodatna razlaga</p>
+                        </div>
+                    </div>
+                    <button 
+                        @click="showHelp = false"
+                        class="text-gray-400 hover:text-gray-200 hover:bg-slate-700/50 rounded-lg p-1 transition-all duration-200"
+                    >
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="bg-slate-700/30 rounded-lg p-5 border border-slate-600/30">
+                    <p class="text-sm sm:text-base text-gray-300 leading-relaxed whitespace-pre-line">
+                        {{ currentQuestion.help }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,122 @@
+[
+  {
+    "question": "Kaj je bilanca stanja?",
+    "options": [
+      "Finančni izkaz, ki prikazuje premoženje in vire financiranja podjetja na določen datum",
+      "Dokument, ki prikazuje samo prihodke podjetja",
+      "Seznam vseh zaposlenih v podjetju",
+      "Dnevnik vseh računovodskih vknjižb"
+    ],
+    "correctAnswer": 0,
+    "help": "Razmisli o tem, kaj prikazuje finančno stanje podjetja na določen trenutek. Kateri dokument vsebuje tako premoženje kot tudi vire financiranja?",
+    "answer": "Bilanca stanja je osnovni finančni izkaz, ki prikazuje finančno stanje podjetja na določen trenutek. Prikazuje premoženje (sredstva) na eni strani in vire financiranja (obveznosti in lastniški kapital) na drugi strani. Osnovna enačba bilance je: Sredstva = Obveznosti + Lastniški kapital. Bilanca stanja je statičen izkaz, ki prikazuje stanje na določen datum."
+  },
+  {
+    "question": "Kaj pomeni DDV?",
+    "options": [
+      "Dohodnina",
+      "Davek na dodano vrednost",
+      "Davčna olajšava",
+      "Dodatni davek"
+    ],
+    "correctAnswer": 1,
+    "help": "DDV je kratica za davek, ki se nanaša na dodano vrednost. Razmisli, kateri davek se obračunava pri prodaji blaga in storitev.",
+    "answer": "DDV pomeni davek na dodano vrednost. To je posredni davek, ki ga plačujejo potrošniki ob nakupu blaga in storitev. V Sloveniji je standardna stopnja DDV 22%, znižana stopnja pa 9,5%. Podjetja DDV obračunavajo in ga naknadno odplačujejo davčnim organom. DDV je najpomembnejši vir prihodkov državnega proračuna."
+  },
+  {
+    "question": "Kaj je amortizacija?",
+    "options": [
+      "Pridelek podjetja",
+      "Postopek obračunavanja vrednosti opredmetenih osnovnih sredstev skozi čas",
+      "Povečanje vrednosti premoženja",
+      "Odpis terjatev"
+    ],
+    "correctAnswer": 1,
+    "help": "Amortizacija se nanaša na postopek, kako podjetje vrednoti osnovna sredstva skozi čas. Razmisli, kako se zmanjšuje vrednost strojev, vozil in zgradb zaradi uporabe.",
+    "answer": "Amortizacija je postopek sistematičnega razporejanja nabavne vrednosti osnovnih sredstev (npr. strojev, vozil, zgradb) na čas njihove uporabe. Amortizacija se obračunava kot odhodek in zmanjšuje vrednost osnovnih sredstev v bilanci. Najpogostejše metode amortizacije so: linearna (enakomerno skozi čas), padajoča preostala vrednost (hitrejša v začetku) in proizvodna (glede na izkoriščenost)."
+  },
+  {
+    "question": "Kaj pomeni kontiranje v računovodstvu?",
+    "options": [
+      "Zapisovanje računovodskih vknjižb v glavno knjigo",
+      "Izbris računovodskih zapisov",
+      "Kontrola inventure",
+      "Izračun dobička"
+    ],
+    "correctAnswer": 0,
+    "help": "Kontiranje je osnovni računovodski postopek. Razmisli, kako se poslovni dogodki zapisujejo v računovodske knjige z dvojnim knjigovodstvom.",
+    "answer": "Kontiranje je postopek zapisovanja poslovnih dogodkov v računovodske knjige. Pri tem uporabljamo dvojno knjigovodstvo, kjer vsak poslovni dogodek vpliva na vsaj dva računa. Vsaka vknjižba ima dolžniški (MD) in terjniški (TD) del, ki morata biti enaka. Kontiranje omogoča spremljanje vseh finančnih transakcij podjetja in zagotavlja točnost računovodskih zapisov."
+  },
+  {
+    "question": "Kaj je izkaz poslovnega izida?",
+    "options": [
+      "Pregled vseh zaposlenih",
+      "Finančni izkaz, ki prikazuje prihodke in odhodke ter izkazuje dobiček ali izgubo",
+      "Seznam vseh dobaviteljev",
+      "Bilanca stanja"
+    ],
+    "correctAnswer": 1,
+    "help": "Ta izkaz prikazuje rezultate poslovanja v določenem obdobju. Razmisli, kateri finančni izkaz povezuje prihodke in odhodke za izračun dobička ali izgube.",
+    "answer": "Izkaz poslovnega izida (tudi izkaz izida ali P&L izkaz) je finančni izkaz, ki prikazuje finančne rezultate poslovanja podjetja v določenem obdobju. Prikazuje vse prihodke in odhodke ter izračuna dobiček ali izgubo. Osnovna formula je: Prihodki - Odhodki = Dobiček/Izguba. Ta izkaz je ključen za vrednotenje uspešnosti podjetja in prikazuje, ali podjetje deluje profitabilno."
+  },
+  {
+    "question": "Kaj pomeni terjatev v računovodstvu?",
+    "options": [
+      "Denar, ki ga mora podjetje plačati",
+      "Denar, ki ga podjetje pričakuje prejeti od strank (dolžnikov)",
+      "Lastniški kapital",
+      "Dolgovi podjetja"
+    ],
+    "correctAnswer": 1,
+    "help": "Terjatev se nanaša na denar, ki ga podjetje pričakuje. Razmisli, ali gre za denar, ki ga podjetje dobi, ali denar, ki ga mora plačati.",
+    "answer": "Terjatev je pravica podjetja do prejema denarja ali opravljanja storitev od drugih oseb (strank, dolžnikov). Terjatve nastanejo, ko podjetje prodaja blago ali storitve na obroke ali ko stranka še ni poravnala računa. V bilanci stanja so terjatve navadno razvrščene med kratkoročna sredstva. Pomembno je spremljanje zapadlih terjatev, da se preprečijo izgube in vzpostavi učinkovit sistem pobiranja."
+  },
+  {
+    "question": "Kaj je lastniški kapital?",
+    "options": [
+      "Dolgovi podjetja",
+      "Vrednost premoženja, ki pripada lastnikom podjetja",
+      "Prihodki podjetja",
+      "Odhodki podjetja"
+    ],
+    "correctAnswer": 1,
+    "help": "Lastniški kapital predstavlja del premoženja podjetja. Razmisli, kdo je lastnik tega kapitala in kako se izračuna.",
+    "answer": "Lastniški kapital predstavlja vrednost premoženja podjetja, ki pripada njegovim lastnikom. Izračuna se kot razlika med sredstvi in obveznostmi podjetja. Vključuje vloženi kapital (lastnike vloženo premoženje), zadržani dobiček in druge rezerve. Lastniški kapital se poveča z dobičkom in vložki lastnikov, zmanjša pa z izgubo in izplačili lastnikom (dividendami). To je osnovni vir financiranja podjetja."
+  },
+  {
+    "question": "Kaj je inventura?",
+    "options": [
+      "Seznam vseh zaposlenih",
+      "Fizično preverjanje in štetje zalog, premoženja in terjatev",
+      "Izračun dobička",
+      "Plačilo davkov"
+    ],
+    "correctAnswer": 1,
+    "help": "Inventura je postopek preverjanja. Razmisli, kaj se preverja ob koncu poslovnega leta, da se ugotovi dejansko stanje premoženja podjetja.",
+    "answer": "Inventura je postopek fizičnega preverjanja in štetja vseh sredstev podjetja, vključno z zalogami, osnovnimi sredstvi in terjatvami. Izvaja se navadno ob koncu poslovnega leta, da se preveri, ali računovodska vrednost ustreza dejanskemu stanju. Razlike med računovodsko in dejansko vrednostjo se morajo odraziti v računovodskih knjigah. Inventura je obvezna za zagotovitev točnosti računovodskih zapisov."
+  },
+  {
+    "question": "Kaj je obveznost v računovodstvu?",
+    "options": [
+      "Denar, ki ga podjetje pričakuje prejeti",
+      "Dolg podjetja, ki ga mora poravnati",
+      "Lastniški kapital",
+      "Prihodki podjetja"
+    ],
+    "correctAnswer": 1,
+    "help": "Obveznost se nanaša na dolg podjetja. Razmisli, ali gre za denar, ki ga podjetje dobi ali mora plačati tretjim osebam.",
+    "answer": "Obveznost je dolg podjetja, ki ga mora poravnati do tretjih oseb. Delimo jih na kratkoročne (poravnajo se v enem letu) in dolgoročne obveznosti (poravnajo se v daljšem časovnem obdobju). Najpogostejše obveznosti so: obveznosti do dobaviteljev, obveznosti do bank (krediti), obveznosti do zaposlenih (plače), davčne obveznosti. Obveznosti so razvrščene med vire financiranja podjetja v bilanci stanja in predstavljajo tuje vire sredstev."
+  },
+  {
+    "question": "Kaj pomeni likvidnost v računovodstvu?",
+    "options": [
+      "Vrednost podjetja",
+      "Sposobnost podjetja, da hitro pretvori svoja sredstva v denar",
+      "Dobiček podjetja",
+      "Število zaposlenih"
+    ],
+    "correctAnswer": 1,
+    "help": "Likvidnost se nanaša na sposobnost pretvorbe. Razmisli, kaj lahko podjetje hitro pretvori v denar za poravnavo svojih obveznosti.",
+    "answer": "Likvidnost pomeni sposobnost podjetja, da hitro in brez večjih izgub pretvori svoja sredstva v denar za poravnavo kratkoročnih obveznosti. Likvidnost merimo z različnimi kazalniki: kratkoročna likvidnost (razmerje med obratnimi sredstvi in kratkoročnimi obveznostmi), denarna likvidnost (razmerje med denarnimi sredstvi in kratkoročnimi obveznostmi). Visoka likvidnost pomeni manjše tveganje za insolventnost podjetja in omogoča podjetju, da hitro reagira na priložnosti."
+  }
+]
