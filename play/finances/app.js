@@ -66,7 +66,15 @@ createApp({
         async loadQuestions() {
             try {
                 const response = await fetch('questions.json');
-                this.questions = await response.json();
+                const loadedQuestions = await response.json();
+                
+                // Random shuffle questions (Fisher-Yates shuffle)
+                for (let i = loadedQuestions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [loadedQuestions[i], loadedQuestions[j]] = [loadedQuestions[j], loadedQuestions[i]];
+                }
+                
+                this.questions = loadedQuestions;
                 this.userAnswers = new Array(this.questions.length).fill(null);
             } catch (error) {
                 console.error('Napaka pri nalaganju vprašanj:', error);

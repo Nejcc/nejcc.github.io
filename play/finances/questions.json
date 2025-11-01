@@ -9,7 +9,8 @@
     ],
     "correctAnswer": 0,
     "help": "Razmisli o tem, kaj prikazuje finančno stanje podjetja na določen trenutek. Kateri dokument vsebuje tako premoženje kot tudi vire financiranja?",
-    "answer": "Bilanca stanja je osnovni finančni izkaz, ki prikazuje finančno stanje podjetja na določen trenutek. Prikazuje premoženje (sredstva) na eni strani in vire financiranja (obveznosti in lastniški kapital) na drugi strani. Osnovna enačba bilance je: Sredstva = Obveznosti + Lastniški kapital. Bilanca stanja je statičen izkaz, ki prikazuje stanje na določen datum."
+    "answer": "Bilanca stanja je osnovni finančni izkaz, ki prikazuje finančno stanje podjetja na določen trenutek. Prikazuje premoženje (sredstva) na eni strani in vire financiranja (obveznosti in lastniški kapital) na drugi strani. Osnovna enačba bilance je: Sredstva = Obveznosti + Lastniški kapital. Bilanca stanja je statičen izkaz, ki prikazuje stanje na določen datum.",
+    "id": 1
   },
   {
     "question": "Kaj pomeni DDV?",
@@ -21,7 +22,8 @@
     ],
     "correctAnswer": 1,
     "help": "DDV je kratica za davek, ki se nanaša na dodano vrednost. Razmisli, kateri davek se obračunava pri prodaji blaga in storitev.",
-    "answer": "DDV pomeni davek na dodano vrednost. To je posredni davek, ki ga plačujejo potrošniki ob nakupu blaga in storitev. V Sloveniji je standardna stopnja DDV 22%, znižana stopnja pa 9,5%. Podjetja DDV obračunavajo in ga naknadno odplačujejo davčnim organom. DDV je najpomembnejši vir prihodkov državnega proračuna."
+    "answer": "DDV pomeni davek na dodano vrednost. To je posredni davek, ki ga plačujejo potrošniki ob nakupu blaga in storitev. V Sloveniji je standardna stopnja DDV 22%, znižana stopnja pa 9,5%. Podjetja DDV obračunavajo in ga naknadno odplačujejo davčnim organom. DDV je najpomembnejši vir prihodkov državnega proračuna.",
+    "id": 2
   },
   {
     "question": "Kaj je amortizacija?",
@@ -33,7 +35,8 @@
     ],
     "correctAnswer": 1,
     "help": "Amortizacija se nanaša na postopek, kako podjetje vrednoti osnovna sredstva skozi čas. Razmisli, kako se zmanjšuje vrednost strojev, vozil in zgradb zaradi uporabe.",
-    "answer": "Amortizacija je postopek sistematičnega razporejanja nabavne vrednosti osnovnih sredstev (npr. strojev, vozil, zgradb) na čas njihove uporabe. Amortizacija se obračunava kot odhodek in zmanjšuje vrednost osnovnih sredstev v bilanci. Najpogostejše metode amortizacije so: linearna (enakomerno skozi čas), padajoča preostala vrednost (hitrejša v začetku) in proizvodna (glede na izkoriščenost)."
+    "answer": "Amortizacija je postopek sistematičnega razporejanja nabavne vrednosti osnovnih sredstev (npr. strojev, vozil, zgradb) na čas njihove uporabe. Amortizacija se obračunava kot odhodek in zmanjšuje vrednost osnovnih sredstev v bilanci. Najpogostejše metode amortizacije so: linearna (enakomerno skozi čas), padajoča preostala vrednost (hitrejša v začetku) in proizvodna (glede na izkoriščenost).",
+    "id": 3
   },
   {
     "question": "Kaj pomeni kontiranje v računovodstvu?",
@@ -45,7 +48,8 @@
     ],
     "correctAnswer": 0,
     "help": "Kontiranje je osnovni računovodski postopek. Razmisli, kako se poslovni dogodki zapisujejo v računovodske knjige z dvojnim knjigovodstvom.",
-    "answer": "Kontiranje je postopek zapisovanja poslovnih dogodkov v računovodske knjige. Pri tem uporabljamo dvojno knjigovodstvo, kjer vsak poslovni dogodek vpliva na vsaj dva računa. Vsaka vknjižba ima dolžniški (MD) in terjniški (TD) del, ki morata biti enaka. Kontiranje omogoča spremljanje vseh finančnih transakcij podjetja in zagotavlja točnost računovodskih zapisov."
+    "answer": "Kontiranje je postopek zapisovanja poslovnih dogodkov v računovodske knjige. Pri tem uporabljamo dvojno knjigovodstvo, kjer vsak poslovni dogodek vpliva na vsaj dva računa. Vsaka vknjižba ima dolžniški (MD) in terjniški (TD) del, ki morata biti enaka. Kontiranje omogoča spremljanje vseh finančnih transakcij podjetja in zagotavlja točnost računovodskih zapisov.",
+    "id": 4
   },
   {
     "question": "Kaj je izkaz poslovnega izida?",
@@ -57,7 +61,8 @@
     ],
     "correctAnswer": 1,
     "help": "Ta izkaz prikazuje rezultate poslovanja v določenem obdobju. Razmisli, kateri finančni izkaz povezuje prihodke in odhodke za izračun dobička ali izgube.",
-    "answer": "Izkaz poslovnega izida (tudi izkaz izida ali P&L izkaz) je finančni izkaz, ki prikazuje finančne rezultate poslovanja podjetja v določenem obdobju. Prikazuje vse prihodke in odhodke ter izračuna dobiček ali izgubo. Osnovna formula je: Prihodki - Odhodki = Dobiček/Izguba. Ta izkaz je ključen za vrednotenje uspešnosti podjetja in prikazuje, ali podjetje deluje profitabilno."
+    "answer": "Izkaz poslovnega izida (tudi izkaz izida ali P&L izkaz) je finančni izkaz, ki prikazuje finančne rezultate poslovanja podjetja v določenem obdobju. Prikazuje vse prihodke in odhodke ter izračuna dobiček ali izgubo. Osnovna formula je: Prihodki - Odhodki = Dobiček/Izguba. Ta izkaz je ključen za vrednotenje uspešnosti podjetja in prikazuje, ali podjetje deluje profitabilno.",
+    "id": 5
   },
   {
     "question": "Kaj pomeni terjatev v računovodstvu?",
@@ -69,7 +74,8 @@
     ],
     "correctAnswer": 1,
     "help": "Terjatev se nanaša na denar, ki ga podjetje pričakuje. Razmisli, ali gre za denar, ki ga podjetje dobi, ali denar, ki ga mora plačati.",
-    "answer": "Terjatev je pravica podjetja do prejema denarja ali opravljanja storitev od drugih oseb (strank, dolžnikov). Terjatve nastanejo, ko podjetje prodaja blago ali storitve na obroke ali ko stranka še ni poravnala računa. V bilanci stanja so terjatve navadno razvrščene med kratkoročna sredstva. Pomembno je spremljanje zapadlih terjatev, da se preprečijo izgube in vzpostavi učinkovit sistem pobiranja."
+    "answer": "Terjatev je pravica podjetja do prejema denarja ali opravljanja storitev od drugih oseb (strank, dolžnikov). Terjatve nastanejo, ko podjetje prodaja blago ali storitve na obroke ali ko stranka še ni poravnala računa. V bilanci stanja so terjatve navadno razvrščene med kratkoročna sredstva. Pomembno je spremljanje zapadlih terjatev, da se preprečijo izgube in vzpostavi učinkovit sistem pobiranja.",
+    "id": 6
   },
   {
     "question": "Kaj je lastniški kapital?",
@@ -81,7 +87,8 @@
     ],
     "correctAnswer": 1,
     "help": "Lastniški kapital predstavlja del premoženja podjetja. Razmisli, kdo je lastnik tega kapitala in kako se izračuna.",
-    "answer": "Lastniški kapital predstavlja vrednost premoženja podjetja, ki pripada njegovim lastnikom. Izračuna se kot razlika med sredstvi in obveznostmi podjetja. Vključuje vloženi kapital (lastnike vloženo premoženje), zadržani dobiček in druge rezerve. Lastniški kapital se poveča z dobičkom in vložki lastnikov, zmanjša pa z izgubo in izplačili lastnikom (dividendami). To je osnovni vir financiranja podjetja."
+    "answer": "Lastniški kapital predstavlja vrednost premoženja podjetja, ki pripada njegovim lastnikom. Izračuna se kot razlika med sredstvi in obveznostmi podjetja. Vključuje vloženi kapital (lastnike vloženo premoženje), zadržani dobiček in druge rezerve. Lastniški kapital se poveča z dobičkom in vložki lastnikov, zmanjša pa z izgubo in izplačili lastnikom (dividendami). To je osnovni vir financiranja podjetja.",
+    "id": 7
   },
   {
     "question": "Kaj je inventura?",
@@ -93,7 +100,8 @@
     ],
     "correctAnswer": 1,
     "help": "Inventura je postopek preverjanja. Razmisli, kaj se preverja ob koncu poslovnega leta, da se ugotovi dejansko stanje premoženja podjetja.",
-    "answer": "Inventura je postopek fizičnega preverjanja in štetja vseh sredstev podjetja, vključno z zalogami, osnovnimi sredstvi in terjatvami. Izvaja se navadno ob koncu poslovnega leta, da se preveri, ali računovodska vrednost ustreza dejanskemu stanju. Razlike med računovodsko in dejansko vrednostjo se morajo odraziti v računovodskih knjigah. Inventura je obvezna za zagotovitev točnosti računovodskih zapisov."
+    "answer": "Inventura je postopek fizičnega preverjanja in štetja vseh sredstev podjetja, vključno z zalogami, osnovnimi sredstvi in terjatvami. Izvaja se navadno ob koncu poslovnega leta, da se preveri, ali računovodska vrednost ustreza dejanskemu stanju. Razlike med računovodsko in dejansko vrednostjo se morajo odraziti v računovodskih knjigah. Inventura je obvezna za zagotovitev točnosti računovodskih zapisov.",
+    "id": 8
   },
   {
     "question": "Kaj je obveznost v računovodstvu?",
@@ -105,7 +113,8 @@
     ],
     "correctAnswer": 1,
     "help": "Obveznost se nanaša na dolg podjetja. Razmisli, ali gre za denar, ki ga podjetje dobi ali mora plačati tretjim osebam.",
-    "answer": "Obveznost je dolg podjetja, ki ga mora poravnati do tretjih oseb. Delimo jih na kratkoročne (poravnajo se v enem letu) in dolgoročne obveznosti (poravnajo se v daljšem časovnem obdobju). Najpogostejše obveznosti so: obveznosti do dobaviteljev, obveznosti do bank (krediti), obveznosti do zaposlenih (plače), davčne obveznosti. Obveznosti so razvrščene med vire financiranja podjetja v bilanci stanja in predstavljajo tuje vire sredstev."
+    "answer": "Obveznost je dolg podjetja, ki ga mora poravnati do tretjih oseb. Delimo jih na kratkoročne (poravnajo se v enem letu) in dolgoročne obveznosti (poravnajo se v daljšem časovnem obdobju). Najpogostejše obveznosti so: obveznosti do dobaviteljev, obveznosti do bank (krediti), obveznosti do zaposlenih (plače), davčne obveznosti. Obveznosti so razvrščene med vire financiranja podjetja v bilanci stanja in predstavljajo tuje vire sredstev.",
+    "id": 9
   },
   {
     "question": "Kaj pomeni likvidnost v računovodstvu?",
@@ -117,6 +126,1177 @@
     ],
     "correctAnswer": 1,
     "help": "Likvidnost se nanaša na sposobnost pretvorbe. Razmisli, kaj lahko podjetje hitro pretvori v denar za poravnavo svojih obveznosti.",
-    "answer": "Likvidnost pomeni sposobnost podjetja, da hitro in brez večjih izgub pretvori svoja sredstva v denar za poravnavo kratkoročnih obveznosti. Likvidnost merimo z različnimi kazalniki: kratkoročna likvidnost (razmerje med obratnimi sredstvi in kratkoročnimi obveznostmi), denarna likvidnost (razmerje med denarnimi sredstvi in kratkoročnimi obveznostmi). Visoka likvidnost pomeni manjše tveganje za insolventnost podjetja in omogoča podjetju, da hitro reagira na priložnosti."
+    "answer": "Likvidnost pomeni sposobnost podjetja, da hitro in brez večjih izgub pretvori svoja sredstva v denar za poravnavo kratkoročnih obveznosti. Likvidnost merimo z različnimi kazalniki: kratkoročna likvidnost (razmerje med obratnimi sredstvi in kratkoročnimi obveznostmi), denarna likvidnost (razmerje med denarnimi sredstvi in kratkoročnimi obveznostmi). Visoka likvidnost pomeni manjše tveganje za insolventnost podjetja in omogoča podjetju, da hitro reagira na priložnosti.",
+    "id": 10
+  },
+  {
+    "question": "Kaj je izkaz denarnih tokov?",
+    "options": [
+      "Izkaz, ki prikazuje denarne prejme in izplačila podjetja v določenem obdobju",
+      "Izkaz, ki prikazuje samo prihodke",
+      "Seznam vseh bankovnih računov",
+      "Izkaz, ki prikazuje samo odhodke"
+    ],
+    "correctAnswer": 0,
+    "help": "Ta izkaz se nanaša na denar. Razmisli, kateri finančni izkaz prikazuje, kako se denar giblje v podjetju - prihaja in odhaja.",
+    "answer": "Izkaz denarnih tokov (cash flow statement) je finančni izkaz, ki prikazuje denarne prejme in izplačila podjetja v določenem obdobju. Razdeljen je na tri dele: denarni tok iz poslovanja, denarni tok iz investicijskih dejavnosti in denarni tok iz financiranja. Ta izkaz pomaga razumeti, kako podjetje upravlja s svojo likvidnostjo in zakaj se denar v podjetju povečuje ali zmanjšuje.",
+    "id": 11
+  },
+  {
+    "question": "Kaj je vrednotenje zalog po metodi FIFO?",
+    "options": [
+      "Prvi noter, prvi ven - prvo naročeno blago se prvo proda",
+      "Zadnji noter, prvi ven",
+      "Povprečna cena zalog",
+      "Najnižja cena zalog"
+    ],
+    "correctAnswer": 0,
+    "help": "FIFO je kratica za 'First In, First Out'. Razmisli, kako se vrednotijo zaloge, če uporabljamo sistem, kjer se prvo naročeno blago najprej proda.",
+    "answer": "FIFO (First In, First Out - prvi noter, prvi ven) je metoda vrednotenja zalog, kjer se predpostavlja, da se blago, ki je bilo prvo kupleno, tudi prvo proda. To pomeni, da se stara zaloga najprej porabi, nova pa ostane v skladišču. V obdobju inflacije ta metoda prikazuje višji dobiček kot LIFO, saj starejše, cenejše zaloge zmanjšajo stroške prodanega blaga.",
+    "id": 12
+  },
+  {
+    "question": "Kaj pomeni rezervacija v računovodstvu?",
+    "options": [
+      "Pretekla terjatev, ki se verjetno ne bo poravnala",
+      "Del lastniškega kapitala, namenjen za posebne namene",
+      "Prihodek podjetja",
+      "Odhodek podjetja"
+    ],
+    "correctAnswer": 1,
+    "help": "Rezervacija se nanaša na del kapitala. Razmisli, kako podjetje zadržuje del dobička za prihodnje potrebe ali obveznosti.",
+    "answer": "Rezervacija je del lastniškega kapitala, ki se zadrži iz dobička in je namenjena za posebne namene ali obveznosti. Razlikujemo različne vrste rezervacij: rezervacije za zakonsko obvezne namene (npr. obvezna rezervacija), rezervacije za ocenjene obveznosti in rezervacije za morebitne izgube. Rezervacije povečujejo finančno varnost podjetja.",
+    "id": 13
+  },
+  {
+    "question": "Kaj je dohodnina?",
+    "options": [
+      "Davek na dodano vrednost",
+      "Davek, ki se obračunava na dohodek fizičnih in pravnih oseb",
+      "Davčna olajšava",
+      "Dodatni davek"
+    ],
+    "correctAnswer": 1,
+    "help": "Dohodnina se nanaša na davek, ki se obračunava na dohodek. Razmisli, kateri davek plačujemo na podlagi dohodka.",
+    "answer": "Dohodnina je davek, ki se obračunava na dohodek fizičnih in pravnih oseb. Za fizične osebe se obračunava na dohodke iz zaposlitve, samozaposlitve, kapitala in drugih virov. Za pravne osebe (d.o.o., d.d.) se obračunava na davčno osnovo (dobiček). V Sloveniji je stopnja dohodnine za pravne osebe 19%, za fizične osebe pa obstajajo različni davčni razredi.",
+    "id": 14
+  },
+  {
+    "question": "Kaj je aktivni račun?",
+    "options": [
+      "Račun, ki prikazuje sredstva in terjatve podjetja",
+      "Račun, ki prikazuje obveznosti in lastniški kapital",
+      "Račun, ki prikazuje prihodke",
+      "Račun, ki prikazuje odhodke"
+    ],
+    "correctAnswer": 0,
+    "help": "Aktivni račun prikazuje premoženje podjetja. Razmisli, kateri del bilance stanja predstavlja premoženje (sredstva).",
+    "answer": "Aktivni račun prikazuje sredstva in terjatve podjetja, torej vse, kar podjetje ima (premoženje). Vključuje denar, zaloge, osnovna sredstva, terjatve in druge sredstva. Aktivni računi se povečujejo na debetni strani in zmanjšujejo na kreditni strani. V bilanci stanja so aktivni računi na levi strani in predstavljajo, kako je podjetje investiralo svoja sredstva.",
+    "id": 15
+  },
+  {
+    "question": "Kaj pomeni pasivni račun?",
+    "options": [
+      "Račun, ki prikazuje sredstva",
+      "Račun, ki prikazuje obveznosti, lastniški kapital in rezerve",
+      "Račun, ki prikazuje samo prihodke",
+      "Račun, ki prikazuje samo odhodke"
+    ],
+    "correctAnswer": 1,
+    "help": "Pasivni račun prikazuje vire financiranja. Razmisli, kateri del bilance prikazuje, od kod prihajajo sredstva (obveznosti in kapital).",
+    "answer": "Pasivni račun prikazuje obveznosti, lastniški kapital in rezerve - torej vse vire financiranja podjetja. Vključuje dolgove do dobaviteljev, kredite, lastniški kapital in druge pasive. Pasivni računi se povečujejo na kreditni strani in zmanjšujejo na debetni strani. V bilanci stanja so pasivni računi na desni strani in prikazujejo, od kod prihajajo sredstva podjetja.",
+    "id": 16
+  },
+  {
+    "question": "Kaj je obračunski časovni razpored v računovodstvu?",
+    "options": [
+      "Seznam zaposlenih",
+      "Načelo, da se prihodki in odhodki obračunavajo v obdobju, v katerem nastanejo, ne ko se denar prejme ali izplača",
+      "Kontrola ur zaposlenih",
+      "Izračun plač"
+    ],
+    "correctAnswer": 1,
+    "help": "Obračunski časovni razpored se nanaša na načelo obračunavanja. Razmisli, kdaj se prihodki in odhodki priznajo - ko nastanejo ali ko se denar prejme/izplača.",
+    "answer": "Obračunski časovni razpored (accrual basis) je načelo, da se prihodki in odhodki obračunavajo v obdobju, v katerem dejansko nastanejo, ne pa v obdobju, ko se denar prejme ali izplača. To omogoča bolj natančno prikazovanje finančnih rezultatov podjetja. Primer: če prodamo blago v decembru, vendar ga dobimo plačano v januarju, prihodek se prizna v decembru.",
+    "id": 17
+  },
+  {
+    "question": "Kaj je prenizka vrednotenje (conservatism) v računovodstvu?",
+    "options": [
+      "Načelo, da se izgube priznajo takoj, dobiček pa šele, ko je gotov",
+      "Načelo, da se dobiček prizna takoj",
+      "Podcenjevanje stroškov",
+      "Povečevanje prihodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "Prenizka vrednotenje je previdnostno načelo. Razmisli, kako računovodstvo ravna z negotovimi situacijami - previdno ali optimistično?",
+    "answer": "Prenizka vrednotenje (conservatism) je računovodsko načelo, ki pravi, da se izgube in obveznosti priznajo takoj, ko so verjetne, medtem ko se dobiček in sredstva priznajo le, ko so gotovi. To načelo zagotavlja, da finančni izkazi ne precenjujejo dobička in ne podcenjujejo izgub. 'Bolje preceniti izgube kot podcenjevati dobiček' je osnovna filozofija tega načela.",
+    "id": 18
+  },
+  {
+    "question": "Kaj je goodwill v računovodstvu?",
+    "options": [
+      "Dobra volja - nematerialna vrednost podjetja, ki presega knjigovodsko vrednost sredstev",
+      "Terjatev podjetja",
+      "Obveznost podjetja",
+      "Dobiček podjetja"
+    ],
+    "correctAnswer": 0,
+    "help": "Goodwill se nanaša na vrednost podjetja, ki ni vidna v bilanci. Razmisli, kaj predstavlja dodatno vrednost podjetja, ki ni izražena v osnovnih sredstvih.",
+    "answer": "Goodwill (dobra volja) je nematerialna vrednost podjetja, ki predstavlja razliko med tržno vrednostjo podjetja in knjigovodsko vrednostjo njegovih sredstev. Vključuje ugled, znamko, odnose s strankami in druge nematerialne vrednote. Goodwill nastane pri nakupu podjetja, ko je cena nakupa višja od knjigovodske vrednosti sredstev. Ta vrednost se mora redno testirati za morebitne zmanjšanja vrednosti.",
+    "id": 19
+  },
+  {
+    "question": "Kaj je razmerje dolga in lastniškega kapitala (debt-to-equity)?",
+    "options": [
+      "Kazalnik, ki prikazuje razmerje med obveznostmi in lastniškim kapitalom",
+      "Kazalnik, ki prikazuje samo dobiček",
+      "Kazalnik, ki prikazuje samo prihodke",
+      "Kazalnik, ki prikazuje likvidnost"
+    ],
+    "correctAnswer": 0,
+    "help": "To kazalnik se nanaša na razmerje med dvema deloma bilance stanja. Razmisli, kako merimo finančno strukturo podjetja - razmerje med tujimi in lastnimi viri financiranja.",
+    "answer": "Razmerje dolga in lastniškega kapitala (debt-to-equity ratio) je finančni kazalnik, ki prikazuje razmerje med obveznostmi (tujimi viri) in lastniškim kapitalom (lastnimi viri) podjetja. Izračuna se kot: Obveznosti / Lastniški kapital. Višje razmerje pomeni več tujega financiranja in večje finančno tveganje. To kazalnik pomaga oceniti finančno stabilnost in sposobnost podjetja za vračilo dolgov.",
+    "id": 20
+  },
+  {
+    "question": "Kaj je ROI (Return on Investment)?",
+    "options": [
+      "Donosnost investicije - kazalnik, ki izraža donosnost vloženega kapitala",
+      "Dobiček podjetja",
+      "Prihodki podjetja",
+      "Stroški podjetja"
+    ],
+    "correctAnswer": 0,
+    "help": "ROI je kratica za donosnost investicije. Razmisli, kako merimo uspešnost investicije - ali se izplača vložen denar?",
+    "answer": "ROI (Return on Investment - donosnost investicije) je kazalnik, ki izraža donosnost vloženega kapitala. Izračuna se kot: (Dobiček / Vloženi kapital) × 100. Ta kazalnik pomaga vrednotiti uspešnost investicije in primerjati različne naložbene priložnosti. Višji ROI pomeni boljšo donosnost. Podjetja uporabljajo ROI za oceno, ali se investicije izplačajo in ali ustvarjajo vrednost za lastnike.",
+    "id": 21
+  },
+  {
+    "question": "Kaj je provizija v računovodstvu?",
+    "options": [
+      "Odhodek, ki nastane zaradi prodaje blaga preko posrednikov",
+      "Prihodek podjetja",
+      "Terjatev",
+      "Obveznost"
+    ],
+    "correctAnswer": 0,
+    "help": "Provizija se nanaša na strošek posredovanja. Razmisli, kdaj podjetje plača provizijo - pri prodaji preko posrednikov ali agentov.",
+    "answer": "Provizija v računovodstvu je odhodek, ki nastane, ko podjetje prodaja blago ali storitve preko posrednikov, zastopnikov ali agentov. Provizija je običajno določen odstotek od prodajne cene. Ta odhodek se obračunava kot prodajni strošek in zmanjšuje bruto dobiček. Provizija mora biti pravilno prikazana v izkazu poslovnega izida kot del prodajnih stroškov.",
+    "id": 22
+  },
+  {
+    "question": "Kaj je vrednotenje zalog po metodi LIFO?",
+    "options": [
+      "Prvi noter, prvi ven",
+      "Zadnji noter, prvi ven - zadnje naročeno blago se prvo proda",
+      "Povprečna cena zalog",
+      "Najnižja cena zalog"
+    ],
+    "correctAnswer": 1,
+    "help": "LIFO je kratica za 'Last In, First Out'. Razmisli, kako se vrednotijo zaloge, če se predpostavlja, da se zadnje naročeno blago najprej proda.",
+    "answer": "LIFO (Last In, First Out - zadnji noter, prvi ven) je metoda vrednotenja zalog, kjer se predpostavlja, da se blago, ki je bilo zadnje kupljeno, najprej proda. V obdobju inflacije ta metoda prikazuje nižji dobiček kot FIFO, saj novejše, dražje zaloge povečujejo stroške prodanega blaga. LIFO metoda ni več dovoljena v mednarodnih računovodskih standardih (IFRS).",
+    "id": 23
+  },
+  {
+    "question": "Kaj je davčna osnova?",
+    "options": [
+      "Znesek, od katerega se izračunava davek",
+      "Davčna stopnja",
+      "Davčna olajšava",
+      "Davčni izogib"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčna osnova se nanaša na znesek, ki se obdavči. Razmisli, kateri znesek je osnova za izračun davka.",
+    "answer": "Davčna osnova je znesek, od katerega se izračunava davek. Za dohodnino pravnih oseb je davčna osnova dobiček, ki se prilagodi glede na davčne olajšave in neobdavčljive izdatke. Davčna osnova je lahko različna od računovodske osnove zaradi razlik med računovodskimi in davčnimi pravili. Od davčne osnove se izračuna davčna obveznost z uporabo davčne stopnje.",
+    "id": 24
+  },
+  {
+    "question": "Kaj je odložen davek (deferred tax)?",
+    "options": [
+      "Davek, ki ga podjetje plača pozneje zaradi razlik med računovodskimi in davčnimi pravili",
+      "Davek, ki ga podjetje sploh ne plača",
+      "Davčna olajšava",
+      "Davčni izogib"
+    ],
+    "correctAnswer": 0,
+    "help": "Odložen davek se nanaša na razlike med računovodstvom in davčnim sistemom. Razmisli, kdaj se davek plača pozneje zaradi razlik v časovnem priznanju.",
+    "answer": "Odložen davek (deferred tax) je davek, ki nastane zaradi razlik med računovodskimi in davčnimi pravili. Odložena davčna obveznost nastane, ko se odhodki v računovodstvu priznajo prej kot v davčnih izkazih, ali ko se prihodki priznajo pozneje. Odložena davčna sredstva nastanejo v obratnem primeru. Odloženi davek omogoča, da se davčna obveznost porazdeli na obdobja, v katerih se dejansko priznajo razlike.",
+    "id": 25
+  },
+  {
+    "question": "Kaj je konsolidacija v računovodstvu?",
+    "options": [
+      "Združitev finančnih izkazov matičnega podjetja in njegovih hčerinskih podjetij v enoten izkaz",
+      "Izračun dobička",
+      "Plačilo davkov",
+      "Kontrola inventure"
+    ],
+    "correctAnswer": 0,
+    "help": "Konsolidacija se nanaša na združevanje. Razmisli, kako se združijo finančni izkazi podjetij, ki so v skupini.",
+    "answer": "Konsolidacija v računovodstvu je postopek združitve finančnih izkazov matičnega podjetja (družbe) in vseh njegovih hčerinskih podjetij v enoten konsolidiran finančni izkaz. Pri konsolidaciji se izločijo medpodjetniške transakcije, investicije v hčerinska podjetja in druge notranje transakcije, da se prikaže finančno stanje celotne skupine podjetij kot ene same ekonomske enote.",
+    "id": 26
+  },
+  {
+    "question": "Kaj je osnovna računovodska enačba?",
+    "options": [
+      "Sredstva = Obveznosti + Lastniški kapital",
+      "Prihodki = Odhodki",
+      "Dobiček = Prihodki - Odhodki",
+      "Denar = Terjatve - Obveznosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Osnovna računovodska enačba povezuje premoženje podjetja z viri financiranja. Razmisli, kako so sredstva povezana z obveznostmi in kapitalom.",
+    "answer": "Osnovna računovodska enačba je: Sredstva = Obveznosti + Lastniški kapital. Ta enačba je temelj dvojnega knjigovodstva in prikazuje, da mora biti vsa sredstva podjetja financirana iz tujih virov (obveznosti) ali lastnih virov (lastniški kapital). Enačba mora biti vedno uravnotežena - leva stran (sredstva) mora biti enaka desni strani (obveznosti + kapital).",
+    "id": 27
+  },
+  {
+    "question": "Kaj je kratkoročno sredstvo?",
+    "options": [
+      "Sredstvo, ki se pričakuje, da bo pretvorjeno v denar ali porabljeno v enem letu",
+      "Sredstvo, ki se porabi v več kot enem letu",
+      "Obveznost podjetja",
+      "Lastniški kapital"
+    ],
+    "correctAnswer": 0,
+    "help": "Kratkoročno sredstvo se nanaša na časovni okvir. Razmisli, katera sredstva se lahko hitro pretvorijo v denar ali porabijo.",
+    "answer": "Kratkoročno sredstvo (tudi obratno sredstvo) je sredstvo, ki se pričakuje, da bo pretvorjeno v denar, prodano ali porabljeno v enem letu ali v enem poslovnem ciklu. Vključuje denarna sredstva, terjatve, zaloge in druga kratkoročna sredstva. Kratkoročna sredstva so pomembna za oceno likvidnosti podjetja in njegove sposobnosti za poravnavo kratkoročnih obveznosti.",
+    "id": 28
+  },
+  {
+    "question": "Kaj je dolgoročno sredstvo?",
+    "options": [
+      "Sredstvo, ki se uporablja dlje kot eno leto",
+      "Sredstvo, ki se porabi v enem letu",
+      "Terjatev",
+      "Obratno sredstvo"
+    ],
+    "correctAnswer": 0,
+    "help": "Dolgoročno sredstvo je nasprotje kratkoročnega. Razmisli, katera sredstva se uporabljajo dlje kot eno leto.",
+    "answer": "Dolgoročno sredstvo (tudi osnovno sredstvo) je sredstvo, ki se pričakuje, da bo uporabljeno dlje kot eno leto. Vključuje zgradbe, stroje, vozila, opremo in druga osnovna sredstva ter dolgoročne finančne naložbe. Ta sredstva se amortizirajo skozi čas in predstavljajo dolgoročno naložbo podjetja, ki prispeva k njegovemu poslovanju.",
+    "id": 29
+  },
+  {
+    "question": "Kaj je računovodska priljubljenost (accounting entity)?",
+    "options": [
+      "Načelo, da se računovodstvo izvaja za vsako podjetje ločeno od lastnikov",
+      "Računovodski zapis",
+      "Davčni sistem",
+      "Finančni izkaz"
+    ],
+    "correctAnswer": 0,
+    "help": "Računovodska priljubljenost se nanaša na načelo ločevanja. Razmisli, kako se ločijo finančni zapisi podjetja od finančnih zapisov njegovih lastnikov.",
+    "answer": "Računovodska priljubljenost (accounting entity) je načelo, ki pravi, da se računovodstvo izvaja za vsako podjetje ločeno od njegovih lastnikov in drugih podjetij. Podjetje se obravnava kot ločena ekonomska enota z lastnimi finančnimi zapisi. To pomeni, da se osebni finančni zapisi lastnikov ne mešajo s finančnimi zapisi podjetja. To načelo omogoča natančno spremljanje finančnega stanja vsakega podjetja posebej.",
+    "id": 30
+  },
+  {
+    "question": "Kaj je časovna povezanost (matching principle) v računovodstvu?",
+    "options": [
+      "Načelo, da se odhodki priznajo v istem obdobju kot povezani prihodki",
+      "Načelo časovnega razporeda",
+      "Načelo priljubljenosti",
+      "Načelo prenizkega vrednotenja"
+    ],
+    "correctAnswer": 0,
+    "help": "Časovna povezanost se nanaša na povezavo med prihodki in odhodki. Razmisli, kdaj se odhodki priznajo glede na prihodke.",
+    "answer": "Časovna povezanost (matching principle) je računovodsko načelo, ki pravi, da se odhodki priznajo v istem računovodskem obdobju kot povezani prihodki. To omogoča pravilen izračun dobička za vsako obdobje. Primer: če prodamo blago v enem mesecu, tudi stroški tega blaga (nabavna vrednost) se priznajo v istem mesecu, ne glede na to, kdaj je bilo blago plačano ali kupljeno.",
+    "id": 31
+  },
+  {
+    "question": "Kaj je neto vrednotenje sredstev (net book value)?",
+    "options": [
+      "Knjigovodska vrednost sredstva minus amortizacija",
+      "Tržna vrednost sredstva",
+      "Nabavna vrednost sredstva",
+      "Prodajna vrednost sredstva"
+    ],
+    "correctAnswer": 0,
+    "help": "Neto vrednotenje se nanaša na knjigovodsko vrednost. Razmisli, kako se zmanjša nabavna vrednost sredstva zaradi amortizacije.",
+    "answer": "Neto vrednotenje sredstev (net book value ali net carrying amount) je knjigovodska vrednost sredstva, ki se izračuna kot nabavna vrednost minus akumulirana amortizacija. Ta vrednost prikazuje, koliko je sredstvo še vredno v knjigovodskih zapisih. Ta vrednost se prikazuje v bilanci stanja in se redno posodablja zaradi amortizacije. Neto vrednotenje ni enako tržni vrednosti sredstva.",
+    "id": 32
+  },
+  {
+    "question": "Kaj je depozit v računovodstvu?",
+    "options": [
+      "Vložek denarja na bankovni račun",
+      "Terjatev",
+      "Obveznost",
+      "Lastniški kapital"
+    ],
+    "correctAnswer": 0,
+    "help": "Depozit se nanaša na vložek. Razmisli, kaj se zgodi, ko podjetje vloži denar na bankovni račun.",
+    "answer": "Depozit je vložek denarja na bankovni račun. Za podjetje predstavlja depozit kratkoročno sredstvo, saj lahko podjetje denar hitro dvigne. Depoziti so navadno obrestovani in predstavljajo varno obliko varčevanja. V bilanci stanja so depoziti prikazani kot denarna sredstva ali kratkoročne naložbe.",
+    "id": 33
+  },
+  {
+    "question": "Kaj je predplačilo v računovodstvu?",
+    "options": [
+      "Plačilo, ki se izvede pred prejemom blaga ali storitve",
+      "Terjatev",
+      "Obveznost",
+      "Prihodek"
+    ],
+    "correctAnswer": 0,
+    "help": "Predplačilo se nanaša na časovno razporeditev plačila. Razmisli, kdaj se plača, preden se prejme blago ali storitev.",
+    "answer": "Predplačilo je plačilo, ki se izvede pred dejanskim prejemom blaga ali storitve. Za kupec predstavlja predplačilo terjatev ali kratkoročno sredstvo, dokler ne prejme storitve. Za prodajalca predstavlja predplačilo obveznost, dokler ne opravi storitve. Predplačila omogočajo boljše načrtovanje denarnih tokov.",
+    "id": 34
+  },
+  {
+    "question": "Kaj je odpis terjatev v računovodstvu?",
+    "options": [
+      "Postopek priznavanja, da terjatev ne bo več poravnana in se odpiše kot izguba",
+      "Povečanje terjatev",
+      "Povečanje prihodkov",
+      "Zmanjšanje obveznosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Odpis terjatev se nanaša na nezmožnost poravnave. Razmisli, kaj se zgodi, ko stranka ne more več plačati dolga.",
+    "answer": "Odpis terjatev je postopek priznavanja, da terjatev ne bo več poravnana in se odpiše kot izguba. Odpis terjatev nastane, ko stranka (dolžnik) ni več sposobna poravnati dolga, na primer zaradi stečaja ali insolventnosti. Odpis terjatev se prikaže kot odhodek v izkazu poslovnega izida in zmanjšuje vrednost terjatev v bilanci stanja.",
+    "id": 35
+  },
+  {
+    "question": "Kaj je kapitalizacija v računovodstvu?",
+    "options": [
+      "Pretvorba odhodka v sredstvo ali povečanje lastniškega kapitala z izdajo delnic",
+      "Zmanjšanje kapitala",
+      "Odpis sredstva",
+      "Izplačilo dividende"
+    ],
+    "correctAnswer": 0,
+    "help": "Kapitalizacija se nanaša na pretvorbo ali povečanje. Razmisli, kako se odhodki pretvorijo v sredstva ali kako se kapital poveča.",
+    "answer": "Kapitalizacija v računovodstvu ima dva pomena: (1) pretvorba odhodka v sredstvo (npr. kapitalizacija stroškov izgradnje, kjer se stroški priznajo kot sredstvo namesto kot odhodek), (2) povečanje lastniškega kapitala z izdajo novih delnic. Kapitalizacija omogoča podjetjem, da investicije prikažejo kot sredstva, kar lahko izboljša finančne kazalnike.",
+    "id": 36
+  },
+  {
+    "question": "Kaj je delnični kapital?",
+    "options": [
+      "Kapital, ki ga podjetje prejme od lastnikov z izdajo delnic",
+      "Posojilo",
+      "Terjatev",
+      "Obveznost"
+    ],
+    "correctAnswer": 0,
+    "help": "Delnični kapital se nanaša na izdajo delnic. Razmisli, od kod prihaja kapital pri delniških družbah.",
+    "answer": "Delnični kapital je del lastniškega kapitala, ki nastane z izdajo delnic. Lastniki (delničarji) vložijo kapital v podjetje in prejmejo delnice v zameno. Delnični kapital je trajen vir financiranja, ki ni potrebno vračati in predstavlja lastniški delež v podjetju. Delnični kapital se prikazuje v bilanci stanja kot del lastniškega kapitala.",
+    "id": 37
+  },
+  {
+    "question": "Kaj je dividenda?",
+    "options": [
+      "Izplačilo dela dobička lastnikom delnic",
+      "Odhodek podjetja",
+      "Terjatev",
+      "Obveznost"
+    ],
+    "correctAnswer": 0,
+    "help": "Dividenda se nanaša na izplačilo lastnikom. Razmisli, kako podjetja nagradijo svoje lastnike iz dobička.",
+    "answer": "Dividenda je izplačilo dela dobička lastnikom delnic. Podjetja lahko izplačujejo dividende v gotovini ali z dodatnimi delnicami. Dividende zmanjšujejo zadržani dobiček in lastniški kapital. Izplačilo dividend ni obvezno in je odvisno od odločitev uprave in lastnikov. Dividende se prikazujejo v izkazu sprememb lastniškega kapitala.",
+    "id": 38
+  },
+  {
+    "question": "Kaj je revalorizacija sredstev?",
+    "options": [
+      "Povečanje vrednosti sredstva zaradi povečanja tržne vrednosti",
+      "Zmanjšanje vrednosti sredstva",
+      "Odpis sredstva",
+      "Prodaja sredstva"
+    ],
+    "correctAnswer": 0,
+    "help": "Revalorizacija se nanaša na povečanje vrednosti. Razmisli, kdaj se vrednost sredstva poveča zaradi tržnih razmer.",
+    "answer": "Revalorizacija sredstev je postopek povečanja vrednosti sredstva zaradi povečanja njegove tržne vrednosti. To se lahko zgodi pri nepremičninah ali drugih sredstvih, katerih tržna vrednost raste. Revalorizacija poveča vrednost sredstva v bilanci stanja in lahko povzroči tudi povečanje lastniškega kapitala (revalorizacijska rezerva). Revalorizacija mora biti v skladu z računovodskimi standardi.",
+    "id": 39
+  },
+  {
+    "question": "Kaj je obračunski odhodek?",
+    "options": [
+      "Odhodek, ki nastane v obdobju, vendar še ni plačan",
+      "Plačan odhodek",
+      "Prihodek",
+      "Terjatev"
+    ],
+    "correctAnswer": 0,
+    "help": "Obračunski odhodek se nanaša na časovno razporeditev. Razmisli, kdaj se odhodek prizna - ko nastane ali ko se plača.",
+    "answer": "Obračunski odhodek (accrued expense) je odhodek, ki nastane v določenem obdobju, vendar še ni plačan. Primeri so obračunane plače, obračunani najemi ali obračunane obresti. Obračunski odhodek se prizna kot odhodek v izkazu poslovnega izida in kot obveznost v bilanci stanja, tudi če denar še ni bil izplačan. To omogoča pravilen izračun dobička za obdobje.",
+    "id": 40
+  },
+  {
+    "question": "Kaj je obračunski prihodek?",
+    "options": [
+      "Prihodek, ki nastane v obdobju, vendar še ni prejet",
+      "Plačan prihodek",
+      "Odhodek",
+      "Obveznost"
+    ],
+    "correctAnswer": 0,
+    "help": "Obračunski prihodek se nanaša na časovno razporeditev. Razmisli, kdaj se prihodek prizna - ko nastane ali ko se prejme denar.",
+    "answer": "Obračunski prihodek (accrued revenue) je prihodek, ki nastane v določenem obdobju, vendar še ni bil prejet. Primeri so opravljene storitve, za katere še ni bilo izdanega računa ali prejetega plačila. Obračunski prihodek se prizna kot prihodek v izkazu poslovnega izida in kot terjatev v bilanci stanja. To omogoča pravilno prikazovanje finančnih rezultatov po načelu časovnega razporeda.",
+    "id": 41
+  },
+  {
+    "question": "Kaj je bruto dobiček?",
+    "options": [
+      "Razlika med prihodki od prodaje in stroški prodanega blaga",
+      "Čisti dobiček",
+      "Prihodki",
+      "Odhodki"
+    ],
+    "correctAnswer": 0,
+    "help": "Bruto dobiček se nanaša na osnovni dobiček. Razmisli, kako se izračuna dobiček pred odbitkom vseh stroškov.",
+    "answer": "Bruto dobiček (gross profit) je razlika med prihodki od prodaje in stroški prodanega blaga (COGS - Cost of Goods Sold). Izračuna se kot: Prihodki od prodaje - Stroški prodanega blaga. Bruto dobiček prikazuje dobiček pred odbitkom operativnih stroškov, obresti in davkov. Ta kazalnik pomaga oceniti, kako učinkovito podjetje prodaja svoje blago ali storitve.",
+    "id": 42
+  },
+  {
+    "question": "Kaj je čisti dobiček?",
+    "options": [
+      "Dobiček po odbitku vseh odhodkov, obresti in davkov",
+      "Bruto dobiček",
+      "Prihodki",
+      "Odhodki"
+    ],
+    "correctAnswer": 0,
+    "help": "Čisti dobiček se nanaša na končni dobiček. Razmisli, kako se izračuna dobiček po vseh odbitkih.",
+    "answer": "Čisti dobiček (net profit ali net income) je dobiček, ki ostane po odbitku vseh odhodkov, obresti in davkov od prihodkov. Izračuna se kot: Prihodki - Vsi odhodki - Obresti - Davki. Čisti dobiček je končni finančni rezultat poslovanja in se lahko porabi za dividende ali se zadrži kot zadržani dobiček. Ta kazalnik je ključen za vrednotenje profitabilnosti podjetja.",
+    "id": 43
+  },
+  {
+    "question": "Kaj je kratkoročna likvidnost (current ratio)?",
+    "options": [
+      "Razmerje med kratkoročnimi sredstvi in kratkoročnimi obveznostmi",
+      "Razmerje med prihodki in odhodki",
+      "Razmerje med dobičkom in kapitalom",
+      "Razmerje med dolgom in kapitalom"
+    ],
+    "correctAnswer": 0,
+    "help": "Kratkoročna likvidnost se nanaša na razmerje med sredstvi in obveznostmi. Razmisli, kako merimo sposobnost podjetja za poravnavo kratkoročnih obveznosti.",
+    "answer": "Kratkoročna likvidnost (current ratio) je finančni kazalnik, ki meri sposobnost podjetja za poravnavo kratkoročnih obveznosti s kratkoročnimi sredstvi. Izračuna se kot: Kratkoročna sredstva / Kratkoročne obveznosti. Razmerje nad 1 pomeni, da ima podjetje dovolj sredstev za pokritje kratkoročnih obveznosti. Višje razmerje pomeni boljšo likvidnost, vendar previsoko razmerje lahko pomeni neučinkovito uporabo sredstev.",
+    "id": 44
+  },
+  {
+    "question": "Kaj je obrat zalog?",
+    "options": [
+      "Kazalnik, ki prikazuje, kolikokrat se zaloge prodajo v določenem obdobju",
+      "Kazalnik, ki prikazuje dobiček",
+      "Kazalnik, ki prikazuje prihodke",
+      "Kazalnik, ki prikazuje stroške"
+    ],
+    "correctAnswer": 0,
+    "help": "Obrat zalog se nanaša na hitrost prodaje. Razmisli, kako merimo, kako hitro se zaloge prodajo.",
+    "answer": "Obrat zalog (inventory turnover) je kazalnik, ki prikazuje, kolikokrat se zaloge prodajo v določenem obdobju (navadno eno leto). Izračuna se kot: Stroški prodanega blaga / Povprečne zaloge. Višji obrat zalog pomeni, da se zaloge hitreje prodajajo, kar je običajno pozitivno. Nizek obrat zalog lahko pomeni zastoj zalog ali neučinkovito upravljanje zalog.",
+    "id": 45
+  },
+  {
+    "question": "Kaj je obrat terjatev?",
+    "options": [
+      "Kazalnik, ki prikazuje, kako hitro se terjatve pobirajo",
+      "Kazalnik, ki prikazuje stroške",
+      "Kazalnik, ki prikazuje prihodke",
+      "Kazalnik, ki prikazuje dobiček"
+    ],
+    "correctAnswer": 0,
+    "help": "Obrat terjatev se nanaša na pobiranje. Razmisli, kako merimo učinkovitost pobiranja terjatev.",
+    "answer": "Obrat terjatev (accounts receivable turnover) je kazalnik, ki prikazuje, kako hitro podjetje pobira terjatve. Izračuna se kot: Prihodki od prodaje / Povprečne terjatve. Višji obrat terjatev pomeni hitrejše pobiranje terjatev, kar je pozitivno za likvidnost podjetja. Nizek obrat terjatev lahko pomeni težave pri pobiranju ali preveč radodarno kreditno politiko.",
+    "id": 46
+  },
+  {
+    "question": "Kaj je razmerje obveznosti in sredstev (debt ratio)?",
+    "options": [
+      "Razmerje med obveznostmi in skupnimi sredstvi",
+      "Razmerje med prihodki in odhodki",
+      "Razmerje med dobičkom in kapitalom",
+      "Razmerje med terjatvami in obveznostmi"
+    ],
+    "correctAnswer": 0,
+    "help": "Razmerje obveznosti in sredstev meri financiranje. Razmisli, kako merimo delež tujega financiranja v skupnih sredstvih.",
+    "answer": "Razmerje obveznosti in sredstev (debt ratio) je kazalnik, ki prikazuje delež tujega financiranja v skupnih sredstvih. Izračuna se kot: Obveznosti / Sredstva. Višje razmerje pomeni večji delež tujega financiranja in večje finančno tveganje. To kazalnik pomaga oceniti finančno stabilnost podjetja in njegovo sposobnost za vračilo dolgov.",
+    "id": 47
+  },
+  {
+    "question": "Kaj je rentabilnost sredstev (ROA - Return on Assets)?",
+    "options": [
+      "Kazalnik, ki prikazuje donosnost vseh sredstev podjetja",
+      "Kazalnik, ki prikazuje samo dobiček",
+      "Kazalnik, ki prikazuje samo prihodke",
+      "Kazalnik, ki prikazuje stroške"
+    ],
+    "correctAnswer": 0,
+    "help": "ROA se nanaša na donosnost. Razmisli, kako merimo, kako učinkovito podjetje uporablja svoja sredstva za ustvarjanje dobička.",
+    "answer": "Rentabilnost sredstev (ROA - Return on Assets) je kazalnik, ki prikazuje donosnost vseh sredstev podjetja. Izračuna se kot: (Čisti dobiček / Povprečna sredstva) × 100. Višji ROA pomeni, da podjetje učinkoviteje uporablja svoja sredstva za ustvarjanje dobička. Ta kazalnik omogoča primerjavo učinkovitosti različnih podjetij in industrij.",
+    "id": 48
+  },
+  {
+    "question": "Kaj je rentabilnost lastniškega kapitala (ROE - Return on Equity)?",
+    "options": [
+      "Kazalnik, ki prikazuje donosnost lastniškega kapitala",
+      "Kazalnik, ki prikazuje samo obveznosti",
+      "Kazalnik, ki prikazuje samo stroške",
+      "Kazalnik, ki prikazuje samo prihodke"
+    ],
+    "correctAnswer": 0,
+    "help": "ROE se nanaša na donosnost za lastnike. Razmisli, kako merimo, kako učinkovito podjetje uporablja lastniški kapital za ustvarjanje dobička.",
+    "answer": "Rentabilnost lastniškega kapitala (ROE - Return on Equity) je kazalnik, ki prikazuje donosnost lastniškega kapitala. Izračuna se kot: (Čisti dobiček / Povprečni lastniški kapital) × 100. Višji ROE pomeni, da podjetje učinkoviteje uporablja lastniški kapital za ustvarjanje dobička. Ta kazalnik je pomemben za lastnike, saj prikazuje donosnost njihove naložbe.",
+    "id": 49
+  },
+  {
+    "question": "Kaj je delovni kapital (working capital)?",
+    "options": [
+      "Razlika med kratkoročnimi sredstvi in kratkoročnimi obveznostmi",
+      "Razlika med prihodki in odhodki",
+      "Razlika med dolgom in kapitalom",
+      "Razlika med terjatvami in obveznostmi"
+    ],
+    "correctAnswer": 0,
+    "help": "Delovni kapital se nanaša na razliko med sredstvi in obveznostmi. Razmisli, kako merimo razpoložljiva sredstva za poslovanje.",
+    "answer": "Delovni kapital (working capital) je razlika med kratkoročnimi sredstvi in kratkoročnimi obveznostmi. Izračuna se kot: Kratkoročna sredstva - Kratkoročne obveznosti. Pozitiven delovni kapital pomeni, da ima podjetje dovolj sredstev za pokritje kratkoročnih obveznosti in normalno poslovanje. Delovni kapital je ključen za oceno likvidnosti in kratkoročne finančne zdravja podjetja.",
+    "id": 50
+  },
+  {
+    "question": "Kaj je amortizacija po metodi padajoče preostale vrednosti?",
+    "options": [
+      "Amortizacija, kjer se višji znesek obračunava v začetnih letih in nižji v poznejših letih",
+      "Amortizacija, kjer se enakomerno obračunava skozi čas",
+      "Amortizacija, kjer se obračunava le ob koncu uporabne dobe",
+      "Amortizacija, ki ni dovoljena"
+    ],
+    "correctAnswer": 0,
+    "help": "Padajoča preostala vrednost pomeni, da se vrednost zmanjšuje hitreje na začetku. Razmisli, katera metoda daje večji odhodek v začetku.",
+    "answer": "Amortizacija po metodi padajoče preostale vrednosti (declining balance method) je metoda, kjer se višji znesek amortizacije obračunava v začetnih letih uporabe sredstva in nižji v poznejših letih. Ta metoda uporablja fiksno stopnjo na preostalo vrednost sredstva. Primerna je za sredstva, ki se hitreje obrabijo na začetku, na primer računalniška oprema ali vozila.",
+    "id": 51
+  },
+  {
+    "question": "Kaj je linearna amortizacija?",
+    "options": [
+      "Amortizacija, kjer se enakomerno obračunava skozi čas",
+      "Amortizacija, kjer se obračunava le na začetku",
+      "Amortizacija, kjer se obračunava le ob koncu",
+      "Amortizacija, kjer se obračunava po stopnjah"
+    ],
+    "correctAnswer": 0,
+    "help": "Linearna pomeni enakomerno. Razmisli, katera metoda amortizacije daje enak znesek vsako leto.",
+    "answer": "Linearna amortizacija je metoda, kjer se enakomerno obračunava skozi čas. Znesek amortizacije se izračuna kot: (Nabavna vrednost - Preostala vrednost) / Število let uporabe. Ta metoda je najpogostejša in najenostavnejša, saj daje enak odhodek za amortizacijo vsako leto. Primerna je za sredstva, ki se enakomerno obrabljajo skozi čas, na primer zgradbe.",
+    "id": 52
+  },
+  {
+    "question": "Kaj je zmanjšanje vrednosti sredstva (impairment)?",
+    "options": [
+      "Priznanje, da se vrednost sredstva trajno zmanjšala pod knjigovodsko vrednostjo",
+      "Povečanje vrednosti sredstva",
+      "Prodaja sredstva",
+      "Amortizacija sredstva"
+    ],
+    "correctAnswer": 0,
+    "help": "Zmanjšanje vrednosti se nanaša na trajno izgubo vrednosti. Razmisli, kdaj mora podjetje priznati, da je sredstvo manj vredno.",
+    "answer": "Zmanjšanje vrednosti sredstva (impairment) je priznanje, da se vrednost sredstva trajno zmanjšala pod knjigovodsko vrednostjo. To se zgodi, ko je tržna vrednost ali uporabna vrednost sredstva nižja od njegove knjigovodske vrednosti. Podjetje mora redno testirati sredstva za zmanjšanje vrednosti in priznati izgubo, če je potrebno. Ta izguba se prikaže kot odhodek v izkazu poslovnega izida.",
+    "id": 53
+  },
+  {
+    "question": "Kaj je finančni leasing?",
+    "options": [
+      "Leasing, kjer se lastništvo prenese na najemnika ob koncu najema",
+      "Leasing, kjer se lastništvo nikoli ne prenese",
+      "Kupnja sredstva",
+      "Prodaja sredstva"
+    ],
+    "correctAnswer": 0,
+    "help": "Finančni leasing se nanaša na lastništvo. Razmisli, kdaj najemnik postane lastnik ob koncu najema.",
+    "answer": "Finančni leasing je oblika najema, kjer se lastništvo sredstva prenese na najemnika ob koncu najema ali kjer najemnik ima možnost nakupa po ugodni ceni. Pri finančnem leasingu se sredstvo prikaže kot sredstvo v bilanci najemnika in se amortizira. To se razlikuje od operativnega leasinga, kjer se sredstvo ne prikaže v bilanci najemnika.",
+    "id": 54
+  },
+  {
+    "question": "Kaj je operativni leasing?",
+    "options": [
+      "Leasing, kjer se sredstvo ne prikaže v bilanci najemnika",
+      "Leasing, kjer se lastništvo prenese na najemnika",
+      "Kupnja sredstva",
+      "Prodaja sredstva"
+    ],
+    "correctAnswer": 0,
+    "help": "Operativni leasing se nanaša na najem brez prenosa lastništva. Razmisli, kje se sredstvo prikaže - pri najemodajalcu ali najemniku.",
+    "answer": "Operativni leasing je oblika najema, kjer se lastništvo sredstva ne prenese na najemnika. Sredstvo ostane v lasti najemodajalca in se prikaže v njegovi bilanci stanja. Najemnik plačuje najemnino kot odhodek in ne prikazuje sredstva v svoji bilanci. Operativni leasing je primeren za kratkoročne najeme ali ko najemnik ne želi prevzeti lastništva.",
+    "id": 55
+  },
+  {
+    "question": "Kaj je boniteta v računovodstvu?",
+    "options": [
+      "Ocena kreditne sposobnosti podjetja",
+      "Dobiček podjetja",
+      "Prihodki podjetja",
+      "Odhodki podjetja"
+    ],
+    "correctAnswer": 0,
+    "help": "Boniteta se nanaša na kreditno sposobnost. Razmisli, kako se ocenjuje sposobnost podjetja za vračilo dolgov.",
+    "answer": "Boniteta je ocena kreditne sposobnosti podjetja, torej sposobnosti podjetja za vračilo dolgov. Ocenjuje se na podlagi finančnih kazalnikov, kot so razmerje dolga in kapitala, likvidnost, rentabilnost in drugo. Višja boniteta pomeni nižje tveganje za kreditorje in omogoča pridobitev kreditov po ugodnejših pogojih.",
+    "id": 56
+  },
+  {
+    "question": "Kaj je kapitalski dobiček?",
+    "options": [
+      "Dobiček od prodaje osnovnih sredstev ali naložb",
+      "Dobiček iz poslovanja",
+      "Dobiček iz dividende",
+      "Dobiček iz obresti"
+    ],
+    "correctAnswer": 0,
+    "help": "Kapitalski dobiček se nanaša na prodajo sredstev. Razmisli, kdaj podjetje doseže dobiček z prodajo nepremičnin, delnic ali drugih sredstev.",
+    "answer": "Kapitalski dobiček je dobiček od prodaje osnovnih sredstev ali naložb. Izračuna se kot razlika med prodajno ceno in knjigovodsko vrednostjo sredstva. Kapitalski dobiček se prikaže ločeno od obratovalnega dobička v izkazu poslovnega izida. Ta dobiček je lahko obdavčen drugače kot obratovalni dobiček, odvisno od davčne zakonodaje.",
+    "id": 57
+  },
+  {
+    "question": "Kaj je kapitalska izguba?",
+    "options": [
+      "Izguba od prodaje osnovnih sredstev ali naložb",
+      "Izguba iz poslovanja",
+      "Izguba iz dividende",
+      "Izguba iz obresti"
+    ],
+    "correctAnswer": 0,
+    "help": "Kapitalska izguba je nasprotje kapitalskega dobička. Razmisli, kdaj podjetje doživi izgubo pri prodaji sredstev.",
+    "answer": "Kapitalska izguba je izguba od prodaje osnovnih sredstev ali naložb. Nastane, ko je prodajna cena nižja od knjigovodske vrednosti sredstva. Kapitalska izguba se prikaže kot odhodek v izkazu poslovnega izida in zmanjšuje skupni dobiček podjetja. Ta izguba lahko vpliva tudi na davčno obveznost podjetja.",
+    "id": 58
+  },
+  {
+    "question": "Kaj je rezerva za terjatve?",
+    "options": [
+      "Rezerva, namenjena za pokritje morebitnih neporavnanih terjatev",
+      "Rezerva za kapital",
+      "Rezerva za dividende",
+      "Rezerva za obveznosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Rezerva za terjatve se nanaša na tveganje nezmožnosti poravnave. Razmisli, zakaj podjetje ustvari rezervo za morebitne izgube.",
+    "answer": "Rezerva za terjatve je rezerva, namenjena za pokritje morebitnih neporavnanih terjatev. Podjetja ustvarjajo to rezervo, da pripravijo za možnost, da nekateri dolžniki ne bodo poravnali svojih dolgov. Rezerva se obračunava kot odhodek in zmanjšuje vrednost terjatev v bilanci stanja. To omogoča realnejšo oceno dejanske vrednosti terjatev.",
+    "id": 59
+  },
+  {
+    "question": "Kaj je celovitost v računovodstvu?",
+    "options": [
+      "Načelo, da se prikažejo vsi pomembni podatki, ne sme pa biti presežnih podrobnosti",
+      "Načelo, da se prikažejo le prihodki",
+      "Načelo, da se prikažejo le odhodki",
+      "Načelo, da se ne prikaže nič"
+    ],
+    "correctAnswer": 0,
+    "help": "Celovitost se nanaša na popolnost informacij. Razmisli, kako se uravnovesijo potreba po vseh informacijah in preveč podrobnosti.",
+    "answer": "Celovitost v računovodstvu je načelo, da se prikažejo vsi pomembni podatki, ki so potrebni za pravilno odločanje, ne sme pa biti presežnih podrobnosti, ki bi oteževalo razumevanje. To pomeni, da morajo biti finančni izkazi dovolj podrobni, da uporabniki lahko sprejemajo informirane odločitve, vendar ne smejo biti preveč zapleteni.",
+    "id": 60
+  },
+  {
+    "question": "Kaj je zanesljivost v računovodstvu?",
+    "options": [
+      "Načelo, da so računovodski podatki točni, preverljivi in nepristranski",
+      "Načelo, da so podatki le ocenjeni",
+      "Načelo, da so podatki le privzeti",
+      "Načelo, da podatki niso pomembni"
+    ],
+    "correctAnswer": 0,
+    "help": "Zanesljivost se nanaša na verodostojnost. Razmisli, katere lastnosti morajo imeti računovodski podatki, da so verodostojni.",
+    "answer": "Zanesljivost v računovodstvu je načelo, da so računovodski podatki točni, preverljivi in nepristranski. To pomeni, da morajo biti podatki podprti z dokazili, da morajo biti objektivni (nepristranski) in da morajo biti verodostojni. Zanesljivi podatki omogočajo uporabnikom finančnih izkazov, da se zanašajo na te podatke pri sprejemanju odločitev.",
+    "id": 61
+  },
+  {
+    "question": "Kaj je časovna usklajenost v računovodstvu?",
+    "options": [
+      "Načelo, da se podatki prikazujejo pravočasno za odločanje",
+      "Načelo, da se podatki prikazujejo le ob koncu leta",
+      "Načelo, da se podatki nikoli ne prikazujejo",
+      "Načelo, da se podatki prikazujejo le na začetku leta"
+    ],
+    "correctAnswer": 0,
+    "help": "Časovna usklajenost se nanaša na pravočasnost. Razmisli, kdaj morajo biti podatki na voljo za uporabnike.",
+    "answer": "Časovna usklajenost v računovodstvu je načelo, da se podatki prikazujejo pravočasno za odločanje. To pomeni, da morajo biti finančni izkazi objavljeni v času, ko so še koristni za uporabnike. Prezgodaj objavljeni podatki lahko niso zanesljivi, prezgodaj objavljeni pa niso več relevantni. Pravilna časovna usklajenost omogoča uporabnikom, da sprejemajo informirane odločitve na podlagi najnovejših podatkov.",
+    "id": 62
+  },
+  {
+    "question": "Kaj je primerljivost v računovodstvu?",
+    "options": [
+      "Načelo, da se podatki lahko primerjajo med obdobji in podjetji",
+      "Načelo, da se podatki ne smejo primerjati",
+      "Načelo, da se podatki prikazujejo le enkrat",
+      "Načelo, da se podatki skrivajo"
+    ],
+    "correctAnswer": 0,
+    "help": "Primerljivost se nanaša na možnost primerjave. Razmisli, zakaj je pomembno, da se lahko podatki primerjajo med različnimi obdobji.",
+    "answer": "Primerljivost v računovodstvu je načelo, da se podatki lahko primerjajo med različnimi obdobji in med različnimi podjetji. To pomeni, da morajo biti računovodski načini in metode dosledni skozi čas, da se lahko opravijo smiselne primerjave. Primerljivost omogoča uporabnikom, da spremljajo trende, analizirajo spremembe in primerjajo uspešnost različnih podjetij.",
+    "id": 63
+  },
+  {
+    "question": "Kaj je računovodska obdobje?",
+    "options": [
+      "Časovno obdobje, za katerega se pripravljajo finančni izkazi",
+      "Časovno obdobje za plačilo davkov",
+      "Časovno obdobje za inventuro",
+      "Časovno obdobje za plačilo plač"
+    ],
+    "correctAnswer": 0,
+    "help": "Računovodsko obdobje se nanaša na časovni okvir. Razmisli, za katero obdobje se pripravljajo finančni izkazi.",
+    "answer": "Računovodsko obdobje je časovno obdobje, za katerega se pripravljajo finančni izkazi. Najpogostejše računovodsko obdobje je eno leto (poslovno leto), vendar lahko podjetja pripravljajo tudi četrtletne ali mesečne izkaze. Vsa poslovne transakcije se morajo dodeliti pravilnemu računovodskemu obdobju po načelu časovnega razporeda.",
+    "id": 64
+  },
+  {
+    "question": "Kaj je zadržani dobiček?",
+    "options": [
+      "Deliček dobička, ki ostane v podjetju in se ne izplača lastnikom",
+      "Deliček dobička, ki se izplača lastnikom",
+      "Deliček dobička, ki se zapravi",
+      "Deliček dobička, ki se posodi"
+    ],
+    "correctAnswer": 0,
+    "help": "Zadržani dobiček se nanaša na del dobička, ki ostane. Razmisli, kaj se zgodi z dobičkom, ki se ne izplača kot dividende.",
+    "answer": "Zadržani dobiček (retained earnings) je del dobička, ki ostane v podjetju in se ne izplača lastnikom kot dividende. Zadržani dobiček se poveča z dobičkom in zmanjša z izgubo ter izplačilom dividend. Ta del dobička se ponovno investira v podjetje za rast in razvoj. Zadržani dobiček je del lastniškega kapitala in se prikazuje v bilanci stanja.",
+    "id": 65
+  },
+  {
+    "question": "Kaj je izkaz sprememb lastniškega kapitala?",
+    "options": [
+      "Finančni izkaz, ki prikazuje spremembe v lastniškem kapitalu v določenem obdobju",
+      "Izkaz poslovnega izida",
+      "Bilanca stanja",
+      "Izkaz denarnih tokov"
+    ],
+    "correctAnswer": 0,
+    "help": "Izkaz sprememb lastniškega kapitala se nanaša na spremembe. Razmisli, kateri izkaz prikazuje, kako se lastniški kapital spreminja.",
+    "answer": "Izkaz sprememb lastniškega kapitala (statement of changes in equity) je finančni izkaz, ki prikazuje vse spremembe v lastniškem kapitalu v določenem obdobju. Prikazuje začetno stanje lastniškega kapitala, vložke lastnikov, zadržani dobiček, izplačila dividend in končno stanje. Ta izkaz pojasni, zakaj se je lastniški kapital spremenil med dvema datumoma bilance stanja.",
+    "id": 66
+  },
+  {
+    "question": "Kaj je izvirno stanje (opening balance)?",
+    "options": [
+      "Stanje računa na začetku računovodskega obdobja",
+      "Stanje računa na koncu obdobja",
+      "Stanje računa vmes",
+      "Stanje računa, ki ne obstaja"
+    ],
+    "correctAnswer": 0,
+    "help": "Izvirno stanje se nanaša na začetek obdobja. Razmisli, kako se imenuje stanje računa na začetku poslovnega leta.",
+    "answer": "Izvirno stanje (opening balance) je stanje računa na začetku računovodskega obdobja. To je stanje, ki je preneseno iz prejšnjega obdobja. Izvirno stanje je osnova za vse transakcije v novem obdobju. V bilanci stanja se izvirno stanje prikaže kot začetno stanje za novo poslovno leto.",
+    "id": 67
+  },
+  {
+    "question": "Kaj je končno stanje (closing balance)?",
+    "options": [
+      "Stanje računa na koncu računovodskega obdobja",
+      "Stanje računa na začetku obdobja",
+      "Stanje računa vmes",
+      "Stanje računa, ki ne obstaja"
+    ],
+    "correctAnswer": 0,
+    "help": "Končno stanje se nanaša na konec obdobja. Razmisli, kako se imenuje stanje računa ob koncu poslovnega leta.",
+    "answer": "Končno stanje (closing balance) je stanje računa na koncu računovodskega obdobja. To stanje se prenese kot izvirno stanje v naslednje obdobje. Končno stanje je rezultat vseh transakcij v obdobju. V bilanci stanja se končno stanje prikaže kot končno stanje za poslovno leto in začetno stanje za naslednje leto.",
+    "id": 68
+  },
+  {
+    "question": "Kaj je davčna osnova v kontekstu amortizacije?",
+    "options": [
+      "Vrednost, od katere se izračunava davčno priznana amortizacija",
+      "Vrednost, od katere se izračunava računovodska amortizacija",
+      "Vrednost sredstva",
+      "Vrednost obveznosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčna osnova se nanaša na davčno priznanje. Razmisli, kako se izračunava amortizacija za davčne namene.",
+    "answer": "Davčna osnova v kontekstu amortizacije je vrednost, od katere se izračunava davčno priznana amortizacija. Davčna osnova se lahko razlikuje od računovodske osnove zaradi razlik med davčnimi in računovodskimi pravili. Davčne amortizacijske olajšave so morda različne od računovodskih amortizacij, kar povzroča razlike med računovodskim in davčnim dobičkom.",
+    "id": 69
+  },
+  {
+    "question": "Kaj je davčna osnova v kontekstu naložb?",
+    "options": [
+      "Vrednost naložbe, ki se uporablja za izračun kapitalskega dobička ali izgube",
+      "Vrednost naložbe za računovodske namene",
+      "Vrednost naložbe, ki ni pomembna",
+      "Vrednost obveznosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčna osnova se nanaša na vrednost za davčne namene. Razmisli, katera vrednost se uporablja pri izračunu davka na kapitalski dobiček.",
+    "answer": "Davčna osnova v kontekstu naložb je vrednost naložbe, ki se uporablja za izračun kapitalskega dobička ali izgube pri prodaji. Navadno je to nakupna vrednost naložbe. Pri prodaji naložbe se izračuna kapitalski dobiček kot razlika med prodajno ceno in davčno osnovo. Ta dobiček je lahko obdavčen po posebnih davčnih stopnjah za kapitalske dobičke.",
+    "id": 70
+  },
+  {
+    "question": "Kaj je davčno priznavanje odhodkov?",
+    "options": [
+      "Priznavanje odhodkov za davčne namene, ki se lahko razlikuje od računovodskega priznavanja",
+      "Priznavanje odhodkov le za računovodske namene",
+      "Ne priznavanje odhodkov",
+      "Priznavanje le prihodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčno priznavanje se nanaša na davčne namene. Razmisli, kako se odhodki priznavajo za davčne namene.",
+    "answer": "Davčno priznavanje odhodkov je priznavanje odhodkov za davčne namene, ki se lahko razlikuje od računovodskega priznavanja. Nekateri odhodki so priznani za računovodske namene, vendar ne za davčne namene (na primer nekatere olajšave), in obratno. Te razlike povzročajo razlike med računovodskim in davčnim dobičkom ter odložene davčne obveznosti ali sredstva.",
+    "id": 71
+  },
+  {
+    "question": "Kaj je davčno priznavanje prihodkov?",
+    "options": [
+      "Priznavanje prihodkov za davčne namene, ki se lahko razlikuje od računovodskega priznavanja",
+      "Priznavanje prihodkov le za računovodske namene",
+      "Ne priznavanje prihodkov",
+      "Priznavanje le odhodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčno priznavanje se nanaša na davčne namene. Razmisli, kako se prihodki priznavajo za davčne namene.",
+    "answer": "Davčno priznavanje prihodkov je priznavanje prihodkov za davčne namene, ki se lahko razlikuje od računovodskega priznavanja. Nekateri prihodki so priznani za računovodske namene v enem obdobju, vendar za davčne namene v drugem obdobju (na primer obračunski časovni razpored). Te razlike povzročajo časovne razlike v priznavanju prihodkov med računovodstvom in davčnim sistemom.",
+    "id": 72
+  },
+  {
+    "question": "Kaj je davčna olajšava?",
+    "options": [
+      "Zmanjšanje davčne obveznosti zaradi določenih odhodkov ali naložb",
+      "Povečanje davčne obveznosti",
+      "Odpis davka",
+      "Poziv davka"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčna olajšava se nanaša na zmanjšanje davčne obveznosti. Razmisli, kako podjetja zmanjšajo davčno obveznost.",
+    "answer": "Davčna olajšava je zmanjšanje davčne obveznosti zaradi določenih odhodkov ali naložb. Primeri davčnih olajšav so: olajšave za raziskave in razvoj, olajšave za investicije v opremo, olajšave za zaposlovanje invalidnih oseb. Davčne olajšave omogočajo podjetjem, da zmanjšajo svojo davčno obveznost in spodbudijo določene dejavnosti, ki so v interesu družbe.",
+    "id": 73
+  },
+  {
+    "question": "Kaj je davčno optimiziranje?",
+    "options": [
+      "Pravilno načrtovanje in upravljanje poslovanja za zmanjšanje davčne obveznosti v okviru zakonodaje",
+      "Izbegavanje plačila davkov",
+      "Ne plačevanje davkov",
+      "Zakonsko izogibanje davkom"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčno optimiziranje se nanaša na zakonito zmanjšanje davkov. Razmisli, kako podjetja zakonito zmanjšujejo davčno obveznost.",
+    "answer": "Davčno optimiziranje je pravilno načrtovanje in upravljanje poslovanja za zmanjšanje davčne obveznosti v okviru zakonodaje. To vključuje uporabo davčnih olajšav, optimalno časovno razporeditev transakcij in strukturiranje poslovanja na način, ki minimizira davčno obveznost. Davčno optimiziranje je zakonito in se razlikuje od davčnega izogibanja ali utajevanja davkov.",
+    "id": 74
+  },
+  {
+    "question": "Kaj je davčno tveganje?",
+    "options": [
+      "Tveganje, da se davčna obveznost spremeni zaradi sprememb v davčni zakonodaji ali interpretacije",
+      "Gotovost davčne obveznosti",
+      "Neobdavčenje",
+      "Davčna olajšava"
+    ],
+    "correctAnswer": 0,
+    "help": "Davčno tveganje se nanaša na negotovost. Razmisli, kako spremembe v davčni zakonodaji lahko vplivajo na podjetja.",
+    "answer": "Davčno tveganje je tveganje, da se davčna obveznost spremeni zaradi sprememb v davčni zakonodaji, interpretacije zakonov ali sprememb v davčni politiki. Podjetja morajo spremljati davčno tveganje in se pripravljati na možne spremembe, ki lahko vplivajo na njihovo davčno obveznost. To vključuje spremljanje predlaganih sprememb davčne zakonodaje in ocenjevanje njihovega vpliva.",
+    "id": 75
+  },
+  {
+    "question": "Kaj določa IFRS 15 (Revenue from Contracts with Customers) glede priznanja prihodkov?",
+    "options": [
+      "Prihodki se priznajo, ko podjetje izpolni svojo obveznost do dostave blaga ali storitev strankam",
+      "Prihodki se priznajo takoj ko se sklene pogodba",
+      "Prihodki se priznajo le ob prejemu denarja",
+      "Prihodki se priznajo ob izdaji računa"
+    ],
+    "correctAnswer": 0,
+    "help": "IFRS 15 uporablja model izpolnitve obveznosti. Razmisli, kdaj se prihodki dejansko zaslužijo.",
+    "answer": "IFRS 15 določa, da se prihodki priznajo, ko podjetje izpolni svojo obveznost do dostave blaga ali storitev strankam. Ta standard uporablja petkorakni model: (1) Identifikacija pogodbe, (2) Identifikacija ločljivih izpolnitev obveznosti, (3) Določitev transakcijske cene, (4) Razporeditev transakcijske cene na obveznosti, (5) Priznanje prihodka ob izpolnitvi obveznosti.",
+    "id": 76
+  },
+  {
+    "question": "Kaj je izvedeni finančni instrument?",
+    "options": [
+      "Finančni instrument, katerega vrednost je odvisna od vrednosti osnovnega sredstva",
+      "Navaden depozit",
+      "Navadna terjatev",
+      "Navadna obveznost"
+    ],
+    "correctAnswer": 0,
+    "help": "Izvedeni instrument se nanaša na instrumente, ki so izpeljani iz drugih sredstev. Razmisli, kateri instrumenti so odvisni od vrednosti drugih sredstev.",
+    "answer": "Izvedeni finančni instrument je finančni instrument, katerega vrednost je odvisna od vrednosti osnovnega sredstva (underlying asset), kot so valute, obrestne mere, delnice ali blago. Primeri so terminske pogodbe, opcije, zamenjave (swaps) in terminske pogodbe. Ti instrumenti se uporabljajo za hedging (zaščito) pred tveganji ali za špekulacije.",
+    "id": 77
+  },
+  {
+    "question": "Kaj je fair value (poštena vrednost) v računovodstvu?",
+    "options": [
+      "Cena, ki bi se prejela pri prodaji sredstva ali plačala pri prenosu obveznosti v redni transakciji med udeleženci na trgu",
+      "Knjigovodska vrednost sredstva",
+      "Nabavna vrednost sredstva",
+      "Vrednost, ki jo določi lastnik"
+    ],
+    "correctAnswer": 0,
+    "help": "Fair value se nanaša na tržno vrednost. Razmisli, katera vrednost predstavlja pošteno tržno vrednost sredstva.",
+    "answer": "Fair value (poštena vrednost) je cena, ki bi se prejela pri prodaji sredstva ali plačala pri prenosu obveznosti v redni transakciji med udeleženci na trgu na določen datum. Ta vrednost temelji na tržnih podatkih in predstavlja objektivno oceno vrednosti. Fair value se uporablja pri vrednotenju določenih finančnih instrumentov, naložb in nekaterih sredstev po IFRS standardih.",
+    "id": 78
+  },
+  {
+    "question": "Kaj je hedge accounting (računovodstvo zaščite)?",
+    "options": [
+      "Računovodska metoda, ki omogoča, da se učinki zaščite pred tveganji odražajo v istem obdobju v finančnih izkazih",
+      "Računovodska metoda za obveznosti",
+      "Računovodska metoda za prihodke",
+      "Računovodska metoda za odhodke"
+    ],
+    "correctAnswer": 0,
+    "help": "Hedge accounting se nanaša na uskladitev učinkov. Razmisli, kako se uskladi zaščita z zavarovanim sredstvom.",
+    "answer": "Hedge accounting (računovodstvo zaščite) je računovodska metoda, ki omogoča, da se učinki zaščite pred tveganji (hedging) odražajo v istem obdobju v finančnih izkazih kot zavarovano sredstvo ali obveznost. To omogoča, da se izboljša ali zmanjša tveganje (na primer tveganje spremembe obrestne mere, menjalnega tečaja) in da se učinki zaščite priznajo hkrati z učinki zavarovanega sredstva.",
+    "id": 79
+  },
+  {
+    "question": "Kaj je EBITDA?",
+    "options": [
+      "Dobiček pred obrestmi, davki, amortizacijo in amortizacijo nematerialnih sredstev",
+      "Čisti dobiček",
+      "Bruto dobiček",
+      "Dobiček po davkih"
+    ],
+    "correctAnswer": 0,
+    "help": "EBITDA je kratica. Razmisli, katere postavke so izključene iz dobička.",
+    "answer": "EBITDA (Earnings Before Interest, Taxes, Depreciation and Amortization) je dobiček pred obrestmi, davki, amortizacijo in amortizacijo nematerialnih sredstev. Ta kazalnik prikazuje operativno donosnost podjetja brez vpliva financiranja, davčnih sistemov in obračunskih politik amortizacije. EBITDA se uporablja za primerjavo donosnosti različnih podjetij in industrij ter oceno sposobnosti podjetja za generiranje denarnih tokov iz poslovanja.",
+    "id": 80
+  },
+  {
+    "question": "Kaj je weighted average cost of capital (WACC)?",
+    "options": [
+      "Povprečna cena kapitala, utežena glede na deleže dolga in lastniškega kapitala v kapitalski strukturi",
+      "Cena samo dolga",
+      "Cena samo lastniškega kapitala",
+      "Cena samo obresti"
+    ],
+    "correctAnswer": 0,
+    "help": "WACC se nanaša na uteženo povprečje. Razmisli, kako se izračuna povprečna cena vseh virov kapitala.",
+    "answer": "WACC (Weighted Average Cost of Capital) je povprečna cena kapitala, utežena glede na deleže dolga in lastniškega kapitala v kapitalski strukturi podjetja. Izračuna se kot utežena povprečna cena dolga in lastniškega kapitala. WACC se uporablja kot diskontna stopnja pri vrednotenju investicij in projektov, saj predstavlja minimalno donosnost, ki jo morajo naložbe prinašati, da bi bile ekonomsko upravičene.",
+    "id": 81
+  },
+  {
+    "question": "Kaj je segmentno poročanje po IFRS 8?",
+    "options": [
+      "Porječanje o različnih poslovnih segmentih podjetja, kjer upravljanje sprejema odločitve",
+      "Poročanje le o celotnem podjetju",
+      "Poročanje le o dobičku",
+      "Poročanje le o odhodkih"
+    ],
+    "correctAnswer": 0,
+    "help": "Segmentno poročanje se nanaša na razdelitev. Razmisli, kako se podjetja poročajo o različnih delih poslovanja.",
+    "answer": "Segmentno poročanje po IFRS 8 zahteva, da podjetja prikažejo finančne informacije o različnih poslovnih segmentih, kjer upravljanje sprejema odločitve o alokaciji virov in ocenjevanju uspešnosti. To omogoča uporabnikom finančnih izkazov, da razumejo različne dele poslovanja, njihovo donosnost in tveganje. Segmentno poročanje je obvezno za podjetja, ki so na borzi kotiranih.",
+    "id": 82
+  },
+  {
+    "question": "Kaj je goodwill impairment test?",
+    "options": [
+      "Testiranje, ali se je vrednost goodwill zmanjšala pod knjigovodsko vrednostjo",
+      "Testiranje dobička",
+      "Testiranje prihodkov",
+      "Testiranje odhodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "Goodwill impairment test se nanaša na testiranje vrednosti. Razmisli, kdaj mora podjetje testirati vrednost goodwill.",
+    "answer": "Goodwill impairment test je postopek testiranja, ali se je vrednost goodwill zmanjšala pod knjigovodsko vrednostjo. Po IFRS 3 se goodwill ne amortizira, temveč se redno testira za zmanjšanje vrednosti. Test se izvaja vsaj enkrat letno ali kadar so indikacije morebitnega zmanjšanja vrednosti. Če se ugotovi zmanjšanje, se prizna izguba in zmanjša vrednost goodwill v bilanci stanja.",
+    "id": 83
+  },
+  {
+    "question": "Kaj je purchase price allocation (PPA) pri nakupu podjetja?",
+    "options": [
+      "Razporeditev kupne cene na prepoznane sredstva, obveznosti in goodwill",
+      "Razporeditev samo na dobiček",
+      "Razporeditev samo na prihodke",
+      "Razporeditev samo na odhodke"
+    ],
+    "correctAnswer": 0,
+    "help": "PPA se nanaša na razporeditev kupne cene. Razmisli, kako se kupna cena razporedi na različne komponente podjetja.",
+    "answer": "Purchase price allocation (PPA) je postopek razporeditve kupne cene pri nakupu podjetja na prepoznana sredstva, obveznosti in morebitni goodwill. Pri tem se določi fair value vseh prepoznanih sredstev in obveznosti na dan nakupa. Razlika med kupno ceno in fair value prepoznanih sredstev in obveznosti predstavlja goodwill. PPA je obvezen postopek po IFRS 3 (Business Combinations).",
+    "id": 84
+  },
+  {
+    "question": "Kaj je control v kontekstu konsolidacije po IFRS 10?",
+    "options": [
+      "Sposobnost, da vplivamo na relevantne dejavnosti drugega podjetja in iz tega dobimo koristi",
+      "Lastništvo več kot 50% delnic",
+      "Lastništvo manj kot 50% delnic",
+      "Neposredno lastništvo sredstev"
+    ],
+    "correctAnswer": 0,
+    "help": "Control se nanaša na nadzor. Razmisli, kdaj podjetje dejansko nadzira drugo podjetje.",
+    "answer": "Control (nadzor) po IFRS 10 je sposobnost, da vplivamo na relevantne dejavnosti drugega podjetja in iz tega dobimo koristi. Control ne temelji le na lastništvu več kot 50% delnic, temveč na dejanskem nadzoru nad dejavnostmi in koristmi. Podjetje z nadzorom mora konsolidirati hčerinsko podjetje v svoje finančne izkaze, ne glede na lastniški delež.",
+    "id": 85
+  },
+  {
+    "question": "Kaj je non-controlling interest (NCI) pri konsolidaciji?",
+    "options": [
+      "Lastniški delež v hčerinskem podjetju, ki ne pripada matičnemu podjetju",
+      "Lastniški delež matičnega podjetja",
+      "Obveznost hčerinskega podjetja",
+      "Prihodek matičnega podjetja"
+    ],
+    "correctAnswer": 0,
+    "help": "Non-controlling interest se nanaša na delež, ki ni v lasti matičnega podjetja. Razmisli, kdo je lastnik preostalega dela hčerinskega podjetja.",
+    "answer": "Non-controlling interest (NCI - lastniški delež manjšinskih delničarjev) je lastniški delež v hčerinskem podjetju, ki ne pripada matičnemu podjetju. Pri konsolidaciji se NCI prikaže kot ločena postavka v lastniškem kapitalu konsolidirane bilance stanja. Del dobička hčerinskega podjetja, ki pripada NCI, se prikaže kot odhodek v konsolidiranem izkazu poslovnega izida.",
+    "id": 86
+  },
+  {
+    "question": "Kaj je functional currency po IFRS?",
+    "options": [
+      "Valuta glavnega gospodarskega okolja, v katerem podjetje posluje",
+      "Valuta, v kateri se izdajajo računi",
+      "Valuta, v kateri se plačuje",
+      "Valuta, v kateri se shranjuje denar"
+    ],
+    "correctAnswer": 0,
+    "help": "Functional currency se nanaša na primarno gospodarsko okolje. Razmisli, katera valuta je najpomembnejša za poslovanje podjetja.",
+    "answer": "Functional currency (funkcionalna valuta) po IFRS je valuta glavnega gospodarskega okolja, v katerem podjetje posluje. To je valuta, v kateri podjetje primarno generira in porablja denar. Functional currency se določi na podlagi dejavnikov, kot so valuta, v kateri se določajo cene, valuta države, kjer podjetje deluje, in valuta, v kateri se zbirajo denarni tokovi. Vse transakcije v drugih valutah se pretvorijo v functional currency.",
+    "id": 87
+  },
+  {
+    "question": "Kaj je time value of money?",
+    "options": [
+      "Koncept, da je denar danes vreden več kot enaka vsota v prihodnosti",
+      "Koncept, da je denar danes vreden enako kot v prihodnosti",
+      "Koncept, da je denar danes vreden manj kot v prihodnosti",
+      "Koncept, da denar nima vrednosti"
+    ],
+    "correctAnswer": 0,
+    "help": "Time value of money se nanaša na časovno vrednost. Razmisli, zakaj je denar danes vreden več.",
+    "answer": "Time value of money (časovna vrednost denarja) je koncept, da je denar danes vreden več kot enaka vsota v prihodnosti zaradi možnosti investicije in obresti. Ta koncept se uporablja pri diskontiranju prihodnjih denarnih tokov, ocenjevanju naložb (NPV, IRR) in vrednotenju finančnih instrumentov. Diskontna stopnja odraža časovno preferenco in tveganje.",
+    "id": 88
+  },
+  {
+    "question": "Kaj je net present value (NPV)?",
+    "options": [
+      "Razlika med sedanjo vrednostjo prihodnjih denarnih tokov in začetno naložbo",
+      "Sedanja vrednost samo prihodnjih tokov",
+      "Sedanja vrednost samo začetne naložbe",
+      "Prihodnja vrednost denarnih tokov"
+    ],
+    "correctAnswer": 0,
+    "help": "NPV se nanaša na neto sedanjo vrednost. Razmisli, kako se primerja sedanja vrednost tokov z naložbo.",
+    "answer": "Net Present Value (NPV - neto sedanja vrednost) je razlika med sedanjo vrednostjo prihodnjih denarnih tokov iz investicije in začetno naložbo. NPV se izračuna z diskontiranjem prihodnjih denarnih tokov na sedanjo vrednost z uporabo diskontne stopnje in odštevanjem začetne naložbe. Pozitiven NPV pomeni, da je investicija donosna, negativen pa, da ni. NPV se uporablja za oceno investicijskih projektov.",
+    "id": 89
+  },
+  {
+    "question": "Kaj je internal rate of return (IRR)?",
+    "options": [
+      "Diskontna stopnja, pri kateri je NPV investicije enaka nič",
+      "Diskontna stopnja, pri kateri je NPV pozitiven",
+      "Diskontna stopnja, pri kateri je NPV negativen",
+      "Navadna obrestna mera"
+    ],
+    "correctAnswer": 0,
+    "help": "IRR se nanaša na diskontno stopnjo, kjer se investicija izplača. Razmisli, pri kateri stopnji je NPV enak nič.",
+    "answer": "Internal Rate of Return (IRR - notranja stopnja donosa) je diskontna stopnja, pri kateri je neto sedanja vrednost (NPV) investicije enaka nič. IRR predstavlja pričakovano donosnost investicije. Če je IRR višji od zahtevane donosnosti (WACC), je investicija donosna. IRR omogoča primerjavo različnih investicijskih projektov glede na njihovo donosnost.",
+    "id": 90
+  },
+  {
+    "question": "Kaj je going concern assumption?",
+    "options": [
+      "Predpostavka, da bo podjetje nadaljevalo poslovanje v prihodnosti",
+      "Predpostavka, da bo podjetje takoj prenehala poslovanje",
+      "Predpostavka, da bo podjetje prodano",
+      "Predpostavka, da bo podjetje likvidirano"
+    ],
+    "correctAnswer": 0,
+    "help": "Going concern se nanaša na nadaljevanje poslovanja. Razmisli, katera predpostavka je osnova za računovodstvo.",
+    "answer": "Going concern assumption (predpostavka nadaljevanja poslovanja) je temeljna predpostavka računovodstva, da bo podjetje nadaljevalo poslovanje v predvidljivi prihodnosti in ne bo moralo prenehati poslovanja ali likvidirati sredstev. Če obstajajo resni dvomi o going concern, mora podjetje to razkriti v finančnih izkazih in morda uporabiti alternativne metode vrednotenja (npr. likvidacijska vrednost).",
+    "id": 91
+  },
+  {
+    "question": "Kaj je substance over form v računovodstvu?",
+    "options": [
+      "Načelo, da se računovodstvo osredotoča na gospodarsko bistvo transakcije, ne glede na njeno pravno obliko",
+      "Načelo, da se računovodstvo osredotoča le na pravno obliko",
+      "Načelo, da se računovodstvo osredotoča le na dokumente",
+      "Načelo, da se računovodstvo osredotoča le na pogodbe"
+    ],
+    "correctAnswer": 0,
+    "help": "Substance over form pomeni bistvo pred obliko. Razmisli, kaj je pomembneje - pravna oblika ali gospodarsko bistvo.",
+    "answer": "Substance over form (bistvo pred obliko) je računovodsko načelo, da se računovodstvo osredotoča na gospodarsko bistvo transakcije, ne glede na njeno pravno obliko. To pomeni, da se transakcije prikažejo v skladu z njihovim dejanskim gospodarskim učinkom in tveganjem, ne glede na to, kako so formalno strukturirane. To načelo preprečuje prikrivanje resničnega stanja z ustvarjanjem zapletenih pravnih struktur.",
+    "id": 92
+  },
+  {
+    "question": "Kaj je off-balance sheet financing?",
+    "options": [
+      "Financiranje, ki ni prikazano v bilanci stanja, vendar vključuje tveganje za podjetje",
+      "Financiranje, ki je vedno prikazano v bilanci",
+      "Financiranje brez tveganja",
+      "Navadno financiranje"
+    ],
+    "correctAnswer": 0,
+    "help": "Off-balance sheet se nanaša na to, kar ni v bilanci. Razmisli, katero financiranje ni prikazano, vendar vseeno obstaja.",
+    "answer": "Off-balance sheet financing (financiranje izven bilance stanja) je financiranje, ki ni prikazano v bilanci stanja, vendar vključuje tveganje za podjetje. Primeri so: operativni leasing, posebne namenske enote (SPE), garancije in druge obveznosti. Zaradi možnosti zlorabe morajo računovodski standardi (npr. IFRS 16 za leasing) zahtevati, da se določene oblike financiranja prikažejo v bilanci stanja.",
+    "id": 93
+  },
+  {
+    "question": "Kaj je EVA (Economic Value Added)?",
+    "options": [
+      "Mera ekonomske vrednosti, ki predstavlja presežek dobička nad stroški kapitala",
+      "Mera samo dobička",
+      "Mera samo stroškov",
+      "Mera samo prihodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "EVA se nanaša na ekonomsko vrednost. Razmisli, kako se meri, ali podjetje ustvarja vrednost za lastnike.",
+    "answer": "EVA (Economic Value Added - ekonomska dodana vrednost) je mera ekonomske vrednosti, ki predstavlja presežek operativnega dobička nad stroški vsega uporabljenega kapitala (dolg + lastniški kapital). Izračuna se kot: NOPAT - (WACC × Investirani kapital). Pozitiven EVA pomeni, da podjetje ustvarja vrednost za lastnike, negativen pa, da uničuje vrednost. EVA se uporablja za vrednotenje uspešnosti upravljanja.",
+    "id": 94
+  },
+  {
+    "question": "Kaj je deferred tax asset?",
+    "options": [
+      "Davčno sredstvo, ki nastane, ko se odhodki priznajo za davčne namene prej kot za računovodske",
+      "Davčna obveznost",
+      "Davčna osnova",
+      "Davčna stopnja"
+    ],
+    "correctAnswer": 0,
+    "help": "Deferred tax asset se nanaša na prihodnji davčni dobiček. Razmisli, kdaj podjetje pričakuje zmanjšanje davčne obveznosti v prihodnosti.",
+    "answer": "Deferred tax asset (odloženo davčno sredstvo) nastane, ko se odhodki priznajo za davčne namene prej kot za računovodske namene, ali ko se prihodki priznajo za računovodske namene prej kot za davčne. To pomeni, da bo podjetje v prihodnosti plačalo nižje davke zaradi te razlike. Odložena davčna sredstva se prikažejo kot sredstvo v bilanci stanja in se uporabljajo za zmanjšanje prihodnje davčne obveznosti.",
+    "id": 95
+  },
+  {
+    "question": "Kaj je deferred tax liability?",
+    "options": [
+      "Davčna obveznost, ki nastane, ko se odhodki priznajo za računovodske namene prej kot za davčne",
+      "Davčno sredstvo",
+      "Davčna osnova",
+      "Davčna stopnja"
+    ],
+    "correctAnswer": 0,
+    "help": "Deferred tax liability se nanaša na prihodnjo davčno obveznost. Razmisli, kdaj podjetje pričakuje višje davke v prihodnosti.",
+    "answer": "Deferred tax liability (odložena davčna obveznost) nastane, ko se odhodki priznajo za računovodske namene prej kot za davčne namene, ali ko se prihodki priznajo za davčne namene prej kot za računovodske. To pomeni, da bo podjetje v prihodnosti plačalo višje davke zaradi te razlike. Odložene davčne obveznosti se prikažejo kot obveznost v bilanci stanja in predstavljajo prihodnjo davčno obveznost.",
+    "id": 96
+  },
+  {
+    "question": "Kaj je cash flow from operations?",
+    "options": [
+      "Denarni tok iz glavnega poslovanja podjetja pred investicijskimi in financirnimi dejavnostmi",
+      "Denarni tok iz investicij",
+      "Denarni tok iz financiranja",
+      "Skupni denarni tok"
+    ],
+    "correctAnswer": 0,
+    "help": "Cash flow from operations se nanaša na poslovanje. Razmisli, kateri denarni tok prikazuje sposobnost podjetja za generiranje denarja iz svojega glavnega poslovanja.",
+    "answer": "Cash flow from operations (denarni tok iz poslovanja) je denarni tok iz glavnega poslovanja podjetja pred investicijskimi in financirnimi dejavnostmi. Ta kazalnik prikazuje, koliko denarja podjetje generira iz svojega rednega poslovanja. Pozitiven denarni tok iz poslovanja pomeni, da podjetje generira dovolj denarja za financiranje svojega poslovanja. Ta kazalnik je pomembnejši od dobička, saj denar je ključen za preživetje podjetja.",
+    "id": 97
+  },
+  {
+    "question": "Kaj je free cash flow (FCF)?",
+    "options": [
+      "Denarni tok iz poslovanja minus kapitalske naložbe",
+      "Denarni tok iz poslovanja",
+      "Denarni tok iz investicij",
+      "Denarni tok iz financiranja"
+    ],
+    "correctAnswer": 0,
+    "help": "Free cash flow se nanaša na prosti denarni tok. Razmisli, koliko denarja ostane po kapitalskih naložbah.",
+    "answer": "Free Cash Flow (FCF - prosti denarni tok) je denarni tok iz poslovanja minus kapitalske naložbe (investicije v osnovna sredstva). FCF predstavlja denar, ki je na voljo za izplačilo lastnikom, zmanjšanje dolga ali reinvestiranje v podjetje. FCF je ključen kazalnik za vrednotenje podjetja in oceno sposobnosti podjetja za izplačilo dividend ali zmanjšanje dolga.",
+    "id": 98
+  },
+  {
+    "question": "Kaj je Altman Z-score?",
+    "options": [
+      "Statistični model za napoved stečaja podjetja na podlagi finančnih kazalnikov",
+      "Model za napoved dobička",
+      "Model za napoved prihodkov",
+      "Model za napoved odhodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "Z-score se nanaša na tveganje stečaja. Razmisli, kateri model ocenjuje verjetnost finančnih težav.",
+    "answer": "Altman Z-score je statistični model za napoved stečaja podjetja na podlagi kombinacije finančnih kazalnikov. Model uporablja pet razmerij: delovni kapital/sredstva, zadržani dobiček/sredstva, EBIT/sredstva, tržna vrednost kapitala/obveznosti in prihodki/sredstva. Nižji Z-score pomeni večje tveganje za stečaj. Model je še posebej koristen za oceno kreditnega tveganja.",
+    "id": 99
+  },
+  {
+    "question": "Kaj je DuPont analysis?",
+    "options": [
+      "Analitična metoda, ki razdeli ROI na komponente za razumevanje virov donosnosti",
+      "Analiza samo dobička",
+      "Analiza samo prihodkov",
+      "Analiza samo odhodkov"
+    ],
+    "correctAnswer": 0,
+    "help": "DuPont analysis se nanaša na razčlenitev donosnosti. Razmisli, kako se ROI razčleni na posamezne dejavnike.",
+    "answer": "DuPont analysis (DuPont analiza) je analitična metoda, ki razdeli ROI (Return on Investment) na tri komponente: profit margin (profitna marža), asset turnover (obrat sredstev) in financial leverage (finančni vzvod). Formula je: ROI = (Net Income/Sales) × (Sales/Assets) × (Assets/Equity). Ta razčlenitev omogoča razumevanje, kateri dejavniki prispevajo k donosnosti in kje so možnosti za izboljšanje.",
+    "id": 100
   }
 ]
