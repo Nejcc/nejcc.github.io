@@ -281,7 +281,6 @@
             closeIcon.classList.toggle('hidden');
         }
         
-        // Close mobile menu when clicking outside
         document.addEventListener('click', function(event) {
             const menu = document.getElementById('mobile-menu');
             const button = document.getElementById('mobile-menu-button');
@@ -731,10 +730,1434 @@
         </div>
     </section>
 
+    <!-- Usage Examples Section -->
+    <section id="usage" class="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-slate-900 to-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8 sm:mb-10 lg:mb-12">
+                <div class="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-laravel-red to-laravel-amber rounded-xl sm:rounded-2xl mb-3 sm:mb-4">
+                    <span class="text-2xl sm:text-3xl">💻</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3 sm:mb-4">Usage Examples</h2>
+                <p class="text-base sm:text-lg lg:text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed px-4">
+                    Learn how to use the LaravelPlus TOON package in your Laravel applications
+                </p>
+            </div>
+
+            <!-- Tabs Navigation -->
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-8 sm:mb-10">
+                <button onclick="showUsageTab('basic')" id="tab-basic" class="usage-tab active px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-laravel-red to-laravel-amber text-white rounded-lg font-semibold text-sm sm:text-base transition-all hover:scale-105">
+                    Basic Usage
+                </button>
+                <button onclick="showUsageTab('database')" id="tab-database" class="usage-tab px-4 sm:px-6 py-2 sm:py-3 bg-slate-700 text-slate-300 rounded-lg font-semibold text-sm sm:text-base transition-all hover:bg-slate-600 hover:scale-105">
+                    Database
+                </button>
+                <button onclick="showUsageTab('llm')" id="tab-llm" class="usage-tab px-4 sm:px-6 py-2 sm:py-3 bg-slate-700 text-slate-300 rounded-lg font-semibold text-sm sm:text-base transition-all hover:bg-slate-600 hover:scale-105">
+                    LLM Integration
+                </button>
+                <button onclick="showUsageTab('conversion')" id="tab-conversion" class="usage-tab px-4 sm:px-6 py-2 sm:py-3 bg-slate-700 text-slate-300 rounded-lg font-semibold text-sm sm:text-base transition-all hover:bg-slate-600 hover:scale-105">
+                    Format Conversion
+                </button>
+                <button onclick="showUsageTab('advanced')" id="tab-advanced" class="usage-tab px-4 sm:px-6 py-2 sm:py-3 bg-slate-700 text-slate-300 rounded-lg font-semibold text-sm sm:text-base transition-all hover:bg-slate-600 hover:scale-105">
+                    Advanced
+                </button>
+            </div>
+
+            <!-- Basic Usage Tab -->
+            <div id="usage-basic" class="usage-content">
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Example 1: Using Facade -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔷</span>
+                                Using the Facade
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Encode and decode data using the Toon facade</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('basic-facade-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="basic-facade-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="basic-facade-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+$data = [
+    'users' => [
+        ['id' => 1, 'name' => 'Alice', 'role' => 'admin'],
+        ['id' => 2, 'name' => 'Bob', 'role' => 'user'],
+    ],
+];
+
+// Encode to TOON format
+$toon = Toon::encode($data);
+
+// Decode back to array
+$decoded = Toon::decode($toon);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('basic-facade-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="basic-facade-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="basic-facade-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[2]{id,name,role}:
+  1,Alice,admin
+  2,Bob,user</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 2: Using Helper Function -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔧</span>
+                                Using Helper Function
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Fluent interface with the global toon() helper function</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('basic-helper-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="basic-helper-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="basic-helper-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>// Fluent interface - pass data to toon()
+$toon = toon($data)->encode();
+
+// Or encode directly
+$toon = toon()->encode($data);
+
+// Decode
+$decoded = toon($toon)->decode();
+
+// Or decode directly
+$decoded = toon()->decode($toon);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('basic-helper-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="basic-helper-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="basic-helper-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[2]{id,name,role}:
+  1,Alice,admin
+  2,Bob,user</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Tab -->
+            <div id="usage-database" class="usage-content hidden">
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Example 1: Eloquent Model -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📦</span>
+                                Eloquent Models
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert Eloquent models and collections to TOON format</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('db-eloquent-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-eloquent-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-eloquent-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+use App\Models\User;
+
+// Single model
+$user = User::find(1);
+$toon = Toon::fromEloquent($user);
+
+// With relationships
+$toon = Toon::fromEloquent($user, ['posts', 'comments']);
+
+// Collection
+$users = User::all();
+$toon = Toon::fromEloquentCollection($users);
+
+// Collection with relationships
+$toon = Toon::fromEloquentCollection($users, ['profile']);
+
+// Using helper function
+$toon = toon($user)->fromEloquent();
+$toon = toon($users)->fromEloquentCollection(['profile']);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('db-eloquent-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-eloquent-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-eloquent-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>user:
+  id: 1
+  name: Alice
+  email: alice@example.com
+  created_at: 2024-01-01 00:00:00</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 2: Query Builder -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔍</span>
+                                Query Builder
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert Query Builder results with chunked processing</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('db-query-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-query-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-query-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+use LaravelPlus\Toon\Database\QueryBuilderToonConverter;
+
+// Basic query
+$toon = Toon::fromQueryBuilder(
+    User::query()->where('active', true)
+);
+
+// With specific columns
+$toon = Toon::fromQueryBuilder(
+    User::query(),
+    ['id', 'name', 'email']
+);
+
+// Chunked processing for large datasets
+$chunks = [];
+foreach (QueryBuilderToonConverter::toToonChunked(
+    User::query(),
+    chunkSize: 1000
+) as $chunkToon) {
+    $chunks[] = $chunkToon;
+}
+
+// Process chunks using array_map
+$processed = array_map(
+    fn($chunk) => [
+        'toon' => $chunk,
+        'count' => count(Toon::decode($chunk)[array_key_first(Toon::decode($chunk))] ?? []),
+    ],
+    $chunks
+);
+
+// Aggregate using array_reduce
+$total = array_reduce(
+    $processed,
+    fn($carry, $chunk) => $carry + $chunk['count'],
+    0
+);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('db-query-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-query-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-query-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[2]{email,id,name}:
+  alice@example.com,1,Alice
+  bob@example.com,2,Bob</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 3: Collections -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📚</span>
+                                Laravel Collections
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert Laravel Collections to TOON format</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('db-collection-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-collection-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-collection-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+use Illuminate\Support\Collection;
+
+$collection = collect([
+    ['id' => 1, 'name' => 'Alice'],
+    ['id' => 2, 'name' => 'Bob'],
+]);
+
+$toon = Toon::fromCollection($collection);
+
+// Using helper function
+$toon = toon($collection)->fromCollection();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('db-collection-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="db-collection-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="db-collection-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>items[2]{id,name}:
+  1,Alice
+  2,Bob</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LLM Integration Tab -->
+            <div id="usage-llm" class="usage-content hidden">
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Example 1: LLM Encoding -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🤖</span>
+                                Encoding for LLM
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Encode data specifically optimized for LLM prompts</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('llm-encode-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-encode-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-encode-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+$data = [
+    'users' => [
+        ['id' => 1, 'name' => 'Alice', 'score' => 95],
+        ['id' => 2, 'name' => 'Bob', 'score' => 87],
+    ],
+];
+
+// Encode with validation metadata
+$toon = Toon::forLlm($data);
+
+// Using helper function
+$toon = toon($data)->forLlm();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('llm-encode-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-encode-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-encode-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[2]{id,name,score}:
+  1,Alice,95
+  2,Bob,87</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 2: Prompt Builder -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📝</span>
+                                Prompt Builder
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Build LLM prompts with system/user messages and TOON data</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('llm-prompt-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-prompt-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-prompt-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Custom prompt
+$prompt = Toon::prompt()
+    ->system('You are a data analyst.')
+    ->user('Analyze the user data and identify trends.')
+    ->withData([
+        'users' => User::all()->toArray(),
+    ])
+    ->build();
+
+// Pre-built prompt types
+$analysisPrompt = Toon::prompt()->forAnalysis(
+    'What trends do you see in the data?',
+    ['users' => User::all()->toArray()]
+);
+
+$transformationPrompt = Toon::prompt()->forTransformation(
+    'Convert all names to uppercase',
+    ['users' => User::all()->toArray()]
+);
+
+$extractionPrompt = Toon::prompt()->forExtraction(
+    'Extract all email addresses',
+    ['users' => User::all()->toArray()]
+);
+
+// Build multiple prompts using array_map
+$promptConfigs = [
+    ['type' => 'analysis', 'question' => 'What trends do you see?'],
+    ['type' => 'transformation', 'instruction' => 'Convert names to uppercase'],
+    ['type' => 'extraction', 'question' => 'Extract all emails'],
+];
+
+$data = ['users' => User::all()->toArray()];
+
+$prompts = array_map(
+    fn($config) => match ($config['type']) {
+        'analysis' => Toon::prompt()->forAnalysis($config['question'], $data),
+        'transformation' => Toon::prompt()->forTransformation($config['instruction'], $data),
+        'extraction' => Toon::prompt()->forExtraction($config['question'], $data),
+        default => null,
+    },
+    $promptConfigs
+);
+
+// Filter out null values
+$validPrompts = array_filter($prompts, fn($p) => $p !== null);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('llm-prompt-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-prompt-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-prompt-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>System: You are a data analyst.
+
+User: Analyze the user data and identify trends.
+
+Data:
+users[1]{id,name}:
+  1,Alice</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 3: Validation -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">✅</span>
+                                Validation
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Validate TOON strings and decode LLM responses with validation</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('llm-validation-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-validation-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-validation-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Validate TOON string
+$validation = Toon::validate($toon);
+if ($validation['valid']) {
+    // Use the TOON string
+} else {
+    // Process errors using array_map
+    array_map(fn($error) => error_log($error), $validation['errors']);
+}
+
+// Decode with validation
+$llmResponse = "users[2]{id,name}:\n  1,Alice\n  2,Bob";
+$result = Toon::fromLlmWithValidation($llmResponse);
+
+if ($result['valid']) {
+    $data = $result['data'];
+} else {
+    // Process errors using array_map
+    $formattedErrors = array_map(
+        fn($error) => "Error: {$error}\n",
+        $result['errors']
+    );
+    echo implode('', $formattedErrors);
+}
+
+// Validate multiple responses using array_map
+$responses = [
+    "users[2]{id,name}:\n  1,Alice\n  2,Bob",
+    "products[1]{id,name}:\n  1,Widget",
+];
+
+$validated = array_map(
+    fn($response) => Toon::fromLlmWithValidation($response),
+    $responses
+);
+
+// Filter valid responses using array_filter
+$validData = array_filter(
+    $validated,
+    fn($result) => $result['valid']
+);
+
+// Extract data using array_map
+$extracted = array_map(
+    fn($result) => $result['data'],
+    $validData
+);
+
+// Using helper function
+$validation = toon($toon)->validate();
+$result = toon($llmResponse)->fromLlmWithValidation();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('llm-validation-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="llm-validation-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="llm-validation-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>Valid: true</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Format Conversion Tab -->
+            <div id="usage-conversion" class="usage-content hidden">
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Example 1: JSON Conversion -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔄</span>
+                                JSON Conversion
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert between TOON and JSON formats</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('conv-json-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-json-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-json-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Encode to TOON
+$toon = Toon::encode($data);
+
+// Convert TOON to JSON
+$json = Toon::toJson($toon);
+
+// Convert JSON back to TOON
+$toonFromJson = Toon::fromJson($json);
+
+// Using helper function
+$json = toon($toon)->toJson();
+$toon = toon($json)->fromJson();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('conv-json-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-json-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-json-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>{
+  "users": [
+    {
+      "id": 1,
+      "name": "Alice"
+    }
+  ]
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 2: XML Conversion -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📄</span>
+                                XML Conversion
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert between TOON and XML formats</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('conv-xml-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-xml-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-xml-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Convert TOON to XML
+$xml = Toon::toXml($toon, rootElement: 'data');
+
+// Convert XML back to TOON
+$toonFromXml = Toon::fromXml($xml);
+
+// Using helper function
+$xml = toon($toon)->toXml(rootElement: 'data');
+$toon = toon($xml)->fromXml();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('conv-xml-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-xml-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-xml-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code><?xml version="1.0" encoding="UTF-8"?><data>
+  <users>
+    <id>1</id>
+    <name>Alice</name>
+  </users>
+</data></code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 3: YAML Conversion -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📋</span>
+                                YAML Conversion
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert between TOON and YAML formats</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('conv-yaml-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-yaml-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-yaml-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Convert TOON to YAML
+$yaml = Toon::toYaml($toon, inline: 2, indent: 2);
+
+// Convert YAML back to TOON
+$toonFromYaml = Toon::fromYaml($yaml);
+
+// Using helper function
+$yaml = toon($toon)->toYaml();
+$toon = toon($yaml)->fromYaml();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('conv-yaml-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-yaml-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-yaml-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users:
+  - id: 1
+    name: Alice</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 4: CSV Conversion -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📊</span>
+                                CSV Conversion
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert between TOON and CSV formats</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('conv-csv-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-csv-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-csv-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Convert TOON to CSV
+$csv = Toon::toCsv($toon, delimiter: ',', includeHeaders: true);
+
+// Convert CSV back to TOON
+$toonFromCsv = Toon::fromCsv($csv);
+
+// Custom CSV options
+$csv = Toon::toCsv($toon, delimiter: ';', enclosure: "'", includeHeaders: false);
+
+// Using helper function
+$csv = toon($toon)->toCsv();
+$toon = toon($csv)->fromCsv();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('conv-csv-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-csv-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-csv-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>id,name,role
+1,Alice,admin</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 5: XLSX Conversion -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📗</span>
+                                XLSX Conversion
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Convert between TOON and Excel (XLSX) formats</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('conv-xlsx-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-xlsx-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-xlsx-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Convert TOON to XLSX (returns base64 encoded string)
+$xlsxBase64 = Toon::toXlsx($toon, includeHeaders: true, sheetName: 'Users');
+
+// Save to file
+file_put_contents('users.xlsx', base64_decode($xlsxBase64));
+
+// Convert XLSX file back to TOON
+$toonFromXlsx = Toon::fromXlsx('users.xlsx', sheetName: 'Users');
+
+// Or use base64 encoded content
+$toonFromXlsx = Toon::fromXlsx($xlsxBase64);
+
+// Using helper function
+$xlsx = toon($toon)->toXlsx(sheetName: 'Data');
+$toon = toon('file.xlsx')->fromXlsx();</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('conv-xlsx-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="conv-xlsx-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="conv-xlsx-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>Base64 encoded XLSX file (Excel format)
+Contains: Users sheet with id, name columns</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="usage-advanced" class="usage-content hidden">
+                <div class="space-y-6 sm:space-y-8">
+                    <!-- Example 1: Complex Nested Data -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🌳</span>
+                                Complex Nested Data
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Process complex nested structures using array functions</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-complex-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-complex-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-complex-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Complex nested data structure
+$data = [
+    'context' => [
+        'task' => 'Our favorite hikes together',
+        'location' => 'Boulder',
+        'season' => 'spring_2025',
+    ],
+    'friends' => ['ana', 'luis', 'sam'],
+    'hikes' => [
+        [
+            'id' => 1,
+            'name' => 'Blue Lake Trail',
+            'distanceKm' => 7.5,
+            'elevationGain' => 320,
+            'companion' => 'ana',
+            'wasSunny' => true,
+        ],
+        [
+            'id' => 2,
+            'name' => 'Ridge Overlook',
+            'distanceKm' => 9.2,
+            'elevationGain' => 540,
+            'companion' => 'luis',
+            'wasSunny' => false,
+        ],
+    ],
+];
+
+// Transform data using array methods
+$transformed = [
+    'summary' => [
+        'totalHikes' => count($data['hikes']),
+        'totalDistance' => array_reduce(
+            $data['hikes'],
+            fn($carry, $hike) => $carry + $hike['distanceKm'],
+            0
+        ),
+        'averageElevation' => array_reduce(
+            $data['hikes'],
+            fn($carry, $hike) => $carry + $hike['elevationGain'],
+            0
+        ) / count($data['hikes']),
+    ],
+    'hikes' => array_map(
+        fn($hike) => [
+            'name' => $hike['name'],
+            'difficulty' => $hike['elevationGain'] > 400 ? 'hard' : 'moderate',
+            'companion' => $hike['companion'],
+        ],
+        $data['hikes']
+    ),
+    'sunnyHikes' => array_filter(
+        $data['hikes'],
+        fn($hike) => $hike['wasSunny']
+    ),
+];
+
+$toon = Toon::encode($transformed);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-complex-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-complex-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-complex-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>summary:
+  totalHikes: 2
+  totalDistance: 16.7
+  averageElevation: 430.0
+hikes[2]{companion,difficulty,name}:
+  moderate,ana,Blue Lake Trail
+  hard,luis,Ridge Overlook
+sunnyHikes[1]{companion,distanceKm,elevationGain,id,name,wasSunny}:
+  320,7.5,1,Blue Lake Trail,ana,true</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 2: Batch Processing with Array Methods -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">⚡</span>
+                                Batch Processing
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Process multiple datasets efficiently using array functions</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-batch-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-batch-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-batch-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+use App\Models\User;
+use App\Models\Product;
+use App\Models\Order;
+
+// Process multiple models using array methods
+$models = [
+    'users' => User::where('active', true)->get(),
+    'products' => Product::where('in_stock', true)->get(),
+    'orders' => Order::where('status', 'completed')->get(),
+];
+
+// Convert all to TOON using array_map (no foreach!)
+$toonData = array_map(
+    fn($collection) => Toon::fromEloquentCollection($collection),
+    $models
+);
+
+// Or process and combine in one step
+$combined = array_reduce(
+    array_keys($models),
+    fn($carry, $key) => [
+        ...$carry,
+        $key => Toon::fromEloquentCollection($models[$key]),
+    ],
+    []
+);
+
+// Filter and transform before encoding
+$filtered = array_filter(
+    $models,
+    fn($collection) => $collection->count() > 0
+);
+
+$toon = Toon::encode(
+    array_map(
+        fn($collection, $key) => [
+            'type' => $key,
+            'count' => $collection->count(),
+            'data' => Toon::decode(Toon::fromEloquentCollection($collection)),
+        ],
+        $filtered,
+        array_keys($filtered)
+    )
+);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-batch-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-batch-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-batch-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>items[1]{count,data,type}:
+  2,users[2]{id}:
+  1
+  2,users</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 3: Dependency Injection with Interfaces -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔌</span>
+                                Dependency Injection with Interfaces
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Use dependency injection with TOON interfaces for better testability</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-di-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-di-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-di-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Contracts\ToonManagerInterface;
+
+class DataExportService
+{
+    public function __construct(
+        private ToonManagerInterface $toon
+    ) {}
+
+    public function exportUsers(array $userIds): string
+    {
+        $users = User::whereIn('id', $userIds)->get();
+        
+        return $this->toon->fromEloquentCollection($users);
+    }
+
+    public function exportMultiple(array $collections): array
+    {
+        // Use array_map instead of foreach
+        return array_map(
+            fn($collection) => $this->toon->fromEloquentCollection($collection),
+            $collections
+        );
+    }
+}
+
+// In a controller or service
+class UserController
+{
+    public function __construct(
+        private DataExportService $exportService
+    ) {}
+
+    public function export(Request $request): Response
+    {
+        $userIds = $request->input('user_ids', []);
+        $toon = $this->exportService->exportUsers($userIds);
+        
+        return response($toon, 200)
+            ->header('Content-Type', 'text/plain');
+    }
+}</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-di-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-di-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-di-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[1]{id,name}:
+  1,Alice</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 4: Advanced LLM Workflow -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🤖</span>
+                                Advanced LLM Workflow
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Build complex LLM workflows using array functions</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-llm-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-llm-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-llm-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Process multiple datasets for LLM analysis
+$datasets = [
+    'users' => User::all()->toArray(),
+    'orders' => Order::all()->toArray(),
+    'products' => Product::all()->toArray(),
+];
+
+// Transform and encode all datasets using array_map
+$toonDatasets = array_map(
+    fn($data) => Toon::forLlm($data),
+    $datasets
+);
+
+// Build multiple prompts using array_map
+$prompts = array_map(
+    fn($key, $toon) => Toon::prompt()
+        ->system('You are a data analyst.')
+        ->user("Analyze the {$key} data and identify key insights.")
+        ->withData([$key => Toon::decode($toon)])
+        ->build(),
+    array_keys($toonDatasets),
+    $toonDatasets
+);
+
+// Process LLM responses with validation
+$llmResponses = [
+    "users[2]{id,name}:\n  1,Alice\n  2,Bob",
+    "orders[3]{id,amount}:\n  1,99.99\n  2,149.99\n  3,79.99",
+];
+
+// Validate and decode all responses using array_map
+$validatedData = array_map(
+    fn($response) => Toon::fromLlmWithValidation($response),
+    $llmResponses
+);
+
+// Filter only valid responses
+$validResponses = array_filter(
+    $validatedData,
+    fn($result) => $result['valid']
+);
+
+// Extract data from valid responses
+$extractedData = array_map(
+    fn($result) => $result['data'],
+    $validResponses
+);
+
+// Combine all valid data
+$combined = array_reduce(
+    $extractedData,
+    fn($carry, $data) => array_merge($carry, $data),
+    []
+);
+
+$finalToon = Toon::encode($combined);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-llm-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-llm-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-llm-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>users[1]{id,name}:
+  1,Alice
+orders[1]{amount,id}:
+  99.99,1</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 5: Custom Data Transformation Pipeline -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">🔄</span>
+                                Data Transformation Pipeline
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Create transformation pipelines using array methods</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-pipeline-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-pipeline-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-pipeline-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+// Raw data from multiple sources
+$rawData = [
+    'csv' => "id,name,email\n1,Alice,alice@example.com\n2,Bob,bob@example.com",
+    'json' => '{"products":[{"id":1,"name":"Widget"},{"id":2,"name":"Gadget"}]}',
+    'xml' => '<' . '?xml version="1.0"?><users><user><id>1</id><name>Charlie</name></user></users>',
+];
+
+// Transform pipeline using array methods
+$transformed = array_reduce(
+    array_keys($rawData),
+    function ($carry, $format) use ($rawData) {
+        $data = match ($format) {
+            'csv' => Toon::fromCsv($rawData[$format]),
+            'json' => Toon::fromJson($rawData[$format]),
+            'xml' => Toon::fromXml($rawData[$format]),
+            default => null,
+        };
+        
+        return $data ? [
+            ...$carry,
+            $format => Toon::decode($data),
+        ] : $carry;
+    },
+    []
+);
+
+// Normalize and merge data
+$normalized = array_map(
+    fn($data, $source) => [
+        'source' => $source,
+        'records' => array_map(
+            fn($record) => array_merge($record, ['source' => $source]),
+            is_array($data) && isset($data[array_key_first($data)]) 
+                ? $data[array_key_first($data)] 
+                : []
+        ),
+    ],
+    $transformed,
+    array_keys($transformed)
+);
+
+// Filter and aggregate
+$aggregated = array_reduce(
+    $normalized,
+    fn($carry, $item) => [
+        ...$carry,
+        'records' => array_merge($carry['records'] ?? [], $item['records']),
+    ],
+    ['sources' => array_keys($transformed)]
+);
+
+$finalToon = Toon::encode($aggregated);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-pipeline-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-pipeline-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-pipeline-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>sources[3]: csv,json,xml
+records[1]{id,name,source}:
+  1,Alice,csv</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 6: Chunked Processing with Array Methods -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📦</span>
+                                Chunked Processing
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Process large datasets in chunks using array functions</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-chunk-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-chunk-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-chunk-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+use LaravelPlus\Toon\Database\QueryBuilderToonConverter;
+
+// Process large dataset in chunks
+$query = User::query();
+$chunkSize = 1000;
+
+// Collect all chunks using array methods
+$chunks = [];
+foreach (QueryBuilderToonConverter::toToonChunked($query, chunkSize: $chunkSize) as $chunkToon) {
+    $chunks[] = $chunkToon;
+}
+
+// Process chunks using array_map (no foreach for processing!)
+$processedChunks = array_map(
+    fn($chunk) => [
+        'toon' => $chunk,
+        'data' => Toon::decode($chunk),
+        'count' => count(Toon::decode($chunk)[array_key_first(Toon::decode($chunk))] ?? []),
+    ],
+    $chunks
+);
+
+// Aggregate statistics using array_reduce
+$stats = array_reduce(
+    $processedChunks,
+    fn($carry, $chunk) => [
+        'totalChunks' => ($carry['totalChunks'] ?? 0) + 1,
+        'totalRecords' => ($carry['totalRecords'] ?? 0) + $chunk['count'],
+        'averageChunkSize' => (($carry['totalRecords'] ?? 0) + $chunk['count']) / (($carry['totalChunks'] ?? 0) + 1),
+    ],
+    []
+);
+
+// Filter chunks by criteria
+$largeChunks = array_filter(
+    $processedChunks,
+    fn($chunk) => $chunk['count'] > 500
+);
+
+// Transform large chunks
+$transformed = array_map(
+    fn($chunk) => Toon::encode([
+        'summary' => [
+            'recordCount' => $chunk['count'],
+            'size' => strlen($chunk['toon']),
+        ],
+        'sample' => array_slice($chunk['data'][array_key_first($chunk['data'])], 0, 5),
+    ]),
+    $largeChunks
+);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-chunk-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-chunk-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-chunk-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>summary:
+  recordCount: 1000
+  size: 5000
+sample[2]{id}:
+  1
+  2</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Example 7: Multi-Format Export -->
+                    <div class="bg-slate-800 rounded-xl sm:rounded-2xl shadow-lg overflow-hidden border border-slate-700 card-hover">
+                        <div class="bg-gradient-to-r from-laravel-red/10 to-laravel-amber/10 px-4 sm:px-6 py-4 border-b border-slate-700">
+                            <h3 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <span class="text-2xl">📤</span>
+                                Multi-Format Export
+                            </h3>
+                            <p class="text-sm sm:text-base text-slate-300 mt-2">Export data to multiple formats simultaneously</p>
+                        </div>
+                        <div class="p-4 sm:p-6 space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">PHP Code</h4>
+                                    <button onclick="copyCode('adv-export-code')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-export-code-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-export-code" class="code-block bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-slate-700"><code>use LaravelPlus\Toon\Facades\Toon;
+
+$data = [
+    'users' => User::all()->toArray(),
+    'products' => Product::all()->toArray(),
+];
+
+// Encode to TOON first
+$toon = Toon::encode($data);
+
+// Export to all formats using array_map
+$formats = ['json', 'xml', 'yaml', 'csv', 'xlsx'];
+
+$exports = array_reduce(
+    $formats,
+    function ($carry, $format) use ($toon) {
+        $content = match ($format) {
+            'json' => Toon::toJson($toon),
+            'xml' => Toon::toXml($toon, rootElement: 'data'),
+            'yaml' => Toon::toYaml($toon),
+            'csv' => Toon::toCsv($toon),
+            'xlsx' => Toon::toXlsx($toon, sheetName: 'Export'),
+            default => null,
+        };
+        
+        return $content ? [
+            ...$carry,
+            $format => [
+                'content' => $content,
+                'size' => strlen($content),
+                'mime' => match ($format) {
+                    'json' => 'application/json',
+                    'xml' => 'application/xml',
+                    'yaml' => 'text/yaml',
+                    'csv' => 'text/csv',
+                    'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                },
+            ],
+        ] : $carry;
+    },
+    []
+);
+
+// Get format statistics
+$stats = array_map(
+    fn($format, $data) => [
+        'format' => $format,
+        'size' => $data['size'],
+        'efficiency' => round((1 - $data['size'] / $exports['json']['size']) * 100, 1),
+    ],
+    array_keys($exports),
+    $exports
+);
+
+// Sort by efficiency
+usort($stats, fn($a, $b) => $b['efficiency'] <=> $a['efficiency']);</code></pre>
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <h4 class="text-sm sm:text-base font-semibold text-white">Output</h4>
+                                    <button onclick="copyCode('adv-export-output')" class="copy-code-btn px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs font-medium rounded-lg transition-all">
+                                        <span id="adv-export-output-label">Copy</span>
+                                    </button>
+                                </div>
+                                <pre id="adv-export-output" class="code-block bg-slate-900 text-blue-400 p-4 rounded-lg overflow-x-auto text-xs sm:text-sm border-2 border-blue-500/20"><code>Format Statistics:
+toon: 48 bytes, 69.2% efficiency
+yaml: 98 bytes, 37.2% efficiency
+json: 156 bytes, 0.0% efficiency</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <script>
-        // Initialize Vue when ready
+        // Tab switching functionality
+        function showUsageTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.usage-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.usage-tab').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-laravel-red', 'to-laravel-amber', 'text-white');
+                btn.classList.add('bg-slate-700', 'text-slate-300');
+            });
+            
+            // Show selected tab
+            document.getElementById('usage-' + tabName).classList.remove('hidden');
+            
+            // Add active class to selected button
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.remove('bg-slate-700', 'text-slate-300');
+            activeBtn.classList.add('bg-gradient-to-r', 'from-laravel-red', 'to-laravel-amber', 'text-white');
+        }
+
+        function copyCode(elementId) {
+            const element = document.getElementById(elementId);
+            const code = element.textContent || element.innerText;
+            const labelId = elementId + '-label';
+            const label = document.getElementById(labelId);
+            
+            navigator.clipboard.writeText(code).then(() => {
+                if (label) {
+                    const originalText = label.textContent;
+                    label.textContent = '✓ Copied!';
+                    label.classList.add('text-green-400');
+                    setTimeout(() => {
+                        label.textContent = originalText;
+                        label.classList.remove('text-green-400');
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                const textArea = document.createElement('textarea');
+                textArea.value = code;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    if (label) {
+                        const originalText = label.textContent;
+                        label.textContent = '✓ Copied!';
+                        label.classList.add('text-green-400');
+                        setTimeout(() => {
+                            label.textContent = originalText;
+                            label.classList.remove('text-green-400');
+                        }, 2000);
+                        document.body.removeChild(textArea);
+                    }
+                } catch (fallbackErr) {
+                    console.error('Fallback copy failed:', fallbackErr);
+                    document.body.removeChild(textArea);
+                }
+            });
+        }
+
         function initVueApp() {
-            // Check if Vue is loaded
             if (typeof Vue === 'undefined') {
                 console.error('Vue.js is not loaded. Retrying...');
                 setTimeout(initVueApp, 500);
@@ -744,7 +2167,6 @@
             try {
                 const { createApp } = Vue;
                 
-                // Encode examples data with proper flags for safe JSON output
                 const examplesData = [{"title":"Basic Tabular Array","description":"The key is part of the declaration line, and field names are declared once.","icon":"📊","data":{"users":[{"id":1,"name":"Alice","role":"admin"},{"id":2,"name":"Bob","role":"user"}]},"json":"{\n    \u0022users\u0022: [\n        {\n            \u0022id\u0022: 1,\n            \u0022name\u0022: \u0022Alice\u0022,\n            \u0022role\u0022: \u0022admin\u0022\n        },\n        {\n            \u0022id\u0022: 2,\n            \u0022name\u0022: \u0022Bob\u0022,\n            \u0022role\u0022: \u0022user\u0022\n        }\n    ]\n}","toon":"users[2]{id,name,role}:\n  1,Alice,admin\n  2,Bob,user","yaml":"users:\n  - { id: 1, name: Alice, role: admin }\n  - { id: 2, name: Bob, role: user }\n","decoded":{"users":[{"id":1,"name":"Alice","role":"admin"},{"id":2,"name":"Bob","role":"user"}]},"jsonSize":218,"toonSize":52,"yamlSize":84,"savings":76.1,"yamlSavings":61.5,"isValid":true},{"title":"Products Array","description":"With more records and fields, TOON\u0027s efficiency increases significantly.","icon":"🛍️","data":{"products":[{"sku":"ABC123","name":"Widget","price":29.99,"stock":150},{"sku":"XYZ789","name":"Gadget","price":49.99,"stock":75},{"sku":"DEF456","name":"Thing","price":19.99,"stock":200}]},"json":"{\n    \u0022products\u0022: [\n        {\n            \u0022sku\u0022: \u0022ABC123\u0022,\n            \u0022name\u0022: \u0022Widget\u0022,\n            \u0022price\u0022: 29.99,\n            \u0022stock\u0022: 150\n        },\n        {\n            \u0022sku\u0022: \u0022XYZ789\u0022,\n            \u0022name\u0022: \u0022Gadget\u0022,\n            \u0022price\u0022: 49.99,\n            \u0022stock\u0022: 75\n        },\n        {\n            \u0022sku\u0022: \u0022DEF456\u0022,\n            \u0022name\u0022: \u0022Thing\u0022,\n            \u0022price\u0022: 19.99,\n            \u0022stock\u0022: 200\n        }\n    ]\n}","toon":"products[3]{name,price,sku,stock}:\n  Widget,29.99,ABC123,150\n  Gadget,49.99,XYZ789,75\n  Thing,19.99,DEF456,200","yaml":"products:\n  - { name: Widget, price: 29.99, sku: ABC123, stock: 150 }\n  - { name: Gadget, price: 49.99, sku: XYZ789, stock: 75 }\n  - { name: Thing, price: 19.99, sku: DEF456, stock: 200 }\n","decoded":{"products":[{"name":"Widget","price":29.99,"sku":"ABC123","stock":150},{"name":"Gadget","price":49.99,"sku":"XYZ789","stock":75},{"name":"Thing","price":19.99,"sku":"DEF456","stock":200}]},"jsonSize":423,"toonSize":110,"yamlSize":188,"savings":74,"yamlSavings":55.6,"isValid":false},{"title":"Complex Nested Data","description":"TOON handles nested objects, inline arrays, and tabular arrays together.","icon":"🌲","data":{"context":{"task":"Our favorite hikes together","location":"Boulder","season":"spring_2025"},"friends":["ana","luis","sam"],"hikes":[{"id":1,"name":"Blue Lake Trail","distanceKm":7.5,"elevationGain":320,"companion":"ana","wasSunny":true},{"id":2,"name":"Ridge Overlook","distanceKm":9.2,"elevationGain":540,"companion":"luis","wasSunny":false}]},"json":"{\n    \u0022context\u0022: {\n        \u0022task\u0022: \u0022Our favorite hikes together\u0022,\n        \u0022location\u0022: \u0022Boulder\u0022,\n        \u0022season\u0022: \u0022spring_2025\u0022\n    },\n    \u0022friends\u0022: [\n        \u0022ana\u0022,\n        \u0022luis\u0022,\n        \u0022sam\u0022\n    ],\n    \u0022hikes\u0022: [\n        {\n            \u0022id\u0022: 1,\n            \u0022name\u0022: \u0022Blue Lake Trail\u0022,\n            \u0022distanceKm\u0022: 7.5,\n            \u0022elevationGain\u0022: 320,\n            \u0022companion\u0022: \u0022ana\u0022,\n            \u0022wasSunny\u0022: true\n        },\n        {\n            \u0022id\u0022: 2,\n            \u0022name\u0022: \u0022Ridge Overlook\u0022,\n            \u0022distanceKm\u0022: 9.2,\n            \u0022elevationGain\u0022: 540,\n            \u0022companion\u0022: \u0022luis\u0022,\n            \u0022wasSunny\u0022: false\n        }\n    ]\n}","toon":"context:\n  task: Our favorite hikes together\n  location: Boulder\n  season: spring_2025\nfriends: [3]: ana,luis,sam\nhikes[2]{companion,distanceKm,elevationGain,id,name,wasSunny}:\n  ana,7.5,320,1,Blue Lake Trail,true\n  luis,9.2,540,2,Ridge Overlook,false","yaml":"context:\n  task: \u0027Our favorite hikes together\u0027\n  location: Boulder\n  season: spring_2025\nfriends:\n  - ana\n  - luis\n  - sam\nhikes:\n  - { companion: ana, distanceKm: 7.5, elevationGain: 320, id: 1, name: \u0027Blue Lake Trail\u0027, wasSunny: true }\n  - { companion: luis, distanceKm: 9.2, elevationGain: 540, id: 2, name: \u0027Ridge Overlook\u0027, wasSunny: false }\n","decoded":{"context":{"task":"Our favorite hikes together","location":"Boulder","season":"spring_2025"},"friends":["ana","luis","sam"],"hikes":[{"companion":"ana","distanceKm":7.5,"elevationGain":320,"id":1,"name":"Blue Lake Trail","wasSunny":true},{"companion":"luis","distanceKm":9.2,"elevationGain":540,"id":2,"name":"Ridge Overlook","wasSunny":false}]},"jsonSize":641,"toonSize":251,"yamlSize":347,"savings":60.8,"yamlSavings":45.9,"isValid":false},{"title":"Inline Array","description":"Arrays of primitives use inline format with length declaration.","icon":"🏷️","data":{"tags":["php","laravel","toon","json","yaml"]},"json":"{\n    \u0022tags\u0022: [\n        \u0022php\u0022,\n        \u0022laravel\u0022,\n        \u0022toon\u0022,\n        \u0022json\u0022,\n        \u0022yaml\u0022\n    ]\n}","toon":"tags: [5]: php,laravel,toon,json,yaml","yaml":"tags:\n  - php\n  - laravel\n  - toon\n  - json\n  - yaml\n","decoded":{"tags":["php","laravel","toon","json","yaml"]},"jsonSize":104,"toonSize":37,"yamlSize":53,"savings":64.4,"yamlSavings":49,"isValid":true},{"title":"Simple Object","description":"Objects use YAML-style indentation for nested structures.","icon":"👤","data":{"user":{"name":"Alice","email":"alice@example.com","age":30,"active":true}},"json":"{\n    \u0022user\u0022: {\n        \u0022name\u0022: \u0022Alice\u0022,\n        \u0022email\u0022: \u0022alice@example.com\u0022,\n        \u0022age\u0022: 30,\n        \u0022active\u0022: true\n    }\n}","toon":"[1]{active,age,email,name}:\n  true,30,alice@example.com,Alice","yaml":"\u0027[1]{active,age,email,name}\u0027: {  }\n","decoded":{"[1]{active,age,email,name}":[]},"jsonSize":128,"toonSize":61,"yamlSize":35,"savings":52.3,"yamlSavings":72.7,"isValid":false}];
                 
                 const app = createApp({
@@ -785,7 +2207,6 @@
                     }
                 });
                 
-                // Mount Vue app
                 const appElement = document.getElementById('app');
                 if (appElement) {
                     app.mount('#app');
@@ -797,15 +2218,12 @@
             }
         }
         
-        // Start initialization when DOM is ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initVueApp);
         } else {
-            // DOM already loaded, wait a bit for Vue script to load
             setTimeout(initVueApp, 100);
         }
         
-        // Fallback: try again after page fully loads
         window.addEventListener('load', function() {
             if (document.getElementById('app') && document.getElementById('app').innerHTML.includes('{{')) {
                 console.log('Vue not mounted, retrying...');
