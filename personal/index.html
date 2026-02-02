@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nejc Cotič — Software Architect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #111114;
+  --border: #1e1e24;
+  --accent: #c9a84c;
+  --accent-dim: #8b7033;
+  --text: #e8e6e1;
+  --text-dim: #7a7870;
+  --text-muted: #4a4940;
+  --green: #4ade80;
+  --red: #f87171;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --cyan: #22d3ee;
+}
+
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+::selection { background: var(--accent); color: var(--bg); }
+
+/* ========== NOISE + SCANLINES ========== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent-dim); border-radius: 2px; }
+
+/* ========== BOOT SCREEN ========== */
+#boot-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+#boot-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#boot-text {
+  font-size: 0.75rem;
+  color: var(--green);
+  max-width: 620px;
+  padding: 2rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* ========== CHOICE PROMPT ========== */
+#choice-prompt {
+  display: none;
+  margin-top: 1.5rem;
+  padding: 0 2rem;
+  max-width: 620px;
+  width: 100%;
+}
+#choice-prompt.show { display: block; animation: fadeIn 0.5s ease; }
+
+.choice-question {
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+.choice-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.choice-btn {
+  flex: 1;
+  padding: 1rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  line-height: 1.6;
+  position: relative;
+  overflow: hidden;
+}
+.choice-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.choice-btn:hover::before { transform: scaleX(1); }
+.choice-btn:hover { border-color: var(--accent-dim); }
+.choice-btn .btn-key {
+  display: block;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+  letter-spacing: 0.1em;
+}
+.choice-btn.terminal-choice::before { background: var(--green); }
+.choice-btn.terminal-choice:hover {
+  border-color: var(--green);
+  color: var(--green);
+  background: rgba(74,222,128,0.03);
+}
+.choice-btn.cv-choice::before { background: var(--accent); }
+.choice-btn.cv-choice:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(201,168,76,0.03);
+}
+.choice-btn .btn-icon { font-size: 1.2rem; margin-bottom: 0.5rem; display: block; }
+
+/* ========== GRID BACKGROUND ========== */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========== CURSOR GLOW ========== */
+.cursor-glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+}
+
+/* ===================================================
+   TERMINAL MODE
+   =================================================== */
+#terminal-mode {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: var(--bg);
+  flex-direction: column;
+}
+#terminal-mode.active { display: flex; }
+
+.term-topbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.2rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.term-dot { width: 10px; height: 10px; border-radius: 50%; }
+.term-dot.r { background: #f87171; cursor: pointer; transition: background 0.2s; }
+.term-dot.r:hover { background: #fca5a5; }
+.term-dot.y { background: #fbbf24; }
+.term-dot.g { background: #4ade80; }
+.term-topbar-title {
+  margin-left: auto;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.term-switch-btn {
+  margin-left: 1rem;
+  padding: 0.3rem 0.8rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+.term-switch-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.term-output-wrap {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.2rem;
+}
+#term-output {
+  font-size: 0.73rem;
+  line-height: 1.85;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.term-input-row {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  border-top: 1px solid var(--border);
+  background: rgba(255,255,255,0.01);
+  flex-shrink: 0;
+}
+.term-prompt-label {
+  color: var(--accent);
+  font-size: 0.73rem;
+  margin-right: 0.6rem;
+  white-space: nowrap;
+}
+#term-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.73rem;
+  caret-color: var(--green);
+}
+
+/* Terminal colored spans */
+.t-green { color: var(--green); }
+.t-accent { color: var(--accent); }
+.t-blue { color: var(--blue); }
+.t-purple { color: var(--purple); }
+.t-red { color: var(--red); }
+.t-cyan { color: var(--cyan); }
+.t-dim { color: var(--text-dim); }
+.t-muted { color: var(--text-muted); }
+.t-bold { font-weight: 700; }
+.t-italic { font-style: italic; }
+
+/* ===================================================
+   CV MODE (VISUAL)
+   =================================================== */
+#cv-mode { display: none; }
+#cv-mode.active { display: block; }
+
+main {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s ease 0.3s;
+}
+main.visible { opacity: 1; }
+
+/* ========== NAV ========== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10,10,12,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--text-dim); font-weight: 300; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::before {
+  content: '>';
+  margin-right: 0.4rem;
+  color: var(--accent-dim);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+.nav-links a:hover::before { opacity: 1; }
+.nav-terminal-btn {
+  padding: 0.35rem 0.9rem;
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+  text-transform: uppercase;
+}
+.nav-terminal-btn:hover {
+  background: rgba(74,222,128,0.08);
+}
+
+/* ========== HERO ========== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 4rem 4rem;
+  position: relative;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.hero-left { animation: fadeSlideUp 1s ease 0.5s both; }
+.hero-right { animation: fadeSlideUp 1s ease 0.8s both; }
+
+.hero-tag {
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+.hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  display: inline-block;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(74,222,128,0); }
+}
+
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+}
+.hero-name strong {
+  font-weight: 700;
+  color: var(--accent);
+  font-style: italic;
+}
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 2rem;
+}
+.hero-desc {
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: var(--text-dim);
+  max-width: 480px;
+}
+
+/* Terminal card in hero */
+.terminal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.72rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid var(--border);
+}
+.terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+.terminal-dot.r { background: #f87171; }
+.terminal-dot.y { background: #fbbf24; }
+.terminal-dot.g { background: #4ade80; }
+.terminal-title { margin-left: auto; color: var(--text-muted); font-size: 0.6rem; }
+.terminal-body { padding: 1.2rem; line-height: 1.9; }
+.terminal-body .prompt { color: var(--accent); }
+.terminal-body .cmd { color: var(--green); }
+.terminal-body .key { color: var(--purple); }
+.terminal-body .val { color: var(--blue); }
+.terminal-body .str { color: var(--accent); }
+
+/* ========== SECTION COMMON ========== */
+section { padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
+.section-header {
+  margin-bottom: 4rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+}
+.section-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--accent-dim);
+  opacity: 0.5;
+}
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.section-line { flex: 1; height: 1px; background: var(--border); }
+
+/* ========== EXPERTISE ========== */
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.expertise-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+.expertise-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.expertise-card:hover::before { transform: scaleX(1); }
+.expertise-card:hover { background: rgba(201,168,76,0.03); }
+.expertise-icon { font-size: 1.4rem; margin-bottom: 1.2rem; display: block; }
+.expertise-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+.expertise-desc { font-size: 0.7rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ========== TIMELINE ========== */
+.timeline { position: relative; padding-left: 3rem; }
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--accent), var(--border), transparent);
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 3rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: fadeSlideRight 0.6s ease forwards;
+}
+.timeline-item:nth-child(1) { animation-delay: 0.1s; }
+.timeline-item:nth-child(2) { animation-delay: 0.2s; }
+.timeline-item:nth-child(3) { animation-delay: 0.3s; }
+.timeline-item:nth-child(4) { animation-delay: 0.4s; }
+.timeline-item:nth-child(5) { animation-delay: 0.5s; }
+.timeline-item:nth-child(6) { animation-delay: 0.6s; }
+.timeline-item:nth-child(7) { animation-delay: 0.7s; }
+.timeline-item:nth-child(8) { animation-delay: 0.8s; }
+.timeline-item:nth-child(9) { animation-delay: 0.9s; }
+
+.timeline-dot {
+  position: absolute;
+  left: -3rem; top: 0.2rem;
+  width: 9px; height: 9px;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: translateX(-4px);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+.timeline-year {
+  font-size: 0.6rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+.timeline-role {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.timeline-company { font-size: 0.7rem; color: var(--text-dim); margin-bottom: 0.6rem; }
+.timeline-desc { font-size: 0.68rem; color: var(--text-muted); line-height: 1.7; max-width: 560px; }
+
+@keyframes fadeSlideRight {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ========== TECH STACK ========== */
+.stack-container { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.stack-tag {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  transition: all 0.3s ease;
+  cursor: default;
+  background: var(--surface);
+}
+.stack-tag:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(201,168,76,0.05);
+}
+.stack-tag.primary { border-color: var(--accent-dim); color: var(--accent); }
+
+/* ========== PROJECTS ========== */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+.project-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  transition: all 0.4s;
+  position: relative;
+  cursor: default;
+}
+.project-card:hover { background: rgba(201,168,76,0.02); }
+.project-idx {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: var(--accent-dim);
+  opacity: 0.3;
+  position: absolute;
+  top: 1.5rem; right: 2rem;
+}
+.project-type {
+  font-size: 0.55rem;
+  color: var(--accent);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+.project-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+.project-desc { font-size: 0.7rem; color: var(--text-dim); line-height: 1.7; max-width: 400px; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.2rem; }
+.project-tags span {
+  font-size: 0.55rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* ========== PHILOSOPHY ========== */
+.philosophy { padding: 8rem 4rem; text-align: center; max-width: 800px; margin: 0 auto; }
+.philosophy blockquote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--text-dim);
+  position: relative;
+  padding: 0 2rem;
+}
+.philosophy blockquote::before {
+  content: '"';
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 6rem;
+  color: var(--accent-dim);
+  opacity: 0.3;
+  position: absolute;
+  top: -2rem; left: -1rem;
+  line-height: 1;
+}
+.philosophy cite {
+  display: block;
+  margin-top: 1.5rem;
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent-dim);
+  letter-spacing: 0.2em;
+}
+
+.seal {
+  width: 120px; height: 120px;
+  border: 1px solid var(--accent-dim);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 2rem;
+  position: relative;
+  animation: slowRotate 30s linear infinite;
+}
+.seal::before { content: '⚜'; font-size: 2.5rem; color: var(--accent); }
+.seal::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--accent-dim);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+@keyframes slowRotate { to { transform: rotate(360deg); } }
+
+/* ========== EDUCATION ========== */
+.edu-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.edu-card {
+  border: 1px solid var(--border);
+  padding: 2rem;
+  background: var(--surface);
+  transition: border-color 0.3s;
+}
+.edu-card:hover { border-color: var(--accent-dim); }
+.edu-year { font-size: 0.6rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 0.6rem; }
+.edu-title { font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 600; margin-bottom: 0.4rem; }
+.edu-desc { font-size: 0.68rem; color: var(--text-dim); line-height: 1.7; }
+
+/* ========== TESTIMONIALS ========== */
+.testimonial-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+.testimonial-card {
+  border-left: 2px solid var(--accent-dim);
+  padding: 2rem;
+  background: var(--surface);
+}
+.testimonial-text { font-size: 0.75rem; color: var(--text-dim); line-height: 1.8; font-style: italic; margin-bottom: 1.5rem; }
+.testimonial-author { font-family: 'Syne', sans-serif; font-size: 0.75rem; font-weight: 600; }
+.testimonial-role { font-size: 0.6rem; color: var(--accent-dim); letter-spacing: 0.1em; }
+
+/* ========== CONTACT ========== */
+.contact-section { padding: 8rem 4rem; text-align: center; max-width: 800px; margin: 0 auto; }
+.contact-pretitle { font-size: 0.6rem; color: var(--accent); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; }
+.contact-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 300; margin-bottom: 1.5rem; }
+.contact-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 2.5rem; }
+.contact-links { display: flex; justify-content: center; gap: 1rem; }
+.contact-links a {
+  padding: 0.8rem 2rem;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  transition: all 0.3s;
+}
+.contact-links a:hover { border-color: var(--accent); color: var(--accent); background: rgba(201,168,76,0.05); }
+.contact-links a.primary-btn { background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 500; }
+.contact-links a.primary-btn:hover { background: #dbb856; }
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.6rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  letter-spacing: 0.1em;
+}
+footer .accent { color: var(--accent-dim); }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.fade-in { opacity: 0; transform: translateY(20px); transition: all 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .hero { padding: 6rem 2rem 3rem; }
+  .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+  section { padding: 4rem 2rem; }
+  .expertise-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .edu-grid { grid-template-columns: 1fr; }
+  .testimonial-grid { grid-template-columns: 1fr; }
+  nav { padding: 0.8rem 1.5rem; }
+  .nav-links { gap: 1rem; }
+  .nav-links a { font-size: 0.6rem; }
+  .philosophy { padding: 4rem 2rem; }
+  .contact-section { padding: 4rem 2rem; }
+  .contact-links { flex-direction: column; align-items: center; }
+  .choice-buttons { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .nav-links a span.nav-text { display: none; }
+  .hero-name { font-size: 2.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="grid-bg"></div>
+
+<!-- ======================== BOOT SCREEN ======================== -->
+<div id="boot-screen">
+  <div id="boot-text"></div>
+  <div id="choice-prompt">
+    <div class="choice-question">> Choose your interface:</div>
+    <div class="choice-buttons">
+      <button class="choice-btn terminal-choice" onclick="enterTerminal()">
+        <span class="btn-icon">▶_</span>
+        Stay in Terminal<br>
+        <small style="color:var(--text-muted)">Explore via CLI commands</small>
+        <span class="btn-key">press [T] or click</span>
+      </button>
+      <button class="choice-btn cv-choice" onclick="enterCV()">
+        <span class="btn-icon">◆</span>
+        View as CV<br>
+        <small style="color:var(--text-muted)">Visual portfolio experience</small>
+        <span class="btn-key">press [V] or click</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== TERMINAL MODE ======================== -->
+<div id="terminal-mode">
+  <div class="term-topbar">
+    <div class="term-dot r" title="Exit terminal" onclick="switchToCV()"></div>
+    <div class="term-dot y"></div>
+    <div class="term-dot g"></div>
+    <span class="term-topbar-title">nejc@arch:~$</span>
+    <button class="term-switch-btn" onclick="switchToCV()">⬡ Switch to CV</button>
+  </div>
+  <div class="term-output-wrap" id="term-output-wrap">
+    <div id="term-output"></div>
+  </div>
+  <div class="term-input-row">
+    <span class="term-prompt-label">visitor@nejc:~$</span>
+    <input type="text" id="term-input" autofocus autocomplete="off" spellcheck="false" placeholder="type 'help' to get started...">
+  </div>
+</div>
+
+<!-- ======================== CV MODE ======================== -->
+<div id="cv-mode">
+<nav>
+  <a href="#" class="nav-logo">NC <span>// architect</span></a>
+  <div class="nav-links">
+    <a href="#expertise"><span class="nav-text">01 </span>Expertise</a>
+    <a href="#experience"><span class="nav-text">02 </span>Career</a>
+    <a href="#stack"><span class="nav-text">03 </span>Stack</a>
+    <a href="#projects"><span class="nav-text">04 </span>Projects</a>
+    <a href="#contact"><span class="nav-text">05 </span>Contact</a>
+    <button class="nav-terminal-btn" onclick="switchToTerminal()">▶_ Terminal</button>
+  </div>
+</nav>
+
+<main id="main-content">
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-grid">
+      <div class="hero-left">
+        <div class="hero-tag">
+          <span class="status-dot"></span> Available for Architecture Consulting
+        </div>
+        <h1 class="hero-name">Nejc<br><strong>Cotič</strong></h1>
+        <p class="hero-title">Principal Software Architect</p>
+        <p class="hero-desc">23+ years building enterprise systems — PIM, OTA, CRM, ERP, Fintech & CMS architectures. Lord of Kilnaish. Turning complexity into elegant, scalable code since '99.</p>
+      </div>
+      <div class="hero-right">
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <span class="terminal-title">nejc@arch ~ identity.json</span>
+          </div>
+          <div class="terminal-body">
+            <span class="prompt">$</span> <span class="cmd">cat</span> identity.json<br><br>
+            {<br>
+            &nbsp;&nbsp;<span class="key">"name"</span>: <span class="str">"Nejc Cotič"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"alias"</span>: <span class="str">"Lex"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"title"</span>: <span class="str">"Lord of Kilnaish"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"role"</span>: <span class="str">"Software Architect"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"xp"</span>: <span class="val">23</span>,<br>
+            &nbsp;&nbsp;<span class="key">"location"</span>: <span class="str">"Slovenia 🇸🇮"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"focus"</span>: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"PIM"</span>, <span class="str">"CRM"</span>, <span class="str">"ERP"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"Fintech"</span>, <span class="str">"CMS"</span>, <span class="str">"OTA"</span><br>
+            &nbsp;&nbsp;],<br>
+            &nbsp;&nbsp;<span class="key">"framework"</span>: <span class="str">"Laravel"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"status"</span>: <span class="str">"building_the_future"</span><br>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <div class="philosophy fade-in">
+    <div class="seal"></div>
+    <blockquote>Every section of our life is part of code that we store in our memory. Our body is like a framework that puts together our work, our time, and represents who we are. Take time — life is a skill of many ups and downs.</blockquote>
+    <cite>— Nejc Cotič</cite>
+  </div>
+
+  <!-- EXPERTISE -->
+  <section id="expertise" class="fade-in">
+    <div class="section-header">
+      <span class="section-number">01</span>
+      <span class="section-title">Core Expertise</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="expertise-grid">
+      <div class="expertise-card"><span class="expertise-icon">◆</span><div class="expertise-name">Core Architecture</div><div class="expertise-desc">Designing dynamic MVC modules and scalable frameworks. Building the foundation for secure, high-performing enterprise systems from the ground up.</div></div>
+      <div class="expertise-card"><span class="expertise-icon">⬡</span><div class="expertise-name">PIM / E-commerce / CRM</div><div class="expertise-desc">Enabling businesses to efficiently manage products across distribution channels. Custom e-commerce, CRM, and CMS solutions that drive digital growth.</div></div>
+      <div class="expertise-card"><span class="expertise-icon">⊞</span><div class="expertise-name">GIT & DevOps</div><div class="expertise-desc">Expert guidance in optimizing team workflows — repository management, branching strategies, CI/CD pipelines, and version control mastery.</div></div>
+      <div class="expertise-card"><span class="expertise-icon">◎</span><div class="expertise-name">UX & Code Review</div><div class="expertise-desc">Thorough code reviews and UX evaluations. Identifying potential bugs, optimizing quality, and mentoring developers through best practices.</div></div>
+      <div class="expertise-card"><span class="expertise-icon">△</span><div class="expertise-name">AWS Cloud Engineering</div><div class="expertise-desc">Designing, implementing, and managing cloud infrastructure on AWS. Optimizing performance, scalability, and security of cloud-based services.</div></div>
+      <div class="expertise-card"><span class="expertise-icon">⬢</span><div class="expertise-name">CTO & Team Leadership</div><div class="expertise-desc">Overseeing technological direction, leading engineering teams, conducting lectures, and driving innovation through strategic planning and execution.</div></div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="fade-in">
+    <div class="section-header">
+      <span class="section-number">02</span>
+      <span class="section-title">Career Timeline</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2019 — Present</div><div class="timeline-role">Software Architect & CTO</div><div class="timeline-company">After.si — Enterprise Systems Consultancy</div><div class="timeline-desc">Designing high-level structures for complex enterprise projects. Leading technology strategy, managing engineering teams, and driving innovation across PIM, CRM, ERP, and Fintech systems.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2020 — Present</div><div class="timeline-role">AWS Cloud Engineer & SysAdmin</div><div class="timeline-company">Infrastructure & Cloud Operations</div><div class="timeline-desc">Managing IT infrastructure including servers, networks, and cloud services. Implementing security measures, optimizing performance, and ensuring high availability.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2019 — 2020</div><div class="timeline-role">Senior Full-stack Developer</div><div class="timeline-company">Enterprise Projects</div><div class="timeline-desc">Leading development projects, mentoring junior developers, and implementing complex features using cutting-edge technologies and best practices.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2013 — Present</div><div class="timeline-role">Laravel Framework Specialist</div><div class="timeline-company">Core Technology</div><div class="timeline-desc">Over a decade of deep expertise in the Laravel ecosystem. Building modern, scalable applications and contributing to the open-source community.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2012 — 2013</div><div class="timeline-role">MVC Framework Explorer</div><div class="timeline-company">Kohana · Zend · Symfony</div><div class="timeline-desc">Deep dive into MVC architecture patterns across multiple PHP frameworks.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2002 — 2012</div><div class="timeline-role">Mid-level Developer</div><div class="timeline-company">PHP · API · Database Architecture</div><div class="timeline-desc">Building PHP applications, creating APIs, designing database architectures, and working across the full stack.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">2001</div><div class="timeline-role">OOP & Multi-Language Foundation</div><div class="timeline-company">Java · PHP · C# · C</div><div class="timeline-desc">Immersion in object-oriented programming and exploration of multiple languages.</div></div>
+      <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-year">1999 — 2001</div><div class="timeline-role">First Lines of Code</div><div class="timeline-company">HTML 4 · CSS · PHP 3</div><div class="timeline-desc">Where it all began. Writing HTML in NVU, then discovering PHP. Building "To sem Jaz" — a mini router with the switch method.</div></div>
+    </div>
+  </section>
+
+  <!-- TECH STACK -->
+  <section id="stack" class="fade-in">
+    <div class="section-header">
+      <span class="section-number">03</span>
+      <span class="section-title">Technology Arsenal</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="stack-container">
+      <span class="stack-tag primary">PHP</span><span class="stack-tag primary">Laravel</span><span class="stack-tag primary">MySQL</span><span class="stack-tag primary">AWS</span>
+      <span class="stack-tag">MongoDB</span><span class="stack-tag">Python</span><span class="stack-tag">JavaScript</span><span class="stack-tag">SCSS</span>
+      <span class="stack-tag">Webpack</span><span class="stack-tag">Vite</span><span class="stack-tag">Linux</span><span class="stack-tag">Bash</span>
+      <span class="stack-tag">Docker</span><span class="stack-tag">Plesk</span><span class="stack-tag">Git</span><span class="stack-tag">REST APIs</span>
+      <span class="stack-tag">JSON</span><span class="stack-tag">XML</span><span class="stack-tag">Bootstrap 5</span><span class="stack-tag">Kohana</span>
+      <span class="stack-tag">Symfony</span><span class="stack-tag">Java</span><span class="stack-tag">C#</span><span class="stack-tag">Network Engineering</span>
+      <span class="stack-tag">System Administration</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="fade-in">
+    <div class="section-header">
+      <span class="section-number">04</span>
+      <span class="section-title">Selected Work</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card"><span class="project-idx">01</span><div class="project-type">Framework</div><div class="project-name">SilverEngine Framework</div><div class="project-desc">A highly dynamic MVC framework with elegant routing, database management, and self-updating capabilities.</div><div class="project-tags"><span>PHP</span><span>MVC</span><span>ORM</span><span>Open Source</span></div></div>
+      <div class="project-card"><span class="project-idx">02</span><div class="project-type">Enterprise</div><div class="project-name">PIM — SPay Gateway</div><div class="project-desc">Custom secure payment gateway for enterprise — seamless processing, robust security, and system integration.</div><div class="project-tags"><span>Fintech</span><span>PIM</span><span>Security</span><span>API</span></div></div>
+      <div class="project-card"><span class="project-idx">03</span><div class="project-type">Application</div><div class="project-name">BeeApp</div><div class="project-desc">Beehive management software — tracking colonies, monitoring health, and recording production data.</div><div class="project-tags"><span>Laravel</span><span>SaaS</span><span>Data Viz</span></div></div>
+      <div class="project-card"><span class="project-idx">04</span><div class="project-type">Template Engine</div><div class="project-name">Ghost Engine</div><div class="project-desc">Clean, powerful PHP template engine simplifying dynamic content integration.</div><div class="project-tags"><span>PHP</span><span>Templating</span><span>Open Source</span></div></div>
+      <div class="project-card"><span class="project-idx">05</span><div class="project-type">ORM Package</div><div class="project-name">ReflectORM</div><div class="project-desc">Versatile ORM for seamless data mapping between database tables and PHP objects.</div><div class="project-tags"><span>PHP</span><span>Database</span><span>ORM</span></div></div>
+      <div class="project-card"><span class="project-idx">06</span><div class="project-type">Security</div><div class="project-name">OpenPentest</div><div class="project-desc">Collaborative security testing platform making penetration testing accessible.</div><div class="project-tags"><span>Security</span><span>Testing</span><span>Tools</span></div></div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education" class="fade-in">
+    <div class="section-header">
+      <span class="section-number">05</span>
+      <span class="section-title">Education</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="edu-grid">
+      <div class="edu-card"><div class="edu-year">2020 — 2022</div><div class="edu-title">Network Engineering</div><div class="edu-desc">Routing, switching, network security, and designing complex network infrastructures.</div></div>
+      <div class="edu-card"><div class="edu-year">2018 — 2020</div><div class="edu-title">System Administration</div><div class="edu-desc">Server configuration, security protocols, and managing enterprise IT infrastructure.</div></div>
+      <div class="edu-card"><div class="edu-year">2007 — 2010</div><div class="edu-title">Computer Science</div><div class="edu-desc">Programming languages, algorithms, data structures, and software development principles.</div></div>
+      <div class="edu-card"><div class="edu-year">2007 — 2010</div><div class="edu-title">Advanced Architecture Patterns</div><div class="edu-desc">Online courses in software architecture — scalable, maintainable system design.</div></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="fade-in">
+    <div class="section-header">
+      <span class="section-number">06</span>
+      <span class="section-title">What People Say</span>
+      <span class="section-line"></span>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card"><div class="testimonial-text">"Without doubt, one of the most talented programmers out there. Understanding complex situations in programming, great at debugging and explaining things logically. Smart, reliable and professional."</div><div class="testimonial-author">Mitja Miklav</div><div class="testimonial-role">Developer</div></div>
+      <div class="testimonial-card"><div class="testimonial-text">"I am very grateful to have had the opportunity to learn from Nejc. He taught me proper web development with Laravel. The wisdom and knowledge I gained was invaluable to my transition into the workforce."</div><div class="testimonial-author">Žiga Nikolić</div><div class="testimonial-role">Developer</div></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section fade-in" id="contact">
+    <div class="contact-pretitle">Let's Build Something</div>
+    <h2 class="contact-title">Get In Touch</h2>
+    <p class="contact-desc">Looking for a software architect who can turn complex requirements into elegant, scalable systems? I'm open to enterprise consulting, technical leadership, and architecture review engagements.</p>
+    <div class="contact-links">
+      <a href="mailto:nejc@after.si" class="primary-btn">nejc@after.si</a>
+      <a href="https://github.com/nejcc" target="_blank">GitHub</a>
+      <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    </div>
+  </section>
+
+  <footer>
+    <span class="accent">©</span> 2025 Nejc Cotič — Lord of Kilnaish <span class="accent">//</span> Built with precision
+  </footer>
+</main>
+</div>
+
+<script>
+// ===================================================
+// DATA
+// ===================================================
+const CV_DATA = {
+  about: {
+    name: "Nejc Cotič",
+    alias: "Lex",
+    title: "Lord of Kilnaish (Scotland)",
+    role: "Principal Software Architect",
+    location: "Slovenia 🇸🇮",
+    company: "After.si",
+    experience: "23+ years",
+    focus: ["PIM", "CRM", "ERP", "Fintech", "CMS", "OTA"],
+    email: "nejc@after.si",
+    github: "github.com/nejcc"
+  },
+  skills: {
+    primary: ["PHP", "Laravel", "MySQL", "AWS"],
+    secondary: ["MongoDB", "Python", "JavaScript", "SCSS", "Webpack", "Vite", "Linux", "Bash", "Docker", "Plesk", "Git", "REST APIs", "JSON", "XML", "Bootstrap 5"],
+    frameworks: ["Kohana", "Symfony", "Zend"],
+    languages: ["PHP", "JavaScript", "Python", "Java", "C#", "C", "Bash"],
+    other: ["Network Engineering", "System Administration", "Photography", "FOH Audio Engineering"]
+  },
+  experience: [
+    { year: "2019–Now", role: "Software Architect & CTO", company: "After.si", desc: "Designing high-level enterprise architectures. Leading tech strategy across PIM, CRM, ERP, Fintech." },
+    { year: "2020–Now", role: "AWS Cloud Engineer & SysAdmin", company: "Cloud Ops", desc: "Managing servers, networks, cloud infra. Security, performance, high availability." },
+    { year: "2019–2020", role: "Senior Full-stack Developer", company: "Enterprise", desc: "Leading projects, mentoring devs, implementing complex features." },
+    { year: "2013–Now", role: "Laravel Specialist", company: "Core Tech", desc: "10+ years deep in the Laravel ecosystem. Open-source contributor." },
+    { year: "2012–2013", role: "MVC Framework Explorer", company: "Kohana/Zend/Symfony", desc: "Deep dive into MVC patterns across PHP frameworks." },
+    { year: "2002–2012", role: "Mid-level Developer", company: "PHP/API/DB", desc: "Full-stack PHP, APIs, database architecture." },
+    { year: "2001", role: "OOP Foundation", company: "Java/PHP/C#/C", desc: "Object-oriented programming immersion." },
+    { year: "1999–2001", role: "First Code", company: "HTML/CSS/PHP3", desc: "Where it all began. Built 'To sem Jaz' in NVU." }
+  ],
+  projects: [
+    { name: "SilverEngine", type: "Framework", desc: "Dynamic MVC framework — routing, DB management, self-updating.", tags: "PHP, MVC, ORM" },
+    { name: "SPay Gateway", type: "Enterprise/Fintech", desc: "Custom secure payment gateway for enterprise businesses.", tags: "Fintech, PIM, Security" },
+    { name: "BeeApp", type: "SaaS Application", desc: "Beehive management — colony tracking, health monitoring, production data.", tags: "Laravel, SaaS" },
+    { name: "Ghost Engine", type: "Template Engine", desc: "Clean PHP template engine for dynamic content.", tags: "PHP, Templating" },
+    { name: "ReflectORM", type: "ORM Package", desc: "Object-Relational Mapping for DB ↔ PHP objects.", tags: "PHP, Database" },
+    { name: "OpenPentest", type: "Security Platform", desc: "Collaborative security testing tools.", tags: "Security, Testing" },
+    { name: "SalaryTracker", type: "Application", desc: "Daily salary tracking for multi-job earners.", tags: "Laravel, Finance" },
+    { name: "Network Manager", type: "Open Source", desc: "Documenting modern network architectures and protocols.", tags: "Networking, Docs" }
+  ],
+  education: [
+    { year: "2020–2022", title: "Network Engineering", desc: "Routing, switching, network security." },
+    { year: "2018–2020", title: "System Administration", desc: "Server config, security, IT infrastructure." },
+    { year: "2007–2010", title: "Computer Science", desc: "Languages, algorithms, data structures." },
+    { year: "2007–2010", title: "Advanced Architecture Patterns", desc: "Scalable system design (online)." }
+  ]
+};
+
+// ===================================================
+// BOOT SEQUENCE
+// ===================================================
+const bootLines = [
+  '> Initializing system...',
+  '> Loading kernel modules.............. OK',
+  '> Mounting /dev/experience [23 years].. OK',
+  '> Loading framework: Laravel v11...... OK',
+  '> Connecting to enterprise systems.... OK',
+  '> PIM ✓  CRM ✓  ERP ✓  CMS ✓  OTA ✓',
+  '> Verifying credentials............... OK',
+  '> Title: Lord of Kilnaish (Scotland)',
+  '> Role: Principal Software Architect',
+  '',
+  '> System ready.'
+];
+
+const bootEl = document.getElementById('boot-text');
+const bootScreen = document.getElementById('boot-screen');
+const choicePrompt = document.getElementById('choice-prompt');
+let lineIdx = 0, charIdx = 0;
+
+function typeBoot() {
+  if (lineIdx >= bootLines.length) {
+    setTimeout(() => { choicePrompt.classList.add('show'); }, 300);
+    return;
+  }
+  const line = bootLines[lineIdx];
+  if (charIdx <= line.length) {
+    bootEl.textContent = bootLines.slice(0, lineIdx).join('\n') + '\n' + line.substring(0, charIdx);
+    charIdx++;
+    setTimeout(typeBoot, line === '' ? 100 : (Math.random() * 15 + 8));
+  } else {
+    lineIdx++;
+    charIdx = 0;
+    setTimeout(typeBoot, 80);
+  }
+}
+typeBoot();
+
+// Keyboard shortcuts during choice
+document.addEventListener('keydown', (e) => {
+  if (!choicePrompt.classList.contains('show')) return;
+  if (e.key === 't' || e.key === 'T') enterTerminal();
+  if (e.key === 'v' || e.key === 'V') enterCV();
+});
+
+// ===================================================
+// MODE SWITCHING
+// ===================================================
+function enterTerminal() {
+  bootScreen.classList.add('hidden');
+  document.getElementById('terminal-mode').classList.add('active');
+  document.getElementById('cv-mode').classList.remove('active');
+  printWelcome();
+  setTimeout(() => document.getElementById('term-input').focus(), 300);
+}
+
+function enterCV() {
+  bootScreen.classList.add('hidden');
+  document.getElementById('cv-mode').classList.add('active');
+  document.getElementById('terminal-mode').classList.remove('active');
+  document.getElementById('main-content').classList.add('visible');
+  initScrollObserver();
+}
+
+function switchToTerminal() {
+  document.getElementById('cv-mode').classList.remove('active');
+  document.getElementById('terminal-mode').classList.add('active');
+  if (!document.getElementById('term-output').innerHTML) printWelcome();
+  setTimeout(() => document.getElementById('term-input').focus(), 100);
+}
+
+function switchToCV() {
+  document.getElementById('terminal-mode').classList.remove('active');
+  document.getElementById('cv-mode').classList.add('active');
+  document.getElementById('main-content').classList.add('visible');
+  initScrollObserver();
+}
+
+// ===================================================
+// SCROLL OBSERVER
+// ===================================================
+let observerInitialized = false;
+function initScrollObserver() {
+  if (observerInitialized) return;
+  observerInitialized = true;
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+}
+
+// ===================================================
+// CURSOR GLOW
+// ===================================================
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', (e) => {
+  glow.style.left = e.clientX + 'px';
+  glow.style.top = e.clientY + 'px';
+});
+
+// ===================================================
+// TERMINAL ENGINE
+// ===================================================
+const termOutput = document.getElementById('term-output');
+const termInput = document.getElementById('term-input');
+const termWrap = document.getElementById('term-output-wrap');
+let cmdHistory = [];
+let historyIdx = -1;
+
+function esc(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function print(html) {
+  termOutput.innerHTML += html + '\n';
+  termWrap.scrollTop = termWrap.scrollHeight;
+}
+
+function printLine(text, cls) {
+  print(`<span class="${cls || ''}">${text}</span>`);
+}
+
+function printWelcome() {
+  print(`<span class="t-accent t-bold">
+  ╔══════════════════════════════════════════════════════╗
+  ║                                                      ║
+  ║   <span class="t-green">Nejc Cotič</span> — Principal Software Architect        ║
+  ║   <span class="t-dim">Lord of Kilnaish · After.si · Slovenia</span>            ║
+  ║                                                      ║
+  ╚══════════════════════════════════════════════════════╝
+</span>`);
+  print(`<span class="t-dim">  Interactive CV Terminal v2.0</span>`);
+  print(`<span class="t-dim">  Type <span class="t-green">help</span> to see available commands.</span>`);
+  print('');
+}
+
+// COMMAND DEFINITIONS
+const COMMANDS = {
+  help: () => {
+    return `
+<span class="t-accent t-bold">  AVAILABLE COMMANDS</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-green">about</span>        <span class="t-dim">— Who is Nejc Cotič?</span>
+  <span class="t-green">skills</span>       <span class="t-dim">— Technical skills & languages</span>
+  <span class="t-green">experience</span>   <span class="t-dim">— Career timeline</span>
+  <span class="t-green">projects</span>     <span class="t-dim">— Selected work & repos</span>
+  <span class="t-green">education</span>    <span class="t-dim">— Education history</span>
+  <span class="t-green">contact</span>      <span class="t-dim">— Get in touch</span>
+  <span class="t-green">philosophy</span>   <span class="t-dim">— My coding philosophy</span>
+  <span class="t-green">testimonials</span> <span class="t-dim">— What people say</span>
+  <span class="t-green">ascii</span>        <span class="t-dim">— Show ASCII art</span>
+  <span class="t-green">neofetch</span>     <span class="t-dim">— System info (the fun way)</span>
+  <span class="t-green">cv</span>           <span class="t-dim">— Switch to visual CV mode</span>
+  <span class="t-green">clear</span>        <span class="t-dim">— Clear terminal</span>
+  <span class="t-green">history</span>      <span class="t-dim">— Command history</span>
+  <span class="t-green">sudo hire</span>    <span class="t-dim">— 😉</span>
+`;
+  },
+
+  about: () => {
+    const a = CV_DATA.about;
+    return `
+<span class="t-accent t-bold">  ⚜ ABOUT</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-purple">Name:</span>       <span class="t-bold">${a.name}</span>
+  <span class="t-purple">Alias:</span>      ${a.alias}
+  <span class="t-purple">Title:</span>      <span class="t-accent">${a.title}</span>
+  <span class="t-purple">Role:</span>       ${a.role}
+  <span class="t-purple">Company:</span>    ${a.company}
+  <span class="t-purple">Location:</span>   ${a.location}
+  <span class="t-purple">Experience:</span> <span class="t-green">${a.experience}</span>
+  <span class="t-purple">Focus:</span>      ${a.focus.map(f => `<span class="t-cyan">${f}</span>`).join(' · ')}
+
+  <span class="t-dim t-italic">Ambitious and motivated Software Architect with a desire
+  to create exciting and inspiring solutions. Full-stack web
+  developer specializing in back-end enterprise systems.</span>
+`;
+  },
+
+  skills: () => {
+    const s = CV_DATA.skills;
+    return `
+<span class="t-accent t-bold">  ◆ SKILLS & TECHNOLOGIES</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-purple">Primary:</span>    ${s.primary.map(x => `<span class="t-green t-bold">${x}</span>`).join('  ')}
+
+  <span class="t-purple">Languages:</span>  ${s.languages.map(x => `<span class="t-cyan">${x}</span>`).join(' · ')}
+
+  <span class="t-purple">Secondary:</span>  ${s.secondary.map(x => `<span class="t-dim">${x}</span>`).join(' · ')}
+
+  <span class="t-purple">Frameworks:</span> ${s.frameworks.map(x => `<span class="t-blue">${x}</span>`).join(' · ')}
+
+  <span class="t-purple">Also:</span>       ${s.other.map(x => `<span class="t-dim">${x}</span>`).join(' · ')}
+`;
+  },
+
+  experience: () => {
+    let out = `
+<span class="t-accent t-bold">  ◎ CAREER TIMELINE</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+`;
+    CV_DATA.experience.forEach(e => {
+      out += `
+  <span class="t-accent">${e.year}</span>
+  <span class="t-bold">${e.role}</span> <span class="t-dim">@ ${e.company}</span>
+  <span class="t-dim">${e.desc}</span>
+`;
+    });
+    return out;
+  },
+
+  projects: () => {
+    let out = `
+<span class="t-accent t-bold">  △ SELECTED PROJECTS</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+`;
+    CV_DATA.projects.forEach((p, i) => {
+      out += `
+  <span class="t-accent">[${String(i+1).padStart(2,'0')}]</span> <span class="t-bold">${p.name}</span> <span class="t-dim">— ${p.type}</span>
+       <span class="t-dim">${p.desc}</span>
+       <span class="t-muted">${p.tags}</span>
+`;
+    });
+    return out;
+  },
+
+  education: () => {
+    let out = `
+<span class="t-accent t-bold">  ⊞ EDUCATION</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+`;
+    CV_DATA.education.forEach(e => {
+      out += `
+  <span class="t-accent">${e.year}</span>  <span class="t-bold">${e.title}</span>
+  <span class="t-dim">${e.desc}</span>
+`;
+    });
+    return out;
+  },
+
+  contact: () => {
+    const a = CV_DATA.about;
+    return `
+<span class="t-accent t-bold">  ✉ CONTACT</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-purple">Email:</span>    <span class="t-green">${a.email}</span>
+  <span class="t-purple">GitHub:</span>   <span class="t-blue">${a.github}</span>
+  <span class="t-purple">Company:</span>  <span class="t-cyan">${a.company}</span>
+
+  <span class="t-dim t-italic">Open for enterprise consulting, technical
+  leadership, and architecture reviews.</span>
+`;
+  },
+
+  philosophy: () => {
+    return `
+<span class="t-accent t-bold">  ⚜ PHILOSOPHY</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-dim t-italic">"Every section of our life is part of code
+   that we store in our memory. Our body is
+   like a framework that puts together our work,
+   our time, and represents who we are.</span>
+
+   <span class="t-dim t-italic">Take time — life is a skill of many
+   ups and downs."</span>
+
+                              <span class="t-accent">— Nejc Cotič</span>
+`;
+  },
+
+  testimonials: () => {
+    return `
+<span class="t-accent t-bold">  ★ TESTIMONIALS</span>
+<span class="t-accent">  ─────────────────────────────────────────</span>
+
+  <span class="t-dim t-italic">"Without doubt, one of the most talented
+   programmers out there. Smart, reliable
+   and professional."</span>
+  <span class="t-purple">— Mitja Miklav</span>, <span class="t-dim">Developer</span>
+
+  <span class="t-dim t-italic">"I am very grateful to have had the
+   opportunity to learn from Nejc. The wisdom
+   and knowledge was invaluable."</span>
+  <span class="t-purple">— Žiga Nikolić</span>, <span class="t-dim">Developer</span>
+`;
+  },
+
+  neofetch: () => {
+    return `
+<span class="t-green">       ___           ___</span>        <span class="t-bold">nejc@arch</span>
+<span class="t-green">      /\\  \\         /\\  \\</span>       <span class="t-accent">─────────────────</span>
+<span class="t-green">     /::\\  \\       /::\\  \\</span>      <span class="t-purple">OS:</span>      <span class="t-dim">ArchLinux x86_64</span>
+<span class="t-green">    /:/\\:\\  \\     /:/\\:\\  \\</span>     <span class="t-purple">Host:</span>    <span class="t-dim">Lord of Kilnaish</span>
+<span class="t-green">   /::\\~\\:\\  \\   /:/  \\:\\  \\</span>    <span class="t-purple">Kernel:</span>  <span class="t-dim">Laravel v11</span>
+<span class="t-green">  /:/\\:\\ \\:\\__\\ /:/__/ \\:\\__\\</span>   <span class="t-purple">Uptime:</span>  <span class="t-dim">23 years</span>
+<span class="t-green">  \\:\\~\\:\\ \\/__/ \\:\\  \\  \\/__/</span>   <span class="t-purple">Shell:</span>   <span class="t-dim">bash 5.2</span>
+<span class="t-green">   \\:\\ \\:\\__\\    \\:\\  \\</span>        <span class="t-purple">IDE:</span>     <span class="t-dim">PhpStorm</span>
+<span class="t-green">    \\:\\ \\/__/     \\:\\  \\</span>       <span class="t-purple">WM:</span>      <span class="t-dim">Enterprise Systems</span>
+<span class="t-green">     \\:\\__\\        \\:\\__\\</span>      <span class="t-purple">Theme:</span>   <span class="t-dim">Dark [always]</span>
+<span class="t-green">      \\/__/         \\/__/</span>      <span class="t-purple">CPU:</span>     <span class="t-dim">PHP 8.3 @MaxClock</span>
+                               <span class="t-purple">Memory:</span>  <span class="t-dim">∞ stack overflow tabs</span>
+`;
+  },
+
+  ascii: () => {
+    return `
+<span class="t-accent">
+    ███╗   ██╗ ███████╗     ██╗  ██████╗
+    ████╗  ██║ ██╔════╝     ██║ ██╔════╝
+    ██╔██╗ ██║ █████╗       ██║ ██║
+    ██║╚██╗██║ ██╔══╝  ██   ██║ ██║
+    ██║ ╚████║ ███████╗╚█████╔╝ ╚██████╗
+    ╚═╝  ╚═══╝ ╚══════╝ ╚════╝   ╚═════╝
+
+     <span class="t-dim">Software Architect · Lord of Kilnaish</span>
+</span>`;
+  },
+
+  clear: () => {
+    termOutput.innerHTML = '';
+    return null;
+  },
+
+  history: () => {
+    if (cmdHistory.length === 0) return '<span class="t-dim">  No commands in history.</span>';
+    return '\n' + cmdHistory.map((c, i) => `  <span class="t-muted">${String(i+1).padStart(3)}</span>  <span class="t-dim">${c}</span>`).join('\n') + '\n';
+  },
+
+  cv: () => {
+    switchToCV();
+    return null;
+  },
+
+  'sudo hire': () => {
+    return `
+<span class="t-green t-bold">
+  ✓ SUDO HIRE INITIATED
+</span>
+  <span class="t-dim">Sending contract to Nejc Cotič...</span>
+  <span class="t-dim">Allocating budget for excellence...</span>
+  <span class="t-dim">Configuring legendary architecture...</span>
+
+  <span class="t-green">Done!</span> <span class="t-dim">Contact</span> <span class="t-accent">nejc@after.si</span> <span class="t-dim">to finalize. 🚀</span>
+`;
+  }
+};
+
+// Handle input
+termInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const raw = termInput.value.trim();
+    termInput.value = '';
+    if (!raw) return;
+
+    cmdHistory.push(raw);
+    historyIdx = cmdHistory.length;
+
+    print(`<span class="t-accent">visitor@nejc:~$</span> <span class="t-green">${esc(raw)}</span>`);
+
+    const cmd = raw.toLowerCase();
+    if (COMMANDS[cmd]) {
+      const result = COMMANDS[cmd]();
+      if (result !== null) print(result);
+    } else if (cmd === 'ls') {
+      print('  <span class="t-blue">about/</span>  <span class="t-blue">skills/</span>  <span class="t-blue">experience/</span>  <span class="t-blue">projects/</span>  <span class="t-blue">education/</span>  <span class="t-green">README.md</span>');
+    } else if (cmd === 'cat readme.md' || cmd === 'cat readme') {
+      print(COMMANDS.about());
+    } else if (cmd === 'pwd') {
+      print('  <span class="t-dim">/home/nejc/cv</span>');
+    } else if (cmd === 'whoami') {
+      print('  <span class="t-green">visitor</span> <span class="t-dim">(impressed, probably)</span>');
+    } else if (cmd === 'date') {
+      print(`  <span class="t-dim">${new Date().toString()}</span>`);
+    } else if (cmd === 'exit' || cmd === 'quit') {
+      switchToCV();
+    } else if (cmd.startsWith('sudo') && cmd !== 'sudo hire') {
+      print('  <span class="t-red">Permission denied.</span> <span class="t-dim">Try</span> <span class="t-green">sudo hire</span> <span class="t-dim">instead.</span>');
+    } else if (cmd === 'man nejc') {
+      print(COMMANDS.about());
+    } else {
+      print(`  <span class="t-red">Command not found:</span> <span class="t-dim">${esc(raw)}</span>`);
+      print(`  <span class="t-dim">Type <span class="t-green">help</span> for available commands.</span>`);
+    }
+    print('');
+  }
+  // History navigation
+  if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    if (historyIdx > 0) { historyIdx--; termInput.value = cmdHistory[historyIdx]; }
+  }
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    if (historyIdx < cmdHistory.length - 1) { historyIdx++; termInput.value = cmdHistory[historyIdx]; }
+    else { historyIdx = cmdHistory.length; termInput.value = ''; }
+  }
+  // Tab completion
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const partial = termInput.value.toLowerCase();
+    const matches = Object.keys(COMMANDS).filter(c => c.startsWith(partial));
+    if (matches.length === 1) termInput.value = matches[0];
+    else if (matches.length > 1) {
+      print(`<span class="t-accent">visitor@nejc:~$</span> <span class="t-dim">${esc(termInput.value)}</span>`);
+      print('  ' + matches.map(m => `<span class="t-green">${m}</span>`).join('  '));
+      print('');
+    }
+  }
+});
+
+// Click anywhere in terminal focuses input
+document.getElementById('terminal-mode').addEventListener('click', (e) => {
+  if (e.target.tagName !== 'BUTTON' && !e.target.classList.contains('term-dot')) {
+    termInput.focus();
+  }
+});
+</script>
+</body>
+</html>
