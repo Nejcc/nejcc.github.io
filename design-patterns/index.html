@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Head First Design Patterns — Interactive Knowledge Book</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scribble {
+      0%, 100% { transform: rotate(-1deg); }
+      50% { transform: rotate(1deg); }
+    }
+    @keyframes pageFlip {
+      0% { transform: perspective(1200px) rotateY(0deg); }
+      100% { transform: perspective(1200px) rotateY(-8deg); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.15); }
+      50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.3); }
+    }
+    .anim-fade-up { animation: fadeInUp 0.7s ease-out both; }
+    .anim-fade { animation: fadeIn 0.5s ease-out both; }
+    .anim-slide-left { animation: slideInLeft 0.6s ease-out both; }
+    .page-hover:hover { animation: pageFlip 0.4s ease-out forwards; }
+    .glow-pulse { animation: pulseGlow 3s ease-in-out infinite; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: #1a1612;
+    }
+    .font-display { font-family: 'Playfair Display', Georgia, serif; }
+    .font-hand { font-family: 'Caveat', cursive; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    .paper-texture {
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(255,248,235,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,220,180,0.04) 0%, transparent 50%);
+    }
+
+    .book-page {
+      background: linear-gradient(135deg, #fefcf6 0%, #faf5ea 40%, #f5edd8 100%);
+      box-shadow:
+        inset -3px 0 8px rgba(0,0,0,0.06),
+        4px 4px 20px rgba(0,0,0,0.3),
+        8px 8px 40px rgba(0,0,0,0.2);
+    }
+
+    .book-spine {
+      background: linear-gradient(90deg, #2a1f14 0%, #3d2e1e 30%, #2a1f14 100%);
+      box-shadow: inset -2px 0 6px rgba(0,0,0,0.5);
+    }
+
+    .chapter-tab {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .chapter-tab:hover {
+      transform: translateX(8px);
+    }
+    .chapter-tab.active {
+      transform: translateX(12px);
+    }
+
+    .sketch-border {
+      border: 2px solid #3d2e1e;
+      border-radius: 2px;
+      transform: rotate(-0.5deg);
+    }
+
+    .coffee-stain {
+      position: absolute;
+      width: 80px;
+      height: 70px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, transparent 55%, rgba(139, 90, 43, 0.08) 56%, rgba(139, 90, 43, 0.04) 70%, transparent 71%);
+      pointer-events: none;
+    }
+
+    .sticky-note {
+      background: linear-gradient(135deg, #fff9c4 0%, #fff59d 100%);
+      box-shadow: 2px 3px 8px rgba(0,0,0,0.15);
+      transform: rotate(-2deg);
+      transition: transform 0.2s ease;
+    }
+    .sticky-note:hover {
+      transform: rotate(0deg) scale(1.02);
+    }
+
+    .sticky-blue {
+      background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+      transform: rotate(1.5deg);
+    }
+    .sticky-blue:hover { transform: rotate(0deg) scale(1.02); }
+
+    .sticky-green {
+      background: linear-gradient(135deg, #c8e6c9 0%, #a5d6a7 100%);
+      transform: rotate(-1deg);
+    }
+    .sticky-green:hover { transform: rotate(0deg) scale(1.02); }
+
+    .sticky-pink {
+      background: linear-gradient(135deg, #f8bbd0 0%, #f48fb1 100%);
+      transform: rotate(2deg);
+    }
+    .sticky-pink:hover { transform: rotate(0deg) scale(1.02); }
+
+    .pencil-underline {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='8'%3E%3Cpath d='M0,5 Q50,0 100,5 T200,5' stroke='%23c62828' stroke-width='2' fill='none' opacity='0.6'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-position: bottom;
+      background-size: 200px 8px;
+      padding-bottom: 6px;
+    }
+
+    .margin-note {
+      border-left: 3px solid #e65100;
+      background: rgba(255, 107, 53, 0.05);
+    }
+
+    .pattern-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .pattern-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+    }
+
+    .code-block {
+      background: #1e1e2e;
+      color: #cdd6f4;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+    .code-keyword { color: #cba6f7; }
+    .code-class { color: #f9e2af; }
+    .code-method { color: #89b4fa; }
+    .code-string { color: #a6e3a1; }
+    .code-comment { color: #6c7086; font-style: italic; }
+
+    .diagram-box {
+      border: 2px solid #5d4037;
+      background: #fffbf0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+    }
+    .diagram-arrow {
+      border-left: 2px dashed #8d6e63;
+    }
+
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: #1a1612; }
+    ::-webkit-scrollbar-thumb {
+      background: #5d4037;
+      border-radius: 5px;
+    }
+    ::-webkit-scrollbar-thumb:hover { background: #795548; }
+
+    .toc-number {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: #3d2e1e;
+      opacity: 0.15;
+    }
+
+    .highlight-marker {
+      background: linear-gradient(180deg, transparent 50%, rgba(255, 235, 59, 0.35) 50%);
+    }
+    .highlight-green {
+      background: linear-gradient(180deg, transparent 50%, rgba(129, 199, 132, 0.3) 50%);
+    }
+
+    .tab-ink {
+      position: relative;
+    }
+    .tab-ink::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #bf360c;
+      transition: width 0.3s ease;
+    }
+    .tab-ink:hover::after,
+    .tab-ink.active::after {
+      width: 100%;
+    }
+
+    .relationship-line {
+      position: relative;
+    }
+    .relationship-line::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: repeating-linear-gradient(to bottom, #8d6e63 0px, #8d6e63 4px, transparent 4px, transparent 8px);
+    }
+  </style>
+</head>
+<body class="min-h-screen paper-texture">
+
+<div id="app">
+  <!-- HERO / BOOK COVER -->
+  <header class="relative overflow-hidden" style="min-height: 100vh;">
+    <div class="absolute inset-0" style="background: radial-gradient(ellipse at 30% 40%, #3e2723 0%, #1a1612 70%);"></div>
+    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,%3Csvg width=60 height=60 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cpath d=%22M0 0h60v60H0z%22 fill=%22none%22/%3E%3Cpath d=%22M30 0v60M0 30h60%22 stroke=%22%23fff%22 stroke-width=%220.5%22 opacity=%220.1%22/%3E%3C/svg%3E');"></div>
+
+    <div class="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-20 flex flex-col items-center justify-center min-h-screen">
+      <!-- Book Cover Visual -->
+      <div class="anim-fade-up mb-12" style="animation-delay: 0.2s;">
+        <div class="relative">
+          <div class="absolute -inset-4 rounded-lg opacity-20" style="background: radial-gradient(circle, #ff6b35, transparent 70%);"></div>
+          <div class="relative bg-white rounded-sm p-1 shadow-2xl" style="transform: perspective(800px) rotateY(-5deg) rotateX(2deg);">
+            <div class="border-4 border-double" style="border-color: #bf360c; padding: 2.5rem 3rem;">
+              <p class="font-hand text-2xl text-center mb-2" style="color: #e65100;">A Brain-Friendly Guide</p>
+              <h1 class="font-display text-5xl md:text-7xl font-black text-center leading-none mb-3" style="color: #1a1612;">
+                Design<br>Patterns
+              </h1>
+              <div class="w-24 h-1 mx-auto my-4" style="background: #bf360c;"></div>
+              <p class="text-center text-lg" style="color: #5d4037; font-family: 'Source Serif 4';">
+                Interactive Knowledge Book
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="anim-fade-up text-xl md:text-2xl text-center max-w-2xl leading-relaxed" style="color: #bcaaa4; animation-delay: 0.5s;">
+        Based on the legendary <span class="font-display italic" style="color: #ffab91;">Head First Design Patterns</span> —
+        learn the Gang of Four patterns through visual explanations, real-world analogies, and interactive code.
+      </p>
+
+      <div class="anim-fade-up mt-12 flex gap-6 flex-wrap justify-center" style="animation-delay: 0.8s;">
+        <button @click="scrollToPatterns" class="px-8 py-4 rounded-sm font-display text-lg font-bold transition-all hover:translate-y-[-2px]"
+          style="background: #bf360c; color: #fbe9e7; box-shadow: 0 4px 20px rgba(191,54,12,0.4);">
+          Start Reading →
+        </button>
+        <button @click="currentCategory = 'all'; scrollToPatterns()"
+          class="px-8 py-4 rounded-sm font-display text-lg font-bold border-2 transition-all hover:translate-y-[-2px]"
+          style="border-color: #8d6e63; color: #bcaaa4;">
+          Browse All 14 Patterns
+        </button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="anim-fade-up mt-16 grid grid-cols-3 gap-8 text-center" style="animation-delay: 1s;">
+        <div>
+          <div class="font-display font-black text-4xl" style="color: #ff6b35;">14</div>
+          <div class="text-sm mt-1" style="color: #8d6e63;">Patterns Covered</div>
+        </div>
+        <div>
+          <div class="font-display font-black text-4xl" style="color: #ff6b35;">3</div>
+          <div class="text-sm mt-1" style="color: #8d6e63;">Categories</div>
+        </div>
+        <div>
+          <div class="font-display font-black text-4xl" style="color: #ff6b35;">∞</div>
+          <div class="text-sm mt-1" style="color: #8d6e63;">Applications</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- OO PRINCIPLES SECTION -->
+  <section class="py-20 px-6" style="background: linear-gradient(180deg, #1a1612 0%, #2a1f14 100%);">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="font-hand text-2xl mb-2" style="color: #ff6b35;">Before We Begin...</p>
+        <h2 class="font-display text-4xl md:text-5xl font-black" style="color: #faf5ea;">
+          The <span class="pencil-underline">OO Design Principles</span>
+        </h2>
+        <p class="mt-4 text-lg max-w-2xl mx-auto" style="color: #a1887f;">
+          These principles are the foundation behind every pattern. Think of them as the "why" behind the "how."
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div v-for="(p, i) in principles" :key="i"
+          class="sticky-note p-6 rounded-sm"
+          :class="['', 'sticky-blue', 'sticky-green', 'sticky-pink', '', 'sticky-blue', 'sticky-green', 'sticky-pink', ''][i % 9]"
+          :style="'animation-delay:' + (i * 0.1) + 's'">
+          <div class="flex items-start gap-3">
+            <span class="font-display font-black text-3xl opacity-20 leading-none">{{ i + 1 }}</span>
+            <div>
+              <h3 class="font-display font-bold text-lg mb-2" style="color: #1a1612;">{{ p.title }}</h3>
+              <p class="text-sm leading-relaxed" style="color: #3e2723;">{{ p.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATTERN CATEGORIES -->
+  <section id="patterns-section" class="py-20 px-6" style="background: #1a1612;">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Category Filter Tabs -->
+      <div class="text-center mb-16">
+        <p class="font-hand text-2xl mb-2" style="color: #ff6b35;">The Pattern Catalog</p>
+        <h2 class="font-display text-4xl md:text-5xl font-black mb-8" style="color: #faf5ea;">
+          14 Patterns, 3 Families
+        </h2>
+
+        <div class="flex flex-wrap justify-center gap-3">
+          <button v-for="cat in categories" :key="cat.id"
+            @click="currentCategory = cat.id"
+            class="px-5 py-2.5 rounded-sm font-mono text-sm font-medium transition-all"
+            :class="currentCategory === cat.id ? 'text-white' : ''"
+            :style="currentCategory === cat.id
+              ? 'background:' + cat.color + '; color: #fff; box-shadow: 0 4px 16px ' + cat.color + '44;'
+              : 'background: #2a1f14; color: #8d6e63;'">
+            {{ cat.icon }} {{ cat.label }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Pattern Cards Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="(pattern, idx) in filteredPatterns" :key="pattern.name"
+          @click="openPattern(pattern)"
+          class="pattern-card book-page rounded-sm overflow-hidden relative"
+          :style="'animation-delay:' + (idx * 0.08) + 's'">
+
+          <!-- Category Color Bar -->
+          <div class="h-1.5" :style="'background:' + getCategoryColor(pattern.category)"></div>
+
+          <div class="p-6 relative">
+            <!-- Coffee Stain Easter Egg (on some cards) -->
+            <div v-if="idx % 5 === 3" class="coffee-stain" style="right: -10px; top: 30px;"></div>
+
+            <!-- Chapter Number -->
+            <div class="toc-number absolute top-4 right-4">{{ pattern.chapter }}</div>
+
+            <!-- Pattern Type Badge -->
+            <span class="inline-block px-2 py-0.5 rounded-sm text-xs font-mono mb-3"
+              :style="'background:' + getCategoryColor(pattern.category) + '22; color:' + getCategoryColor(pattern.category)">
+              {{ pattern.category }}
+            </span>
+
+            <h3 class="font-display text-2xl font-black mb-2" style="color: #1a1612;">
+              {{ pattern.name }}
+            </h3>
+
+            <p class="font-hand text-lg mb-3" style="color: #bf360c;">
+              "{{ pattern.motto }}"
+            </p>
+
+            <p class="text-sm leading-relaxed mb-4" style="color: #5d4037;">
+              {{ pattern.brief }}
+            </p>
+
+            <!-- Quick Visual Hint -->
+            <div class="flex items-center gap-2 mt-4 pt-4" style="border-top: 1px dashed #d7ccc8;">
+              <span class="text-2xl">{{ pattern.icon }}</span>
+              <span class="font-hand text-sm" style="color: #8d6e63;">{{ pattern.analogy }}</span>
+            </div>
+
+            <div class="mt-4 text-xs font-mono" style="color: #bf360c;">
+              Click to open chapter →
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATTERN DETAIL MODAL -->
+  <teleport to="body">
+    <div v-if="activePattern" class="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
+      @click.self="activePattern = null"
+      style="background: rgba(10,8,6,0.85); backdrop-filter: blur(4px);">
+
+      <div class="book-page rounded-sm my-8 mx-4 w-full relative" style="max-width: 900px;">
+        <!-- Close Button -->
+        <button @click="activePattern = null"
+          class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full flex items-center justify-center font-display text-xl"
+          style="background: #efebe9; color: #3e2723;">
+          ×
+        </button>
+
+        <!-- Category Color Bar -->
+        <div class="h-2" :style="'background:' + getCategoryColor(activePattern.category)"></div>
+
+        <div class="p-8 md:p-12 relative">
+          <!-- Coffee Stain -->
+          <div class="coffee-stain" style="right: 40px; top: 80px;"></div>
+
+          <!-- Header -->
+          <div class="mb-10">
+            <span class="inline-block px-3 py-1 rounded-sm text-xs font-mono mb-3"
+              :style="'background:' + getCategoryColor(activePattern.category) + '22; color:' + getCategoryColor(activePattern.category)">
+              Chapter {{ activePattern.chapter }} · {{ activePattern.category }}
+            </span>
+            <h2 class="font-display text-4xl md:text-5xl font-black mb-3" style="color: #1a1612;">
+              {{ activePattern.name }} Pattern
+            </h2>
+            <p class="font-hand text-2xl" style="color: #bf360c;">
+              "{{ activePattern.motto }}"
+            </p>
+          </div>
+
+          <!-- The Official Definition -->
+          <div class="margin-note p-5 rounded-sm mb-8">
+            <p class="font-mono text-xs mb-2 font-bold" style="color: #e65100;">📖 OFFICIAL DEFINITION</p>
+            <p class="text-base leading-relaxed" style="color: #3e2723;">
+              {{ activePattern.definition }}
+            </p>
+          </div>
+
+          <!-- Brain-Friendly Explanation -->
+          <div class="mb-8">
+            <h3 class="font-display text-xl font-bold mb-4 flex items-center gap-2" style="color: #1a1612;">
+              <span class="text-2xl">🧠</span> Brain-Friendly Explanation
+            </h3>
+            <p class="text-base leading-relaxed mb-4" style="color: #3e2723;">
+              {{ activePattern.explanation }}
+            </p>
+          </div>
+
+          <!-- Real-World Analogy (Sticky Note) -->
+          <div class="sticky-note p-6 rounded-sm mb-8 inline-block max-w-md">
+            <p class="font-hand text-lg font-bold mb-2" style="color: #5d4037;">💡 Real-World Analogy</p>
+            <p class="text-sm leading-relaxed" style="color: #3e2723;">{{ activePattern.realWorld }}</p>
+          </div>
+
+          <!-- UML-style Diagram -->
+          <div class="mb-8">
+            <h3 class="font-display text-xl font-bold mb-4 flex items-center gap-2" style="color: #1a1612;">
+              <span class="text-2xl">📐</span> Structure
+            </h3>
+            <div class="overflow-x-auto p-6 rounded-sm" style="background: #fffbf0; border: 1px solid #d7ccc8;">
+              <div class="flex flex-wrap items-start justify-center gap-4 min-w-fit">
+                <div v-for="(box, bi) in activePattern.diagram" :key="bi" class="text-center">
+                  <div class="diagram-box px-4 py-3 rounded-sm min-w-[140px]"
+                    :class="box.type === 'interface' ? 'border-dashed' : ''">
+                    <div class="text-xs opacity-60 mb-1" v-if="box.type === 'interface'">«interface»</div>
+                    <div class="font-bold" :style="box.highlight ? 'color: #bf360c' : 'color: #3e2723'">{{ box.name }}</div>
+                    <div v-if="box.methods" class="mt-2 pt-2 text-left" style="border-top: 1px solid #d7ccc8;">
+                      <div v-for="m in box.methods" :key="m" class="text-xs" style="color: #5d4037;">+ {{ m }}</div>
+                    </div>
+                  </div>
+                  <div v-if="box.arrow" class="py-2 text-lg" style="color: #8d6e63;">{{ box.arrow }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Example -->
+          <div class="mb-8">
+            <h3 class="font-display text-xl font-bold mb-4 flex items-center gap-2" style="color: #1a1612;">
+              <span class="text-2xl">💻</span> Code Example
+            </h3>
+            <div class="code-block p-5 overflow-x-auto">
+              <pre class="whitespace-pre-wrap" v-html="activePattern.code"></pre>
+            </div>
+          </div>
+
+          <!-- When to Use -->
+          <div class="mb-8">
+            <h3 class="font-display text-xl font-bold mb-4 flex items-center gap-2" style="color: #1a1612;">
+              <span class="text-2xl">✅</span> When to Use
+            </h3>
+            <div class="grid md:grid-cols-2 gap-3">
+              <div v-for="(use, ui) in activePattern.whenToUse" :key="ui"
+                class="flex items-start gap-2 p-3 rounded-sm" style="background: #f1f8e9;">
+                <span style="color: #558b2f;">✓</span>
+                <span class="text-sm" style="color: #33691e;">{{ use }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Participants -->
+          <div class="sticky-blue sticky-note p-6 rounded-sm mb-8">
+            <p class="font-hand text-lg font-bold mb-3" style="color: #1565c0;">🔑 Key Participants</p>
+            <div class="grid grid-cols-2 gap-2">
+              <div v-for="(part, pi) in activePattern.participants" :key="pi" class="text-sm" style="color: #0d47a1;">
+                <span class="font-bold">{{ part.role }}:</span> {{ part.desc }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Related Patterns -->
+          <div class="pt-6" style="border-top: 2px dashed #d7ccc8;">
+            <p class="font-mono text-xs mb-3" style="color: #8d6e63;">RELATED PATTERNS</p>
+            <div class="flex flex-wrap gap-2">
+              <span v-for="rel in activePattern.related" :key="rel"
+                @click="switchToPattern(rel)"
+                class="px-3 py-1 rounded-sm text-sm font-mono cursor-pointer transition-all hover:translate-y-[-1px]"
+                style="background: #efebe9; color: #5d4037;">
+                {{ rel }} →
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </teleport>
+
+  <!-- CHEAT SHEET -->
+  <section class="py-20 px-6" style="background: linear-gradient(180deg, #1a1612 0%, #2a1f14 100%);">
+    <div class="max-w-5xl mx-auto text-center">
+      <p class="font-hand text-2xl mb-2" style="color: #ff6b35;">Tear-Out Reference</p>
+      <h2 class="font-display text-4xl font-black mb-12" style="color: #faf5ea;">
+        Pattern Cheat Sheet
+      </h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left" style="color: #d7ccc8;">
+          <thead>
+            <tr style="border-bottom: 2px solid #5d4037;">
+              <th class="py-3 pr-4 font-display text-sm" style="color: #ff6b35;">Pattern</th>
+              <th class="py-3 pr-4 font-display text-sm" style="color: #ff6b35;">Type</th>
+              <th class="py-3 pr-4 font-display text-sm" style="color: #ff6b35;">Intent (One Line)</th>
+              <th class="py-3 font-display text-sm" style="color: #ff6b35;">Key Idea</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="p in patterns" :key="p.name"
+              class="cursor-pointer transition-all hover:bg-white hover:bg-opacity-5"
+              @click="openPattern(p)"
+              style="border-bottom: 1px solid #3e2723;">
+              <td class="py-3 pr-4 font-display font-bold text-sm">{{ p.icon }} {{ p.name }}</td>
+              <td class="py-3 pr-4 font-mono text-xs" :style="'color:' + getCategoryColor(p.category)">{{ p.category }}</td>
+              <td class="py-3 pr-4 text-sm" style="color: #a1887f;">{{ p.brief }}</td>
+              <td class="py-3 font-hand text-sm" style="color: #ffab91;">{{ p.motto }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 px-6 text-center" style="background: #12100d;">
+    <div class="max-w-3xl mx-auto">
+      <p class="font-hand text-3xl mb-4" style="color: #ff6b35;">
+        "Your brain on design patterns."
+      </p>
+      <p class="text-sm" style="color: #5d4037;">
+        Based on <span class="font-display italic">Head First Design Patterns</span> by Eric Freeman & Elisabeth Robson.
+        Original concepts from the Gang of Four. This interactive knowledge page is an educational reference.
+      </p>
+      <div class="mt-6 flex justify-center gap-4">
+        <span class="font-mono text-xs px-3 py-1 rounded-sm" style="background: #2a1f14; color: #8d6e63;">Vue 3</span>
+        <span class="font-mono text-xs px-3 py-1 rounded-sm" style="background: #2a1f14; color: #8d6e63;">Tailwind CSS</span>
+        <span class="font-mono text-xs px-3 py-1 rounded-sm" style="background: #2a1f14; color: #8d6e63;">CDN Only</span>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+const { createApp, ref, computed } = Vue;
+
+createApp({
+  setup() {
+    const currentCategory = ref('all');
+    const activePattern = ref(null);
+
+    const categories = [
+      { id: 'all', label: 'All Patterns', icon: '📚', color: '#ff6b35' },
+      { id: 'Creational', label: 'Creational', icon: '🏗️', color: '#43a047' },
+      { id: 'Structural', label: 'Structural', icon: '🧱', color: '#1565c0' },
+      { id: 'Behavioral', label: 'Behavioral', icon: '🔄', color: '#6a1b9a' },
+    ];
+
+    const principles = [
+      { title: 'Encapsulate What Varies', desc: 'Identify the aspects of your application that vary and separate them from what stays the same. This is the foundation behind almost every design pattern.' },
+      { title: 'Program to an Interface, Not an Implementation', desc: 'Depend on abstractions, not concrete classes. This lets you swap implementations without changing the code that uses them.' },
+      { title: 'Favor Composition Over Inheritance', desc: 'HAS-A can be better than IS-A. Building systems by composing objects gives you more flexibility than relying on inheritance hierarchies.' },
+      { title: 'Strive for Loosely Coupled Designs', desc: 'Minimize the interdependency between objects. When objects interact, they should know as little about each other as possible.' },
+      { title: 'Open-Closed Principle', desc: 'Classes should be open for extension, but closed for modification. Design so you can add new behavior without altering existing code.' },
+      { title: 'Dependency Inversion Principle', desc: 'Depend upon abstractions. Do not depend upon concrete classes. High-level modules should not depend on low-level modules.' },
+      { title: 'Least Knowledge (Law of Demeter)', desc: 'Talk only to your immediate friends. Reduce the number of classes any given object interacts with to minimize coupling.' },
+      { title: 'Hollywood Principle', desc: "Don't call us, we'll call you. High-level components tell low-level components when and how to participate — not the other way around." },
+      { title: 'Single Responsibility Principle', desc: 'A class should have only one reason to change. Every module or class should have responsibility over a single part of the functionality.' },
+    ];
+
+    const patterns = [
+      {
+        name: 'Strategy',
+        chapter: 1,
+        category: 'Behavioral',
+        icon: '🦆',
+        motto: 'Encapsulate what varies',
+        brief: 'Defines a family of algorithms, encapsulates each one, and makes them interchangeable.',
+        analogy: 'Like choosing different routes on Google Maps',
+        definition: 'The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.',
+        explanation: 'Imagine you have ducks. Some fly, some quack, some do neither. Instead of putting all fly/quack behavior in the Duck superclass (where changes break subclasses), you pull out the behaviors into separate strategy objects. Now a Duck HAS-A FlyBehavior and HAS-A QuackBehavior. You can swap them at runtime — rubber ducks don\'t fly, decoy ducks don\'t quack, and you can add rocket-powered flying without touching Duck at all.',
+        realWorld: 'Think of a GPS navigation app. It has different route strategies: fastest route, shortest distance, avoid highways. The navigation system doesn\'t change — only the routing algorithm is swapped. You can even change strategy mid-trip!',
+        diagram: [
+          { name: 'FlyBehavior', type: 'interface', methods: ['fly()'], arrow: '△' },
+          { name: 'FlyWithWings', methods: ['fly()'], highlight: false, arrow: '   ' },
+          { name: 'FlyNoWay', methods: ['fly()'], highlight: false, arrow: '◁---' },
+          { name: 'Duck', methods: ['setFlyBehavior()', 'performFly()'], highlight: true },
+        ],
+        code: `<span class="code-comment">// Strategy interface</span>
+<span class="code-keyword">interface</span> <span class="code-class">FlyBehavior</span> {
+  <span class="code-method">fly</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">FlyWithWings</span> <span class="code-keyword">implements</span> <span class="code-class">FlyBehavior</span> {
+  <span class="code-method">fly</span>() { console.log(<span class="code-string">"I'm flying!!"</span>); }
+}
+
+<span class="code-keyword">class</span> <span class="code-class">Duck</span> {
+  flyBehavior: <span class="code-class">FlyBehavior</span>;
+
+  <span class="code-method">setFlyBehavior</span>(fb: <span class="code-class">FlyBehavior</span>) {
+    <span class="code-keyword">this</span>.flyBehavior = fb;
+  }
+
+  <span class="code-method">performFly</span>() {
+    <span class="code-keyword">this</span>.flyBehavior.<span class="code-method">fly</span>();
+  }
+}`,
+        whenToUse: [
+          'You need different variants of an algorithm',
+          'You want to avoid complex conditionals',
+          'Behavior should be swappable at runtime',
+          'Many related classes differ only in behavior',
+        ],
+        participants: [
+          { role: 'Strategy', desc: 'Interface for algorithm' },
+          { role: 'ConcreteStrategy', desc: 'Implements the algorithm' },
+          { role: 'Context', desc: 'Uses a Strategy object' },
+        ],
+        related: ['State', 'Template Method', 'Command'],
+      },
+      {
+        name: 'Observer',
+        chapter: 2,
+        category: 'Behavioral',
+        icon: '📰',
+        motto: 'Keep your objects in the know',
+        brief: 'Defines a one-to-many dependency so when one object changes state, all dependents are notified.',
+        analogy: 'Like subscribing to a newspaper',
+        definition: 'The Observer Pattern defines a one-to-many dependency between objects so that when one object changes state, all of its dependents are notified and updated automatically.',
+        explanation: 'Picture a newspaper publisher. When a new edition comes out, all subscribers automatically get it delivered. They don\'t have to constantly call the publisher asking "Got a new paper yet?" The publisher (Subject) keeps a list of subscribers (Observers) and notifies all of them when something changes. Want to stop getting papers? Just unsubscribe. The publisher doesn\'t care who subscribes — it just sends papers to everyone on the list.',
+        realWorld: 'A weather station with multiple display panels. When the weather data changes, all displays — current conditions, forecast, statistics — update simultaneously. The weather station doesn\'t know or care what the displays do with the data.',
+        diagram: [
+          { name: 'Subject', type: 'interface', methods: ['registerObserver()', 'removeObserver()', 'notifyObservers()'], arrow: '◁---' },
+          { name: 'Observer', type: 'interface', methods: ['update()'], arrow: '△' },
+          { name: 'ConcreteSubject', methods: ['getState()', 'setState()'], highlight: true },
+          { name: 'ConcreteObserver', methods: ['update()', 'display()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">Observer</span> {
+  <span class="code-method">update</span>(temp: number, humidity: number): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">WeatherStation</span> {
+  observers: <span class="code-class">Observer</span>[] = [];
+
+  <span class="code-method">register</span>(o: <span class="code-class">Observer</span>) { <span class="code-keyword">this</span>.observers.push(o); }
+
+  <span class="code-method">notify</span>() {
+    <span class="code-keyword">this</span>.observers.forEach(o =>
+      o.<span class="code-method">update</span>(<span class="code-keyword">this</span>.temp, <span class="code-keyword">this</span>.humidity)
+    );
+  }
+}`,
+        whenToUse: [
+          'Changes to one object require changing others',
+          'You don\'t know how many objects need to change',
+          'Object should notify others without tight coupling',
+          'Publish-subscribe broadcasting is needed',
+        ],
+        participants: [
+          { role: 'Subject', desc: 'Knows its observers, provides attach/detach' },
+          { role: 'Observer', desc: 'Interface for receiving updates' },
+          { role: 'ConcreteSubject', desc: 'Stores state, notifies observers on change' },
+          { role: 'ConcreteObserver', desc: 'Reacts to state changes' },
+        ],
+        related: ['Mediator', 'Command', 'Strategy'],
+      },
+      {
+        name: 'Decorator',
+        chapter: 3,
+        category: 'Structural',
+        icon: '☕',
+        motto: 'Open for extension, closed for modification',
+        brief: 'Attaches additional responsibilities to objects dynamically, a flexible alternative to subclassing.',
+        analogy: 'Like adding toppings to your coffee order',
+        definition: 'The Decorator Pattern attaches additional responsibilities to an object dynamically. Decorators provide a flexible alternative to subclassing for extending functionality.',
+        explanation: 'You walk into Starbuzz Coffee. You order a dark roast. Then you add mocha. Then whipped cream. Each addition wraps the previous order, adding its own cost and description. The key: each wrapper IS-A Beverage and HAS-A Beverage. So you can stack them infinitely. The system doesn\'t need a class for every combination — DarkRoastWithMochaAndWhipAndSoy is just four objects wrapped around each other.',
+        realWorld: 'Think of decorating a Christmas tree. You start with a plain tree (base component), then wrap it with lights (first decorator), add ornaments (second decorator), add a star on top (third decorator). Each addition enhances the tree without modifying the tree itself.',
+        diagram: [
+          { name: 'Component', type: 'interface', methods: ['operation()'], arrow: '△' },
+          { name: 'ConcreteComponent', methods: ['operation()'], highlight: false, arrow: '   ' },
+          { name: 'Decorator', type: 'interface', methods: ['operation()'], highlight: true, arrow: '△' },
+          { name: 'ConcreteDecorator', methods: ['operation()', 'newBehavior()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">abstract class</span> <span class="code-class">Beverage</span> {
+  description = <span class="code-string">"Unknown"</span>;
+  <span class="code-keyword">abstract</span> <span class="code-method">cost</span>(): number;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">DarkRoast</span> <span class="code-keyword">extends</span> <span class="code-class">Beverage</span> {
+  <span class="code-method">cost</span>() { <span class="code-keyword">return</span> 0.99; }
+}
+
+<span class="code-keyword">class</span> <span class="code-class">Mocha</span> <span class="code-keyword">extends</span> <span class="code-class">Beverage</span> {
+  beverage: <span class="code-class">Beverage</span>;
+  <span class="code-keyword">constructor</span>(b: <span class="code-class">Beverage</span>) { <span class="code-keyword">this</span>.beverage = b; }
+  <span class="code-method">cost</span>() { <span class="code-keyword">return</span> <span class="code-keyword">this</span>.beverage.<span class="code-method">cost</span>() + 0.20; }
+}
+
+<span class="code-comment">// Usage: stack decorators!</span>
+<span class="code-keyword">let</span> drink = <span class="code-keyword">new</span> <span class="code-class">Mocha</span>(<span class="code-keyword">new</span> <span class="code-class">DarkRoast</span>());`,
+        whenToUse: [
+          'Add responsibilities dynamically and transparently',
+          'Extension by subclassing is impractical',
+          'You need flexible combinations of features',
+          'You want to avoid a class explosion from combos',
+        ],
+        participants: [
+          { role: 'Component', desc: 'Interface for objects to be decorated' },
+          { role: 'ConcreteComponent', desc: 'Object being decorated' },
+          { role: 'Decorator', desc: 'Wraps a Component, delegates to it' },
+          { role: 'ConcreteDecorator', desc: 'Adds responsibilities' },
+        ],
+        related: ['Adapter', 'Composite', 'Strategy'],
+      },
+      {
+        name: 'Factory Method',
+        chapter: 4,
+        category: 'Creational',
+        icon: '🍕',
+        motto: 'Let subclasses decide what to create',
+        brief: 'Defines an interface for creating objects, letting subclasses decide which class to instantiate.',
+        analogy: 'Like regional pizza franchises making local styles',
+        definition: 'The Factory Method Pattern defines an interface for creating an object, but lets subclasses decide which class to instantiate. Factory Method lets a class defer instantiation to subclasses.',
+        explanation: 'Picture a pizza store franchise. The base PizzaStore knows the process: order, prepare, bake, cut, box. But the actual pizza creation varies by location — NY makes thin crust, Chicago makes deep dish. Each regional store overrides the createPizza() method. The ordering process stays the same; only the creation step changes. This is the Factory Method: one abstract method that subclasses implement to produce the right product.',
+        realWorld: 'A logistics company has a transport planning system. The process is the same (plan route, load, deliver) but factories in different regions create different transport: trucks for land, ships for sea, planes for air. The planning code works with any transport — the factory method creates the right one.',
+        diagram: [
+          { name: 'Creator', methods: ['factoryMethod()', 'anOperation()'], highlight: true, arrow: '△' },
+          { name: 'ConcreteCreator', methods: ['factoryMethod()'], highlight: false, arrow: '   ' },
+          { name: 'Product', type: 'interface', methods: ['use()'], arrow: '△' },
+          { name: 'ConcreteProduct', methods: ['use()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">abstract class</span> <span class="code-class">PizzaStore</span> {
+  <span class="code-method">orderPizza</span>(type: string): <span class="code-class">Pizza</span> {
+    <span class="code-keyword">const</span> pizza = <span class="code-keyword">this</span>.<span class="code-method">createPizza</span>(type);
+    pizza.<span class="code-method">prepare</span>();
+    pizza.<span class="code-method">bake</span>();
+    pizza.<span class="code-method">cut</span>();
+    <span class="code-keyword">return</span> pizza;
+  }
+  <span class="code-comment">// Factory Method — subclasses decide</span>
+  <span class="code-keyword">abstract</span> <span class="code-method">createPizza</span>(type: string): <span class="code-class">Pizza</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">NYPizzaStore</span> <span class="code-keyword">extends</span> <span class="code-class">PizzaStore</span> {
+  <span class="code-method">createPizza</span>(type) {
+    <span class="code-keyword">if</span> (type === <span class="code-string">"cheese"</span>) <span class="code-keyword">return new</span> <span class="code-class">NYCheesePizza</span>();
+    <span class="code-keyword">if</span> (type === <span class="code-string">"pepperoni"</span>) <span class="code-keyword">return new</span> <span class="code-class">NYPepperoniPizza</span>();
+  }
+}`,
+        whenToUse: [
+          'A class can\'t anticipate which objects to create',
+          'Subclasses should specify the created objects',
+          'You want to localize creation knowledge',
+          'You need a hook for subclasses in a framework',
+        ],
+        participants: [
+          { role: 'Creator', desc: 'Declares factory method' },
+          { role: 'ConcreteCreator', desc: 'Overrides to return ConcreteProduct' },
+          { role: 'Product', desc: 'Interface for created objects' },
+          { role: 'ConcreteProduct', desc: 'The actual product' },
+        ],
+        related: ['Abstract Factory', 'Template Method', 'Prototype'],
+      },
+      {
+        name: 'Abstract Factory',
+        chapter: 4,
+        category: 'Creational',
+        icon: '🏭',
+        motto: 'Create families of related objects',
+        brief: 'Provides an interface for creating families of related objects without specifying concrete classes.',
+        analogy: 'Like an ingredient supplier for different regions',
+        definition: 'The Abstract Factory Pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes.',
+        explanation: 'Building on the pizza example — now it\'s not just the pizza that varies, but the ingredients too. NY uses thin dough, marinara, reggiano cheese. Chicago uses thick dough, plum tomatoes, mozzarella. An Abstract Factory (PizzaIngredientFactory) creates entire families of related ingredients. Each region has its own factory. The pizza doesn\'t know which concrete ingredients it gets — it just asks the factory for dough, sauce, and cheese.',
+        realWorld: 'An OS UI toolkit. Windows, Mac, and Linux each have their own look and feel. A UI factory creates buttons, scrollbars, and menus that all match each other. You never mix a Windows button with a Mac scrollbar — the factory ensures consistency across an entire family.',
+        diagram: [
+          { name: 'AbstractFactory', type: 'interface', methods: ['createProductA()', 'createProductB()'], arrow: '△' },
+          { name: 'ConcreteFactory1', methods: ['createProductA()', 'createProductB()'], highlight: true },
+          { name: 'ConcreteFactory2', methods: ['createProductA()', 'createProductB()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">PizzaIngredientFactory</span> {
+  <span class="code-method">createDough</span>(): <span class="code-class">Dough</span>;
+  <span class="code-method">createSauce</span>(): <span class="code-class">Sauce</span>;
+  <span class="code-method">createCheese</span>(): <span class="code-class">Cheese</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">NYIngredientFactory</span> <span class="code-keyword">implements</span> <span class="code-class">PizzaIngredientFactory</span> {
+  <span class="code-method">createDough</span>()  { <span class="code-keyword">return new</span> <span class="code-class">ThinCrustDough</span>(); }
+  <span class="code-method">createSauce</span>()  { <span class="code-keyword">return new</span> <span class="code-class">MarinaraSauce</span>(); }
+  <span class="code-method">createCheese</span>() { <span class="code-keyword">return new</span> <span class="code-class">ReggianoCheese</span>(); }
+}`,
+        whenToUse: [
+          'System must be independent of how products are created',
+          'Products from a family must be used together',
+          'You want to enforce constraints on product combos',
+          'You need to provide a product library with interfaces only',
+        ],
+        participants: [
+          { role: 'AbstractFactory', desc: 'Interface for creating product family' },
+          { role: 'ConcreteFactory', desc: 'Implements creation for a family' },
+          { role: 'AbstractProduct', desc: 'Interface for a product type' },
+          { role: 'ConcreteProduct', desc: 'Product created by concrete factory' },
+        ],
+        related: ['Factory Method', 'Singleton', 'Builder'],
+      },
+      {
+        name: 'Singleton',
+        chapter: 5,
+        category: 'Creational',
+        icon: '1️⃣',
+        motto: 'One and only one',
+        brief: 'Ensures a class has only one instance and provides a global point of access to it.',
+        analogy: 'Like a country\'s president — only one at a time',
+        definition: 'The Singleton Pattern ensures a class has only one instance, and provides a global point of access to it.',
+        explanation: 'Some objects should only ever have one instance. A thread pool, a cache, a dialog box, a registry, a logger. If you created multiple instances, you\'d get conflicting state, wasted resources, or inconsistent behavior. Singleton makes the constructor private and provides a static method that always returns the same instance. The first call creates it; subsequent calls return the existing one.',
+        realWorld: 'The Oval Office. There\'s only one President at a time. No matter who calls the White House, they reach the same office. The position (instance) is created once and everyone accesses the same one.',
+        diagram: [
+          { name: 'Singleton', methods: ['- instance: Singleton', '- Singleton()', '+ getInstance(): Singleton'], highlight: true },
+        ],
+        code: `<span class="code-keyword">class</span> <span class="code-class">Singleton</span> {
+  <span class="code-keyword">private static</span> instance: <span class="code-class">Singleton</span>;
+  <span class="code-keyword">private</span> <span class="code-method">constructor</span>() {}
+
+  <span class="code-keyword">static</span> <span class="code-method">getInstance</span>(): <span class="code-class">Singleton</span> {
+    <span class="code-keyword">if</span> (!<span class="code-class">Singleton</span>.instance) {
+      <span class="code-class">Singleton</span>.instance = <span class="code-keyword">new</span> <span class="code-class">Singleton</span>();
+    }
+    <span class="code-keyword">return</span> <span class="code-class">Singleton</span>.instance;
+  }
+}
+
+<span class="code-comment">// Both point to the SAME object</span>
+<span class="code-keyword">const</span> a = <span class="code-class">Singleton</span>.<span class="code-method">getInstance</span>();
+<span class="code-keyword">const</span> b = <span class="code-class">Singleton</span>.<span class="code-method">getInstance</span>();
+<span class="code-comment">// a === b → true</span>`,
+        whenToUse: [
+          'Exactly one instance of a class is needed',
+          'It must be accessible from a well-known access point',
+          'The sole instance should be extensible by subclassing',
+          'Shared resource management (DB connections, caches)',
+        ],
+        participants: [
+          { role: 'Singleton', desc: 'Defines getInstance(), holds unique instance' },
+        ],
+        related: ['Abstract Factory', 'Builder', 'Facade'],
+      },
+      {
+        name: 'Command',
+        chapter: 6,
+        category: 'Behavioral',
+        icon: '📟',
+        motto: 'Encapsulate invocation',
+        brief: 'Encapsulates a request as an object, letting you parameterize, queue, and undo operations.',
+        analogy: 'Like a restaurant order slip between customer and kitchen',
+        definition: 'The Command Pattern encapsulates a request as an object, thereby letting you parameterize other objects with different requests, queue or log requests, and support undoable operations.',
+        explanation: 'Think of a remote control. Each button slot holds a Command object. When you press a button, it calls execute() on whatever command is loaded. The remote doesn\'t know if it\'s turning on a light, opening a garage, or starting a stereo — it just calls execute(). You can also undo (each command knows how to reverse itself), queue commands, and log them. The invoker (remote) is completely decoupled from the receiver (the device).',
+        realWorld: 'A restaurant diner writes their order on a slip. The waitress takes it to the kitchen. The cook reads it and prepares the food. The diner (client) is decoupled from the cook (receiver). The order slip (command) can be queued, logged, and even cancelled.',
+        diagram: [
+          { name: 'Command', type: 'interface', methods: ['execute()', 'undo()'], arrow: '△' },
+          { name: 'ConcreteCommand', methods: ['execute()', 'undo()'], highlight: false, arrow: '◁---' },
+          { name: 'Invoker', methods: ['setCommand()', 'pressButton()'], highlight: true, arrow: '---▷' },
+          { name: 'Receiver', methods: ['action()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">Command</span> {
+  <span class="code-method">execute</span>(): <span class="code-keyword">void</span>;
+  <span class="code-method">undo</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">LightOnCommand</span> <span class="code-keyword">implements</span> <span class="code-class">Command</span> {
+  <span class="code-keyword">constructor</span>(<span class="code-keyword">private</span> light: <span class="code-class">Light</span>) {}
+  <span class="code-method">execute</span>() { <span class="code-keyword">this</span>.light.<span class="code-method">on</span>(); }
+  <span class="code-method">undo</span>()    { <span class="code-keyword">this</span>.light.<span class="code-method">off</span>(); }
+}
+
+<span class="code-keyword">class</span> <span class="code-class">RemoteControl</span> {
+  slot: <span class="code-class">Command</span>;
+  <span class="code-method">pressButton</span>() { <span class="code-keyword">this</span>.slot.<span class="code-method">execute</span>(); }
+  <span class="code-method">pressUndo</span>()   { <span class="code-keyword">this</span>.slot.<span class="code-method">undo</span>(); }
+}`,
+        whenToUse: [
+          'Parameterize objects with actions to perform',
+          'Queue, specify, and execute requests at different times',
+          'Support undo/redo functionality',
+          'Structure a system around high-level operations (transactions)',
+        ],
+        participants: [
+          { role: 'Command', desc: 'Interface for executing operations' },
+          { role: 'ConcreteCommand', desc: 'Binds a receiver to an action' },
+          { role: 'Invoker', desc: 'Asks command to carry out request' },
+          { role: 'Receiver', desc: 'Knows how to perform the operation' },
+        ],
+        related: ['Strategy', 'Observer', 'Memento'],
+      },
+      {
+        name: 'Adapter',
+        chapter: 7,
+        category: 'Structural',
+        icon: '🔌',
+        motto: 'Convert the interface',
+        brief: 'Converts the interface of a class into another interface clients expect.',
+        analogy: 'Like a European-to-US power plug adapter',
+        definition: 'The Adapter Pattern converts the interface of a class into another interface the clients expect. Adapter lets classes work together that couldn\'t otherwise because of incompatible interfaces.',
+        explanation: 'You have a Turkey that can gobble() and flyShort(). Your system expects Ducks that can quack() and fly(). Rather than rewriting Turkey, you wrap it in a TurkeyAdapter that implements the Duck interface. When someone calls quack(), the adapter calls turkey.gobble(). When fly() is called, it calls turkey.flyShort() five times to cover the distance. The client thinks it\'s talking to a Duck, but it\'s actually a Turkey in disguise.',
+        realWorld: 'A European traveler in the US with a two-prong plug. The wall outlet expects a different shape. An adapter sits between the plug and outlet — it doesn\'t change either one. It just makes them compatible.',
+        diagram: [
+          { name: 'Target', type: 'interface', methods: ['request()'], arrow: '◁---' },
+          { name: 'Adapter', methods: ['request()'], highlight: true, arrow: '---▷' },
+          { name: 'Adaptee', methods: ['specificRequest()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">Duck</span> {
+  <span class="code-method">quack</span>(): <span class="code-keyword">void</span>;
+  <span class="code-method">fly</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">TurkeyAdapter</span> <span class="code-keyword">implements</span> <span class="code-class">Duck</span> {
+  <span class="code-keyword">constructor</span>(<span class="code-keyword">private</span> turkey: <span class="code-class">Turkey</span>) {}
+
+  <span class="code-method">quack</span>() { <span class="code-keyword">this</span>.turkey.<span class="code-method">gobble</span>(); }
+
+  <span class="code-method">fly</span>() {
+    <span class="code-comment">// Turkeys fly short — call 5x</span>
+    <span class="code-keyword">for</span> (<span class="code-keyword">let</span> i = 0; i < 5; i++)
+      <span class="code-keyword">this</span>.turkey.<span class="code-method">flyShort</span>();
+  }
+}`,
+        whenToUse: [
+          'You want to use an existing class with an incompatible interface',
+          'You need a reusable class that cooperates with unrelated classes',
+          'You\'re integrating legacy code or third-party libraries',
+          'You need to create an alternative interface for a class',
+        ],
+        participants: [
+          { role: 'Target', desc: 'Interface the client expects' },
+          { role: 'Adapter', desc: 'Converts Adaptee\'s interface to Target' },
+          { role: 'Adaptee', desc: 'The existing class being adapted' },
+        ],
+        related: ['Facade', 'Decorator', 'Proxy'],
+      },
+      {
+        name: 'Facade',
+        chapter: 7,
+        category: 'Structural',
+        icon: '🏠',
+        motto: 'Simplify the interface',
+        brief: 'Provides a unified interface to a set of interfaces in a subsystem.',
+        analogy: 'Like a universal remote for your home theater',
+        definition: 'The Facade Pattern provides a unified interface to a set of interfaces in a subsystem. Facade defines a higher-level interface that makes the subsystem easier to use.',
+        explanation: 'Setting up a movie at home: dim lights, turn on projector, set to widescreen, turn on amp, set to surround, set volume, lower screen, start popcorn maker, turn on DVD... That\'s 10+ steps across 5+ devices. A Facade gives you one method: watchMovie(). It orchestrates all the subsystems behind a simple interface. You can still access subsystems directly if needed — the facade doesn\'t hide them, it just provides a shortcut.',
+        realWorld: 'A hotel concierge. You say "I want a nice dinner tonight" and the concierge handles restaurant selection, reservation, taxi booking, and dress code advice. You deal with one friendly interface; they deal with the complexity.',
+        diagram: [
+          { name: 'Facade', methods: ['watchMovie()', 'endMovie()'], highlight: true, arrow: '---▷' },
+          { name: 'Amplifier', methods: ['on()', 'setVolume()'], highlight: false },
+          { name: 'Projector', methods: ['on()', 'widescreen()'], highlight: false },
+          { name: 'Lights', methods: ['dim()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">class</span> <span class="code-class">HomeTheaterFacade</span> {
+  <span class="code-keyword">constructor</span>(
+    <span class="code-keyword">private</span> amp: <span class="code-class">Amplifier</span>,
+    <span class="code-keyword">private</span> projector: <span class="code-class">Projector</span>,
+    <span class="code-keyword">private</span> lights: <span class="code-class">Lights</span>,
+    <span class="code-keyword">private</span> player: <span class="code-class">StreamingPlayer</span>
+  ) {}
+
+  <span class="code-method">watchMovie</span>(movie: string) {
+    <span class="code-keyword">this</span>.lights.<span class="code-method">dim</span>(10);
+    <span class="code-keyword">this</span>.projector.<span class="code-method">on</span>();
+    <span class="code-keyword">this</span>.projector.<span class="code-method">widescreen</span>();
+    <span class="code-keyword">this</span>.amp.<span class="code-method">on</span>();
+    <span class="code-keyword">this</span>.amp.<span class="code-method">setSurround</span>();
+    <span class="code-keyword">this</span>.player.<span class="code-method">play</span>(movie);
+  }
+}`,
+        whenToUse: [
+          'You need a simple interface to a complex subsystem',
+          'There are many dependencies between clients and implementation',
+          'You want to layer your subsystems',
+          'You want to reduce coupling between subsystem and clients',
+        ],
+        participants: [
+          { role: 'Facade', desc: 'Unified interface to subsystem' },
+          { role: 'Subsystem classes', desc: 'Complex components behind the facade' },
+        ],
+        related: ['Adapter', 'Mediator', 'Singleton'],
+      },
+      {
+        name: 'Template Method',
+        chapter: 8,
+        category: 'Behavioral',
+        icon: '📋',
+        motto: 'Don\'t call us, we\'ll call you',
+        brief: 'Defines the skeleton of an algorithm, deferring some steps to subclasses.',
+        analogy: 'Like a recipe with customizable steps',
+        definition: 'The Template Method Pattern defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm\'s structure.',
+        explanation: 'Making a hot beverage: (1) boil water, (2) brew, (3) pour in cup, (4) add condiments. This skeleton is the same for both coffee and tea. The difference is in steps 2 and 4 — coffee brews grounds and adds sugar/milk; tea steeps tea bags and adds lemon. The Template Method defines the overall prepareRecipe() flow in the base class, and subclasses override brew() and addCondiments(). The base class controls the algorithm; subclasses fill in the details.',
+        realWorld: 'Building a house from a blueprint. The steps are fixed: foundation → frame → walls → roof → interior. But you can customize each step: brick vs. wood walls, tile vs. shingle roof. The blueprint (template) is the same; the materials (implementations) vary.',
+        diagram: [
+          { name: 'AbstractClass', methods: ['templateMethod()', 'primitiveOp1()', 'primitiveOp2()', 'hook()'], highlight: true, arrow: '△' },
+          { name: 'ConcreteClass', methods: ['primitiveOp1()', 'primitiveOp2()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">abstract class</span> <span class="code-class">CaffeineBeverage</span> {
+  <span class="code-comment">// The template method — final!</span>
+  <span class="code-method">prepareRecipe</span>() {
+    <span class="code-keyword">this</span>.<span class="code-method">boilWater</span>();
+    <span class="code-keyword">this</span>.<span class="code-method">brew</span>();       <span class="code-comment">// abstract</span>
+    <span class="code-keyword">this</span>.<span class="code-method">pourInCup</span>();
+    <span class="code-keyword">this</span>.<span class="code-method">addCondiments</span>(); <span class="code-comment">// abstract</span>
+  }
+
+  <span class="code-keyword">abstract</span> <span class="code-method">brew</span>(): <span class="code-keyword">void</span>;
+  <span class="code-keyword">abstract</span> <span class="code-method">addCondiments</span>(): <span class="code-keyword">void</span>;
+  <span class="code-method">boilWater</span>() { <span class="code-comment">/* shared */</span> }
+  <span class="code-method">pourInCup</span>() { <span class="code-comment">/* shared */</span> }
+}`,
+        whenToUse: [
+          'Multiple classes share the same algorithm structure',
+          'You want to control the extension points for subclasses',
+          'Common behavior should be localized in a base class',
+          'You need to implement the invariant parts once',
+        ],
+        participants: [
+          { role: 'AbstractClass', desc: 'Defines template method and abstract steps' },
+          { role: 'ConcreteClass', desc: 'Implements the abstract steps' },
+        ],
+        related: ['Strategy', 'Factory Method', 'Hook'],
+      },
+      {
+        name: 'Iterator',
+        chapter: 9,
+        category: 'Behavioral',
+        icon: '🔁',
+        motto: 'One at a time, please',
+        brief: 'Provides a way to access elements of a collection sequentially without exposing underlying structure.',
+        analogy: 'Like a TV remote flipping through channels',
+        definition: 'The Iterator Pattern provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.',
+        explanation: 'Two restaurants merge. One stores its menu in an Array, the other in an ArrayList. The waitress needs to print both menus. Without Iterator, she\'d need to know each collection\'s internal structure — different loop syntax, different access methods. With Iterator, both menus provide the same interface: hasNext() and next(). The waitress loops through any menu identically. The collection hides its guts; the iterator provides uniform traversal.',
+        realWorld: 'Flipping through channels on a TV remote. You don\'t care if the cable box organizes channels as a list, tree, or hash map internally. You just press "next" and "previous" to traverse them one by one.',
+        diagram: [
+          { name: 'Iterator', type: 'interface', methods: ['hasNext()', 'next()'], arrow: '△' },
+          { name: 'ConcreteIterator', methods: ['hasNext()', 'next()'], highlight: false, arrow: '◁---' },
+          { name: 'Aggregate', type: 'interface', methods: ['createIterator()'], highlight: true },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">Iterator</span>&lt;T&gt; {
+  <span class="code-method">hasNext</span>(): boolean;
+  <span class="code-method">next</span>(): T;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">MenuIterator</span> <span class="code-keyword">implements</span> <span class="code-class">Iterator</span>&lt;<span class="code-class">MenuItem</span>&gt; {
+  position = 0;
+  <span class="code-keyword">constructor</span>(<span class="code-keyword">private</span> items: <span class="code-class">MenuItem</span>[]) {}
+
+  <span class="code-method">hasNext</span>() { <span class="code-keyword">return</span> <span class="code-keyword">this</span>.position < <span class="code-keyword">this</span>.items.length; }
+  <span class="code-method">next</span>()    { <span class="code-keyword">return</span> <span class="code-keyword">this</span>.items[<span class="code-keyword">this</span>.position++]; }
+}
+
+<span class="code-comment">// Waitress uses only iterator — no collection details</span>
+<span class="code-keyword">function</span> <span class="code-method">printMenu</span>(iter: <span class="code-class">Iterator</span>&lt;<span class="code-class">MenuItem</span>&gt;) {
+  <span class="code-keyword">while</span> (iter.<span class="code-method">hasNext</span>()) console.log(iter.<span class="code-method">next</span>());
+}`,
+        whenToUse: [
+          'Access aggregate contents without exposing internals',
+          'Support multiple traversals of aggregate objects',
+          'Provide a uniform interface for traversing different structures',
+          'Decouple collection from traversal logic',
+        ],
+        participants: [
+          { role: 'Iterator', desc: 'Interface for accessing and traversing' },
+          { role: 'ConcreteIterator', desc: 'Implements traversal, tracks position' },
+          { role: 'Aggregate', desc: 'Interface for creating an Iterator' },
+        ],
+        related: ['Composite', 'Factory Method', 'Visitor'],
+      },
+      {
+        name: 'Composite',
+        chapter: 9,
+        category: 'Structural',
+        icon: '🌳',
+        motto: 'Treat individual objects and compositions uniformly',
+        brief: 'Composes objects into tree structures to represent part-whole hierarchies.',
+        analogy: 'Like nested folders on your computer',
+        definition: 'The Composite Pattern composes objects into tree structures to represent part-whole hierarchies. Composite lets clients treat individual objects and compositions of objects uniformly.',
+        explanation: 'Menus can contain menu items AND other menus (submenus). A "Dessert Menu" might be an item inside "Dinner Menu." Using Composite, both MenuItem and Menu implement the same Component interface. When you call print() on the top-level menu, it recursively prints everything — items and sub-menus alike. The client code doesn\'t distinguish between a leaf (item) and a branch (menu-with-children). It treats them uniformly.',
+        realWorld: 'A file system. Folders can contain files and other folders. When you "get size" on a folder, it recursively sums up everything inside. You treat a single file and a complex folder hierarchy with the same "get size" operation.',
+        diagram: [
+          { name: 'Component', type: 'interface', methods: ['operation()', 'add()', 'remove()'], arrow: '△' },
+          { name: 'Leaf', methods: ['operation()'], highlight: false, arrow: '   ' },
+          { name: 'Composite', methods: ['operation()', 'add()', 'remove()', 'children[]'], highlight: true },
+        ],
+        code: `<span class="code-keyword">abstract class</span> <span class="code-class">MenuComponent</span> {
+  <span class="code-method">add</span>(c: <span class="code-class">MenuComponent</span>) { <span class="code-keyword">throw</span> <span class="code-string">"Unsupported"</span>; }
+  <span class="code-keyword">abstract</span> <span class="code-method">print</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">MenuItem</span> <span class="code-keyword">extends</span> <span class="code-class">MenuComponent</span> {
+  <span class="code-method">print</span>() { console.log(<span class="code-keyword">this</span>.name); }
+}
+
+<span class="code-keyword">class</span> <span class="code-class">Menu</span> <span class="code-keyword">extends</span> <span class="code-class">MenuComponent</span> {
+  children: <span class="code-class">MenuComponent</span>[] = [];
+  <span class="code-method">add</span>(c: <span class="code-class">MenuComponent</span>) { <span class="code-keyword">this</span>.children.push(c); }
+  <span class="code-method">print</span>() {
+    console.log(<span class="code-keyword">this</span>.name);
+    <span class="code-keyword">this</span>.children.forEach(c => c.<span class="code-method">print</span>());
+  }
+}`,
+        whenToUse: [
+          'You want to represent part-whole hierarchies of objects',
+          'Clients should ignore the difference between compositions and individual objects',
+          'The structure can be represented as a tree',
+          'You need to be able to treat all objects uniformly',
+        ],
+        participants: [
+          { role: 'Component', desc: 'Interface for all objects in composition' },
+          { role: 'Leaf', desc: 'Has no children, defines behavior' },
+          { role: 'Composite', desc: 'Has children, delegates to them' },
+        ],
+        related: ['Iterator', 'Decorator', 'Visitor'],
+      },
+      {
+        name: 'State',
+        chapter: 10,
+        category: 'Behavioral',
+        icon: '🎰',
+        motto: 'Objects as states',
+        brief: 'Allows an object to alter its behavior when its internal state changes — it appears to change class.',
+        analogy: 'Like a gumball machine with different states',
+        definition: 'The State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class.',
+        explanation: 'A gumball machine has states: NoQuarter, HasQuarter, GumballSold, SoldOut. Each state handles actions differently. Insert quarter in NoQuarter → transition to HasQuarter. Turn crank in HasQuarter → transition to GumballSold. Instead of giant if/else blocks checking state, each state is its own object implementing the same interface. The machine delegates to its current state object. Changing state means swapping which object handles the actions. No conditionals needed!',
+        realWorld: 'A traffic light. In the "Green" state, cars go. In "Yellow", they slow down. In "Red", they stop. Each state knows what to do when time elapses and which state comes next. The traffic light itself just delegates to whatever state it\'s currently in.',
+        diagram: [
+          { name: 'Context', methods: ['request()', 'setState()'], highlight: true, arrow: '---▷' },
+          { name: 'State', type: 'interface', methods: ['handle()'], arrow: '△' },
+          { name: 'ConcreteStateA', methods: ['handle()'], highlight: false },
+          { name: 'ConcreteStateB', methods: ['handle()'], highlight: false },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">State</span> {
+  <span class="code-method">insertQuarter</span>(): <span class="code-keyword">void</span>;
+  <span class="code-method">turnCrank</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">NoQuarterState</span> <span class="code-keyword">implements</span> <span class="code-class">State</span> {
+  <span class="code-keyword">constructor</span>(<span class="code-keyword">private</span> machine: <span class="code-class">GumballMachine</span>) {}
+
+  <span class="code-method">insertQuarter</span>() {
+    console.log(<span class="code-string">"Quarter inserted"</span>);
+    <span class="code-keyword">this</span>.machine.<span class="code-method">setState</span>(
+      <span class="code-keyword">this</span>.machine.hasQuarterState
+    );
+  }
+  <span class="code-method">turnCrank</span>() {
+    console.log(<span class="code-string">"Insert quarter first!"</span>);
+  }
+}`,
+        whenToUse: [
+          'Object behavior depends on its state and must change at runtime',
+          'Operations have large multipart conditionals on state',
+          'Transitions between states should be explicit',
+          'State-specific behavior should be independent',
+        ],
+        participants: [
+          { role: 'Context', desc: 'Maintains current state, delegates to it' },
+          { role: 'State', desc: 'Interface for state-specific behavior' },
+          { role: 'ConcreteState', desc: 'Implements behavior for a state' },
+        ],
+        related: ['Strategy', 'Singleton', 'Flyweight'],
+      },
+      {
+        name: 'Proxy',
+        chapter: 11,
+        category: 'Structural',
+        icon: '🛡️',
+        motto: 'Control access',
+        brief: 'Provides a surrogate or placeholder for another object to control access to it.',
+        analogy: 'Like a security guard controlling building access',
+        definition: 'The Proxy Pattern provides a surrogate or placeholder for another object to control access to it.',
+        explanation: 'You want to display a CD cover image, but it takes time to load from the network. Instead of blocking the UI, you use an ImageProxy that shows "Loading..." while fetching the real image in the background. Once loaded, the proxy delegates to the real image. There are many flavors: Remote Proxy (access remote objects as if local), Virtual Proxy (lazy creation of expensive objects), Protection Proxy (control access based on permissions).',
+        realWorld: 'A credit card is a proxy for your bank account. It provides the same interface as cash (pay for things) but adds access control (credit limit, fraud protection) and lazy access (money isn\'t moved until the transaction clears).',
+        diagram: [
+          { name: 'Subject', type: 'interface', methods: ['request()'], arrow: '△' },
+          { name: 'RealSubject', methods: ['request()'], highlight: false, arrow: '   ' },
+          { name: 'Proxy', methods: ['request()'], highlight: true },
+        ],
+        code: `<span class="code-keyword">interface</span> <span class="code-class">Image</span> {
+  <span class="code-method">display</span>(): <span class="code-keyword">void</span>;
+}
+
+<span class="code-keyword">class</span> <span class="code-class">RealImage</span> <span class="code-keyword">implements</span> <span class="code-class">Image</span> {
+  <span class="code-keyword">constructor</span>(url: string) { <span class="code-comment">/* heavy load */</span> }
+  <span class="code-method">display</span>() { <span class="code-comment">/* show image */</span> }
+}
+
+<span class="code-keyword">class</span> <span class="code-class">ImageProxy</span> <span class="code-keyword">implements</span> <span class="code-class">Image</span> {
+  <span class="code-keyword">private</span> realImage: <span class="code-class">RealImage</span> | null = null;
+
+  <span class="code-method">display</span>() {
+    <span class="code-keyword">if</span> (!<span class="code-keyword">this</span>.realImage) {
+      console.log(<span class="code-string">"Loading..."</span>);
+      <span class="code-keyword">this</span>.realImage = <span class="code-keyword">new</span> <span class="code-class">RealImage</span>(<span class="code-keyword">this</span>.url);
+    }
+    <span class="code-keyword">this</span>.realImage.<span class="code-method">display</span>();
+  }
+}`,
+        whenToUse: [
+          'You need a more versatile or sophisticated reference than a pointer',
+          'Lazy initialization of a heavyweight object (virtual proxy)',
+          'Access control or permission checking (protection proxy)',
+          'Local representative for a remote object (remote proxy)',
+        ],
+        participants: [
+          { role: 'Subject', desc: 'Common interface for Real and Proxy' },
+          { role: 'RealSubject', desc: 'The real object the proxy represents' },
+          { role: 'Proxy', desc: 'Controls access to RealSubject' },
+        ],
+        related: ['Adapter', 'Decorator', 'Facade'],
+      },
+    ];
+
+    const filteredPatterns = computed(() => {
+      if (currentCategory.value === 'all') return patterns;
+      return patterns.filter(p => p.category === currentCategory.value);
+    });
+
+    function getCategoryColor(cat) {
+      const colors = { Creational: '#43a047', Structural: '#1565c0', Behavioral: '#6a1b9a' };
+      return colors[cat] || '#ff6b35';
+    }
+
+    function openPattern(pattern) {
+      activePattern.value = pattern;
+      document.body.style.overflow = 'hidden';
+    }
+
+    function switchToPattern(name) {
+      const p = patterns.find(pt => pt.name === name);
+      if (p) activePattern.value = p;
+    }
+
+    function scrollToPatterns() {
+      document.getElementById('patterns-section')?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Watch for modal close to restore scroll
+    const originalActivePattern = activePattern;
+    const unwatchActive = computed(() => {
+      if (!activePattern.value) {
+        document.body.style.overflow = '';
+      }
+      return activePattern.value;
+    });
+
+    return {
+      currentCategory,
+      activePattern,
+      categories,
+      principles,
+      patterns,
+      filteredPatterns,
+      getCategoryColor,
+      openPattern,
+      switchToPattern,
+      scrollToPatterns,
+      unwatchActive,
+    };
+  }
+}).mount('#app');
+</script>
+</body>
+</html>
