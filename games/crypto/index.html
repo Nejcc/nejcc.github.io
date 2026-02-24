@@ -768,6 +768,16 @@
               if (document.hidden) save();
               else state.lastTickAt = Date.now();
             });
+
+            // Prevent double-tap zoom while keeping pinch-to-zoom.
+            // touch-action: manipulation is ignored by iOS Safari so we
+            // detect rapid sequential taps (< 300ms) and cancel the default.
+            let lastTap = 0;
+            document.addEventListener("touchend", (e) => {
+              const now = Date.now();
+              if (now - lastTap < 300) e.preventDefault();
+              lastTap = now;
+            }, { passive: false });
           });
 
           onBeforeUnmount(() => {
