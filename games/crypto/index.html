@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crypto Miner (Vue 3 + Tailwind v4)</title>
+
+    <!-- Tailwind v4 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Vue 3 CDN -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+
+    <meta name="theme-color" content="#0b1220" />
+    <style>
+      /* small tap highlight removal */
+      * { -webkit-tap-highlight-color: transparent; }
+    </style>
+  </head>
+
+  <body class="min-h-dvh bg-slate-950 text-slate-100">
+    <div id="app" class="mx-auto max-w-md px-4 py-5">
+      <!-- Header -->
+      <header class="flex items-center justify-between gap-3">
+        <div>
+          <h1 class="text-xl font-semibold tracking-tight">Crypto Miner</h1>
+          <p class="text-xs text-slate-400">Mobile-first incremental miner</p>
+        </div>
+        <button
+          class="rounded-xl bg-slate-800 px-3 py-2 text-xs font-medium text-slate-200 active:scale-[0.98]"
+          @click="resetConfirm()"
+        >
+          Reset
+        </button>
+      </header>
+
+      <!-- Stats -->
+      <section class="mt-4 grid grid-cols-2 gap-3">
+        <div class="rounded-2xl bg-slate-900/70 p-3 ring-1 ring-white/5">
+          <div class="text-xs text-slate-400">Balance</div>
+          <div class="mt-1 text-lg font-semibold tabular-nums">
+            {{ fmt(balance) }} <span class="text-slate-400 text-sm">₿</span>
+          </div>
+          <div class="mt-1 text-xs text-slate-400">
+            +{{ fmt(cps) }} ₿/s
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/70 p-3 ring-1 ring-white/5">
+          <div class="text-xs text-slate-400">Energy</div>
+          <div class="mt-1 flex items-end justify-between gap-2">
+            <div class="text-lg font-semibold tabular-nums">
+              {{ Math.floor(energy) }} / {{ maxEnergy }}
+            </div>
+            <div class="text-xs text-slate-400">regen {{ fmt(energyRegen) }}/s</div>
+          </div>
+          <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-800">
+            <div
+              class="h-full rounded-full bg-emerald-500/90 transition-[width]"
+              :style="{ width: `${Math.min(100, (energy / maxEnergy) * 100)}%` }"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Mine Button -->
+      <section class="mt-4">
+        <div class="rounded-2xl bg-gradient-to-b from-slate-900/80 to-slate-900/40 p-4 ring-1 ring-white/5">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-xs text-slate-400">Tap to mine</div>
+              <div class="mt-1 text-sm text-slate-300">
+                Earn <span class="font-semibold text-slate-100">{{ fmt(clickYield) }} ₿</span>
+                per tap • costs <span class="font-semibold text-slate-100">{{ clickCost }}</span> energy
+              </div>
+            </div>
+            <div class="text-xs text-slate-500">
+              <span v-if="boostEndsAt > nowMs">BOOST {{ Math.max(0, Math.ceil((boostEndsAt - nowMs)/1000)) }}s</span>
+              <span v-else>—</span>
+            </div>
+          </div>
+
+          <button
+            class="mt-3 w-full rounded-2xl bg-amber-500 px-4 py-4 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/10 active:scale-[0.99] disabled:opacity-50 disabled:active:scale-100"
+            :disabled="energy < clickCost"
+            @click="mine()"
+          >
+            Mine
+          </button>
+
+          <div class="mt-3 flex gap-2">
+            <button
+              class="w-1/2 rounded-xl bg-slate-800 px-3 py-3 text-sm font-medium text-slate-100 active:scale-[0.99]"
+              @click="claimDaily()"
+              :disabled="!dailyReady"
+              :class="dailyReady ? '' : 'opacity-60'"
+            >
+              {{ dailyReady ? 'Claim Daily Boost' : `Daily in ${dailyCountdown}` }}
+            </button>
+            <button
+              class="w-1/2 rounded-xl bg-slate-800 px-3 py-3 text-sm font-medium text-slate-100 active:scale-[0.99]"
+              @click="convertToGems()"
+              :disabled="balance < gemConvertCost"
+              :class="balance >= gemConvertCost ? '' : 'opacity-60'"
+              title="Convert coins into gems (prestige-lite)"
+            >
+              Convert → 💎 ({{ fmt(gems) }})
+            </button>
+          </div>
+
+          <div class="mt-3 text-xs text-slate-400">
+            💎 Gems give +{{ (gemBonus*100).toFixed(0) }}% global earnings.
+          </div>
+        </div>
+      </section>
+
+      <!-- Tabs -->
+      <section class="mt-4">
+        <div class="flex rounded-2xl bg-slate-900/60 p-1 ring-1 ring-white/5">
+          <button
+            class="w-1/2 rounded-2xl px-3 py-2 text-sm font-medium"
+            :class="tab === 'upgrades' ? 'bg-slate-800 text-white' : 'text-slate-300'"
+            @click="tab = 'upgrades'"
+          >
+            Upgrades
+          </button>
+          <button
+            class="w-1/2 rounded-2xl px-3 py-2 text-sm font-medium"
+            :class="tab === 'miners' ? 'bg-slate-800 text-white' : 'text-slate-300'"
+            @click="tab = 'miners'"
+          >
+            Miners
+          </button>
+        </div>
+      </section>
+
+      <!-- Content -->
+      <section class="mt-3 space-y-3">
+        <!-- Upgrades -->
+        <div v-if="tab === 'upgrades'" class="space-y-3">
+          <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-semibold">Pickaxe</div>
+                <div class="text-xs text-slate-400">Increase tap yield</div>
+              </div>
+              <div class="text-xs text-slate-400">Lv {{ pickaxeLevel }}</div>
+            </div>
+            <div class="mt-3 flex items-center justify-between gap-3">
+              <div class="text-sm text-slate-200">
+                Next: +{{ fmt(pickaxeStep) }} ₿/tap
+              </div>
+              <button
+                class="rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
+                :disabled="balance < pickaxeCost"
+                @click="buyPickaxe()"
+              >
+                Buy ({{ fmt(pickaxeCost) }} ₿)
+              </button>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-semibold">Battery</div>
+                <div class="text-xs text-slate-400">More max energy + regen</div>
+              </div>
+              <div class="text-xs text-slate-400">Lv {{ batteryLevel }}</div>
+            </div>
+            <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-300">
+              <div class="rounded-xl bg-slate-800/60 p-2">
+                Max Energy: <span class="font-semibold">{{ maxEnergy }}</span>
+              </div>
+              <div class="rounded-xl bg-slate-800/60 p-2">
+                Regen: <span class="font-semibold">{{ fmt(energyRegen) }}</span>/s
+              </div>
+            </div>
+            <div class="mt-3 flex items-center justify-between gap-3">
+              <div class="text-sm text-slate-200">Next: +{{ batteryStepEnergy }} max, +{{ fmt(batteryStepRegen) }}/s</div>
+              <button
+                class="rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
+                :disabled="balance < batteryCost"
+                @click="buyBattery()"
+              >
+                Buy ({{ fmt(batteryCost) }} ₿)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Miners -->
+        <div v-else class="space-y-3">
+          <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-semibold">Auto Miners</div>
+                <div class="text-xs text-slate-400">Earn coins every second</div>
+              </div>
+              <div class="text-xs text-slate-400">Total {{ totalMiners }}</div>
+            </div>
+
+            <div class="mt-3 space-y-2">
+              <div
+                v-for="m in miners"
+                :key="m.id"
+                class="rounded-2xl bg-slate-800/50 p-3 ring-1 ring-white/5"
+              >
+                <div class="flex items-center justify-between">
+                  <div>
+                    <div class="text-sm font-semibold">{{ m.name }}</div>
+                    <div class="text-xs text-slate-400">
+                      Own {{ m.count }} • +{{ fmt(m.cps * m.count) }} ₿/s
+                    </div>
+                  </div>
+                  <button
+                    class="rounded-xl bg-indigo-400 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
+                    :disabled="balance < minerCost(m)"
+                    @click="buyMiner(m)"
+                  >
+                    Buy ({{ fmt(minerCost(m)) }} ₿)
+                  </button>
+                </div>
+
+                <div class="mt-2 text-xs text-slate-300">
+                  Base: {{ fmt(m.cps) }} ₿/s • Cost scales ×{{ m.scale.toFixed(2) }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
+            <div class="text-sm font-semibold">Stats</div>
+            <div class="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-300">
+              <div class="rounded-xl bg-slate-800/60 p-2">
+                Global bonus: <span class="font-semibold">+{{ (gemBonus*100).toFixed(0) }}%</span>
+              </div>
+              <div class="rounded-xl bg-slate-800/60 p-2">
+                Lifetime: <span class="font-semibold">{{ fmt(lifetime) }} ₿</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="mt-6 pb-4 text-center text-xs text-slate-500">
+        Saved locally • Works offline • v1
+      </footer>
+    </div>
+
+    <script>
+      const { createApp, reactive, computed, watch, onMounted, onBeforeUnmount } = Vue;
+
+      createApp({
+        setup() {
+          const SAVE_KEY = "neo_crypto_miner_v1";
+
+          const state = reactive({
+            tab: "upgrades",
+            balance: 0,
+            lifetime: 0,
+
+            // click mining
+            pickaxeLevel: 0,
+
+            // energy
+            energy: 30,
+            batteryLevel: 0,
+
+            // miners
+            miners: [
+              { id: "usb", name: "USB Stick Miner", baseCost: 15, cps: 0.2, scale: 1.15, count: 0 },
+              { id: "gpu", name: "GPU Rig", baseCost: 120, cps: 2.5, scale: 1.17, count: 0 },
+              { id: "asic", name: "ASIC Farm", baseCost: 1200, cps: 18, scale: 1.19, count: 0 },
+              { id: "quant", name: "Quantum Miner", baseCost: 15000, cps: 120, scale: 1.21, count: 0 },
+            ],
+
+            // gems
+            gems: 0,
+
+            // boost (daily)
+            boostEndsAt: 0,
+            lastDailyAt: 0,
+
+            // time
+            lastTickAt: Date.now(),
+            nowMs: Date.now(),
+          });
+
+          // ------- derived -------
+          const gemBonus = computed(() => Math.min(5, state.gems * 0.02)); // 2% per gem, cap 500%
+          const globalMult = computed(() => 1 + gemBonus.value + (state.boostEndsAt > state.nowMs ? 1 : 0)); // boost doubles
+
+          const pickaxeStep = computed(() => 1 + state.pickaxeLevel * 0.15);
+          const clickYield = computed(() => (1 + state.pickaxeLevel * 0.6) * globalMult.value);
+          const clickCost = computed(() => 3);
+
+          const maxEnergy = computed(() => 30 + state.batteryLevel * 10);
+          const energyRegen = computed(() => 1 + state.batteryLevel * 0.35);
+
+          const cps = computed(() => {
+            let base = 0;
+            for (const m of state.miners) base += m.cps * m.count;
+            return base * globalMult.value;
+          });
+
+          const totalMiners = computed(() => state.miners.reduce((a, m) => a + m.count, 0));
+
+          const pickaxeCost = computed(() => Math.floor(25 * Math.pow(1.22, state.pickaxeLevel)));
+          const batteryCost = computed(() => Math.floor(35 * Math.pow(1.25, state.batteryLevel)));
+          const batteryStepEnergy = computed(() => 10);
+          const batteryStepRegen = computed(() => 0.35);
+
+          const gemConvertCost = computed(() => Math.floor(500 * Math.pow(1.35, state.gems)));
+          const convertGain = computed(() => 1);
+
+          function minerCost(m) {
+            return Math.floor(m.baseCost * Math.pow(m.scale, m.count));
+          }
+
+          // daily boost ready every 22h
+          const DAILY_MS = 22 * 60 * 60 * 1000;
+          const dailyReady = computed(() => state.nowMs - state.lastDailyAt >= DAILY_MS);
+          const dailyCountdown = computed(() => {
+            if (dailyReady.value) return "0:00";
+            const left = Math.max(0, DAILY_MS - (state.nowMs - state.lastDailyAt));
+            const h = Math.floor(left / 3600000);
+            const m = Math.floor((left % 3600000) / 60000);
+            return `${h}:${String(m).padStart(2, "0")}`;
+          });
+
+          // ------- actions -------
+          function mine() {
+            if (state.energy < clickCost.value) return;
+            state.energy -= clickCost.value;
+            const gain = clickYield.value;
+            state.balance += gain;
+            state.lifetime += gain;
+            popToast(`+${fmt(gain)} ₿`);
+          }
+
+          function buyPickaxe() {
+            const cost = pickaxeCost.value;
+            if (state.balance < cost) return;
+            state.balance -= cost;
+            state.pickaxeLevel += 1;
+            popToast("Pickaxe upgraded!");
+          }
+
+          function buyBattery() {
+            const cost = batteryCost.value;
+            if (state.balance < cost) return;
+            state.balance -= cost;
+            state.batteryLevel += 1;
+            // bump energy a bit on upgrade
+            state.energy = Math.min(maxEnergy.value, state.energy + 8);
+            popToast("Battery upgraded!");
+          }
+
+          function buyMiner(m) {
+            const cost = minerCost(m);
+            if (state.balance < cost) return;
+            state.balance -= cost;
+            m.count += 1;
+            popToast(`${m.name} acquired!`);
+          }
+
+          function convertToGems() {
+            const cost = gemConvertCost.value;
+            if (state.balance < cost) return;
+            state.balance -= cost;
+            state.gems += convertGain.value;
+            popToast("Converted to 💎 Gems!");
+          }
+
+          function claimDaily() {
+            if (!dailyReady.value) return;
+            state.lastDailyAt = state.nowMs;
+            state.boostEndsAt = state.nowMs + 60 * 1000; // 60s boost
+            popToast("Daily BOOST: 2× earnings for 60s!");
+          }
+
+          function resetConfirm() {
+            const ok = confirm("Reset all progress? This cannot be undone.");
+            if (!ok) return;
+            localStorage.removeItem(SAVE_KEY);
+            // quick hard reset
+            Object.assign(state, defaultState());
+            popToast("Reset complete.");
+          }
+
+          // ------- game loop -------
+          let raf = 0;
+          let interval = 0;
+
+          function tick() {
+            const now = Date.now();
+            state.nowMs = now;
+
+            const dt = Math.min(2, (now - state.lastTickAt) / 1000); // cap to avoid huge jumps per tick
+            state.lastTickAt = now;
+
+            // passive income
+            const income = cps.value * dt;
+            if (income > 0) {
+              state.balance += income;
+              state.lifetime += income;
+            }
+
+            // energy regen
+            state.energy = Math.min(maxEnergy.value, state.energy + energyRegen.value * dt);
+
+            raf = requestAnimationFrame(tick);
+          }
+
+          // ------- saving / loading -------
+          function defaultState() {
+            return {
+              tab: "upgrades",
+              balance: 0,
+              lifetime: 0,
+              pickaxeLevel: 0,
+              energy: 30,
+              batteryLevel: 0,
+              miners: [
+                { id: "usb", name: "USB Stick Miner", baseCost: 15, cps: 0.2, scale: 1.15, count: 0 },
+                { id: "gpu", name: "GPU Rig", baseCost: 120, cps: 2.5, scale: 1.17, count: 0 },
+                { id: "asic", name: "ASIC Farm", baseCost: 1200, cps: 18, scale: 1.19, count: 0 },
+                { id: "quant", name: "Quantum Miner", baseCost: 15000, cps: 120, scale: 1.21, count: 0 },
+              ],
+              gems: 0,
+              boostEndsAt: 0,
+              lastDailyAt: 0,
+              lastTickAt: Date.now(),
+              nowMs: Date.now(),
+            };
+          }
+
+          function load() {
+            try {
+              const raw = localStorage.getItem(SAVE_KEY);
+              if (!raw) return;
+
+              const saved = JSON.parse(raw);
+
+              // minimal validation
+              if (typeof saved.balance !== "number") return;
+
+              // apply
+              Object.assign(state, defaultState(), saved);
+
+              // offline earnings (based on saved.lastTickAt)
+              const now = Date.now();
+              const last = typeof saved.lastTickAt === "number" ? saved.lastTickAt : now;
+              const offlineSec = Math.max(0, (now - last) / 1000);
+
+              // cap offline time to 8 hours
+              const capped = Math.min(8 * 3600, offlineSec);
+              if (capped > 1) {
+                const offlineGain = cps.value * capped;
+                state.balance += offlineGain;
+                state.lifetime += offlineGain;
+                popToast(`Offline: +${fmt(offlineGain)} ₿`);
+              }
+
+              state.lastTickAt = now;
+            } catch (e) {
+              // ignore
+            }
+          }
+
+          function save() {
+            const snap = {
+              tab: state.tab,
+              balance: state.balance,
+              lifetime: state.lifetime,
+              pickaxeLevel: state.pickaxeLevel,
+              energy: state.energy,
+              batteryLevel: state.batteryLevel,
+              miners: state.miners.map(m => ({ ...m })),
+              gems: state.gems,
+              boostEndsAt: state.boostEndsAt,
+              lastDailyAt: state.lastDailyAt,
+              lastTickAt: state.lastTickAt,
+            };
+            localStorage.setItem(SAVE_KEY, JSON.stringify(snap));
+          }
+
+          watch(
+            () => ({
+              tab: state.tab,
+              balance: state.balance,
+              lifetime: state.lifetime,
+              pickaxeLevel: state.pickaxeLevel,
+              energy: state.energy,
+              batteryLevel: state.batteryLevel,
+              miners: state.miners.map(m => m.count).join(","),
+              gems: state.gems,
+              boostEndsAt: state.boostEndsAt,
+              lastDailyAt: state.lastDailyAt,
+            }),
+            () => save(),
+            { deep: false }
+          );
+
+          // ------- UI helpers -------
+          let toastEl = null;
+          function popToast(msg) {
+            if (!toastEl) {
+              toastEl = document.createElement("div");
+              toastEl.className =
+                "fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-2xl bg-slate-900/90 px-4 py-2 text-sm text-slate-100 ring-1 ring-white/10 shadow-lg shadow-black/30";
+              document.body.appendChild(toastEl);
+            }
+            toastEl.textContent = msg;
+            toastEl.style.opacity = "1";
+            clearTimeout(popToast._t);
+            popToast._t = setTimeout(() => {
+              if (toastEl) toastEl.style.opacity = "0";
+            }, 1200);
+          }
+
+          function fmt(n) {
+            // compact-ish formatting without Intl dependencies
+            const x = Number(n) || 0;
+            if (x < 1000) return x.toFixed(x < 10 ? 2 : x < 100 ? 1 : 0).replace(/\.0+$/, "").replace(/(\.\d*[1-9])0+$/, "$1");
+            const units = ["K", "M", "B", "T", "Qa", "Qi"];
+            let v = x;
+            let u = -1;
+            while (v >= 1000 && u < units.length - 1) {
+              v /= 1000;
+              u++;
+            }
+            return `${v.toFixed(v < 10 ? 2 : v < 100 ? 1 : 0)}${units[u]}`;
+          }
+
+          // ------- lifecycle -------
+          onMounted(() => {
+            load();
+            raf = requestAnimationFrame(tick);
+            interval = setInterval(() => save(), 2500);
+
+            // save on visibility change
+            document.addEventListener("visibilitychange", () => {
+              if (document.hidden) save();
+              else {
+                // resync time to avoid giant dt jump
+                state.lastTickAt = Date.now();
+              }
+            });
+          });
+
+          onBeforeUnmount(() => {
+            cancelAnimationFrame(raf);
+            clearInterval(interval);
+            save();
+          });
+
+          return {
+            // state
+            tab: Vue.toRef(state, "tab"),
+            balance: Vue.toRef(state, "balance"),
+            lifetime: Vue.toRef(state, "lifetime"),
+            pickaxeLevel: Vue.toRef(state, "pickaxeLevel"),
+            batteryLevel: Vue.toRef(state, "batteryLevel"),
+            energy: Vue.toRef(state, "energy"),
+            miners: Vue.toRef(state, "miners"),
+            gems: Vue.toRef(state, "gems"),
+            boostEndsAt: Vue.toRef(state, "boostEndsAt"),
+            lastDailyAt: Vue.toRef(state, "lastDailyAt"),
+            nowMs: Vue.toRef(state, "nowMs"),
+
+            // computed
+            clickYield,
+            clickCost,
+            pickaxeCost,
+            pickaxeStep,
+            maxEnergy,
+            energyRegen,
+            batteryCost,
+            batteryStepEnergy,
+            batteryStepRegen,
+            cps,
+            totalMiners,
+            gemBonus,
+            gemConvertCost,
+            dailyReady,
+            dailyCountdown,
+
+            // methods
+            mine,
+            buyPickaxe,
+            buyBattery,
+            buyMiner,
+            minerCost,
+            convertToGems,
+            claimDaily,
+            resetConfirm,
+            fmt,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
