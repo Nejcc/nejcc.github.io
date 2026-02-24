@@ -3,23 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Crypto Miner (Vue 3 + Tailwind v4)</title>
-
-    <!-- Tailwind v4 CDN -->
+    <title>Crypto Miner</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Vue 3 CDN -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
-
     <meta name="theme-color" content="#0b1220" />
     <style>
-      /* small tap highlight removal */
-      * { -webkit-tap-highlight-color: transparent; }
+      * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+
+      @keyframes floatUp {
+        0%   { opacity: 1; transform: translateY(0) translateX(-50%) scale(1); }
+        80%  { opacity: 1; }
+        100% { opacity: 0; transform: translateY(-72px) translateX(-50%) scale(0.85); }
+      }
+      .float-num {
+        position: fixed;
+        pointer-events: none;
+        font-weight: 700;
+        font-size: 1rem;
+        color: #f59e0b;
+        text-shadow: 0 0 10px rgba(245,158,11,0.5);
+        animation: floatUp 0.9s ease-out forwards;
+        z-index: 100;
+        white-space: nowrap;
+      }
+      .float-num.lucky {
+        color: #c084fc;
+        text-shadow: 0 0 12px rgba(192,132,252,0.6);
+        font-size: 1.2rem;
+      }
+
+      @keyframes shimmer {
+        0%   { background-position: -200% center; }
+        100% { background-position:  200% center; }
+      }
+      .market-banner {
+        background: linear-gradient(90deg, #10b981, #34d399, #10b981);
+        background-size: 200% auto;
+        animation: shimmer 2s linear infinite;
+      }
     </style>
   </head>
 
   <body class="min-h-dvh bg-slate-950 text-slate-100">
     <div id="app" class="mx-auto max-w-md px-4 py-5">
+
       <!-- Header -->
       <header class="flex items-center justify-between gap-3">
         <div>
@@ -29,10 +56,16 @@
         <button
           class="rounded-xl bg-slate-800 px-3 py-2 text-xs font-medium text-slate-200 active:scale-[0.98]"
           @click="resetConfirm()"
-        >
-          Reset
-        </button>
+        >Reset</button>
       </header>
+
+      <!-- Market Surge Banner -->
+      <div
+        v-if="marketActive"
+        class="mt-3 rounded-2xl market-banner px-4 py-2 text-center text-sm font-bold text-slate-950"
+      >
+        📈 Market Surge! {{ marketMult.toFixed(1) }}× earnings — {{ marketCountdown }}s left
+      </div>
 
       <!-- Stats -->
       <section class="mt-4 grid grid-cols-2 gap-3">
@@ -41,9 +74,7 @@
           <div class="mt-1 text-lg font-semibold tabular-nums">
             {{ fmt(balance) }} <span class="text-slate-400 text-sm">₿</span>
           </div>
-          <div class="mt-1 text-xs text-slate-400">
-            +{{ fmt(cps) }} ₿/s
-          </div>
+          <div class="mt-1 text-xs text-slate-400">+{{ fmt(cps) }} ₿/s</div>
         </div>
 
         <div class="rounded-2xl bg-slate-900/70 p-3 ring-1 ring-white/5">
@@ -52,12 +83,13 @@
             <div class="text-lg font-semibold tabular-nums">
               {{ Math.floor(energy) }} / {{ maxEnergy }}
             </div>
-            <div class="text-xs text-slate-400">regen {{ fmt(energyRegen) }}/s</div>
+            <div class="text-xs text-slate-400">{{ fmt(energyRegen) }}/s</div>
           </div>
           <div class="mt-2 h-2 w-full overflow-hidden rounded-full bg-slate-800">
             <div
-              class="h-full rounded-full bg-emerald-500/90 transition-[width]"
-              :style="{ width: `${Math.min(100, (energy / maxEnergy) * 100)}%` }"
+              class="h-full rounded-full transition-[width] duration-200"
+              :class="energy/maxEnergy > 0.6 ? 'bg-emerald-500/90' : energy/maxEnergy > 0.3 ? 'bg-amber-500/90' : 'bg-red-500/90'"
+              :style="{ width: `${Math.min(100,(energy/maxEnergy)*100)}%` }"
             ></div>
           </div>
         </div>
@@ -66,27 +98,40 @@
       <!-- Mine Button -->
       <section class="mt-4">
         <div class="rounded-2xl bg-gradient-to-b from-slate-900/80 to-slate-900/40 p-4 ring-1 ring-white/5">
+
           <div class="flex items-center justify-between">
             <div>
               <div class="text-xs text-slate-400">Tap to mine</div>
               <div class="mt-1 text-sm text-slate-300">
                 Earn <span class="font-semibold text-slate-100">{{ fmt(clickYield) }} ₿</span>
-                per tap • costs <span class="font-semibold text-slate-100">{{ clickCost }}</span> energy
+                per tap • <span class="font-semibold text-slate-100">{{ clickCost }}</span> energy
               </div>
             </div>
-            <div class="text-xs text-slate-500">
-              <span v-if="boostEndsAt > nowMs">BOOST {{ Math.max(0, Math.ceil((boostEndsAt - nowMs)/1000)) }}s</span>
-              <span v-else>—</span>
+            <div class="text-right text-xs space-y-0.5">
+              <div v-if="combo >= 3" class="font-bold text-amber-400">{{ combo }}× COMBO!</div>
+              <div v-if="boostEndsAt > nowMs" class="text-emerald-400">
+                BOOST {{ Math.max(0, Math.ceil((boostEndsAt - nowMs)/1000)) }}s
+              </div>
+              <div v-else-if="combo < 3" class="text-slate-500">—</div>
             </div>
           </div>
 
           <button
-            class="mt-3 w-full rounded-2xl bg-amber-500 px-4 py-4 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/10 active:scale-[0.99] disabled:opacity-50 disabled:active:scale-100"
+            class="mt-3 w-full rounded-2xl bg-amber-500 px-4 py-4 text-base font-semibold text-slate-950 shadow-lg shadow-amber-500/20 active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100 transition-transform"
             :disabled="energy < clickCost"
-            @click="mine()"
-          >
-            Mine
-          </button>
+            @click="mine($event)"
+          >⛏ Mine</button>
+
+          <!-- Combo bar -->
+          <div class="mt-2 h-1 w-full overflow-hidden rounded-full bg-slate-800">
+            <div
+              class="h-full rounded-full bg-amber-400 transition-[width] duration-150"
+              :style="{ width: `${Math.min(100,(combo/MAX_COMBO)*100)}%` }"
+            ></div>
+          </div>
+          <div class="mt-1 text-xs text-slate-500">
+            Combo {{ combo }}/{{ MAX_COMBO }} — {{ comboMultDisplay }}× bonus
+          </div>
 
           <div class="mt-3 flex gap-2">
             <button
@@ -102,10 +147,7 @@
               @click="convertToGems()"
               :disabled="balance < gemConvertCost"
               :class="balance >= gemConvertCost ? '' : 'opacity-60'"
-              title="Convert coins into gems (prestige-lite)"
-            >
-              Convert → 💎 ({{ fmt(gems) }})
-            </button>
+            >Convert → 💎 ({{ fmt(gems) }})</button>
           </div>
 
           <div class="mt-3 text-xs text-slate-400">
@@ -118,79 +160,100 @@
       <section class="mt-4">
         <div class="flex rounded-2xl bg-slate-900/60 p-1 ring-1 ring-white/5">
           <button
-            class="w-1/2 rounded-2xl px-3 py-2 text-sm font-medium"
+            class="flex-1 rounded-2xl px-3 py-2 text-sm font-medium"
             :class="tab === 'upgrades' ? 'bg-slate-800 text-white' : 'text-slate-300'"
             @click="tab = 'upgrades'"
-          >
-            Upgrades
-          </button>
+          >Upgrades</button>
           <button
-            class="w-1/2 rounded-2xl px-3 py-2 text-sm font-medium"
+            class="flex-1 rounded-2xl px-3 py-2 text-sm font-medium"
             :class="tab === 'miners' ? 'bg-slate-800 text-white' : 'text-slate-300'"
             @click="tab = 'miners'"
+          >Miners</button>
+          <button
+            class="relative flex-1 rounded-2xl px-3 py-2 text-sm font-medium"
+            :class="tab === 'achievements' ? 'bg-slate-800 text-white' : 'text-slate-300'"
+            @click="tab = 'achievements'"
           >
-            Miners
+            Trophies
+            <span
+              v-if="completedCount > 0"
+              class="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[9px] font-bold text-slate-950"
+            >{{ completedCount }}</span>
           </button>
         </div>
       </section>
 
       <!-- Content -->
       <section class="mt-3 space-y-3">
-        <!-- Upgrades -->
+
+        <!-- UPGRADES -->
         <div v-if="tab === 'upgrades'" class="space-y-3">
+
           <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-sm font-semibold">Pickaxe</div>
+                <div class="text-sm font-semibold">⛏ Pickaxe</div>
                 <div class="text-xs text-slate-400">Increase tap yield</div>
               </div>
               <div class="text-xs text-slate-400">Lv {{ pickaxeLevel }}</div>
             </div>
             <div class="mt-3 flex items-center justify-between gap-3">
-              <div class="text-sm text-slate-200">
-                Next: +{{ fmt(pickaxeStep) }} ₿/tap
-              </div>
+              <div class="text-sm text-slate-200">Next: +{{ fmt(pickaxeStep) }} ₿/tap</div>
               <button
                 class="rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
                 :disabled="balance < pickaxeCost"
                 @click="buyPickaxe()"
-              >
-                Buy ({{ fmt(pickaxeCost) }} ₿)
-              </button>
+              >Buy ({{ fmt(pickaxeCost) }} ₿)</button>
             </div>
           </div>
 
           <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-sm font-semibold">Battery</div>
+                <div class="text-sm font-semibold">🔋 Battery</div>
                 <div class="text-xs text-slate-400">More max energy + regen</div>
               </div>
               <div class="text-xs text-slate-400">Lv {{ batteryLevel }}</div>
             </div>
             <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-300">
-              <div class="rounded-xl bg-slate-800/60 p-2">
-                Max Energy: <span class="font-semibold">{{ maxEnergy }}</span>
-              </div>
-              <div class="rounded-xl bg-slate-800/60 p-2">
-                Regen: <span class="font-semibold">{{ fmt(energyRegen) }}</span>/s
-              </div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Max: <span class="font-semibold">{{ maxEnergy }}</span></div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Regen: <span class="font-semibold">{{ fmt(energyRegen) }}/s</span></div>
             </div>
             <div class="mt-3 flex items-center justify-between gap-3">
-              <div class="text-sm text-slate-200">Next: +{{ batteryStepEnergy }} max, +{{ fmt(batteryStepRegen) }}/s</div>
+              <div class="text-sm text-slate-200">+{{ batteryStepEnergy }} max, +{{ fmt(batteryStepRegen) }}/s</div>
               <button
                 class="rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
                 :disabled="balance < batteryCost"
                 @click="buyBattery()"
-              >
-                Buy ({{ fmt(batteryCost) }} ₿)
-              </button>
+              >Buy ({{ fmt(batteryCost) }} ₿)</button>
+            </div>
+          </div>
+
+          <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="text-sm font-semibold">🍀 Lucky Charm</div>
+                <div class="text-xs text-slate-400">Random chance for a big payout</div>
+              </div>
+              <div class="text-xs text-slate-400">Lv {{ luckyLevel }}</div>
+            </div>
+            <div class="mt-3 grid grid-cols-2 gap-2 text-xs text-slate-300">
+              <div class="rounded-xl bg-slate-800/60 p-2">Chance: <span class="font-semibold">{{ luckyChance.toFixed(0) }}%</span></div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Mult: <span class="font-semibold">{{ luckyMult.toFixed(1) }}×</span></div>
+            </div>
+            <div class="mt-3 flex items-center justify-between gap-3">
+              <div class="text-sm text-slate-200">Next: +2% chance, +0.5× mult</div>
+              <button
+                class="rounded-xl bg-emerald-500 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
+                :disabled="balance < luckyCost"
+                @click="buyLucky()"
+              >Buy ({{ fmt(luckyCost) }} ₿)</button>
             </div>
           </div>
         </div>
 
-        <!-- Miners -->
-        <div v-else class="space-y-3">
+        <!-- MINERS -->
+        <div v-else-if="tab === 'miners'" class="space-y-3">
           <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
             <div class="flex items-center justify-between">
               <div>
@@ -208,22 +271,28 @@
               >
                 <div class="flex items-center justify-between">
                   <div>
-                    <div class="text-sm font-semibold">{{ m.name }}</div>
+                    <div class="text-sm font-semibold">{{ m.icon }} {{ m.name }}</div>
                     <div class="text-xs text-slate-400">
-                      Own {{ m.count }} • +{{ fmt(m.cps * m.count) }} ₿/s
+                      Own {{ m.count }} • +{{ fmt(m.cps * m.count * globalMult) }} ₿/s
                     </div>
                   </div>
                   <button
                     class="rounded-xl bg-indigo-400 px-3 py-2 text-sm font-semibold text-slate-950 active:scale-[0.99] disabled:opacity-50"
                     :disabled="balance < minerCost(m)"
                     @click="buyMiner(m)"
-                  >
-                    Buy ({{ fmt(minerCost(m)) }} ₿)
-                  </button>
+                  >Buy ({{ fmt(minerCost(m)) }} ₿)</button>
                 </div>
-
-                <div class="mt-2 text-xs text-slate-300">
-                  Base: {{ fmt(m.cps) }} ₿/s • Cost scales ×{{ m.scale.toFixed(2) }}
+                <div class="mt-2 flex items-center gap-2 text-xs text-slate-400">
+                  <span>{{ fmt(m.cps) }} ₿/s base</span>
+                  <span class="text-slate-600">•</span>
+                  <span>×{{ m.scale.toFixed(2) }} cost</span>
+                </div>
+                <!-- afford progress -->
+                <div class="mt-2 h-1 w-full overflow-hidden rounded-full bg-slate-700">
+                  <div
+                    class="h-full rounded-full bg-indigo-400/70 transition-[width] duration-300"
+                    :style="{ width: `${Math.min(100,(balance/minerCost(m))*100)}%` }"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -232,20 +301,55 @@
           <div class="rounded-2xl bg-slate-900/70 p-4 ring-1 ring-white/5">
             <div class="text-sm font-semibold">Stats</div>
             <div class="mt-2 grid grid-cols-2 gap-2 text-xs text-slate-300">
-              <div class="rounded-xl bg-slate-800/60 p-2">
-                Global bonus: <span class="font-semibold">+{{ (gemBonus*100).toFixed(0) }}%</span>
+              <div class="rounded-xl bg-slate-800/60 p-2">Global: <span class="font-semibold">+{{ ((globalMult-1)*100).toFixed(0) }}%</span></div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Lifetime: <span class="font-semibold">{{ fmt(lifetime) }} ₿</span></div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Total taps: <span class="font-semibold">{{ totalTaps }}</span></div>
+              <div class="rounded-xl bg-slate-800/60 p-2">Gems: <span class="font-semibold">{{ gems }} 💎</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACHIEVEMENTS -->
+        <div v-else class="space-y-2">
+          <div class="text-xs text-slate-500 text-center">
+            {{ completedCount }} / {{ achievements.length }} completed
+          </div>
+          <div
+            v-for="a in achievements"
+            :key="a.id"
+            class="rounded-2xl p-4 ring-1 transition-colors"
+            :class="a.done ? 'bg-amber-500/10 ring-amber-500/30' : 'bg-slate-900/70 ring-white/5'"
+          >
+            <div class="flex items-center gap-3">
+              <div class="text-2xl shrink-0">{{ a.done ? a.icon : '🔒' }}</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-sm font-semibold" :class="a.done ? 'text-amber-300' : 'text-slate-300'">
+                  {{ a.name }}
+                </div>
+                <div class="text-xs text-slate-400">{{ a.desc }}</div>
+                <div class="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-slate-700">
+                  <div
+                    class="h-full rounded-full transition-[width] duration-500"
+                    :class="a.done ? 'bg-amber-400' : 'bg-slate-500'"
+                    :style="{ width: `${Math.min(100,(achievementProgress(a)/a.goal)*100)}%` }"
+                  ></div>
+                </div>
+                <div class="mt-1 text-xs text-slate-500">
+                  {{ a.done ? 'Completed!' : `${fmt(achievementProgress(a))} / ${fmt(a.goal)}` }}
+                </div>
               </div>
-              <div class="rounded-xl bg-slate-800/60 p-2">
-                Lifetime: <span class="font-semibold">{{ fmt(lifetime) }} ₿</span>
+              <div class="text-xs font-semibold shrink-0" :class="a.done ? 'text-amber-400' : 'text-slate-600'">
+                +{{ fmt(a.reward) }} ₿
               </div>
             </div>
           </div>
         </div>
+
       </section>
 
       <!-- Footer -->
       <footer class="mt-6 pb-4 text-center text-xs text-slate-500">
-        Saved locally • Works offline • v1
+        Saved locally • Works offline • v2
       </footer>
     </div>
 
@@ -254,50 +358,94 @@
 
       createApp({
         setup() {
-          const SAVE_KEY = "neo_crypto_miner_v1";
+          const SAVE_KEY  = "neo_crypto_miner_v2";
+          const MAX_COMBO = 10;
+
+          // ---- ACHIEVEMENTS definition ----
+          const ACHIEVEMENTS = [
+            { id: "tap10",    icon: "⛏",   name: "First Steps",       desc: "Mine 10 times",                   type: "taps",    goal: 10,    reward: 5 },
+            { id: "tap100",   icon: "💪",   name: "Getting Warmed Up", desc: "Mine 100 times",                  type: "taps",    goal: 100,   reward: 50 },
+            { id: "tap1000",  icon: "🔥",   name: "Tap Monster",       desc: "Mine 1,000 times",                type: "taps",    goal: 1000,  reward: 500 },
+            { id: "bal1k",    icon: "💰",   name: "First Grand",       desc: "Earn 1,000 ₿ lifetime",           type: "lifetime",goal: 1e3,   reward: 100 },
+            { id: "bal1m",    icon: "🤑",   name: "Millionaire",       desc: "Earn 1,000,000 ₿ lifetime",       type: "lifetime",goal: 1e6,   reward: 5000 },
+            { id: "bal1b",    icon: "🏦",   name: "Billionaire",       desc: "Earn 1,000,000,000 ₿ lifetime",   type: "lifetime",goal: 1e9,   reward: 50000 },
+            { id: "miners5",  icon: "🏭",   name: "Mining Corp",       desc: "Own 5 miners total",              type: "miners",  goal: 5,     reward: 200 },
+            { id: "miners25", icon: "🌍",   name: "Global Mining",     desc: "Own 25 miners total",             type: "miners",  goal: 25,    reward: 2000 },
+            { id: "gem1",     icon: "💎",   name: "Gem Collector",     desc: "Convert 1 gem",                   type: "gems",    goal: 1,     reward: 300 },
+            { id: "gem5",     icon: "💎💎", name: "Gem Hoarder",       desc: "Collect 5 gems",                  type: "gems",    goal: 5,     reward: 3000 },
+          ];
 
           const state = reactive({
             tab: "upgrades",
             balance: 0,
             lifetime: 0,
 
-            // click mining
             pickaxeLevel: 0,
-
-            // energy
-            energy: 30,
             batteryLevel: 0,
+            luckyLevel: 0,
 
-            // miners
+            energy: 30,
+
             miners: [
-              { id: "usb", name: "USB Stick Miner", baseCost: 15, cps: 0.2, scale: 1.15, count: 0 },
-              { id: "gpu", name: "GPU Rig", baseCost: 120, cps: 2.5, scale: 1.17, count: 0 },
-              { id: "asic", name: "ASIC Farm", baseCost: 1200, cps: 18, scale: 1.19, count: 0 },
-              { id: "quant", name: "Quantum Miner", baseCost: 15000, cps: 120, scale: 1.21, count: 0 },
+              { id: "usb",   icon: "🖥",  name: "USB Stick Miner",   baseCost: 15,    cps: 0.2,  scale: 1.15, count: 0 },
+              { id: "gpu",   icon: "🎮",  name: "GPU Rig",            baseCost: 120,   cps: 2.5,  scale: 1.17, count: 0 },
+              { id: "asic",  icon: "⚙️", name: "ASIC Farm",          baseCost: 1200,  cps: 18,   scale: 1.19, count: 0 },
+              { id: "cloud", icon: "☁️", name: "Cloud Farm",         baseCost: 8000,  cps: 65,   scale: 1.20, count: 0 },
+              { id: "quant", icon: "⚛️", name: "Quantum Miner",      baseCost: 15000, cps: 120,  scale: 1.21, count: 0 },
+              { id: "ai",    icon: "🤖",  name: "AI Neural Cluster",  baseCost: 75000, cps: 500,  scale: 1.22, count: 0 },
             ],
 
-            // gems
             gems: 0,
-
-            // boost (daily)
             boostEndsAt: 0,
             lastDailyAt: 0,
 
-            // time
+            // tap combo
+            tapTimes: [],
+            totalTaps: 0,
+
+            // market surge
+            mktMultValue: 1,
+            marketEndsAt: 0,
+            nextMarketAt: 0,
+
+            // achievements
+            achievementsDone: {},
+
             lastTickAt: Date.now(),
             nowMs: Date.now(),
           });
 
-          // ------- derived -------
-          const gemBonus = computed(() => Math.min(5, state.gems * 0.02)); // 2% per gem, cap 500%
-          const globalMult = computed(() => 1 + gemBonus.value + (state.boostEndsAt > state.nowMs ? 1 : 0)); // boost doubles
+          // ---- DERIVED ----
+          const gemBonus    = computed(() => Math.min(5, state.gems * 0.02));
+          const marketActive = computed(() => state.marketEndsAt > state.nowMs);
+          const marketMult   = computed(() => marketActive.value ? state.mktMultValue : 1);
+          const globalMult   = computed(() =>
+            1 +
+            gemBonus.value +
+            (state.boostEndsAt > state.nowMs ? 1 : 0) +
+            (marketActive.value ? marketMult.value - 1 : 0)
+          );
+
+          const COMBO_WINDOW = 1500;
+          const combo = computed(() => {
+            const cutoff = state.nowMs - COMBO_WINDOW;
+            return state.tapTimes.filter(t => t > cutoff).length;
+          });
+          const comboMult = computed(() => {
+            const c = Math.min(MAX_COMBO, combo.value);
+            return c < 3 ? 1 : 1 + (c / MAX_COMBO);
+          });
+          const comboMultDisplay = computed(() => comboMult.value.toFixed(2));
 
           const pickaxeStep = computed(() => 1 + state.pickaxeLevel * 0.15);
-          const clickYield = computed(() => (1 + state.pickaxeLevel * 0.6) * globalMult.value);
-          const clickCost = computed(() => 3);
+          const clickYield  = computed(() => (1 + state.pickaxeLevel * 0.6) * globalMult.value * comboMult.value);
+          const clickCost   = computed(() => 3);
 
-          const maxEnergy = computed(() => 30 + state.batteryLevel * 10);
+          const maxEnergy   = computed(() => 30 + state.batteryLevel * 10);
           const energyRegen = computed(() => 1 + state.batteryLevel * 0.35);
+
+          const luckyChance = computed(() => 5 + state.luckyLevel * 2);
+          const luckyMult   = computed(() => 3 + state.luckyLevel * 0.5);
 
           const cps = computed(() => {
             let base = 0;
@@ -307,19 +455,17 @@
 
           const totalMiners = computed(() => state.miners.reduce((a, m) => a + m.count, 0));
 
-          const pickaxeCost = computed(() => Math.floor(25 * Math.pow(1.22, state.pickaxeLevel)));
-          const batteryCost = computed(() => Math.floor(35 * Math.pow(1.25, state.batteryLevel)));
+          const pickaxeCost       = computed(() => Math.floor(25  * Math.pow(1.22, state.pickaxeLevel)));
+          const batteryCost       = computed(() => Math.floor(35  * Math.pow(1.25, state.batteryLevel)));
+          const luckyCost         = computed(() => Math.floor(80  * Math.pow(1.30, state.luckyLevel)));
           const batteryStepEnergy = computed(() => 10);
-          const batteryStepRegen = computed(() => 0.35);
-
-          const gemConvertCost = computed(() => Math.floor(500 * Math.pow(1.35, state.gems)));
-          const convertGain = computed(() => 1);
+          const batteryStepRegen  = computed(() => 0.35);
+          const gemConvertCost    = computed(() => Math.floor(500 * Math.pow(1.35, state.gems)));
 
           function minerCost(m) {
             return Math.floor(m.baseCost * Math.pow(m.scale, m.count));
           }
 
-          // daily boost ready every 22h
           const DAILY_MS = 22 * 60 * 60 * 1000;
           const dailyReady = computed(() => state.nowMs - state.lastDailyAt >= DAILY_MS);
           const dailyCountdown = computed(() => {
@@ -330,274 +476,339 @@
             return `${h}:${String(m).padStart(2, "0")}`;
           });
 
-          // ------- actions -------
-          function mine() {
+          const marketCountdown = computed(() =>
+            Math.max(0, Math.ceil((state.marketEndsAt - state.nowMs) / 1000))
+          );
+
+          // ---- ACHIEVEMENTS ----
+          const achievements = computed(() =>
+            ACHIEVEMENTS.map(a => ({ ...a, done: !!state.achievementsDone[a.id] }))
+          );
+
+          const completedCount = computed(() =>
+            Object.keys(state.achievementsDone).length
+          );
+
+          function achievementProgress(a) {
+            if (a.type === "taps")    return state.totalTaps;
+            if (a.type === "lifetime") return state.lifetime;
+            if (a.type === "miners")  return totalMiners.value;
+            if (a.type === "gems")    return state.gems;
+            return 0;
+          }
+
+          function checkAchievements() {
+            for (const a of ACHIEVEMENTS) {
+              if (!state.achievementsDone[a.id] && achievementProgress(a) >= a.goal) {
+                state.achievementsDone[a.id] = true;
+                state.balance  += a.reward;
+                state.lifetime += a.reward;
+                popToast(`🏆 ${a.name}! +${fmt(a.reward)} ₿`, "achievement");
+              }
+            }
+          }
+
+          // ---- ACTIONS ----
+          function mine(evt) {
             if (state.energy < clickCost.value) return;
             state.energy -= clickCost.value;
-            const gain = clickYield.value;
-            state.balance += gain;
+            state.totalTaps++;
+
+            const now = Date.now();
+            state.tapTimes = [...state.tapTimes.filter(t => t > now - COMBO_WINDOW), now];
+
+            const isLucky = Math.random() * 100 < luckyChance.value;
+            const mult    = isLucky ? luckyMult.value : 1;
+            const gain    = clickYield.value * mult;
+
+            state.balance  += gain;
             state.lifetime += gain;
-            popToast(`+${fmt(gain)} ₿`);
+
+            if (navigator.vibrate) navigator.vibrate(isLucky ? [25, 15, 25] : 15);
+
+            spawnFloat(`+${fmt(gain)} ₿`, evt, isLucky ? "lucky" : "");
+            if (isLucky) popToast(`⚡ Lucky! ×${luckyMult.value.toFixed(1)}`, "lucky");
+
+            checkAchievements();
           }
 
           function buyPickaxe() {
             const cost = pickaxeCost.value;
             if (state.balance < cost) return;
             state.balance -= cost;
-            state.pickaxeLevel += 1;
-            popToast("Pickaxe upgraded!");
+            state.pickaxeLevel++;
+            popToast("⛏ Pickaxe upgraded!");
           }
 
           function buyBattery() {
             const cost = batteryCost.value;
             if (state.balance < cost) return;
             state.balance -= cost;
-            state.batteryLevel += 1;
-            // bump energy a bit on upgrade
+            state.batteryLevel++;
             state.energy = Math.min(maxEnergy.value, state.energy + 8);
-            popToast("Battery upgraded!");
+            popToast("🔋 Battery upgraded!");
+          }
+
+          function buyLucky() {
+            const cost = luckyCost.value;
+            if (state.balance < cost) return;
+            state.balance -= cost;
+            state.luckyLevel++;
+            popToast("🍀 Lucky Charm upgraded!");
           }
 
           function buyMiner(m) {
             const cost = minerCost(m);
             if (state.balance < cost) return;
             state.balance -= cost;
-            m.count += 1;
-            popToast(`${m.name} acquired!`);
+            m.count++;
+            popToast(`${m.icon} ${m.name} acquired!`);
+            checkAchievements();
           }
 
           function convertToGems() {
             const cost = gemConvertCost.value;
             if (state.balance < cost) return;
             state.balance -= cost;
-            state.gems += convertGain.value;
-            popToast("Converted to 💎 Gems!");
+            state.gems++;
+            popToast("Converted to 💎!");
+            checkAchievements();
           }
 
           function claimDaily() {
             if (!dailyReady.value) return;
-            state.lastDailyAt = state.nowMs;
-            state.boostEndsAt = state.nowMs + 60 * 1000; // 60s boost
+            state.lastDailyAt  = state.nowMs;
+            state.boostEndsAt  = state.nowMs + 60 * 1000;
             popToast("Daily BOOST: 2× earnings for 60s!");
           }
 
           function resetConfirm() {
-            const ok = confirm("Reset all progress? This cannot be undone.");
-            if (!ok) return;
+            if (!confirm("Reset all progress? This cannot be undone.")) return;
             localStorage.removeItem(SAVE_KEY);
-            // quick hard reset
             Object.assign(state, defaultState());
+            scheduleMarket();
             popToast("Reset complete.");
           }
 
-          // ------- game loop -------
+          // ---- MARKET SURGE ----
+          function scheduleMarket() {
+            state.nextMarketAt = Date.now() + (120 + Math.random() * 180) * 1000;
+          }
+
+          function triggerMarket() {
+            state.mktMultValue = parseFloat((1.5 + Math.random() * 1.5).toFixed(1));
+            state.marketEndsAt = Date.now() + 20000;
+            scheduleMarket();
+            popToast(`📈 Market Surge! ${state.mktMultValue}× for 20s!`, "market");
+          }
+
+          // ---- GAME LOOP ----
           let raf = 0;
-          let interval = 0;
 
           function tick() {
             const now = Date.now();
             state.nowMs = now;
 
-            const dt = Math.min(2, (now - state.lastTickAt) / 1000); // cap to avoid huge jumps per tick
+            const dt = Math.min(2, (now - state.lastTickAt) / 1000);
             state.lastTickAt = now;
 
-            // passive income
             const income = cps.value * dt;
             if (income > 0) {
-              state.balance += income;
+              state.balance  += income;
               state.lifetime += income;
             }
 
-            // energy regen
             state.energy = Math.min(maxEnergy.value, state.energy + energyRegen.value * dt);
+
+            if (state.nextMarketAt > 0 && now >= state.nextMarketAt && !marketActive.value) {
+              triggerMarket();
+            }
+
+            checkAchievements();
 
             raf = requestAnimationFrame(tick);
           }
 
-          // ------- saving / loading -------
+          // ---- SAVE / LOAD ----
           function defaultState() {
             return {
               tab: "upgrades",
-              balance: 0,
-              lifetime: 0,
-              pickaxeLevel: 0,
+              balance: 0, lifetime: 0,
+              pickaxeLevel: 0, batteryLevel: 0, luckyLevel: 0,
               energy: 30,
-              batteryLevel: 0,
               miners: [
-                { id: "usb", name: "USB Stick Miner", baseCost: 15, cps: 0.2, scale: 1.15, count: 0 },
-                { id: "gpu", name: "GPU Rig", baseCost: 120, cps: 2.5, scale: 1.17, count: 0 },
-                { id: "asic", name: "ASIC Farm", baseCost: 1200, cps: 18, scale: 1.19, count: 0 },
-                { id: "quant", name: "Quantum Miner", baseCost: 15000, cps: 120, scale: 1.21, count: 0 },
+                { id: "usb",   icon: "🖥",  name: "USB Stick Miner",   baseCost: 15,    cps: 0.2,  scale: 1.15, count: 0 },
+                { id: "gpu",   icon: "🎮",  name: "GPU Rig",            baseCost: 120,   cps: 2.5,  scale: 1.17, count: 0 },
+                { id: "asic",  icon: "⚙️", name: "ASIC Farm",          baseCost: 1200,  cps: 18,   scale: 1.19, count: 0 },
+                { id: "cloud", icon: "☁️", name: "Cloud Farm",         baseCost: 8000,  cps: 65,   scale: 1.20, count: 0 },
+                { id: "quant", icon: "⚛️", name: "Quantum Miner",      baseCost: 15000, cps: 120,  scale: 1.21, count: 0 },
+                { id: "ai",    icon: "🤖",  name: "AI Neural Cluster",  baseCost: 75000, cps: 500,  scale: 1.22, count: 0 },
               ],
               gems: 0,
-              boostEndsAt: 0,
-              lastDailyAt: 0,
-              lastTickAt: Date.now(),
-              nowMs: Date.now(),
+              boostEndsAt: 0, lastDailyAt: 0,
+              tapTimes: [], totalTaps: 0,
+              mktMultValue: 1, marketEndsAt: 0, nextMarketAt: 0,
+              achievementsDone: {},
+              lastTickAt: Date.now(), nowMs: Date.now(),
             };
           }
 
           function load() {
             try {
               const raw = localStorage.getItem(SAVE_KEY);
-              if (!raw) return;
+              if (!raw) { scheduleMarket(); return; }
 
               const saved = JSON.parse(raw);
+              if (typeof saved.balance !== "number") { scheduleMarket(); return; }
 
-              // minimal validation
-              if (typeof saved.balance !== "number") return;
-
-              // apply
               Object.assign(state, defaultState(), saved);
 
-              // offline earnings (based on saved.lastTickAt)
-              const now = Date.now();
-              const last = typeof saved.lastTickAt === "number" ? saved.lastTickAt : now;
-              const offlineSec = Math.max(0, (now - last) / 1000);
+              // merge miners by id so new miners survive saves from older versions
+              const base = defaultState().miners;
+              state.miners = base.map(b => {
+                const s = (saved.miners || []).find(m => m.id === b.id);
+                return s ? { ...b, count: s.count || 0 } : b;
+              });
 
-              // cap offline time to 8 hours
-              const capped = Math.min(8 * 3600, offlineSec);
+              // offline earnings
+              const now  = Date.now();
+              const last = typeof saved.lastTickAt === "number" ? saved.lastTickAt : now;
+              const capped = Math.min(8 * 3600, Math.max(0, (now - last) / 1000));
               if (capped > 1) {
-                const offlineGain = cps.value * capped;
-                state.balance += offlineGain;
-                state.lifetime += offlineGain;
-                popToast(`Offline: +${fmt(offlineGain)} ₿`);
+                const gain = cps.value * capped;
+                state.balance  += gain;
+                state.lifetime += gain;
+                popToast(`Offline: +${fmt(gain)} ₿`);
               }
 
               state.lastTickAt = now;
-            } catch (e) {
-              // ignore
-            }
+              if (!state.nextMarketAt || state.nextMarketAt < now) scheduleMarket();
+            } catch { scheduleMarket(); }
           }
 
           function save() {
-            const snap = {
+            localStorage.setItem(SAVE_KEY, JSON.stringify({
               tab: state.tab,
-              balance: state.balance,
-              lifetime: state.lifetime,
-              pickaxeLevel: state.pickaxeLevel,
+              balance: state.balance, lifetime: state.lifetime,
+              pickaxeLevel: state.pickaxeLevel, batteryLevel: state.batteryLevel, luckyLevel: state.luckyLevel,
               energy: state.energy,
-              batteryLevel: state.batteryLevel,
-              miners: state.miners.map(m => ({ ...m })),
+              miners: state.miners.map(m => ({ id: m.id, count: m.count })),
               gems: state.gems,
-              boostEndsAt: state.boostEndsAt,
-              lastDailyAt: state.lastDailyAt,
+              boostEndsAt: state.boostEndsAt, lastDailyAt: state.lastDailyAt,
+              totalTaps: state.totalTaps,
+              mktMultValue: state.mktMultValue, marketEndsAt: state.marketEndsAt, nextMarketAt: state.nextMarketAt,
+              achievementsDone: { ...state.achievementsDone },
               lastTickAt: state.lastTickAt,
-            };
-            localStorage.setItem(SAVE_KEY, JSON.stringify(snap));
+            }));
           }
 
           watch(
             () => ({
-              tab: state.tab,
-              balance: state.balance,
-              lifetime: state.lifetime,
-              pickaxeLevel: state.pickaxeLevel,
-              energy: state.energy,
-              batteryLevel: state.batteryLevel,
-              miners: state.miners.map(m => m.count).join(","),
-              gems: state.gems,
-              boostEndsAt: state.boostEndsAt,
-              lastDailyAt: state.lastDailyAt,
+              balance:          Math.floor(state.balance),
+              pickaxeLevel:     state.pickaxeLevel,
+              batteryLevel:     state.batteryLevel,
+              luckyLevel:       state.luckyLevel,
+              miners:           state.miners.map(m => m.count).join(","),
+              gems:             state.gems,
+              totalTaps:        state.totalTaps,
+              achievementsDone: Object.keys(state.achievementsDone).length,
             }),
             () => save(),
             { deep: false }
           );
 
-          // ------- UI helpers -------
-          let toastEl = null;
-          function popToast(msg) {
+          // ---- UI HELPERS ----
+          let toastEl    = null;
+          let toastTimer = null;
+
+          function popToast(msg, type = "") {
             if (!toastEl) {
               toastEl = document.createElement("div");
-              toastEl.className =
-                "fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-2xl bg-slate-900/90 px-4 py-2 text-sm text-slate-100 ring-1 ring-white/10 shadow-lg shadow-black/30";
               document.body.appendChild(toastEl);
             }
+            const cls = {
+              achievement: "bg-amber-500/95 text-slate-950",
+              lucky:       "bg-violet-600/95 text-white",
+              market:      "bg-emerald-600/95 text-white",
+              "":          "bg-slate-900/90 text-slate-100",
+            }[type] ?? "bg-slate-900/90 text-slate-100";
+
+            toastEl.className = `fixed left-1/2 top-4 z-50 -translate-x-1/2 rounded-2xl ${cls} px-4 py-2 text-sm font-semibold ring-1 ring-white/10 shadow-lg shadow-black/30 transition-opacity`;
             toastEl.textContent = msg;
             toastEl.style.opacity = "1";
-            clearTimeout(popToast._t);
-            popToast._t = setTimeout(() => {
-              if (toastEl) toastEl.style.opacity = "0";
-            }, 1200);
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => { if (toastEl) toastEl.style.opacity = "0"; }, 1600);
+          }
+
+          function spawnFloat(msg, evt, cls = "") {
+            const el = document.createElement("div");
+            el.className = `float-num ${cls}`;
+            el.textContent = msg;
+            el.style.left = `${evt ? evt.clientX : window.innerWidth / 2}px`;
+            el.style.top  = `${evt ? evt.clientY - 10 : window.innerHeight / 2}px`;
+            document.body.appendChild(el);
+            el.addEventListener("animationend", () => el.remove());
           }
 
           function fmt(n) {
-            // compact-ish formatting without Intl dependencies
             const x = Number(n) || 0;
             if (x < 1000) return x.toFixed(x < 10 ? 2 : x < 100 ? 1 : 0).replace(/\.0+$/, "").replace(/(\.\d*[1-9])0+$/, "$1");
             const units = ["K", "M", "B", "T", "Qa", "Qi"];
-            let v = x;
-            let u = -1;
-            while (v >= 1000 && u < units.length - 1) {
-              v /= 1000;
-              u++;
-            }
+            let v = x, u = -1;
+            while (v >= 1000 && u < units.length - 1) { v /= 1000; u++; }
             return `${v.toFixed(v < 10 ? 2 : v < 100 ? 1 : 0)}${units[u]}`;
           }
 
-          // ------- lifecycle -------
+          // ---- LIFECYCLE ----
           onMounted(() => {
             load();
             raf = requestAnimationFrame(tick);
-            interval = setInterval(() => save(), 2500);
-
-            // save on visibility change
+            setInterval(() => save(), 2500);
             document.addEventListener("visibilitychange", () => {
               if (document.hidden) save();
-              else {
-                // resync time to avoid giant dt jump
-                state.lastTickAt = Date.now();
-              }
+              else state.lastTickAt = Date.now();
             });
           });
 
           onBeforeUnmount(() => {
             cancelAnimationFrame(raf);
-            clearInterval(interval);
             save();
           });
 
           return {
-            // state
-            tab: Vue.toRef(state, "tab"),
-            balance: Vue.toRef(state, "balance"),
-            lifetime: Vue.toRef(state, "lifetime"),
+            tab:          Vue.toRef(state, "tab"),
+            balance:      Vue.toRef(state, "balance"),
+            lifetime:     Vue.toRef(state, "lifetime"),
             pickaxeLevel: Vue.toRef(state, "pickaxeLevel"),
             batteryLevel: Vue.toRef(state, "batteryLevel"),
-            energy: Vue.toRef(state, "energy"),
-            miners: Vue.toRef(state, "miners"),
-            gems: Vue.toRef(state, "gems"),
-            boostEndsAt: Vue.toRef(state, "boostEndsAt"),
-            lastDailyAt: Vue.toRef(state, "lastDailyAt"),
-            nowMs: Vue.toRef(state, "nowMs"),
+            luckyLevel:   Vue.toRef(state, "luckyLevel"),
+            energy:       Vue.toRef(state, "energy"),
+            miners:       Vue.toRef(state, "miners"),
+            gems:         Vue.toRef(state, "gems"),
+            boostEndsAt:  Vue.toRef(state, "boostEndsAt"),
+            lastDailyAt:  Vue.toRef(state, "lastDailyAt"),
+            nowMs:        Vue.toRef(state, "nowMs"),
+            totalTaps:    Vue.toRef(state, "totalTaps"),
 
             // computed
-            clickYield,
-            clickCost,
-            pickaxeCost,
-            pickaxeStep,
-            maxEnergy,
-            energyRegen,
-            batteryCost,
-            batteryStepEnergy,
-            batteryStepRegen,
-            cps,
-            totalMiners,
-            gemBonus,
-            gemConvertCost,
-            dailyReady,
-            dailyCountdown,
+            clickYield, clickCost,
+            pickaxeCost, pickaxeStep,
+            maxEnergy, energyRegen,
+            batteryCost, batteryStepEnergy, batteryStepRegen,
+            luckyCost, luckyChance, luckyMult,
+            cps, totalMiners,
+            gemBonus, gemConvertCost,
+            dailyReady, dailyCountdown,
+            combo, comboMult, comboMultDisplay, MAX_COMBO,
+            globalMult,
+            marketActive, marketMult, marketCountdown,
+            achievements, completedCount,
 
             // methods
-            mine,
-            buyPickaxe,
-            buyBattery,
-            buyMiner,
-            minerCost,
-            convertToGems,
-            claimDaily,
-            resetConfirm,
-            fmt,
+            mine, buyPickaxe, buyBattery, buyLucky,
+            buyMiner, minerCost,
+            convertToGems, claimDaily, resetConfirm,
+            achievementProgress, fmt,
           };
         },
       }).mount("#app");
